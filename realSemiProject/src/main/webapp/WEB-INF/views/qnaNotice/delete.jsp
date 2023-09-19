@@ -3,6 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<h2>게시판 삭제 페이지</h2>
+<h2>qna게시판 삭제 페이지</h2>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
