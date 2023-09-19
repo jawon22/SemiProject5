@@ -1,7 +1,5 @@
 package com.semi.project.dao;
 
-import java.util.List;
-
 import com.semi.project.dto.MemberDto;
 
 public interface MemberDao {
@@ -11,4 +9,5 @@ public interface MemberDao {
 	boolean updateMemberPw(String memberId, String changePw); //비밀번호변경(마이페이지)
 	boolean delete(String memberId); //탈퇴(마이페이지)
 	
+	MemberDto selectEmailByMemberId(String memberId);
 }
