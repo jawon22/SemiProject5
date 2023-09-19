@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-    
-=======
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
->>>>>>> refs/remotes/origin/main
+
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
@@ -15,6 +10,12 @@
     }
 </style>
 
+<!-- summernote 게시글작성 cdn-->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <!-- javascript 작성 공간 -->
+    <script src="./custom-link.js"></script><!-- 내가 만든 파일-->
+    
 <script>
     $(function () {
         $('[name=boardContent]').summernote({
@@ -48,16 +49,11 @@
 
 <script src="/js/boardWrite.js"></script>
 
-<h2>게시글 작성</h2>
+<h2>정보 게시글 작성</h2>
 
 <form action="write" method="post">
     <div class="container w-600">
-        <div class="row left">
-            <label>제목</label>
-            <input type="text" name="boardTitle" class="form-input w-100">
-        </div>
-    </div>
-    <div class="row left">
+    <div class="row">
         <label>계절</label>
         <select name="board_categoryweather">
             <option value="전체" selected>전체</option>
@@ -66,7 +62,6 @@
             <option value="가을">가을</option>
             <option value="겨울">겨울</option>
         </select>
-        <input type="submit">
         <label>지역</label>
         <select name="board_area">
             <option value="전체" selected>전체</option>
@@ -80,6 +75,11 @@
         </select>
         <input type="hidden" name="boardCategoryWeather" id="selectedWeather">
         <input type="hidden" name="boardArea" id="selectedArea">
+    </div>
+        <div class="row left">
+            <label>제목</label>
+            <input type="text" name="boardTitle" class="form-input w-100">
+        </div>
     </div>
     <div class="container w-600">
         <div class="row left">
