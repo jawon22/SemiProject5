@@ -45,7 +45,7 @@
 
 <c:choose>
     <c:when test="${isReply}">
-        <c:if test="${sessionScope.level == '관리자'}">
+        <c:if test="${sessionScope.level == 'admin'}">
             <h2>답글 작성</h2>
         </c:if>
     </c:when>
@@ -57,13 +57,13 @@
 <form action="write" method="post">
     <%-- 답글일 때만 추가 정보를 전송--%>
     <c:if test="${isReply}">
-        <c:if test="${sessionScope.level == '관리자'}">
+        <c:if test="${sessionScope.level == 'admin'}">
             <input type="hidden" name="boardParent" value="${originDto.boardNo}">
         </c:if>
     </c:if>
     <div class="container w-600">
         <c:choose>
-            <c:when test="${sessionScope.level == '관리자'}">
+            <c:when test="${sessionScope.level == 'admin'}">
                 <div class="row left">
                     <label>유형</label>
                     <select name="qnaNotice_type">
@@ -98,7 +98,7 @@
         <div class="row">
             <button class="btn btn-positive">
                 <c:choose>
-                    <c:when test="${isReply && sessionScope.level == '관리자'}">답글 작성</c:when>
+                    <c:when test="${isReply && sessionScope.level == 'admin'}">답글 작성</c:when>
                     <c:otherwise>등록하기</c:otherwise>
                 </c:choose>
             </button>
