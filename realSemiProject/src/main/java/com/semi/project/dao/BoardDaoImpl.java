@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.mapper.BoardDetailMapper;
 import com.semi.project.mapper.BoardListMapper;
+import com.semi.project.vo.PaginationVO;
 
 @Repository
 public class BoardDaoImpl implements BoardDao{
@@ -63,6 +64,72 @@ public class BoardDaoImpl implements BoardDao{
 		Object[] data= {boardDto.getBoardTitle(), boardDto.getBoardContent(), boardDto.getBoardNo()};
 		return jdbcTemplate.update(sql, data)>0;
 	}
+
+	// 정보게시판 목록 페이지 조회
+	@Override
+	public List<BoardDto> selectListByPage(int page) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "select * from ("
+					+ "select rownum rn, TMP.* from("
+					+ "SELECT "
+					+ "m.member_nickname,"
+					+ "bc.board_categoryweather,"
+					+ "bc.board_area,"
+					+ "b.board_no,"
+					+ "b.board_writer,"
+					+ "b.board_title,"
+					+ "b.board_readcount,"
+					+ "b.board_likecount,"
+					+ "b.board_replycount,"
+					+ "b.board_ctime"
+					+ "FROM board b"
+					+ "LEFT OUTER JOIN member m ON b.board_writer = m.member_id "
+					+ "LEFT OUTER JOIN board_category bc ON b.board_category = bc.board_category"
+					+ ")TMP"
+				+ ")where rn between ? and ?";
+		return jdbcTemplate.query(sql, boardListMapper,start,end);
+	}
+	
+	//정보게시판 목록 페이지 검색 및 페이지 조회
+	@Override
+	public List<BoardDto> selectListByPage(String type, String keyword, int page) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "select * from ("
+					+ "select rownum rn, TMP.* from("
+					+ "SELECT "
+					+ "m.member_nickname,"
+					+ "bc.board_categoryweather,"
+					+ "bc.board_area,"
+					+ "b.board_no,"
+					+ "b.board_writer,"
+					+ "b.board_title,"
+					+ "b.board_readcount,"
+					+ "b.board_likecount,"
+					+ "b.board_replycount,"
+					+ "b.board_ctime"
+					+ "FROM board b where instr("+type+",?) >0 "
+					+ "LEFT OUTER JOIN member m ON b.board_writer = m.member_id "
+					+ "LEFT OUTER JOIN board_category bc ON b.board_category = bc.board_category"
+					+ ")TMP"
+				+ ")where rn between ? and ?";
+		Object[] data = {keyword,start,end};
+		return jdbcTemplate.query(sql, boardListMapper,data);
+		
+	}
+	
+	//정보게시판 목록 조회(검색,페이지)(VO로 간단히)
+	@Override
+	public List<BoardDto> selectListByPage(PaginationVO vo) {
+		if(vo.isSearch()) {
+			return selectListByPage(vo.getType(), vo.getKeyword(), vo.getPage());
+		}
+		else return selectListByPage(vo.getPage());
+	}
+
 
 	
 
