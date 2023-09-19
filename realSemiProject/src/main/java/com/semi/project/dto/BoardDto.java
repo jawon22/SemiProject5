@@ -12,7 +12,7 @@ String memberId;
 String boardTitle;
 String boardContent;
 Date boardCtime;
-int boardReadcount;
-int boardReplycount;
-int boardLikecount;
+long boardReadcount;
+long boardReplycount;
+long boardLikecount;
 }
