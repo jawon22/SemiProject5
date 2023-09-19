@@ -19,7 +19,6 @@ public class BoardController {
 	@Autowired
 	BoardDao boardDao;
 	
-<<<<<<< HEAD
 	@RequestMapping("/list") // 정보게시판 리스트
 	public String list(Model model, BoardDto boardDto) {
 		List<BoardDto> list = boardDao.selectList();
@@ -33,22 +32,6 @@ public class BoardController {
 		BoardDto boardDto = boardDao.selectOne(boardNo);
 		model.addAttribute("boardDto", boardDto);
 		return "/WEB-INF/views/board/detail.jsp";
-=======
-	@Autowired
-	private BoardDao boardDao;
-	
-	@RequestMapping("/list") // 정보게시판 리스트
-	public String list(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
-		
-//		int count = vo.isSearch() ? boardDao.countList(vo) : boardDao.countList();
-//		vo.setCount(count);
-		
-		List<BoardDto> list =boardDao.selectListByPage(vo);
-		model.addAttribute("list",list);
-		
-		return "/WEB-INF/views/board/list.jsp";
-		
->>>>>>> refs/remotes/origin/main
 	}
 
 }
