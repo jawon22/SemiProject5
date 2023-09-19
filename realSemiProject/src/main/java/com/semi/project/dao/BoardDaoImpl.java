@@ -7,7 +7,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.semi.project.dto.BoardDto;
-import com.semi.project.mapper.BoardMapper;
+import com.semi.project.mapper.BoardDetailMapper;
+import com.semi.project.mapper.BoardListMapper;
 
 @Repository
 public class BoardDaoImpl implements BoardDao{
@@ -15,7 +16,10 @@ public class BoardDaoImpl implements BoardDao{
 	JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	BoardMapper boardMapper;
+	BoardListMapper boardListMapper;
+	
+	@Autowired
+	BoardDetailMapper boardDetailMapper;
 	
 	@Override
 	public int sequence() {
@@ -35,7 +39,7 @@ public class BoardDaoImpl implements BoardDao{
 	public BoardDto selectOne(int boardNo) {//상세 조회
 		String sql = "select * from board where board_no = ?";
 		Object[] data = {boardNo};
-		List<BoardDto> list = jdbcTemplate.query(sql, boardMapper, data);
+		List<BoardDto> list = jdbcTemplate.query(sql, boardDetailMapper, data);
 		return list.isEmpty() ? null : list.get(0);
 	}
 
@@ -43,7 +47,7 @@ public class BoardDaoImpl implements BoardDao{
 	public List<BoardDto> selectList() {//리스트 조회
 		String sql = "select * from board order by board_no asc";
 		
-		return jdbcTemplate.query(sql, boardMapper);
+		return jdbcTemplate.query(sql, boardListMapper);
 	}
 
 	@Override
