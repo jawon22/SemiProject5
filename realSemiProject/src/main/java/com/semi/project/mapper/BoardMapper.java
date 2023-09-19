@@ -4,9 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import com.semi.project.dto.BoardDto;
 
+@Component
 public class BoardMapper implements RowMapper<BoardDto>{
 
 	@Override
