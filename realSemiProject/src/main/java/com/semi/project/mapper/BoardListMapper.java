@@ -1,4 +1,4 @@
-package com.semi.project.mapper;
+ package com.semi.project.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.semi.project.dto.BoardDto;
 
 @Component
-public class BoardMapper implements RowMapper<BoardDto>{
+public class BoardListMapper implements RowMapper<BoardDto>{
 
 	@Override
 	public BoardDto mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -18,7 +18,6 @@ public class BoardMapper implements RowMapper<BoardDto>{
 		boardDto.setBoardCategory(rs.getInt("board_category"));
 		boardDto.setMemberId(rs.getString("member_id"));
 		boardDto.setBoardTitle(rs.getString("board_title"));
-		boardDto.setBoardContent(rs.getString("board_content"));
 		boardDto.setBoardCtime(rs.getDate("board_ctime"));
 		boardDto.setBoardReadcount(rs.getLong("board_readcount"));
 		boardDto.setBoardReplycount(rs.getLong("board_replycount"));
