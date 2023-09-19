@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.semi.project.dao.BoardDao;
 import com.semi.project.dto.BoardDto;
+import com.semi.project.dto.BoardListDto;
 import com.semi.project.vo.PaginationVO;
 
 @Controller
@@ -20,9 +21,12 @@ public class BoardController {
 	BoardDao boardDao;
 	
 	@RequestMapping("/list") // 정보게시판 리스트
-	public String list(Model model, BoardDto boardDto) {
-		List<BoardDto> list = boardDao.selectList();
-		model.addAttribute("list", list);
+	public String list(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
+//		int count = vo.isSearch() ? boardDao.countList(vo) : boardDao.countList();
+//		vo.setCount(count);
+		
+		List<BoardListDto> list =boardDao.selectListByPage(vo);
+		model.addAttribute("list",list);
 		return "/WEB-INF/views/board/list.jsp";
 	}
 	

@@ -1,13 +1,10 @@
 package com.semi.project.dto;
 
 import java.sql.Date;
-
 import lombok.Data;
 
 @Data
 public class BoardDto {
-	String memberNickname;
-	
 	int boardNo;
 	int boardCategory;
 	String boardWriter;

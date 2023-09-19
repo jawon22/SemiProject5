@@ -72,31 +72,32 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach var="boardDto" items="${list}">
+		<c:forEach var="boardListDto" items="${list}">
 			<tr>
 				<c:if test="${sessionScope.level == '관리자'}">
 				<td>
 				<!-- 개별항목 체크박스 -->
 				<input type="checkbox" class="check-item" name="boardNoList" 
-					value="${boardDto.boardNo}">
+					value="${boardListDto.boardNo}">
 					</td>
 				</c:if>
 				
 				<!-- 계절  -->
-				<td></td>
+				<td>${boardListDto.boardCategoryWeather}</td>
 				
 				<!-- 지역  -->
-				<td></td>
+				<td>$[boardListDto.boardArea]</td>
 				
 				<td align="left">
 				<!--  제목을 누르면 상세페이디로 이동 -->
-					<a class="link" href="detail?boardNo=${boardDto.boardNo}">${boardDto.boardTitle}</a>
+					<a class="link" href="detail?boardNo=${boardListDto.boardNo}">
+					${boardListDto.boardTitle}</a>
 				
 				<!--  댓글이 있다면 개수를 표시 -->
-					<c:if test="${boardDto.boardReplycount >0}">
+					<c:if test="${boardListDto.boardReplycount >0}">
 						&nbsp;&nbsp;
 						<i class="fa-solid fa-comment blue"></i>
-						${boardDto.boardReplycount}
+						${boardListDto.boardReplycount}
 					</c:if>
 				</td>
 				
@@ -104,10 +105,10 @@
 				<td>${boardListDto.getBoardWriterString()}</td>
 				
 				<!-- 작성일 -->
-				<td>${boardDto.getBoardCtimeString()}</td>
+				<td>${boardListDto.getBoardCtimeString()}</td>
 				
 				<!-- 조회수 -->
-				<td>${boardDto.boardReadcount}</td>
+				<td>${boardListDto.boardReadcount}</td>
 			</tr>
 		</c:forEach>
 	
