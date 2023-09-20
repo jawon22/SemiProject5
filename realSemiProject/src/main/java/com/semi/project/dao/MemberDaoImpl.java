@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.mapper.BoardListMapper;
 import com.semi.project.mapper.MemberMapper;
 
 @Repository
@@ -17,6 +19,9 @@ public class MemberDaoImpl implements MemberDao {
 	
 	@Autowired
 	private MemberMapper memberMapper;
+	
+	@Autowired
+	private BoardListMapper boardListMapper;
 	
 	@Override
 	public void insert(MemberDto memberDto) {
@@ -78,4 +83,22 @@ public class MemberDaoImpl implements MemberDao {
 		List<MemberDto> list = jdbcTemplate.query(sql, memberMapper, data);
 		return list.isEmpty() ? null : list.get(0);
 	}
+	
+	@Override
+	public List<BoardListDto> findWriteListByMemberId(String memberId) {
+		String sql = "select board_list.* from board_list left outer join member "
+				+ "on board_list.board_writer = member.member_id "
+				+ "where member.member_id = ? "
+				+ "order by board_no desc";
+		Object[] data = {memberId};
+		return  jdbcTemplate.query(sql, boardListMapper, data);
+	}
+	
+	@Override
+	public List<BoardListDto> findLikeListByMemberId(String memberId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }
