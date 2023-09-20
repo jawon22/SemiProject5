@@ -46,61 +46,63 @@ public class BoardController {
 		return "/WEB-INF/views/board/detail.jsp";
 	}
 
-    @GetMapping("/write")
-    public String write(Model model, 
-                        @RequestParam(required = false) Integer boardParent) {
-        // 답글이라면 원본글 정보를 화면에 전달
-        if (boardParent != null) {
-            BoardDto originDto = boardDao.selectOne(boardParent);
-            model.addAttribute("originDto", originDto);
-            model.addAttribute("isReply", true);
-        } else {
-            model.addAttribute("isReply", false);
-        }
-        return "/WEB-INF/views/board/write.jsp";
-    }
+	
+	
+	@GetMapping("/write")
+	public String write(Model model, 
+	                    @RequestParam(required = false) Integer boardParent,
+	                    @RequestParam(required = false) Integer boardCategory,
+	                    HttpSession session) {
+	    // 답글이라면 원본글 정보를 화면에 전달
+	    if (boardParent != null) {
+	        BoardDto originDto = boardDao.selectOne(boardParent);
+	        model.addAttribute("originDto", originDto);
+	        model.addAttribute("isReply", true);
+	    } else {
+	        model.addAttribute("isReply", false);
+	    }
+	    
+	    // boardCategory가 null이 아닌 경우, 즉, 파라미터로 전달된 경우에만 설정
+	    if (boardCategory != null) {
+	        model.addAttribute("boardCategory", boardCategory);
+	        // 여기에서 boardCategory를 boardDto에 설정
+	        BoardDto boardDto = new BoardDto();
+	        boardDto.setBoardCategory(boardCategory);
+	        model.addAttribute("boardDto", boardDto);
+	    }
 
-    @PostMapping("/write")
-    public String write(@ModelAttribute BoardDto boardDto, HttpSession session,
-                        @RequestParam String boardCategory,
-                        @RequestParam String boardTitle,
-                        @RequestParam String boardContent) {
-        int boardNo = boardDao.sequence();
-        boardDto.setBoardNo(boardNo);
-        String memberId = (String) session.getAttribute("name");
-        boardDto.setBoardWriter(memberId);
-        
-        // boardCategory, boardTitle, boardContent 설정
-        int category = Integer.parseInt(boardCategory);
-        boardDto.setBoardCategory(category);
-        boardDto.setBoardTitle(boardTitle);
-        boardDto.setBoardContent(boardContent);
+	    return "/WEB-INF/views/board/write.jsp";
+	}
 
-        // 글을 등록
-        boardDao.insert(boardDto);
 
-        return "redirect:detail?boardNo=" + boardNo;
-    }
+	@PostMapping("/write")
+	public String handleWritePost(@ModelAttribute BoardDto boardDto, HttpSession session) {
+	    int boardNo = boardDao.sequence();
+	    String memberId = (String) session.getAttribute("name");
+	    boardDto.setBoardNo(boardNo);
+	    //boardDto.setBoardCategory(boardDto.getBoardCategory()); // 이미 모델에 설정되어 있음
+	    boardDto.setBoardWriter(memberId);
 
-	//@RequestMapping("/delete")
+	    // 글을 등록
+	    boardDao.insert(boardDto);
+
+	    return "redirect:detail?boardNo=" + boardNo;
+	}
+
+    //삭제
+	@RequestMapping("/delete")
+	public String delete(@RequestParam int boardNo) {
+		boolean result = boardDao.delete(boardNo);
+		if(result) {
+			return "redirect:list";
+		}
+		else {
+			return "redirect:에러페이지";
+			//throw new NoTargetException("없는 게시글 번호");
+		}
+	}
 	//@GetMapping("/edit")
 	//@PostMapping("/edit")
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
