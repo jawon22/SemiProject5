@@ -5,7 +5,7 @@
  $(function(){
 	 $(".reply-insert-form").submit(function(e){
 		 e.preventDefault();
-		 console.log(e);
+		
 		 $.ajax({
 			 url:"/rest/reply/insert",
 			 method:"post",
@@ -86,13 +86,13 @@
             <textarea class="w-100" placeholder="내용" ></textarea>
         </div>
         
-        <div class="felx-container">
-            <div class="w-50">
+        <div class="row flex-container">
+            <div class="col-2">
                 <div class="left">
                     <button value="">신고 버튼(이미지)</button>
                 </div>
             </div>
-            <div class="w-50">
+            <div class="col-2">
                 <div class="right">
                     <button class="button"><a href="/board/edit">블라인드</a></button>
                     <button class="button"><a href="/board/list?keyword=${vo.type}, start=${vo.keyword}, end=${vo.page}">목록</a></button>
@@ -105,8 +105,9 @@
 		<form class="reply-insert-form">
 		<div class="row flex-container">
 		
-		<input type="hidden" name="replyWriter" value="${reply.replyWriter}">
+<%-- 		<input type="hidden" name="replyWriter" value="${sessionScope.name}"> --%>
 		<input type="hidden" name="replyOrigin" value="${boardDto.boardNo}">
+		<input type="hidden" name="replyWriter" value="${memberDto.memberId}">
 			<div class="w-75">
 				<div class="row left">
 					<textarea class="w-100" name="replyContent">댓글입력창</textarea>
