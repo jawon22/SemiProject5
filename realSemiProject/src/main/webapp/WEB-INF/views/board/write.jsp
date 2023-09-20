@@ -46,7 +46,7 @@
         $('#selectedArea').val(selectedArea);
     });
     
-  //boardCategory == 1 정보게시판
+  //boardCategory == 1 정보(계절 지역게시판
   //boardCategory == 2 후기게시판
   //boardCategory == 3 자유게시판
 </script>
@@ -56,9 +56,9 @@
 
 <h2>
     <c:choose>
-        <c:when test="${boardDto.boardCategory == 1}">계절 지역 게시글 작성</c:when>
-        <c:when test="${boardDto.boardCategory == 2}">후기 게시글 작성</c:when>
-        <c:when test="${boardDto.boardCategory == 3}">자유 게시글 작성</c:when>
+        <c:when test="${boardDto.boardCategory <= 33}">계절 지역 게시글 작성</c:when>
+        <c:when test="${boardDto.boardCategory == 34}">후기 게시글 작성</c:when>
+        <c:when test="${boardDto.boardCategory == 35}">자유 게시글 작성</c:when>
     </c:choose>
 </h2>
 
@@ -66,7 +66,7 @@
     <div class="container w-600">
           
     <c:choose>
-    	<c:when test="${boardDto.boardCategory == 1}">
+    	<c:when test="${boardDto.boardCategory <= 33}">
     		<div class="row">
         		<label>계절</label>
         		<select name="board_categoryweather">
@@ -92,7 +92,7 @@
     		</div>        
     	</c:when>
     	<c:otherwise>
-    	
+
     	</c:otherwise>
     </c:choose>
     
