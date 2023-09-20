@@ -15,5 +15,5 @@ public interface MemberDao {
 	List<BoardListDto> findLikeListByMemberId(String memberId); //내가 좋아요 한 글 조회
 	
 	
-	MemberDto selectIdByMemberEmail(String inputEmail);
+	MemberDto selectIdByMemberEmail(String inputEmail);//아이디찾기
 }
