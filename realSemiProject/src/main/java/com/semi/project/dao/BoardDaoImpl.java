@@ -73,25 +73,26 @@ public class BoardDaoImpl implements BoardDao{
 		int end = page*10;
 		
 		String sql = "SELECT * FROM ("
-				+ "SELECT ROWNUM rn, TMP.* FROM("
-				+ "select * from board_list order by board_no asc"
-				+ ")TMP "
+					+ "SELECT ROWNUM rn, TMP.* FROM("
+						+ "select * from board_list order by board_no asc"
+					+ ")TMP "
 				+ ")where rn between ? and ?";
 		return jdbcTemplate.query(sql, boardListMapper,start,end);
 	}
 	
 	//정보게시판 목록 페이지 검색 및 페이지 조회
 	@Override
-	public List<BoardListDto> selectListByPage(String type, String keyword, int page) {
+	public List<BoardListDto> selectListByPage(String type, String keyword, String weather, String area, int page) {
 		int start = (page-1)*10 +1;
 		int end = page*10;
 		
 		String sql = "SELECT * FROM ("
-				+ "SELECT ROWNUM rn, TMP.* FROM("
-				+ "select * from board_list where instr("+type+",?) >0 order by board_no asc"
-				+ ")TMP "
-				+ ")WHERE rn BETWEEN ? AND ?";
-		Object[] data = {keyword,start,end};
+						+ "SELECT ROWNUM rn, TMP.* FROM("
+							+ "select * from board_list where instr("+type+",?) >0 and board_categoryweather = ? AND board_area = ?"
+								+ " order by board_no asc"
+							+ ")TMP "
+						+ ")WHERE rn BETWEEN ? AND ?";
+		Object[] data = {keyword,weather,area,start,end};
 		return jdbcTemplate.query(sql, boardListMapper,data);
 		
 	}
@@ -100,7 +101,7 @@ public class BoardDaoImpl implements BoardDao{
 	@Override
 	public List<BoardListDto> selectListByPage(PaginationVO vo) {
 		if(vo.isSearch()) {
-			return selectListByPage(vo.getType(), vo.getKeyword(), vo.getPage());
+			return selectListByPage(vo.getType(), vo.getKeyword(),vo.getWeather(),vo.getArea(), vo.getPage());
 		}
 		else return selectListByPage(vo.getPage());
 	}
@@ -108,10 +109,12 @@ public class BoardDaoImpl implements BoardDao{
 	@Override
 	public int countList(PaginationVO vo) {
 		if(vo.isSearch()) {
-			String sql = "select count(*) from board where instr("+vo.getType()+",?)>0";
-			Object[] data = {vo.getKeyword()};
+			String sql = "select count(*) from board_list where instr("+vo.getType()+",?)>0 "
+							+ "and board_categoryweather = ? AND board_area = ?";
 			
+			Object[] data = {vo.getKeyword(),vo.getWeather(),vo.getArea()};
 			return jdbcTemplate.queryForObject(sql, int.class,data);
+		
 		}
 		else {
 			String sql= "select count(*) from board";
