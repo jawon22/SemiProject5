@@ -46,9 +46,9 @@
         $('#selectedArea').val(selectedArea);
     });
     
-  //boardCategory == 1 정보(계절 지역게시판
-  //boardCategory == 2 후기게시판
-  //boardCategory == 3 자유게시판
+  //boardCategory <= 33 정보(계절 지역게시판
+  //boardCategory == 34 후기게시판
+  //boardCategory == 35 자유게시판
 </script>
 
 <script src="/js/boardWrite.js"></script>
@@ -57,8 +57,8 @@
 <h2>
     <c:choose>
         <c:when test="${boardDto.boardCategory <= 33}">계절 지역 게시글 작성</c:when>
-        <c:when test="${boardDto.boardCategory == 34}">후기 게시글 작성</c:when>
-        <c:when test="${boardDto.boardCategory == 35}">자유 게시글 작성</c:when>
+        <c:when test="${boardDto.boardCategory == 34}"> 후기 게시글 작성</c:when>
+        <c:when test="${boardDto.boardCategory == 35}"> 자유 게시글 작성</c:when>
     </c:choose>
 </h2>
 
@@ -66,7 +66,7 @@
     <div class="container w-600">
           
     <c:choose>
-    	<c:when test="${boardDto.boardCategory <= 33}">
+    	<c:when test="${boardDto.boardCategory <= 33}"><!-- 정보게시판이면 -->
     		<div class="row">
         		<label>계절</label>
         		<select name="board_categoryweather">
@@ -75,6 +75,8 @@
             		<option value="여름">여름</option>
             		<option value="가을">가을</option>
             		<option value="겨울">겨울</option>
+            		<option value="후기" style="display: none"></option>
+            		<option value="자유" style="ddisplay: none"></option>
         		</select>
         		<label>지역</label>
         		<select name="board_area">
@@ -89,7 +91,29 @@
         		</select>
         		<input type="hidden" name="boardCategoryWeather" id="selectedWeather">
         		<input type="hidden" name="boardArea" id="selectedArea">
-    		</div>        
+    		</div>      	  
+    	</c:when>
+    	<c:when test="${boardDto.boardCategory == 34}"><!-- 후기게시판이면 -->
+				<select name="board_categoryweather"  style="display: none">
+            		<option value="전체" style="display: none"></option>
+            		<option value="봄" style="display: none"></option>
+            		<option value="여름" style="display: none"></option>
+            		<option value="가을" style="display: none"></option>
+            		<option value="겨울" style="display: none"></option>
+            		<option value="후기" style="display: none" selected></option>
+            		<option value="자유" style="ddisplay: none"></option>
+        		</select>
+    	</c:when>
+    	<c:when test="${boardDto.boardCategory == 35}"><!-- 자유게시판이면 -->
+				<select name="board_categoryweather"  style="display: none">
+            		<option value="전체" style="display: none"></option>
+            		<option value="봄" style="display: none"></option>
+            		<option value="여름" style="display: none"></option>
+            		<option value="가을" style="display: none"></option>
+            		<option value="겨울" style="display: none"></option>
+            		<option value="후기" style="display: none"></option>
+            		<option value="자유" style="display: none" selected></option>
+        		</select>
     	</c:when>
     	<c:otherwise>
 
@@ -99,7 +123,7 @@
     
         <div class="row left">
             <label>제목</label>
-            <input type="text" name="boardTitle" class="form-input w-100">
+            <input type="text" name="boardDto.boardTitle" class="form-input w-100">
         </div>
     </div>
     <div class="container w-600">
