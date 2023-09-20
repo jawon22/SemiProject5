@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 
@@ -36,22 +37,26 @@
 			</table>
 			
 			<div class="row">
-			<a href="/member/exit">탈퇴하기</a>
+			<a href="exit">탈퇴하기</a>
 			</div>
 			<div class="row">
-			<a href="/infochange">회원정보변경하기</a>
+			<a href="infoChange">회원정보변경하기</a>
 			</div>
 			<div class="row">
-			<a href="/pwchange">비밀번호변경하기</a>
+			<a href="pwChange">비밀번호변경하기</a>
 			</div>
 			
 			<div class="row" > <!-- flex-container로 단을 나눌것임 -->
 			<a href="/mylike">내가 좋아요 누른 글 보러가기 > </a>		
 			</div>
 			<div class="row" > <!-- flex-container로 단을 나눌것임 -->
-			<a href="/mywrite">내가 쓴 글 보러가기 > </a>		
+			<a href="myWriteList">내가 쓴 글 보러가기 > </a>		
+			</div>
+			<div class="row">
+			<a href="logout">로그아웃</a>
 			</div>
 		</div>
 	</div>
+
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
