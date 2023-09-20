@@ -11,7 +11,7 @@
 <main>
 	<div align="center">
 	     <header>
-				헤더 내용
+				헤더 내용 
         </header>
 
 <section>
