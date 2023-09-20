@@ -5,11 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.semi.project.dao.BoardDao;
+import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.vo.PaginationVO;
@@ -19,6 +22,9 @@ import com.semi.project.vo.PaginationVO;
 public class BoardController {
 	@Autowired
 	BoardDao boardDao;
+	
+	@Autowired
+	MemberDao memberDao;
 	
 	@RequestMapping("/list") // 정보게시판 리스트
 	public String list(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
@@ -38,6 +44,12 @@ public class BoardController {
 		return "/WEB-INF/views/board/detail.jsp";
 	}
 
+	@GetMapping("/write")
+	//@PostMapping("/write")
+	//@RequestMapping("/delete")
+	//@GetMapping("/edit")
+	//@PostMapping("/edit")
+	
 }
 
 

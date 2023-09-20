@@ -54,17 +54,13 @@
 <script src="/js/boardWrite.js"></script>
 
 
+<h2>
     <c:choose>
-    	<c:when test="${boardDto.boardCategory == 1}">
-    		<h2>계절 지역 게시글 작성</h2>
-    	</c:when>
-    	<c:when test="${boardDto.boardCategory == 2}">
-    		<h2>후기 게시글 작성</h2>
-    	</c:when>
-    	<c:when test="${boardDto.boardCategory == 3}">
-    		<h2>자유 게시글 작성</h2>
-    	</c:when>    	    	
+        <c:when test="${boardDto.boardCategory == 1}">계절 지역 게시글 작성</c:when>
+        <c:when test="${boardDto.boardCategory == 2}">후기 게시글 작성</c:when>
+        <c:when test="${boardDto.boardCategory == 3}">자유 게시글 작성</c:when>
     </c:choose>
+</h2>
 
 <form action="write" method="post">
     <div class="container w-600">
@@ -95,22 +91,10 @@
         		<input type="hidden" name="boardArea" id="selectedArea">
     		</div>        
     	</c:when>
-    	<c:when test="${boardDto.boardCategory == 2}">
-    		<div class="row">
-        		<label>분류</label>
-        		<select name="">
-        			<option value="">전체</option>
-            		<option value="">음식</option>
-            		<option value="">여행지</option>
-        		</select>
-        	</div>
-    	</c:when>
     	<c:otherwise>
     	
     	</c:otherwise>
     </c:choose>
-    
-    
     
     
         <div class="row left">
