@@ -1,5 +1,7 @@
 package com.semi.project.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.MemberDto;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/member")
 public class MemberController {
@@ -35,7 +40,7 @@ public class MemberController {
 	public String joinFinish() {
 		return "/WEB-INF/views/member/joinFinish.jsp";
 	}
-
+	
 	
 	@GetMapping("/searchId")
 	public String searchId() {
@@ -43,32 +48,24 @@ public class MemberController {
 	}
 	
 	@PostMapping("/searchId")
-	public String searchId(@RequestParam String memberEmail, Model model) {
-		MemberDto memberDto = new MemberDto();
-		memberDto = memberDao.selectEmailByMemberId(memberEmail);
-		model.addAttribute("memberDto", memberDto);
-		
-		if(memberDto != null) {
-			return "redirect:searchIdFinish";
-		}else {
-			return "redirect:searchId?error";
-		}
+	public String searchId(@RequestParam String inputEmail, HttpSession session) {
+		MemberDto memberId = memberDao.selectIdByMemberEmail(inputEmail);
+
+		if (memberId != null) {
+	        //return "redirect:searchIdFinish?memberId=" + memberId.getMemberId();
+			session.setAttribute("memberId", memberId.getMemberId());
+	    } 
+		return "redirect:searchIdFinish";
 	}
 	
 	@RequestMapping("/searchIdFinish")
-	public String searIdFinish(Model model) {
-		MemberDto memberDto = (MemberDto) model.getAttribute("memberDto");
-		
-		if(memberDto != null) {
-			String memberId = memberDto.getMemberId();
-			model.addAttribute("searchId", memberId);
-		}else {
-			model.addAttribute("notSearchId", "회원을 찾을 수 없습니다.");
-		}
+	public String searchIdFinish(HttpSession session, Model model) {
+		String memberId = (String) session.getAttribute("memberId");
+		model.addAttribute("memberId", memberId);
 		
 		return "/WEB-INF/views/member/searchIdFinish.jsp";
 	}
-//	
+	
 //	@GetMapping("/searchPw")
 //	@PostMapping("/searchPw")
 //	@RequestMapping("/searchPwFinish")
