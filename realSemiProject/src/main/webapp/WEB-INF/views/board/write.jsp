@@ -45,37 +45,74 @@
         var selectedArea = $(this).val();
         $('#selectedArea').val(selectedArea);
     });
+    
+  //boardCategory == 1 정보게시판
+  //boardCategory == 2 후기게시판
+  //boardCategory == 3 자유게시판
 </script>
 
 <script src="/js/boardWrite.js"></script>
 
-<h2>정보 게시글 작성</h2>
+
+    <c:choose>
+    	<c:when test="${boardDto.boardCategory == 1}">
+    		<h2>계절 지역 게시글 작성</h2>
+    	</c:when>
+    	<c:when test="${boardDto.boardCategory == 2}">
+    		<h2>후기 게시글 작성</h2>
+    	</c:when>
+    	<c:when test="${boardDto.boardCategory == 3}">
+    		<h2>자유 게시글 작성</h2>
+    	</c:when>    	    	
+    </c:choose>
 
 <form action="write" method="post">
     <div class="container w-600">
-    <div class="row">
-        <label>계절</label>
-        <select name="board_categoryweather">
-            <option value="전체" selected>전체</option>
-            <option value="봄">봄</option>
-            <option value="여름">여름</option>
-            <option value="가을">가을</option>
-            <option value="겨울">겨울</option>
-        </select>
-        <label>지역</label>
-        <select name="board_area">
-            <option value="전체" selected>전체</option>
-            <option value="서울">서울</option>
-            <option value="경기도">경기도</option>
-            <option value="강원도">강원도</option>
-            <option value="충청도">충청도</option>
-            <option value="경상도">경상도</option>
-            <option value="전라도">전라도</option>
-            <option value="제주도">제주도</option>
-        </select>
-        <input type="hidden" name="boardCategoryWeather" id="selectedWeather">
-        <input type="hidden" name="boardArea" id="selectedArea">
-    </div>
+          
+    <c:choose>
+    	<c:when test="${boardDto.boardCategory == 1}">
+    		<div class="row">
+        		<label>계절</label>
+        		<select name="board_categoryweather">
+            		<option value="전체" selected>전체</option>
+            		<option value="봄">봄</option>
+            		<option value="여름">여름</option>
+            		<option value="가을">가을</option>
+            		<option value="겨울">겨울</option>
+        		</select>
+        		<label>지역</label>
+        		<select name="board_area">
+            		<option value="전체" selected>전체</option>
+            		<option value="서울">서울</option>
+            		<option value="경기도">경기도</option>
+            		<option value="강원도">강원도</option>
+            		<option value="충청도">충청도</option>
+            		<option value="경상도">경상도</option>
+            		<option value="전라도">전라도</option>
+            		<option value="제주도">제주도</option>
+        		</select>
+        		<input type="hidden" name="boardCategoryWeather" id="selectedWeather">
+        		<input type="hidden" name="boardArea" id="selectedArea">
+    		</div>        
+    	</c:when>
+    	<c:when test="${boardDto.boardCategory == 2}">
+    		<div class="row">
+        		<label>분류</label>
+        		<select name="">
+        			<option value="">전체</option>
+            		<option value="">음식</option>
+            		<option value="">여행지</option>
+        		</select>
+        	</div>
+    	</c:when>
+    	<c:otherwise>
+    	
+    	</c:otherwise>
+    </c:choose>
+    
+    
+    
+    
         <div class="row left">
             <label>제목</label>
             <input type="text" name="boardTitle" class="form-input w-100">
