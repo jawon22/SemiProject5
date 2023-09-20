@@ -57,6 +57,10 @@
         var selectedSeason = $("select[name='board_categoryweather']").val();
         var selectedArea = $("select[name='board_area']").val();
         
+        // URL에서 boardCategory 매개변수 값을 읽어옴
+        var urlParams = new URLSearchParams(window.location.search);
+        var boardCategory = urlParams.get('boardCategory');
+        
         if (boardCategory == 1) { // 예시: 1일 때
             $("select[name='board_categoryweather']").val("전체");
             $("select[name='board_area']").val("전체");
@@ -70,7 +74,7 @@
         	
             if (selectedArea == "전체") {
                 boardCategory = 2;
-            } else if (selectedArea == "경기") {
+            } else if (selectedArea == "서울") {
                 boardCategory = 3;
             } else if (selectedArea == "경기") {
                 boardCategory = 4;
@@ -90,7 +94,7 @@
         	
             if (selectedArea == "전체") {
                 boardCategory = 10;
-            } else if (selectedArea == "경기") {
+            } else if (selectedArea == "서울") {
                 boardCategory = 11;
             } else if (selectedArea == "경기") {
                 boardCategory = 12;
@@ -110,7 +114,7 @@
         	
             if (selectedArea == "전체") {
                 boardCategory = 18;
-            } else if (selectedArea == "경기") {
+            } else if (selectedArea == "서울") {
                 boardCategory = 19;
             } else if (selectedArea == "경기") {
                 boardCategory = 20;
@@ -130,7 +134,7 @@
         	
             if (selectedArea == "전체") {
                 boardCategory = 26;
-            } else if (selectedArea == "경기") {
+            } else if (selectedArea == "서울") {
                 boardCategory = 27;
             } else if (selectedArea == "경기") {
                 boardCategory = 28;
@@ -150,6 +154,26 @@
         // 설정한 boardCategory 값을 숨겨진 필드에 설정
         $("input[name='boardCategory']").val(boardCategory);
     });
+    
+/*  // URL에서 매개변수 값을 읽어오는 함수
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    } */ 
+    //이거처럼 url에서 변수 값을 받게 하지말고 정보게시판에서 글쓰기 누르면 boardCategory1
+    //http://localhost:8080/board/write?boardCategory=1
+    //후기 게시판에서 글쓰기 누르면 boardCategory34 
+    //http://localhost:8080/board/write?boardCategory=34
+    //자유게시판에서 글쓰기 누르면 boardCategory35로 
+    //http://localhost:8080/board/write?boardCategory=35
+    		//이걸로 설정되게 하고싶음
+    		
+/* 정보게시판: http://localhost:8080/board/write?boardCategory=1
+후기 게시판: http://localhost:8080/board/write?boardCategory=34
+자유게시판: http://localhost:8080/board/write?boardCategory=35  */  		
+ 
 </script>
 
 <script src="/js/boardWrite.js"></script>
