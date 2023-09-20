@@ -96,8 +96,12 @@ public class MemberDaoImpl implements MemberDao {
 	
 	@Override
 	public List<BoardListDto> findLikeListByMemberId(String memberId) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "select board_list.* from board_list left outer join board_like "
+				+ "on board_list.board_no = board_like.board_no "
+				+ "where board_like.member_id = ? "
+				+ "order by board_list.board_no desc";
+		Object[] data = {memberId};
+		return jdbcTemplate.query(sql, boardListMapper, data);
 	}
 
 
