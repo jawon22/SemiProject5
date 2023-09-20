@@ -3,6 +3,8 @@ package com.semi.project.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,15 +16,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.MemberDto;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Controller
 @RequestMapping("/member")
 public class MemberController {
 	
 	@Autowired
 	private MemberDao memberDao;
+	
+	@Autowired
+	private JavaMailSender sender;
 	
 	
 	@GetMapping("/join")
@@ -63,10 +65,21 @@ public class MemberController {
 		String memberId = (String) session.getAttribute("memberId");
 		model.addAttribute("memberId", memberId);
 		
+		session.removeAttribute(memberId);
+		
 		return "/WEB-INF/views/member/searchIdFinish.jsp";
 	}
 	
-//	@GetMapping("/searchPw")
+	@GetMapping("/searchPw")
+	public String searchPw() {
+		return "/WEB-INF/views/member/searchPw.jsp";
+	}
+	
+//	@PostMapping("/searchPw")
+//	public String searchPw(@ModelAttribute MemberDto memberDto) {
+//	
+//	}
+	
 //	@PostMapping("/searchPw")
 //	@RequestMapping("/searchPwFinish")
 }

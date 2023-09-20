@@ -9,5 +9,5 @@ public interface MemberDao {
 	boolean updateMemberPw(String memberId, String changePw); //비밀번호변경(마이페이지)
 	boolean delete(String memberId); //탈퇴(마이페이지)
 	
-	MemberDto selectIdByMemberEmail(String inputEmail);
+	MemberDto selectIdByMemberEmail(String inputEmail);//아이디찾기
 }
