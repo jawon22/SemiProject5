@@ -105,6 +105,20 @@ public class BoardDaoImpl implements BoardDao{
 		else return selectListByPage(vo.getPage());
 	}
 
+	@Override
+	public int countList(PaginationVO vo) {
+		if(vo.isSearch()) {
+			String sql = "select count(*) from board where instr("+vo.getType()+",?)>0";
+			Object[] data = {vo.getKeyword()};
+			
+			return jdbcTemplate.queryForObject(sql, int.class,data);
+		}
+		else {
+			String sql= "select count(*) from board";
+			return jdbcTemplate.queryForObject(sql,int.class);
+		}
+	}
+
 
 	
 
