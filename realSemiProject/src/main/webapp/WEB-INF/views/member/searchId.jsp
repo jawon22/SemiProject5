@@ -3,11 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<script src="https://code.jQuery.com/jQuery-3.7.1.min.js"></script>
+
 <h1>아이디 찾기</h1>
 
 <form action="searchId" method="post" autocomplete="off">
 	등록된 이메일 입력 <br><br>
-	<input type="text" name="memberEmail"> <br><br>
+	<input type="text" name="inputEmail"> <br><br>
 	<button type="submit">찾기</button>
 </form>
 
