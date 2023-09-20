@@ -1,5 +1,7 @@
 package com.semi.project.dao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -23,17 +25,26 @@ public class AttachmentDaoImpl implements AttachmentDao{
 	}
 	@Override
 	public void insert(AttachmentDto attachDto) {
-//		String sql = "insert into "
-		
+		String sql = "insert into attachment("
+				+ "attachment_no, attachment_name, attachment_type, attachment_size"
+				+ ") values(?, ?, ?, ?)";
+		Object[] data = {
+				attachDto.getAttachmentNo(), attachDto.getAttachmentName(),
+				attachDto.getAttachmentType(), attachDto.getAttachmentSize()
+		};
+		jdbcTemplate.update(sql, data);
 	}
 	@Override
 	public boolean delete(int attachment_no) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "delete attachment where attachment_no = ?";
+		Object[] data = {attachment_no};
+		return jdbcTemplate.update(sql, data) > 0;
 	}
 	@Override
 	public AttachmentDto selectOne(int attachment_no) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "select * from attachment where attachment_no = ?";
+		Object[] data = {attachment_no};
+		List<AttachmentDto> list = jdbcTemplate.query(sql, attachMapper, data);
+		return list.isEmpty() ? null : list.get(0);
 	}
 }
