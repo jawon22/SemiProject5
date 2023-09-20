@@ -15,9 +15,12 @@ public interface BoardDao {
 	boolean delete(int boardNo);
 	boolean edit(BoardDto boardDto);
 	
+	//정보게시판 목록(검색 페이징 처리)
 	List<BoardListDto> selectListByPage(int page);
 	List<BoardListDto> selectListByPage(String type, String keyword, int page);
 	List<BoardListDto> selectListByPage(PaginationVO vo);
 	
+	//정보게시판 갯수 세기
+	int countList(PaginationVO vo);
 	
 }
