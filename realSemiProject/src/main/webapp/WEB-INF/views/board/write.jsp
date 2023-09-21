@@ -60,7 +60,8 @@
       // 파라미터에서 boardCategory 값을 읽어와서 board_category 열에 직접 설정
         //var boardCategory = params.get('boardCategory');
         //$("input[name='board_category']").val(boardCategory); 
-               
+        
+        
         
         
         if (selectedSeason == "전체") {
