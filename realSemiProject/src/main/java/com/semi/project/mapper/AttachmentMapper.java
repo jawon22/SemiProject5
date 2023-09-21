@@ -16,7 +16,7 @@ public AttachmentDto mapRow(ResultSet rs, int rowNum) throws SQLException {
 	attachDto.setAttachmentNo(rs.getInt("attachment_no"));
 	attachDto.setAttachmentName(rs.getString("attachment_name"));
 	attachDto.setAttachmentType(rs.getString("attachment_type"));
-	attachDto.setAttachmentSize(rs.getInt("attachment_size"));
+	attachDto.setAttachmentSize(rs.getLong("attachment_size"));
 	return attachDto;
 }
 }
