@@ -134,6 +134,15 @@ public class MemberMypageController {
 		return "/WEB-INF/views/member/myWriteList.jsp";				
 	}
 	
+	@RequestMapping("/myLikeList")
+	public String myLikeList(HttpSession session, Model model) {
+		
+		String memberId = (String) session.getAttribute("name");
+		model.addAttribute("myLikeList", memberDao.findLikeListByMemberId(memberId));
+		
+		return "/WEB-INF/views/member/myLikeList.jsp";
+	}
+	
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("name");

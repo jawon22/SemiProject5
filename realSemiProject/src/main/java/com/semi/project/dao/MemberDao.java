@@ -14,6 +14,10 @@ public interface MemberDao {
 	List<BoardListDto> findWriteListByMemberId(String memberId); //내가 쓴 글 조회
 	List<BoardListDto> findLikeListByMemberId(String memberId); //내가 좋아요 한 글 조회
 	
+	//프로필 관련 기능
+	void insertProfile(String memberId, int attachNo);
+	boolean deleteProfile(String memberId);
+	Integer findProfile(String memberId);
 	
 	MemberDto selectIdByMemberEmail(String inputEmail);//아이디찾기
 }
