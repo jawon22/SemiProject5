@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.semi.project.component.CertCodeRandom;
 import com.semi.project.dao.CertDao;
 
 @CrossOrigin
@@ -22,8 +21,8 @@ public class CertRestController {
 	@Autowired
 	private JavaMailSender sender;
 	
-	@Autowired
-	private CertCodeRandom certCodeRandom;
+//	@Autowired
+//	private CertCodeRandom certCodeRandom;
 	
 	
 //	@PostMapping("/send")
