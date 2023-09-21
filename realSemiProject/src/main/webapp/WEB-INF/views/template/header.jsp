@@ -19,8 +19,11 @@
 <body>
 <main>
 	<div align="center">
-	     <header>
-				헤더 내용 
+		<h1>Tripee</h1>
+		<header>
+			<a href="/member/join">회원가입</a>
+			<a href="/member/login">로그인</a>
+			<a href="/member/mypage">마이페이지</a>
         </header>
-
+	</div>
 <section>
