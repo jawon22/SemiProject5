@@ -101,7 +101,12 @@ public class BoardDaoImpl implements BoardDao{
 	@Override
 	public List<BoardListDto> selectListByPage(PaginationVO vo) {
 		if(vo.isSearch()) {
-			return selectListByPage(vo.getType(), vo.getKeyword(),vo.getWeather(),vo.getArea(), vo.getPage());
+			if(vo.getWeather().equals("전체") && vo.getArea().equals("전체")) {
+				return selectListByPage(vo.getPage());
+			}
+			else {
+				return selectListByPage(vo.getType(), vo.getKeyword(),vo.getWeather(),vo.getArea(), vo.getPage());
+			}
 		}
 		else return selectListByPage(vo.getPage());
 	}

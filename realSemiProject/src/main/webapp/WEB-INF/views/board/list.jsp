@@ -15,30 +15,30 @@
 <!-- 카테고리 선택창 -->
 	<form action="list" method="get">
 		<div class="row">
-				<!-- 계절 선택창 --> 
-<%-- 			<c:if test="${param.type == 'board_categoryweather'}">  --%>
-					<select name="weather" class="form-input" required>
-						<option value="전체" selected>전체</option>
-					    <option value="봄">봄</option>
-					    <option value="여름">여름</option>
-					    <option value="가을">가을</option>
-					    <option value="겨울">겨울</option>
-					</select>
-<%-- 			</c:if>  --%>
-			
-				<!-- 지역 선택창 --> 
-<%-- 			<c:if test="${param.type == 'board_area'}">  --%>
-					<select name="area" class="form-input" required>
-						<option value="전체" selected>전체</option>
-					    <option value="서울">서울</option>
-					    <option value="경기">경기</option>
-					    <option value="강원">강원</option>
-					    <option value="충청">충청</option>
-					    <option value="경상">경상</option>
-					    <option value="전라">전라</option>
-					    <option value="제주">제주</option>
-					</select>
-<%-- 			</c:if>  --%>
+		<!-- 계절 선택창 -->
+<%--  			<c:if test="${param.weather != null}"> 			--%>
+				<select name="weather" class="form-input">
+					<option value="전체" selected>전체</option>
+				    <option value="봄">봄</option>
+				    <option value="여름">여름</option>
+				    <option value="가을">가을</option>
+				    <option value="겨울">겨울</option>
+				</select>
+<%--  			</c:if> --%> 
+				
+				<!-- 지역 선택창 -->
+	<%-- 		<c:if test="${param.area != null}"> --%> 
+				<select name="area" class="form-input">
+					<option value="전체" selected>전체</option>
+				    <option value="서울">서울</option>
+				    <option value="경기">경기</option>
+				    <option value="강원">강원</option>
+				    <option value="충청">충청</option>
+				    <option value="경상">경상</option>
+				    <option value="전라">전라</option>
+				    <option value="제주">제주</option>
+				</select>
+<%-- 		</c:if> --%>
 		</div>
 
 		<div class="row">
