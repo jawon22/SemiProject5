@@ -23,8 +23,9 @@ public interface MemberDao {
 	Integer findProfile(String memberId); //프로필찾기
 	
 	//관리자기능
-	int countList(PaginationVO vo);
-	List<MemberDto> selectMemberListByPage(PaginationVO vo);
+	int countList(PaginationVO vo);//회원목록
+	List<MemberDto> selectMemberListByPage(PaginationVO vo); //회원목록
+	
 	
 	MemberDto selectIdByMemberEmail(String inputEmail);//아이디찾기
 	
