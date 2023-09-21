@@ -47,7 +47,7 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public List<BoardListDto> selectList() {//리스트 조회
-		String sql = "select * from board order by board_no asc";
+		String sql = "select * from board where board_category between 1 and 40 order by board_no asc";
 		
 		return jdbcTemplate.query(sql, boardListMapper);
 	}
@@ -74,7 +74,7 @@ public class BoardDaoImpl implements BoardDao{
 		
 		String sql = "SELECT * FROM ("
 					+ "SELECT ROWNUM rn, TMP.* FROM("
-						+ "select * from board_list order by board_no asc"
+						+ "select * from board_list where board_category between 1 and 40 order by board_no asc"
 					+ ")TMP "
 				+ ")where rn between ? and ?";
 		return jdbcTemplate.query(sql, boardListMapper,start,end);
@@ -88,7 +88,8 @@ public class BoardDaoImpl implements BoardDao{
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
-							+ "select * from board_list where board_categoryweather = ?"
+							+ "select * from board_list where "
+							+ "board_category between 1 and 40 and board_categoryweather = ?"
 								+ " order by board_no asc"
 							+ ")TMP "
 						+ ")WHERE rn BETWEEN ? AND ?";
@@ -104,7 +105,8 @@ public class BoardDaoImpl implements BoardDao{
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
-							+ "select * from board_list where board_area = ?"
+							+ "select * from board_list where board_category between 1 and 40 "
+									+ "and board_area = ?"
 								+ " order by board_no asc"
 							+ ")TMP "
 						+ ")WHERE rn BETWEEN ? AND ?";
@@ -121,7 +123,8 @@ public class BoardDaoImpl implements BoardDao{
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
-							+ "select * from board_list where board_categoryweather = ? AND board_area = ?"
+							+ "select * from board_list where board_category between 1 and 40 and"
+							+ " board_categoryweather = ? AND board_area = ?"
 								+ " order by board_no asc"
 							+ ")TMP "
 						+ ")WHERE rn BETWEEN ? AND ?";
@@ -137,7 +140,9 @@ public class BoardDaoImpl implements BoardDao{
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
-							+ "select * from board_list where instr("+type+",?) >0 and board_categoryweather = ? AND board_area = ?"
+							+ "select * from board_list where instr("+type+",?) >0 and "
+										+ "board_category between 1 and 40 and board_categoryweather = ? "
+									+ "AND board_area = ?"
 								+ " order by board_no asc"
 							+ ")TMP "
 						+ ")WHERE rn BETWEEN ? AND ?";
