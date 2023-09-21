@@ -16,36 +16,107 @@
 			 }
 		 });
 	 });
+	 function loadList() {
+			var params = new URLSearchParams(location.search);
+			var no = params.get("boardNo");
+			
+			var memberId = "${sessionScope.name}";
+			
+			$.ajax({
+				url:"/rest/reply/list",
+				method:"post",
+				data:{ replyOrigin : no },
+				success:function(response){
+					$(".reply-list").empty();
+					
+					for(var i=0; i < response.length; i++) {
+						var reply = response[i];
+						
+						var template = $("#reply-template").html();
+						var htmlTemplate = $.parseHTML(template);
+						
+						$(htmlTemplate).find(".replyWriter").text(reply.replyWriter || "탈퇴한 사용자");
+						$(htmlTemplate).find(".replyContent").text(reply.replyContent);
+						$(htmlTemplate).find(".replyTime").text(reply.replyTime);
+						
+						if(memberId.length == 0 || memberId != reply.replyWriter) {
+							$(htmlTemplate).find(".w-25").empty();
+						}
+						
+						//삭제버튼
+						$(htmlTemplate).find(".btn-delete")
+											.attr("data-reply-no", reply.replyNo)
+											.click(function(e){
+							var replyNo = $(this).attr("data-reply-no");
+							$.ajax({
+								url:"/rest/reply/delete",
+								method:"post",
+								data:{replyNo : replyNo},
+								success:function(response){
+									loadList();
+								},
+							});
+						});
+						
+						$(htmlTemplate).find(".btn-edit")
+												.attr("data-reply-no", reply.replyNo)
+												.click(function(){
+							//this == 수정버튼
+							var editTemplate = $("#reply-edit-template").html();
+							var editHtmlTemplate = $.parseHTML(editTemplate);
+							
+							//value 설정
+							var replyNo = $(this).attr("data-reply-no");
+							var replyContent = $(this).parents(".view-container")
+																	.find(".replyContent").text();
+							$(editHtmlTemplate).find("[name=replyNo]").val(replyNo);
+							$(editHtmlTemplate).find("[name=replyContent]").val(replyContent);
+							
+							$(editHtmlTemplate).find(".btn-cancel")
+														.click(function(){
+								$(this).parents(".edit-container")
+											.prev(".view-container").show();
+								$(this).parents(".edit-container").remove();
+							});
+							
+							//완료(등록) 버튼 처리
+							$(editHtmlTemplate).submit(function(e){
+								
+								e.preventDefault();
+								
+								$.ajax({
+									url:"/rest/reply/edit",
+									method:"post",
+									data : $(e.target).serialize(),
+									success:function(response){
+										loadList();
+									}
+								});
+							});
+							
+							//화면 배치
+							$(this).parents(".view-container")
+										.hide()
+										.after(editHtmlTemplate);
+						});
+						
+						$(".reply-list").append(htmlTemplate);
+					}
+				},
+			});
+		}
+
+
+ 	
+ 
+ 
  });
  
- function loadList(){
-	 var params = new URLSearchParams(location.search);
-	 var no = parms.get("boardNo");
-	 
-	 var memberId="{sessionScope.name}";
-	 
-	 $.ajax({
-		 url:"/rest/reply/list",
-		 method:"post",
-		 data:{replyOrigin:no},
-		 success:function(response){
-			$(".reply-list").empty();
-			
-			for(var i = 0; i<response.length; i++){}
-			var reply = respinse[i];
-			
-			var template = $("#reply-template").html();
-			var htmlTemplate=$.parseHTML(template);
-			
-			$(htmlTemplate).find(".replyWriter").text(reply.replyWriter || "탈퇴한 회원")
-			$(htmlTemplate).find(".replyContent").text(reply.replyContent)
-		 }
-	 });
- }
+ 
  </script>
 
  <script id="reply-template" type="text/template">
-        <div class="row flex-container">
+        <div class="row flex-container view-container">
         	<div class="w-75">
 				<div class="left">
 					<pre class="replyWriter">(사람아이콘)작성자</pre>
@@ -55,13 +126,13 @@
 				</div>
 			</div>
 			<div class="w-25">
-				<div class="right">
-					<button class="btn w-100">수정</button>
+				<div class="row right">
+					<button class="btn btn-edit">수정</button>
 				</div>
-				<div class="right">
+				<div class="row right">
 					<button class="btn w-100">삭제</button>
 				</div>
-				<div class="right">
+				<div class="row right">
 					<button class="btn w-100">신고</button>
 				</div>        
 			</div>
@@ -69,7 +140,26 @@
         </script>
 
 
+
  <div class="container w-700">
+ <!--  <script id="reply-edit-template" type="text/template"> -->
+	      <form class="reply-edit-form edit-contailner">
+			<input type="hidden" name="replyNo" value="?">	        
+	        <div class="row flex-container">
+	        	<div class="w-75">
+					<div class="left">
+						<textarea name="replyContent" class="w-100 form-input"></textarea>
+					</div>
+				</div>
+				<div class="w-25">
+					<div class="right">
+						<button type="submit" class="btn con-2 ">수정(아이콘)</button>
+						<button type= class="btn btn-cencle">취소(아이콘)</button>
+					</div>
+				</div>
+	        </div>
+        </form>
+<!--         </script> -->
         
         <div class="w-75">
             <span class="row left">${boardDto.boardTitle}제목</span>
@@ -83,7 +173,7 @@
         </div>
         
         <div class="row">
-            <textarea class="w-100" placeholder="내용" ></textarea>
+            <textarea class="w-100">${boardDto.boardContent}</textarea>
         </div>
         
         <div class="row flex-container">
