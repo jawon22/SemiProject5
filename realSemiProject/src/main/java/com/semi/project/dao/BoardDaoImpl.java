@@ -61,8 +61,8 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public boolean edit(BoardDto boardDto) {//수정
-		String sql = "update board set board_title=?, board_content=? where board_no=?";
-		Object[] data= {boardDto.getBoardTitle(), boardDto.getBoardContent(), boardDto.getBoardNo()};
+		String sql = "update board set board_category=?, board_title=?, board_content=? where board_no=?";
+		Object[] data= {boardDto.getBoardCategory(), boardDto.getBoardTitle(), boardDto.getBoardContent(), boardDto.getBoardNo()};
 		return jdbcTemplate.update(sql, data)>0;
 	}
 
