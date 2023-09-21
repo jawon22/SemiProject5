@@ -49,7 +49,7 @@ public class CertCodeRandom {
 	            List<String> currentData = i % 2 == 0 ? data : data4;
 	            password.append(currentData.get(r.nextInt(currentData.size())));
 		    }
-		        
+		         
 	        return password.toString();
 	   }
 }
