@@ -128,7 +128,7 @@
 				</button>
 				</c:if>
 				
-				<a href="write" class="btn">
+				<a href="write?boardCategory=1" class="btn">
 					<i class="fa-solid fa-pen"></i>
 					게시글 작성
 				</a>
