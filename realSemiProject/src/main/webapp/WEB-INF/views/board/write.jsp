@@ -44,7 +44,7 @@
         var selectedSeason = $("select[name='board_categoryweather']").val();
         var selectedArea = $("select[name='board_area']").val();
         
-/*       // 현재 페이지 URL을 가져와서
+        // 현재 페이지 URL을 가져와서
         var url = new URL(window.location.href);
 
         // URLSearchParams 객체를 생성
@@ -54,13 +54,13 @@
         var boardCategory = params.get('boardCategory');
         
         // 읽어온 파라미터를 출력
-        console.log("boardCategory 파라미터 값: " + boardCategory);  */
+        console.log("boardCategory 파라미터 값: " + boardCategory);   
+        console.log("성공");
            
-     // 파라미터에서 boardCategory 값을 읽어와서 board_category 열에 직접 설정
-        var boardCategory = params.get('boardCategory');
-        $("input[name='board_category']").val(boardCategory);
-        
-        
+      // 파라미터에서 boardCategory 값을 읽어와서 board_category 열에 직접 설정
+        //var boardCategory = params.get('boardCategory');
+        //$("input[name='board_category']").val(boardCategory); 
+               
         
         
         if (selectedSeason == "전체") {
@@ -188,6 +188,10 @@
 <script src="/js/boardWrite.js"></script>
 
 
+
+<form action="write" method="post">
+    <div class="container w-600">
+<div class="row">
 <h2>
     <c:choose>
         <c:when test="${boardDto.boardCategory == 1}">계절 지역 게시글 작성</c:when>
@@ -195,9 +199,7 @@
         <c:when test="${boardDto.boardCategory == 42}"> 자유 게시글 작성</c:when>
     </c:choose>
 </h2>
-
-<form action="write" method="post">
-    <div class="container w-600">
+</div>
                    
 <c:choose>
     <c:when test="${boardDto.boardCategory == 1}"><!-- 정보게시판이면 -->
