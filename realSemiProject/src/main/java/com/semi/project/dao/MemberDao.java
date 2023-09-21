@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.MemberDto;
+
+import com.semi.project.vo.PaginationVO;
 import com.semi.project.dto.StatDto;
 
 public interface MemberDao {
@@ -16,9 +18,14 @@ public interface MemberDao {
 	List<BoardListDto> findLikeListByMemberId(String memberId); //내가 좋아요 한 글 조회
 	
 	//프로필 관련 기능
-	void insertProfile(String memberId, int attachNo);
-	boolean deleteProfile(String memberId);
-	Integer findProfile(String memberId);
+	void insertProfile(String memberId, int attachNo); //프로필등록
+	boolean deleteProfile(String memberId); //프로필삭제
+	Integer findProfile(String memberId); //프로필찾기
+	
+	//관리자기능
+	int countList(PaginationVO vo);//회원목록
+	List<MemberDto> selectMemberListByPage(PaginationVO vo); //회원목록
+	
 	
 	MemberDto selectIdByMemberEmail(String inputEmail);//아이디찾기
 	

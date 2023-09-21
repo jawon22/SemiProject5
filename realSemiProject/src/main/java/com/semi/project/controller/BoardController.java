@@ -35,7 +35,6 @@ public class BoardController {
 		
 		List<BoardListDto> list =  boardDao.selectListByPage(vo);
 	
-		
 		model.addAttribute("list",list);
 		return "/WEB-INF/views/board/list.jsp";
 	}
@@ -78,16 +77,15 @@ public class BoardController {
 
 
 	@PostMapping("/write")
-	public String handleWritePost(@ModelAttribute BoardDto boardDto, HttpSession session) {
+	public String write(@ModelAttribute BoardDto boardDto, HttpSession session) {
 	    int boardNo = boardDao.sequence();
-	    String memberId = (String) session.getAttribute("name");
+	    String memberNickname = (String) session.getAttribute("name");
+	    boardDto.setBoardWriter(memberNickname);
 	    boardDto.setBoardNo(boardNo);
 	    //boardDto.setBoardCategory(boardDto.getBoardCategory()); // 이미 모델에 설정되어 있음
-	    boardDto.setBoardWriter(memberId);
 
 	    // 글을 등록
 	    boardDao.insert(boardDto);
-
 	    return "redirect:detail?boardNo=" + boardNo;
 	}
 
@@ -103,7 +101,11 @@ public class BoardController {
 			//throw new NoTargetException("없는 게시글 번호");
 		}
 	}
-	//@GetMapping("/edit")
+	@GetMapping("/edit")
+	public String edit(@ModelAttribute BoardDto boardDto) {
+		
+		return "/WEB-INF/views/board/edit.jsp";
+	}
 	//@PostMapping("/edit")
 	
 }

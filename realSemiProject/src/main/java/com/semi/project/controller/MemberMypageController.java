@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.MemberDto;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/member")
 public class MemberMypageController {
@@ -53,6 +56,7 @@ public class MemberMypageController {
 		MemberDto memberDto = memberDao.selectOne(memberId);
 		
 		model.addAttribute("memberDto", memberDto);
+		model.addAttribute("profile", memberDao.findProfile(memberId));
 
 		return "/WEB-INF/views/member/mypage.jsp";
 	}
@@ -110,6 +114,8 @@ public class MemberMypageController {
 		
 		String memberId = (String)session.getAttribute("name");
 		MemberDto findDto = memberDao.selectOne(memberId);
+		
+		log.debug(findDto.getMemberPw());
 		
 		if(inputPw.equals(findDto.getMemberPw())) {
 			memberDao.delete(memberId);

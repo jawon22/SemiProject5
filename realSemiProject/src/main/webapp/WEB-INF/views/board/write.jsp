@@ -17,7 +17,8 @@
     <script src="./custom-link.js"></script><!-- 내가 만든 파일-->
     
 <script>
-    $(function () {
+    $(document).ready(function () {
+        // 에디터 설정
         $('[name=boardContent]').summernote({
             placeholder: '내용을 작성하세요',
             tabsize: 2, // 탭을 누르면 이동할 간격
@@ -32,164 +33,175 @@
                 ['insert', ['link']],
             ]
         });
-    });
 
-    // 계절 선택 시
-    $('select[name="board_categoryweather"]').change(function () {
-        var selectedWeather = $(this).val();
-        $('#selectedWeather').val(selectedWeather);
-    });
+        // 페이지 로드 시 초기값 설정
+        updateBoardCategory();
 
-    // 지역 선택 시
-    $('select[name="board_area"]').change(function () {
-        var selectedArea = $(this).val();
-        $('#selectedArea').val(selectedArea);
-    });
-    
-  //boardCategory <= 33 정보(계절 지역게시판
-  //boardCategory == 34 후기게시판
-  //boardCategory == 35 자유게시판
-</script>
-
-<script>
-    $(document).ready(function () {
+        // 사용자가 계절 또는 지역을 변경할 때 호출되는 함수
+        function updateBoardCategory() {
+        
         // 계절과 지역 선택값 가져오기
         var selectedSeason = $("select[name='board_categoryweather']").val();
         var selectedArea = $("select[name='board_area']").val();
         
-        // URL에서 boardCategory 매개변수 값을 읽어옴
-        var urlParams = new URLSearchParams(window.location.search);
-        var boardCategory = urlParams.get('boardCategory');
+        // 현재 페이지 URL을 가져와서
+        var url = new URL(window.location.href);
+
+        // URLSearchParams 객체를 생성
+        var params = new URLSearchParams(url.search);
+
+        // 파라미터를 읽어서
+        var boardCategory = params.get('boardCategory');
         
-        if (boardCategory == 1) { // 예시: 1일 때
-            $("select[name='board_categoryweather']").val("전체");
-            $("select[name='board_area']").val("전체");
-        } else if (boardCategory == 34) { // 예시: 34일 때
-            // 선택 상태 변경 없음
-        } else if (boardCategory == 35) { // 예시: 35일 때
-            // 선택 상태 변경 없음
-        }
+        // 읽어온 파라미터를 출력
+        console.log("boardCategory 파라미터 값: " + boardCategory);   
+        console.log("성공");
+           
+      // 파라미터에서 boardCategory 값을 읽어와서 board_category 열에 직접 설정
+        //var boardCategory = params.get('boardCategory');
+        //$("input[name='board_category']").val(boardCategory); 
         
-        if (selectedSeason == "봄") {
+        
+        
+        
+        if (selectedSeason == "전체") {
+            if (selectedArea == "전체") {
+                boardCategory = 1;
+            } else if (selectedArea == "서울") {
+                boardCategory = 2;
+            } else if (selectedArea == "경기") {
+                boardCategory = 3;
+            } else if (selectedArea == "강원") {
+                boardCategory = 4;
+            } else if (selectedArea == "충청") {
+                boardCategory = 5;
+            } else if (selectedArea == "경상") {
+                boardCategory = 6;
+            } else if (selectedArea == "전라") {
+                boardCategory = 7;
+            } else if (selectedArea == "제주") {
+                boardCategory = 8;
+            } 
+            
+        } else if (selectedSeason == "봄") {
         	
             if (selectedArea == "전체") {
-                boardCategory = 2;
-            } else if (selectedArea == "서울") {
-                boardCategory = 3;
-            } else if (selectedArea == "경기") {
-                boardCategory = 4;
-            } else if (selectedArea == "강원") {
-                boardCategory = 5;
-            } else if (selectedArea == "충청") {
-                boardCategory = 6;
-            } else if (selectedArea == "경상") {
-                boardCategory = 7;
-            } else if (selectedArea == "전라") {
-                boardCategory = 8;
-            } else if (selectedArea == "제주") {
                 boardCategory = 9;
+            } else if (selectedArea == "서울") {
+                boardCategory = 10;
+            } else if (selectedArea == "경기") {
+                boardCategory = 11;
+            } else if (selectedArea == "강원") {
+                boardCategory = 12;
+            } else if (selectedArea == "충청") {
+                boardCategory = 13;
+            } else if (selectedArea == "경상") {
+                boardCategory = 14;
+            } else if (selectedArea == "전라") {
+                boardCategory = 15;
+            } else if (selectedArea == "제주") {
+                boardCategory = 16;
             } 
-
+            
         } else if (selectedSeason == "여름") {
         	
             if (selectedArea == "전체") {
-                boardCategory = 10;
-            } else if (selectedArea == "서울") {
-                boardCategory = 11;
-            } else if (selectedArea == "경기") {
-                boardCategory = 12;
-            } else if (selectedArea == "강원") {
-                boardCategory = 13;
-            } else if (selectedArea == "충청") {
-                boardCategory = 14;
-            } else if (selectedArea == "경상") {
-                boardCategory = 15;
-            } else if (selectedArea == "전라") {
-                boardCategory = 16;
-            } else if (selectedArea == "제주") {
                 boardCategory = 17;
+            } else if (selectedArea == "서울") {
+                boardCategory = 18;
+            } else if (selectedArea == "경기") {
+                boardCategory = 19;
+            } else if (selectedArea == "강원") {
+                boardCategory = 20;
+            } else if (selectedArea == "충청") {
+                boardCategory = 21;
+            } else if (selectedArea == "경상") {
+                boardCategory = 22;
+            } else if (selectedArea == "전라") {
+                boardCategory = 23;
+            } else if (selectedArea == "제주") {
+                boardCategory = 24;
             } 
             
         } else if (selectedSeason == "가을") {
         	
             if (selectedArea == "전체") {
-                boardCategory = 18;
-            } else if (selectedArea == "서울") {
-                boardCategory = 19;
-            } else if (selectedArea == "경기") {
-                boardCategory = 20;
-            } else if (selectedArea == "강원") {
-                boardCategory = 21;
-            } else if (selectedArea == "충청") {
-                boardCategory = 22;
-            } else if (selectedArea == "경상") {
-                boardCategory = 23;
-            } else if (selectedArea == "전라") {
-                boardCategory = 24;
-            } else if (selectedArea == "제주") {
                 boardCategory = 25;
+            } else if (selectedArea == "서울") {
+                boardCategory = 26;
+            } else if (selectedArea == "경기") {
+                boardCategory = 27;
+            } else if (selectedArea == "강원") {
+                boardCategory = 28;
+            } else if (selectedArea == "충청") {
+                boardCategory = 29;
+            } else if (selectedArea == "경상") {
+                boardCategory = 30;
+            } else if (selectedArea == "전라") {
+                boardCategory = 31;
+            } else if (selectedArea == "제주") {
+                boardCategory = 32;
             } 
-            
         } else if (selectedSeason == "겨울") {
         	
             if (selectedArea == "전체") {
-                boardCategory = 26;
-            } else if (selectedArea == "서울") {
-                boardCategory = 27;
-            } else if (selectedArea == "경기") {
-                boardCategory = 28;
-            } else if (selectedArea == "강원") {
-                boardCategory = 29;
-            } else if (selectedArea == "충청") {
-                boardCategory = 30;
-            } else if (selectedArea == "경상") {
-                boardCategory = 31;
-            } else if (selectedArea == "전라") {
-                boardCategory = 32;
-            } else if (selectedArea == "제주") {
                 boardCategory = 33;
+            } else if (selectedArea == "서울") {
+                boardCategory = 34;
+            } else if (selectedArea == "경기") {
+                boardCategory = 35;
+            } else if (selectedArea == "강원") {
+                boardCategory = 36;
+            } else if (selectedArea == "충청") {
+                boardCategory = 37;
+            } else if (selectedArea == "경상") {
+                boardCategory = 38;
+            } else if (selectedArea == "전라") {
+                boardCategory = 39;
+            } else if (selectedArea == "제주") {
+                boardCategory = 40;
             } 
+             else if (selectedArea == "전체") {     	
+                if (selectedSeason == "후기") {
+                    boardCategory = 41;
+                } else if (selectedAreaSeason == "자유") {
+                    boardCategory = 42;
+                } 
+            }              
         }
         
-        // 설정한 boardCategory 값을 숨겨진 필드에 설정
         $("input[name='boardCategory']").val(boardCategory);
+        }
+
+        // 사용자가 계절 또는 지역을 변경할 때 업데이트 함수 호출
+        $("select[name='board_categoryweather'], select[name='board_area']").change(function () {
+            updateBoardCategory();
+        });
     });
-    
-/*  // URL에서 매개변수 값을 읽어오는 함수
-    function getUrlParameter(name) {
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        var results = regex.exec(location.search);
-        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    } */ 
-    //이거처럼 url에서 변수 값을 받게 하지말고 정보게시판에서 글쓰기 누르면 boardCategory1
-    //http://localhost:8080/board/write?boardCategory=1
-    //후기 게시판에서 글쓰기 누르면 boardCategory34 
-    //http://localhost:8080/board/write?boardCategory=34
-    //자유게시판에서 글쓰기 누르면 boardCategory35로 
-    //http://localhost:8080/board/write?boardCategory=35
-    		//이걸로 설정되게 하고싶음
-    		
-/* 정보게시판: http://localhost:8080/board/write?boardCategory=1
-후기 게시판: http://localhost:8080/board/write?boardCategory=34
-자유게시판: http://localhost:8080/board/write?boardCategory=35  */  		
- 
+    /* 정보게시판: http://localhost:8080/board/write?boardCategory=1
+    후기 게시판: http://localhost:8080/board/write?boardCategory=41
+    자유게시판: http://localhost:8080/board/write?boardCategory=42  */  	
 </script>
+    
+    	
+
 
 <script src="/js/boardWrite.js"></script>
 
 
-<h2>
-    <c:choose>
-        <c:when test="${boardDto.boardCategory == 1}">계절 지역 게시글 작성</c:when>
-        <c:when test="${boardDto.boardCategory == 34}"> 후기 게시글 작성</c:when>
-        <c:when test="${boardDto.boardCategory == 35}"> 자유 게시글 작성</c:when>
-    </c:choose>
-</h2>
 
 <form action="write" method="post">
     <div class="container w-600">
-          
+<div class="row">
+<h2>
+    <c:choose>
+        <c:when test="${boardDto.boardCategory == 1}">계절 지역 게시글 작성</c:when>
+        <c:when test="${boardDto.boardCategory == 41}"> 후기 게시글 작성</c:when>
+        <c:when test="${boardDto.boardCategory == 42}"> 자유 게시글 작성</c:when>
+    </c:choose>
+</h2>
+</div>
+                   
 <c:choose>
     <c:when test="${boardDto.boardCategory == 1}"><!-- 정보게시판이면 -->
         <div class="row">
@@ -212,16 +224,15 @@
                 <option value="전라">전라</option>
                 <option value="제주">제주</option>
             </select>
-            <input type="hidden" name="boardCategoryWeather" id="selectedWeather">
-            <input type="hidden" name="boardArea" id="selectedArea">
+            <input type="hidden" name="boardCategory" id="boardCategory">
         </div>      	  
     </c:when>
-    <c:when test="${boardDto.boardCategory == 34}"><!-- 후기게시판이면 -->
+    <c:when test="${boardDto.boardCategory == 41}"><!-- 후기게시판이면 -->
         <select name="board_categoryweather" style="display: none;">
             <option value="후기" selected></option>
         </select>
     </c:when>
-    <c:when test="${boardDto.boardCategory == 35}"><!-- 자유게시판이면 -->
+    <c:when test="${boardDto.boardCategory == 42}"><!-- 자유게시판이면 -->
         <select name="board_categoryweather" style="display: none;">
             <option value="자유" selected></option>
         </select>
@@ -234,7 +245,7 @@
     
         <div class="row left">
             <label>제목</label>
-            <input type="text" name="boardDto.boardTitle" class="form-input w-100">
+            <input type="text" name="boardTitle" class="form-input w-100">
         </div>
     </div>
     <div class="container w-600">
@@ -244,7 +255,7 @@
         </div>
         <div class="row">
             <button class="btn btn-positive">등록하기</button>
-            <a href="list" class="btn">목록보기</a>
+            <a href="list" class="btn">목록보기</a> 
         </div>
     </div>
 </form>

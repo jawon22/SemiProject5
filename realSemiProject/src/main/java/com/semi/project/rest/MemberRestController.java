@@ -38,13 +38,15 @@ public class MemberRestController {
 	private MemberDao memberDao;
 	
 	@Autowired
-	private FileUploadProperties props;
-	
-	@Autowired
 	private AttachmentDao attachDao;
 	
+	//미리 작성해둔 커스텀 속성을 불러와서 디렉터리 객체까지 생성
+	@Autowired
+	private FileUploadProperties props;
+
 	private File dir;
 	
+	//모든 로딩이 끝나면 자동으로 실행되는 메소드
 	@PostConstruct
 	public void init() {
 		dir = new File(props.getHome());
