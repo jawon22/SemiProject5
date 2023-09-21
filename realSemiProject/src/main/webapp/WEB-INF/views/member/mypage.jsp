@@ -3,16 +3,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<style>
+
+</style>
+
 <script>
 $(function(){
 	$(".profile-chooser").change(function(){
 		
-		var input = this;
+		var input = $(".profile-chooser")[0];
 		if(input.files.length == 0) return;
 		
 		var form = new FormData();
 		form.append("attach", input.files[0]);
-		
+			
 		$.ajax({
 			url:"/rest/member/upload",
 			method:"post",
@@ -32,13 +36,14 @@ $(function(){
 });
 </script>
 
-	<div class="container w-500">
+	<div class="container w-500 mt-20">
 	<div class="flex-container auto-width">
 		
 		<div class="row mv-10 w-25">
+		<label>
 			<c:choose>
 				<c:when test="${profile == null}">
-					<img src="https://dummyimage.com/130x130/000/fff"
+					<img src="https://dummyimage.com/130x130/000/fff" width="130" height="130"
 						class="image image-circle image-border profile-image">
 				</c:when>
 				<c:otherwise>
@@ -48,11 +53,10 @@ $(function(){
 			</c:choose>
 		<label>
 		<input type="file" class="profile-chooser" accept="image/*" style="display:none;">
-		<i class="fa-solid fa-user fa-2x"></i>	
 		</label>
 		</div>
-		<div class="row w-75 left" style="margin-top:20%;">	
-		<i class="fa-solid fa-trash-can fa-2x profile-delete"></i>
+		<div class="row w-75 left" style="margin-top:18%; margin-left:5%; margin-bottom:none;">	
+		<h1>${memberDto.memberId}</h1>
 		</div>
 		
 		</div>
@@ -96,7 +100,7 @@ $(function(){
 			</div>
 			
 			<div class="row" > <!-- flex-container로 단을 나눌것임 -->
-			<a href="/mylike">내가 좋아요 누른 글 보러가기 > </a>		
+			<a href="myLikeList">내가 좋아요 누른 글 보러가기 > </a>		
 			</div>
 			<div class="row" > <!-- flex-container로 단을 나눌것임 -->
 			<a href="myWriteList">내가 쓴 글 보러가기 > </a>		

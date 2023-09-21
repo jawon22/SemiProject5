@@ -118,7 +118,7 @@ public class MemberDaoImpl implements MemberDao {
 	}
 	@Override
 	public Integer findProfile(String memberId) {
-		String sql = "select * from member_profile where member_id = ?";
+		String sql = "select attachment_no from member_profile where member_id = ?";
 		Object[] data = {memberId};
 		try {
 			return jdbcTemplate.queryForObject(sql, Integer.class, data);

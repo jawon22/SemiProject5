@@ -53,6 +53,7 @@ public class MemberMypageController {
 		MemberDto memberDto = memberDao.selectOne(memberId);
 		
 		model.addAttribute("memberDto", memberDto);
+		model.addAttribute("profile", memberDao.findProfile(memberId));
 
 		return "/WEB-INF/views/member/mypage.jsp";
 	}
