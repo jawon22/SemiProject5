@@ -160,13 +160,13 @@
             } else if (selectedArea == "제주") {
                 boardCategory = 40;
             } 
-/*             else if (selectedArea == "전체") {     	
+             else if (selectedArea == "전체") {     	
                 if (selectedSeason == "후기") {
                     boardCategory = 41;
                 } else if (selectedAreaSeason == "자유") {
                     boardCategory = 42;
                 } 
-            } */             
+            }              
         }
         
         $("input[name='boardCategory']").val(boardCategory);
@@ -252,7 +252,7 @@
         </div>
         <div class="row">
             <button class="btn btn-positive">등록하기</button>
-            <a href="list" class="btn">목록보기</a>
+            <a href="list" class="btn">목록보기</a> 
         </div>
     </div>
 </form>
