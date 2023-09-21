@@ -5,17 +5,21 @@
  $(function(){
 	 $(".reply-insert-form").submit(function(e){
 		 e.preventDefault();
+
 		
 		 $.ajax({
 			 url:"/rest/reply/insert",
 			 method:"post",
 			 data:$(e.target).serialize(),
 			 success:function(response){
-				 $("name=replyContent").val("");
+				 
+				 $("[name=replyContent]").val("");
 				 loadList();
 			 }
 		 });
 	 });
+	 loadList();	
+	 
 	 function loadList() {
 			var params = new URLSearchParams(location.search);
 			var no = params.get("boardNo");
@@ -25,7 +29,7 @@
 			$.ajax({
 				url:"/rest/reply/list",
 				method:"post",
-				data:{ replyOrigin : no },
+				data:{replyOrigin : no},
 				success:function(response){
 					$(".reply-list").empty();
 					
@@ -60,6 +64,7 @@
 						
 						$(htmlTemplate).find(".btn-edit")
 												.attr("data-reply-no", reply.replyNo)
+												.attr("data-reply-content", reply.replyContent)
 												.click(function(){
 							//this == 수정버튼
 							var editTemplate = $("#reply-edit-template").html();
@@ -67,8 +72,8 @@
 							
 							//value 설정
 							var replyNo = $(this).attr("data-reply-no");
-							var replyContent = $(this).parents(".view-container")
-																	.find(".replyContent").text();
+							var replyContent = $(this).attr("data-reply-content");
+// 							console.log(replyContent);
 							$(editHtmlTemplate).find("[name=replyNo]").val(replyNo);
 							$(editHtmlTemplate).find("[name=replyContent]").val(replyContent);
 							
@@ -81,7 +86,6 @@
 							
 							//완료(등록) 버튼 처리
 							$(editHtmlTemplate).submit(function(e){
-								
 								e.preventDefault();
 								
 								$.ajax({
@@ -89,6 +93,7 @@
 									method:"post",
 									data : $(e.target).serialize(),
 									success:function(response){
+								console.log("성공");
 										loadList();
 									}
 								});
@@ -105,11 +110,6 @@
 				},
 			});
 		}
-
-
- 	
- 
- 
  });
  
  
@@ -119,7 +119,8 @@
         <div class="row flex-container view-container">
         	<div class="w-75">
 				<div class="left">
-					<pre class="replyWriter">(사람아이콘)작성자</pre>
+	`				<i>(사람아이콘)</i>
+					<pre class="replyWriter">작성자</pre>
 				</div>
 				<div class="left">
 					<textarea class="replyContent w-100 form-input"></textarea>
@@ -130,19 +131,19 @@
 					<button class="btn btn-edit">수정</button>
 				</div>
 				<div class="row right">
-					<button class="btn w-100">삭제</button>
+					<button class="btn w-100 btn-delete">삭제</button>
 				</div>
 				<div class="row right">
 					<button class="btn w-100">신고</button>
 				</div>        
 			</div>
         </div>
-        </script>
+</script>
 
 
 
  <div class="container w-700">
- <!--  <script id="reply-edit-template" type="text/template"> -->
+  <script id="reply-edit-template" type="text/template">
 	      <form class="reply-edit-form edit-contailner">
 			<input type="hidden" name="replyNo" value="?">	        
 	        <div class="row flex-container">
@@ -154,16 +155,16 @@
 				<div class="w-25">
 					<div class="right">
 						<button type="submit" class="btn con-2 ">수정(아이콘)</button>
-						<button type= class="btn btn-cencle">취소(아이콘)</button>
+						<button class="btn btn-cencle">취소(아이콘)</button>
 					</div>
 				</div>
 	        </div>
         </form>
-<!--         </script> -->
+       </script>
         
         <div class="w-75">
-            <span class="row left">${boardDto.boardTitle}제목</span>
-            <span class="right right">${boardDto.boardCtime} 작성일</span>
+            <span class="row left">${boardDto.boardTitle}</span>
+            <span class="right right">${boardDto.boardCtime}</span>
         </div>
         <div class="row left">
             <label>${sessionScope.name}닉네임</label>
@@ -200,7 +201,7 @@
 		<input type="hidden" name="replyWriter" value="${memberDto.memberId}">
 			<div class="w-75">
 				<div class="row left">
-					<textarea class="w-100" name="replyContent">댓글입력창</textarea>
+					<textarea class="w-100" name="replyContent"></textarea>
 				</div>
 			</div>
 				<div class="w-25">
@@ -213,7 +214,7 @@
        
 	</div>
 			
-
+<div class="row left reply-list"></div>
 
 
 <jsp:include page = "/WEB-INF/views/template/footer.jsp"></jsp:include>

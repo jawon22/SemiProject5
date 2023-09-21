@@ -42,10 +42,10 @@ public class ReplyDaoImpl implements ReplyDao{
 	}
 	
 	@Override
-	public ReplyDto selectOne(int replyNo) {
+	public ReplyDto selectOne(int replyOrigin) {
 		String sql = "select * from reply "
-				+ "where reply_no=?";
-		Object[] data= {replyNo};
+				+ "where reply_origin=?";
+		Object[] data= {replyOrigin};
 		List<ReplyDto> list = jdbcTemplate.query(sql, replyMapper, data);
 		return list.isEmpty()? null: list.get(0);
 	}
@@ -57,7 +57,13 @@ public class ReplyDaoImpl implements ReplyDao{
 		return jdbcTemplate.update(sql, data)>0;
 	}
 
-	
+	@Override
+	public boolean update(ReplyDto replyDto) {
+		String sql = "update reply set reply_content=? where reply_no=?";
+		Object[] data = {replyDto.getReplyContent(), replyDto.getReplyNo()};
+		return jdbcTemplate.update(sql, data)>0;
+	}
+
 	
 	
 }
