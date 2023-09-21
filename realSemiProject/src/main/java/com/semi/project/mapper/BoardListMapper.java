@@ -1,4 +1,4 @@
- package com.semi.project.mapper;
+package com.semi.project.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

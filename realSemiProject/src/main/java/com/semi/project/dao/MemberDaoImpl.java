@@ -96,9 +96,35 @@ public class MemberDaoImpl implements MemberDao {
 	
 	@Override
 	public List<BoardListDto> findLikeListByMemberId(String memberId) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "select board_list.* from board_list left outer join board_like "
+				+ "on board_list.board_no = board_like.board_no "
+				+ "where board_like.member_id = ? "
+				+ "order by board_list.board_no desc";
+		Object[] data = {memberId};
+		return jdbcTemplate.query(sql, boardListMapper, data);
 	}
-
-
+	
+	@Override
+	public void insertProfile(String memberId, int attachNo) {
+		String sql = "insert into member_profile values(? ,?)";
+		Object[] data = {memberId, attachNo};
+		jdbcTemplate.update(sql, data);
+	}
+	@Override
+	public boolean deleteProfile(String memberId) {
+		String sql = "delete member_profile where member_id = ?";
+		Object[] data = {memberId};
+		return jdbcTemplate.update(sql, data) > 0;
+	}
+	@Override
+	public Integer findProfile(String memberId) {
+		String sql = "select * from member_profile where member_id = ?";
+		Object[] data = {memberId};
+		try {
+			return jdbcTemplate.queryForObject(sql, Integer.class, data);
+		}
+		catch(Exception e) {
+			return null;
+		}
+	}
 }
