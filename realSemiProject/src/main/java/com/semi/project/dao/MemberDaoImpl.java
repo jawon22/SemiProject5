@@ -159,11 +159,11 @@ public class MemberDaoImpl implements MemberDao {
 	public List<MemberDto> selectMemberListByPage(PaginationVO vo) {
 		if(vo.isSearch()) {
 			String sql = "select * from ("
-					+ "select rownum rn TMP.* from ("
+					+ "select rownum rn, TMP.* from ("
 					+ "select * from member "
 					+ "where instr("+vo.getType()+", ?) > 0 "
 					+ "and member_level != '관리자' "
-					+ "order by "+vo.getType()+ "asc"
+					+ "order by "+vo.getType()+ " asc"
 					+ ")TMP"
 					+ ") where rn between ? and ?";
 			Object[] data = {
