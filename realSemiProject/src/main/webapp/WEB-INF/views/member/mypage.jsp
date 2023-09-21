@@ -21,7 +21,7 @@ $(function(){
 			data:form,
 			success:function(response) {
 				$(".profile-image").attr("src",
-					"/rest/member/download?attachmentNo="+response.attachmentNo);
+					"/rest/member/download?attachNo="+response.attachNo);
 			},
 			error:function(){
 				window.alert("잠시 후 다시 시도해주세요");
@@ -42,9 +42,8 @@ $(function(){
 						class="image image-circle image-border profile-image">
 				</c:when>
 				<c:otherwise>
-					<img src="/rest/member/download?attachNo=${profile}"
-						width="130" height="130" 
-						class="image image-circle image-border profile-image">
+				<img src="/rest/member/download?attachNo=${profile}" width="130" height="130"
+				class="image image-circle image-border profile-image">
 				</c:otherwise>
 			</c:choose>
 		<label>

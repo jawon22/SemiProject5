@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.dto.StatDto;
 
 public interface MemberDao {
 	void insert(MemberDto memberDto); //회원가입
@@ -20,4 +21,10 @@ public interface MemberDao {
 	Integer findProfile(String memberId);
 	
 	MemberDto selectIdByMemberEmail(String inputEmail);//아이디찾기
+	
+	//통계 기능
+	List<StatDto> selectGroupByMemberBirth();//나이
+	List<StatDto> selectGroupByMemberArea();//지역
+	List<StatDto> selectGroupByMemberJoin();//가입일
+	List<StatDto> selectGroupByMemberLevel();//등급
 }
