@@ -11,7 +11,7 @@ public class ReplyDto {
 	int replyOrigin;
 	String replyContent;
 	Date replyTime;
-	int boardGroup;
-	int boardParent;
-	int boardDepth;
+	int replyGroup;
+	Integer replyParent;
+	int replyDepth;
 }

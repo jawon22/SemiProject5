@@ -32,12 +32,11 @@
         });
     });
 </script>
-
-<form action="edit" method="post"> 
     <div class="container w-600">
         <div class="row">
             <h2>게시글 수정</h2>
         </div>
+        <form action="/edit">
         <div class="row">
             <label>계절</label>
             <select name="board_categoryweather">

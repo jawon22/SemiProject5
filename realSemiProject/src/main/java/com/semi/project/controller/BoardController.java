@@ -101,7 +101,11 @@ public class BoardController {
 			//throw new NoTargetException("없는 게시글 번호");
 		}
 	}
-	//@GetMapping("/edit")
+	@GetMapping("/edit")
+	public String edit(@ModelAttribute BoardDto boardDto) {
+		
+		return "/WEB-INF/views/board/edit.jsp";
+	}
 	//@PostMapping("/edit")
 	
 }

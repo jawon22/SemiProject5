@@ -5,14 +5,13 @@
  $(function(){
 	 $(".reply-insert-form").submit(function(e){
 		 e.preventDefault();
-
+		
 		
 		 $.ajax({
 			 url:"/rest/reply/insert",
 			 method:"post",
 			 data:$(e.target).serialize(),
 			 success:function(response){
-				 
 				 $("[name=replyContent]").val("");
 				 loadList();
 			 }
@@ -123,19 +122,22 @@
 					<pre class="replyWriter">작성자</pre>
 				</div>
 				<div class="left">
-					<textarea class="replyContent w-100 form-input"></textarea>
+					<pre class="replyContent w-100 form-input"></pre>
 				</div>
 			</div>
 			<div class="w-25">
 				<div class="row right">
-					<button class="btn btn-edit">수정</button>
+					<button class="btn w-100 btn-edit">수정</button>
 				</div>
 				<div class="row right">
 					<button class="btn w-100 btn-delete">삭제</button>
 				</div>
 				<div class="row right">
 					<button class="btn w-100">신고</button>
-				</div>        
+				</div>
+				<div class="row right">
+					<button class="btn w-100">대댓글</button>
+				</div>       
 			</div>
         </div>
 </script>
@@ -167,14 +169,14 @@
             <span class="right right">${boardDto.boardCtime}</span>
         </div>
         <div class="row left">
-            <label>${sessionScope.name}닉네임</label>
+            <label>${boardDto.boardWriter}닉네임</label>
         </div>
         <div class="row right">
             <label>${boardDto.boardLikecount}좋아요|${boardDto.boardReplycount}조회수</label>
         </div>
         
         <div class="row">
-            <textarea class="w-100">${boardDto.boardContent}</textarea>
+           <pre>${boardDto.boardContent}</pre>
         </div>
         
         <div class="row flex-container">
@@ -197,8 +199,7 @@
 		<div class="row flex-container">
 		
 <%-- 		<input type="hidden" name="replyWriter" value="${sessionScope.name}"> --%>
-		<input type="hidden" name="replyOrigin" value="${boardDto.boardNo}">
-		<input type="hidden" name="replyWriter" value="${memberDto.memberId}">
+		
 			<div class="w-75">
 				<div class="row left">
 					<textarea class="w-100" name="replyContent"></textarea>
@@ -212,9 +213,9 @@
 		</div>
 		</form>
        
-	</div>
 			
 <div class="row left reply-list"></div>
+	</div>
 
 
 <jsp:include page = "/WEB-INF/views/template/footer.jsp"></jsp:include>
