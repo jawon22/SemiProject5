@@ -15,6 +15,7 @@ public class BoardListMapper implements RowMapper<BoardListDto>{
 	public BoardListDto mapRow(ResultSet rs, int rowNum) throws SQLException {
 		BoardListDto boardListDto = new BoardListDto();
 		boardListDto.setMemberNickname(rs.getString("member_nickname"));
+		boardListDto.setBoardCategory(rs.getInt("board_category"));
 		boardListDto.setBoardCategoryWeather(rs.getString("board_categoryweather"));
 		boardListDto.setBoardArea(rs.getString("board_area"));
 		boardListDto.setBoardNo(rs.getInt("board_no"));

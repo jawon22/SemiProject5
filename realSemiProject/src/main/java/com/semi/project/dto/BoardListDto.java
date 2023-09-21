@@ -12,6 +12,7 @@ import lombok.Data;
 @Data
 public class BoardListDto {
 	private String memberNickname;
+	private int boardCategory;
 	private String boardCategoryWeather;
 	private String boardArea;
 	private int boardNo;
