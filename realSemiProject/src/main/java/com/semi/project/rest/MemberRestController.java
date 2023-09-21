@@ -15,6 +15,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +29,7 @@ import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.AttachmentDto;
 import com.semi.project.dto.StatDto;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/rest/member")
 public class MemberRestController {
@@ -101,16 +102,31 @@ public class MemberRestController {
 				.body(resource);
 	}
 	
+	
 	@PostMapping("/delete")
 	public void delete(HttpSession session) {
 		String memberId = (String)session.getAttribute("name");
 		memberDao.deleteProfile(memberId);
 	}
 	
-	//회원 통계: 나이
-	@GetMapping("/stat/birth")
-	public List<StatDto> statBirth(){
+	//회원 통계 - 나이
+	@PostMapping("/stat/birth")
+	public List<StatDto> statBirthCount(){
 		return memberDao.selectGroupByMemberBirth();
 	}
-	
+	//회원 통계 - 지역
+	@PostMapping("/stat/area")
+	public List<StatDto> statAreaCount(){
+		return memberDao.selectGroupByMemberArea();
+	}
+	//회원 통계 - 가입월
+	@PostMapping("/stat/join")
+	public List<StatDto> statJoinCount(){
+		return memberDao.selectGroupByMemberJoin();
+	}
+	//회원 통계 - 등급
+	@PostMapping("/stat/level")
+	public List<StatDto> statLevelCount(){
+		return memberDao.selectGroupByMemberLevel();
+	}
 }
