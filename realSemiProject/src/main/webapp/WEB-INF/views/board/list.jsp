@@ -3,14 +3,64 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<script>
+	$(function(){
+		$(".delete-btn").hide();
+   	 
+   	 	//전체선택
+        $(".checkbox-all").change(function(){
+            var check = $(this).prop("checked");
+            $(".checkbox-all, .check-item").prop("checked",check);
+
+            if(check){
+//            	 $(".delete-btn").css("display","inline-block");
+//            	 $(".delete-btn").show();
+           	 $(".delete-btn").fadeIn("fast");
+            }
+            else{
+//            	 $(".delete-btn").css("display","none");
+//            	 $(".delete-btn").hide();
+           	 $(".delete-btn").fadeOut("fast");
+            }
+            
+        });
+		
+   	 	//개별체크 박스
+        $(".check-item").change(function(){
+
+            //var allCheck - 개별체크박스 개수 == 체크된 개별체크 박스개수;
+            // var allCheck = $(".check-item").length == $(".check-item:checked").length;
+            var allCheck = $(".check-item").length == $(".check-item").filter(":checked").length;
+            $(".checkbox-all").prop("checked",allCheck);
+            
+            if($(".check-item").filter(":checked").length >0){
+           	 $(".delete-btn").fadeIn("fast");
+            }
+            else{
+           	 $(".delete-btn").fadeOut("fast");
+            }
+        });
+   	 
+        $(".delete-form").submit(function(e){
+        	return confirm("정말 삭제하시겠습니까?");
+        });
+		
+
+
+	});
+
+</script>
+
 <div class="container w-800">
 	<div class="row">
 		<h2>정보게시판 목록</h2>
 	</div>
 
-<c:if test="${vo.search}">
-	${vo.keyword}에 대한 검색 결과
-</c:if>
+
+
+	<c:if test="${vo.search}">
+		${vo.keyword}에 대한 검색 결과
+	</c:if>
 
 <!-- 카테고리 선택창 -->
 	<form action="list" method="get">
@@ -67,21 +117,23 @@
 		</div>
 	</form>
 
-<c:if test="${sessionScope.name !=null}">
-		<div class="row right">
-			<c:if test="${sessionScope.level == '관리자'}">
-			<button type="submit" class="btn btn-negative delete-btn">
-				<i class="fa-solid fa-trash-can"></i>
-				게시글 일괄삭제
-			</button>
-			</c:if>
-			
-			<a href="write" class="btn">
-				<i class="fa-solid fa-pen"></i>
-				게시글 작성
-			</a>
-		</div>
-</c:if>
+		<!-- action을 아직 지정안했음 -->
+<form class="delete-form" action="#" method="post">
+	<c:if test="${sessionScope.name !=null}">
+			<div class="row right">
+				<c:if test="${sessionScope.level == '관리자'}">
+				<button type="submit" class="btn btn-negative delete-btn">
+					<i class="fa-solid fa-trash-can"></i>
+					게시글 일괄삭제
+				</button>
+				</c:if>
+				
+				<a href="write?boardCategory=1" class="btn">
+					<i class="fa-solid fa-pen"></i>
+					게시글 작성
+				</a>
+			</div>
+	</c:if>
 
 <div class="row right">
 	<button class="btn-desc">최신순</button>
@@ -89,68 +141,71 @@
 	<button class="btn-likecount">좋아요순</button>
 </div>
 
-<div class="row">
-	<table>
-		<thead>
-			<tr>
-				<c:if test="${sessionScope.lever =='관리자'}">
-					<th>
-					<!-- 전체선택 체크박스 -->
-						<input type="checkbox" class="cb-all">
-					</th>			
-				</c:if>
-				<th>계절</th>
-				<th>지역</th>
-				<th width="25%">제목</th>
-				<th>작성자</th>
-				<th>작성일</th>
-				<th>조회수</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="boardListDto" items="${list}">
+	<div class="row">
+		<table class="table table-slit">
+			<thead>
 				<tr>
-					<c:if test="${sessionScope.level == '관리자'}">
-					<td>
-					<!-- 개별항목 체크박스 -->
-					<input type="checkbox" class="check-item" name="boardNoList" 
-						value="${boardListDto.boardNo}">
-						</td>
+					<c:if test="${sessionScope.level =='관리자'}">
+						<th>
+						<!-- 전체선택 체크박스 -->
+							<input type="checkbox" class="checkbox-all">
+						</th>			
 					</c:if>
-					
-					<!-- 계절  -->
-					<td>${boardListDto.boardCategoryWeather}</td>
-					
-					<!-- 지역  -->
-					<td>${boardListDto.boardArea}</td>
-					
-					<td align="left">
-					<!--  제목을 누르면 상세페이디로 이동 -->
-						<a class="link" href="detail?boardNo=${boardListDto.boardNo}">
-						${boardListDto.boardTitle}</a>
-					
-					<!--  댓글이 있다면 개수를 표시 -->
-						<c:if test="${boardListDto.boardReplycount >0}">
-							&nbsp;&nbsp;
-							<i class="fa-solid fa-comment blue"></i>
-							${boardListDto.boardReplycount}
-						</c:if>
-					</td>
-					
-					<!-- 작성자 -->
-					<td>${boardListDto.getBoardWriterString()}</td>
-					
-					<!-- 작성일 -->
-					<td>${boardListDto.getBoardCtimeString()}</td>
-					
-					<!-- 조회수 -->
-					<td>${boardListDto.boardReadcount}</td>
+					<th>계절</th>
+					<th>지역</th>
+					<th width="25%">제목</th>
+					<th>작성자</th>
+					<th>작성일</th>
+					<th>조회수</th>
 				</tr>
-			</c:forEach>
-		
-		</tbody>
-	</table>
-</div>
+			</thead>
+			<tbody>
+				<c:forEach var="boardListDto" items="${list}">
+					<tr>
+						<c:if test="${sessionScope.level == '관리자'}">
+						<td>
+						<!-- 개별항목 체크박스 -->
+						<input type="checkbox" class="check-item" name="boardNoList" 
+							value="${boardListDto.boardNo}">
+							</td>
+						</c:if>
+						
+						<!-- 계절  -->
+						<td>${boardListDto.boardCategoryWeather}</td>
+						
+						<!-- 지역  -->
+						<td>${boardListDto.boardArea}</td>
+						
+						<td align="left">
+						<!--  제목을 누르면 상세페이디로 이동 -->
+							<a class="link" href="detail?boardNo=${boardListDto.boardNo}">
+							${boardListDto.boardTitle}</a>
+						
+						<!--  댓글이 있다면 개수를 표시 -->
+							<c:if test="${boardListDto.boardReplycount >0}">
+								&nbsp;&nbsp;
+								<i class="fa-solid fa-comment blue"></i>
+								${boardListDto.boardReplycount}
+							</c:if>
+						</td>
+						
+						<!-- 작성자 -->
+						<td>${boardListDto.getBoardWriterString()}</td>
+						
+						<!-- 작성일 -->
+						<td>${boardListDto.getBoardCtimeString()}</td>
+						
+						<!-- 조회수 -->
+						<td>${boardListDto.boardReadcount}</td>
+					</tr>
+				</c:forEach>
+			
+			</tbody>
+		</table>
+	</div>
+
+</form>
+
 
 <br>
 				<!-- 페이지 네비게이터 -->

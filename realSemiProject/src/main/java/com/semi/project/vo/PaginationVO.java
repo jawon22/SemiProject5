@@ -73,6 +73,29 @@ public class PaginationVO {
 		return page* size;
 	}
 	
-	
+	public String getPrevQueryStringForMemberList() {
+		if(isSearch()) { //검색
+			return "page="+(getBegin() - 1)+"&type=" + type + "&keyword=" + keyword;
+		}
+		else { //목록
+			return "page=" + (getBegin() - 1);
+		}
+	}
+	public String getNextQueryStringForMemberList() {
+		if(isSearch()) { //검색
+			return "page="+(getEnd() + 1)+"&size=" + size +"&type=" + type + "&keyword=" + keyword;
+		}
+		else { //목록
+			return "page=" + (getEnd() + 1)+ "&size=" + size;
+		}		
+	}
+	public String getQueryStringForMemberList(int page) {
+		if(isSearch()) { //검색
+			return "page="+page+"&size=" + size +"&type=" + type + "&keyword=" + keyword;
+		}
+		else { //목록
+			return "page=" + page+"&size=" + size;
+		}		
+	}
 	
 }
