@@ -90,23 +90,23 @@ $(function(){
 			</table>
 			
 			<div class="row">
-			<a href="exit">탈퇴하기</a>
+			<a class="link" href="exit">탈퇴하기</a>
 			</div>
 			<div class="row">
-			<a href="infoChange">회원정보변경하기</a>
+			<a class="link" href="infoChange">회원정보변경하기</a>
 			</div>
 			<div class="row">
-			<a href="pwChange">비밀번호변경하기</a>
+			<a class="link" href="pwChange">비밀번호변경하기</a>
 			</div>
 			
 			<div class="row" > <!-- flex-container로 단을 나눌것임 -->
-			<a href="myLikeList">내가 좋아요 누른 글 보러가기 > </a>		
+			<a class="link" href="myLikeList">내가 좋아요 누른 글 보러가기 > </a>		
 			</div>
 			<div class="row" > <!-- flex-container로 단을 나눌것임 -->
-			<a href="myWriteList">내가 쓴 글 보러가기 > </a>		
+			<a class="link" href="myWriteList">내가 쓴 글 보러가기 > </a>		
 			</div>
 			<div class="row">
-			<a href="logout">로그아웃</a>
+			<a class="link" href="logout">로그아웃</a>
 			</div>
 		</div>
 	</div>
