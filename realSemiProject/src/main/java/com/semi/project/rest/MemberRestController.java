@@ -3,6 +3,7 @@ package com.semi.project.rest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +15,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +26,7 @@ import com.semi.project.configuration.FileUploadProperties;
 import com.semi.project.dao.AttachmentDao;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.AttachmentDto;
+import com.semi.project.dto.StatDto;
 
 
 @RestController
@@ -102,6 +105,12 @@ public class MemberRestController {
 	public void delete(HttpSession session) {
 		String memberId = (String)session.getAttribute("name");
 		memberDao.deleteProfile(memberId);
+	}
+	
+	//회원 통계: 나이
+	@GetMapping("/stat/birth")
+	public List<StatDto> statBirth(){
+		return memberDao.selectGroupByMemberBirth();
 	}
 	
 }
