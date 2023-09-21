@@ -8,8 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.dto.StatDto;
 import com.semi.project.mapper.BoardListMapper;
 import com.semi.project.mapper.MemberMapper;
+import com.semi.project.mapper.StatMapper;
 
 @Repository
 public class MemberDaoImpl implements MemberDao {
@@ -22,6 +24,9 @@ public class MemberDaoImpl implements MemberDao {
 	
 	@Autowired
 	private BoardListMapper boardListMapper;
+	
+	@Autowired
+	private StatMapper statMapper;
 	
 	@Override
 	public void insert(MemberDto memberDto) {
@@ -126,5 +131,42 @@ public class MemberDaoImpl implements MemberDao {
 		catch(Exception e) {
 			return null;
 		}
+	}
+
+	@Override
+	public List<StatDto> selectGroupByMemberBirth() {
+		String sql = "SELECT CASE WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) > TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 19 THEN '청소년' "
+							+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) BETWEEN TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 34 AND TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 20 THEN '청년' "
+							+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) BETWEEN TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 49 AND TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 35 THEN '중년' "
+							+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) BETWEEN TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 64 AND TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 50 THEN '장년' "
+						+ "ELSE '노인' "
+						+ "END AS age_group, "
+						+ "COUNT(*) AS total_cnt "
+						+ "FROM member GROUP BY CASE "
+							+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) > TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 19 THEN '청소년' "
+							+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) BETWEEN TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 34 AND TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 20 THEN '청년' "
+							+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) BETWEEN TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 49 AND TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 35 THEN '중년' "
+							+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) BETWEEN TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 64 AND TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 50 THEN '장년' "
+							+ "ELSE '노인' "
+						+ "END ORDER BY age_group";
+		return jdbcTemplate.query(sql, statMapper);
+	}
+
+	@Override
+	public List<StatDto> selectGroupByMemberArea() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<StatDto> selectGroupByMemberJoin() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<StatDto> selectGroupByMemberLevel() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
