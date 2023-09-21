@@ -45,7 +45,18 @@
         	return confirm("정말 삭제하시겠습니까?");
         });
 		
-
+        $(".btn-desc").click(function(e){
+        	$.ajax({
+				url:"/board/list",        		
+				data:$(e.target).serialize(),
+				success:function(response){
+					$(".rangelist")
+				}
+        	});
+        	
+        });
+		
+		
 
 	});
 
@@ -55,8 +66,6 @@
 	<div class="row">
 		<h2>정보게시판 목록</h2>
 	</div>
-
-
 
 	<c:if test="${vo.search}">
 		${vo.keyword}에 대한 검색 결과
@@ -117,6 +126,12 @@
 		</div>
 	</form>
 
+<div class="row right">
+	<button class="btn-desc" data-sort="ctime">최신순</button>
+	<button class="btn-readcount" data-sort="readcount">조회수순</button>
+	<button class="btn-likecount" data-sort="likecount">좋아요순</button>
+</div>
+
 		<!-- action을 아직 지정안했음 -->
 <form class="delete-form" action="#" method="post">
 	<c:if test="${sessionScope.name !=null}">
@@ -134,12 +149,6 @@
 				</a>
 			</div>
 	</c:if>
-
-<div class="row right">
-	<button class="btn-desc">최신순</button>
-	<button class="btn-readcount">조회수순</button>
-	<button class="btn-likecount">좋아요순</button>
-</div>
 
 	<div class="row">
 		<table class="table table-slit">
@@ -161,7 +170,7 @@
 			</thead>
 			<tbody>
 				<c:forEach var="boardListDto" items="${list}">
-					<tr>
+					<tr class="rangelist">
 						<c:if test="${sessionScope.level == '관리자'}">
 						<td>
 						<!-- 개별항목 체크박스 -->
@@ -184,8 +193,8 @@
 						<!--  댓글이 있다면 개수를 표시 -->
 							<c:if test="${boardListDto.boardReplycount >0}">
 								&nbsp;&nbsp;
-								<i class="fa-solid fa-comment blue"></i>
-								${boardListDto.boardReplycount}
+								<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
+								<label>${boardListDto.boardReplycount}</label>
 							</c:if>
 						</td>
 						
