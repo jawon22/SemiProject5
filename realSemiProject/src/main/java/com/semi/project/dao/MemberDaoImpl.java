@@ -11,7 +11,11 @@ import com.semi.project.dto.MemberDto;
 import com.semi.project.dto.StatDto;
 import com.semi.project.mapper.BoardListMapper;
 import com.semi.project.mapper.MemberMapper;
+
+import com.semi.project.vo.PaginationVO;
+
 import com.semi.project.mapper.StatMapper;
+
 
 @Repository
 public class MemberDaoImpl implements MemberDao {
@@ -123,7 +127,7 @@ public class MemberDaoImpl implements MemberDao {
 	}
 	@Override
 	public Integer findProfile(String memberId) {
-		String sql = "select * from member_profile where member_id = ?";
+		String sql = "select attachment_no from member_profile where member_id = ?";
 		Object[] data = {memberId};
 		try {
 			return jdbcTemplate.queryForObject(sql, Integer.class, data);
@@ -132,6 +136,54 @@ public class MemberDaoImpl implements MemberDao {
 			return null;
 		}
 	}
+	
+	//회원목록 페이지 계산
+	@Override
+	public int countList(PaginationVO vo) {
+		if(vo.isSearch()) {
+			String sql = "select count(*) from member "
+					+ "where instr("+vo.getType()+", ?) > 0 "
+					+ "and member_level != '관리자'";
+			Object[] data = {vo.getKeyword()};
+			return jdbcTemplate.queryForObject(sql, int.class, data);
+		}
+		else {
+			String sql = "select count(*) from member "
+					+ "where member_level != '관리자'";
+			return jdbcTemplate.queryForObject(sql, int.class);
+		}
+	}
+	
+	//회원목록 보여주기 (관리자제외, 검색기능 유무 따져서, 페이지 기능)
+	@Override
+	public List<MemberDto> selectMemberListByPage(PaginationVO vo) {
+		if(vo.isSearch()) {
+			String sql = "select * from ("
+					+ "select rownum rn, TMP.* from ("
+					+ "select * from member "
+					+ "where instr("+vo.getType()+", ?) > 0 "
+					+ "and member_level != '관리자' "
+					+ "order by "+vo.getType()+ " asc"
+					+ ")TMP"
+					+ ") where rn between ? and ?";
+			Object[] data = {
+					vo.getKeyword(), vo.getStartRow(), vo.getFinishRow()
+			};
+			return jdbcTemplate.query(sql, memberMapper, data);
+		}
+		else {
+			String sql = "select * from ("
+					+ "select rownum rn, TMP.* from ("
+					+ "select * from member "
+					+ "where member_level != '관리자' "
+					+ "order by member_join desc "
+					+ ")TMP"
+					+ ") where rn between ? and ?";
+			Object[] data = {vo.getStartRow(), vo.getFinishRow()};
+			return jdbcTemplate.query(sql, memberMapper, data);
+		}
+		}
+
 
 	@Override
 	public List<StatDto> selectGroupByMemberBirth() {
@@ -168,5 +220,6 @@ public class MemberDaoImpl implements MemberDao {
 	public List<StatDto> selectGroupByMemberLevel() {
 		// TODO Auto-generated method stub
 		return null;
+
 	}
 }

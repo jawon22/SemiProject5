@@ -19,11 +19,13 @@
 <body>
 <main>
 	<div align="center">
-		<h1>Tripee</h1>
+		<h1>
+		<a class="link" href="/">Tripee</a>
+		</h1>
 		<header>
-			<a href="/member/join">회원가입</a>
-			<a href="/member/login">로그인</a>
-			<a href="/member/mypage">마이페이지</a>
+			<a class="link" href="/member/join">회원가입</a>
+			<a class="link" href="/member/login">로그인</a>
+			<a class="link" href="/member/mypage">마이페이지</a>
         </header>
 	</div>
 <section>
