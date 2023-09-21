@@ -3,24 +3,247 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<script>
-	$(function(){
-		
-		$.ajax({
-			url:"http://localhost:8080/rest/member/stat/birth",
-			dataType: "json",
-			success:function(response){
-				var labels = [], data = [];
-				
-				for(var i=0; i < response.length; i++){
-					labels.push(response)
-				}
-			}
-			
-		});
-		
-	});
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<script>
+    $(function () {
+
+        //나이 통계
+        $.ajax({
+            url: "http://localhost:8080/rest/member/stat/birth",
+            dataType: "json",
+            method:"post",
+            success: function (response) {
+                var labels = [], data = [];
+
+                for (var i = 0; i < response.length; i++) {
+                    labels.push(response[i].name);
+                    data.push(response[i].cnt);
+                }
+
+                const ctx = document.getElementById('birthChart');
+
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: [
+                                'rgb(255, 182, 193)',
+                                'rgb(255, 228, 196)',
+                                'rgb(255, 218, 185)',
+                                'rgb(152, 251, 152)',
+                                'rgb(173, 216, 230)'
+                            ],
+                            borderWidth: 1,
+                        }]
+                    },
+//                     options: {
+//                     	responsive: true,
+//                         plugins: {
+//                             title: {
+//                                 display: true,
+//                                 text: '회원 나이 통계',
+//                             },
+//                             legend: {
+//                                 position: 'top',
+//                             }
+//                         }
+//                     }
+                });
+            },
+        });
+        
+        
+        //지역 통계
+        $.ajax({
+            url: "http://localhost:8080/rest/member/stat/area",
+            dataType: "json",
+            method:"post",
+            success: function (response) {
+                var labels = [], data = [];
+
+                for (var i = 0; i < response.length; i++) {
+                    labels.push(response[i].name);
+                    data.push(response[i].cnt);
+                }
+
+                const ctx = document.getElementById('areaChart');
+
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: [
+                                'rgb(255, 182, 193)',
+                                'rgb(255, 228, 196)',
+                                'rgb(255, 218, 185)',
+                                'rgb(152, 251, 152)',
+                                'rgb(173, 216, 230)',
+                                'rgb(240, 128, 128)',
+                                'rgb(255, 240, 245)',
+                                'rgb(250, 235, 215)',
+                                'rgb(173, 255, 47)',
+                                'rgb(240, 230, 140)',
+                                'rgb(255, 228, 225)',
+                                'rgb(176, 224, 230)',
+                                'rgb(255, 255, 224)',
+                                'rgb(244, 164, 96)'
+                            ],
+                            borderWidth: 1,
+                        }]
+                    },
+//                     options: {
+//                         responsive: true,
+//                         plugins: {
+//                             title: {
+//                                 display: true,
+//                                 text: '회원 지역 통계',
+//                             },
+//                             legend: {
+//                                 position: 'top',
+//                             }
+//                         }
+//                     }
+                });
+            },
+        });
+        
+        
+        //가입월 통계
+        $.ajax({
+            url: "http://localhost:8080/rest/member/stat/join",
+            dataType: "json",
+            method:"post",
+            success: function (response) {
+                var labels = [], data = [];
+
+                for (var i = 0; i < response.length; i++) {
+                    labels.push(response[i].name);
+                    data.push(response[i].cnt);
+                }
+
+                const ctx = document.getElementById('joinChart');
+
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: [
+                                'rgb(255, 182, 193)',
+                                'rgb(255, 228, 196)',
+                                'rgb(255, 218, 185)',
+                                'rgb(152, 251, 152)',
+                                'rgb(173, 216, 230)',
+                                'rgb(240, 128, 128)',
+                                'rgb(255, 240, 245)',
+                                'rgb(250, 235, 215)',
+                                'rgb(173, 255, 47)',
+                                'rgb(240, 230, 140)',
+                                'rgb(255, 228, 225)',
+                                'rgb(176, 224, 230)',
+                            ],
+                            borderWidth: 1,
+                        }]
+                    },
+//                     options: {
+//                         responsive: true,
+//                         plugins: {
+//                             title: {
+//                                 display: true,
+//                                 text: '회원 가입월 통계',
+//                             },
+//                             legend: {
+//                                 position: 'top',
+//                             }
+//                         }
+//                     }
+                });
+            },
+        });
+        
+        
+        //등급 통계
+        $.ajax({
+            url: "http://localhost:8080/rest/member/stat/level",
+            dataType: "json",
+            method:"post",
+            success: function (response) {
+                var labels = [], data = [];
+
+                for (var i = 0; i < response.length; i++) {
+                    labels.push(response[i].name);
+                    data.push(response[i].cnt);
+                }
+
+                const ctx = document.getElementById('levelChart');
+
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: [
+                                'rgb(255, 182, 193)',
+                                'rgb(255, 228, 196)',
+                                'rgb(255, 218, 185)',
+                            ],
+                            borderWidth: 1,
+                        }]
+                    },
+//                     options: {
+//                         responsive: true,
+//                         plugins: {
+//                             title: {
+//                                 display: true,
+//                                 text: '회원 등급 통계',
+//                             },
+//                             legend: {
+//                                 position: 'top',
+//                             }
+//                         }
+//                     }
+                });
+            },
+        });
+    });
 </script>
+
+<div class="container w-600">
+
+<h1>회원 통계</h1>
+
+        <div class="flex-container" style="flex-grow: 1;">
+            <div class="row flex-container card">
+                <div>
+        			<canvas id="birthChart"></canvas>
+    			</div>
+            </div>
+            <div class="row flex-container card">
+                <div>
+        			<canvas id="areaChart"></canvas>
+    			</div>
+            </div>
+        </div>
+        <div class="flex-container" style="flex-grow: 1;">
+            <div class="row flex-container card align-center">
+                <div>
+        			<canvas id="joinChart"></canvas>
+    			</div>
+            </div>
+            <div class="row flex-container card align-center">
+                <div>
+        			<canvas id="levelChart"></canvas>
+    			</div>
+            </div>
+        </div>
+
+    </div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

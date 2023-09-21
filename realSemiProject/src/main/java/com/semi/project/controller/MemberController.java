@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.semi.project.component.CertCodeRandom;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.dto.StatDto;
 
 @Controller
 @RequestMapping("/member")
@@ -113,4 +114,11 @@ public class MemberController {
 	public String searchPwFinish() {
 		return "/WEB-INF/views/member/searchPwFinish.jsp";
 	}
+	
+	//adminController로 옮겨야 함
+	@GetMapping("/stat")
+	public String stat() {
+		return "/WEB-INF/views/admin/stat.jsp";
+	}
+	
 }

@@ -135,38 +135,35 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public List<StatDto> selectGroupByMemberBirth() {
-		String sql = "SELECT CASE WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) > TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 19 THEN '청소년' "
-							+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) BETWEEN TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 34 AND TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 20 THEN '청년' "
-							+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) BETWEEN TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 49 AND TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 35 THEN '중년' "
-							+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) BETWEEN TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 64 AND TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 50 THEN '장년' "
-						+ "ELSE '노인' "
-						+ "END AS age_group, "
-						+ "COUNT(*) AS total_cnt "
-						+ "FROM member GROUP BY CASE "
-							+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) > TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 19 THEN '청소년' "
-							+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) BETWEEN TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 34 AND TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 20 THEN '청년' "
-							+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) BETWEEN TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 49 AND TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 35 THEN '중년' "
-							+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) BETWEEN TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 64 AND TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 50 THEN '장년' "
-							+ "ELSE '노인' "
-						+ "END ORDER BY age_group";
+		String sql = "SELECT age_group name, count(*) cnt FROM ( "
+							+ "SELECT "
+								+ "CASE "
+									+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) > TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 19 THEN '청소년' "
+									+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) BETWEEN TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 34 AND TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 20 THEN '청년' "
+									+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) BETWEEN TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 49 AND TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 35 THEN '중년' "
+									+ "WHEN TO_NUMBER(SUBSTR(member_birth, 1, 4)) BETWEEN TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 64 AND TO_NUMBER(TO_CHAR(SYSDATE, 'YYYY')) - 50 THEN '장년' "
+									+ "ELSE '노인' "
+								+ "END AS age_group "
+							+ "FROM MEMBER "
+						+ ") GROUP BY age_group";
 		return jdbcTemplate.query(sql, statMapper);
 	}
 
 	@Override
 	public List<StatDto> selectGroupByMemberArea() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT member_area name, count(*) cnt FROM MEMBER GROUP by member_area";
+		return jdbcTemplate.query(sql, statMapper);
 	}
 
 	@Override
 	public List<StatDto> selectGroupByMemberJoin() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT TO_CHAR(member_join, 'MM') AS name, COUNT(*) AS cnt FROM MEMBER GROUP BY TO_CHAR(member_join, 'MM')";
+		return jdbcTemplate.query(sql, statMapper);
 	}
 
 	@Override
 	public List<StatDto> selectGroupByMemberLevel() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "select member_level name, count(*) cnt from member group by member_level";
+		return jdbcTemplate.query(sql, statMapper);
 	}
 }
