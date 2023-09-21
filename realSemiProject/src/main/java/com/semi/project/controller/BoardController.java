@@ -35,7 +35,6 @@ public class BoardController {
 		
 		List<BoardListDto> list =  boardDao.selectListByPage(vo);
 	
-		
 		model.addAttribute("list",list);
 		return "/WEB-INF/views/board/list.jsp";
 	}

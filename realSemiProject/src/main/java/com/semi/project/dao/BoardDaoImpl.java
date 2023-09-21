@@ -80,6 +80,55 @@ public class BoardDaoImpl implements BoardDao{
 		return jdbcTemplate.query(sql, boardListMapper,start,end);
 	}
 	
+	//검색을 안하고 계절만 선택했을때
+	@Override
+	public List<BoardListDto> selectListByPageAndWeather(int page, String weather) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "SELECT * FROM ("
+						+ "SELECT ROWNUM rn, TMP.* FROM("
+							+ "select * from board_list where board_categoryweather = ?"
+								+ " order by board_no asc"
+							+ ")TMP "
+						+ ")WHERE rn BETWEEN ? AND ?";
+		Object[] data = {weather,start,end};
+		return jdbcTemplate.query(sql, boardListMapper,data);
+	}
+	
+	//검색을 안하고 지역만 선택했을때
+	@Override
+	public List<BoardListDto> selectListByPageAndArea(int page, String area) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "SELECT * FROM ("
+						+ "SELECT ROWNUM rn, TMP.* FROM("
+							+ "select * from board_list where board_area = ?"
+								+ " order by board_no asc"
+							+ ")TMP "
+						+ ")WHERE rn BETWEEN ? AND ?";
+		Object[] data = {area,start,end};
+		return jdbcTemplate.query(sql, boardListMapper,data);
+		
+	}
+	
+	//검색을 안하고 계절과 지역을 선택했을때
+	@Override
+	public List<BoardListDto> selectListByPageAndCategory(int page, String weather, String area) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "SELECT * FROM ("
+						+ "SELECT ROWNUM rn, TMP.* FROM("
+							+ "select * from board_list where board_categoryweather = ? AND board_area = ?"
+								+ " order by board_no asc"
+							+ ")TMP "
+						+ ")WHERE rn BETWEEN ? AND ?";
+		Object[] data = {weather,area,start,end};
+		return jdbcTemplate.query(sql, boardListMapper,data);
+	}
+	
 	//정보게시판 목록 페이지 검색 및 페이지 조회
 	@Override
 	public List<BoardListDto> selectListByPage(String type, String keyword, String weather, String area, int page) {
@@ -101,9 +150,23 @@ public class BoardDaoImpl implements BoardDao{
 	@Override
 	public List<BoardListDto> selectListByPage(PaginationVO vo) {
 		if(vo.isSearch()) {
-			if(vo.getWeather().equals("전체") && vo.getArea().equals("전체")) {
+				// 계절과 지역이 전체일 경우
+			if(vo.getWeather().equals("전체") && vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
 				return selectListByPage(vo.getPage());
 			}
+				// 계절이 전체일 경우
+			else if(vo.getWeather().equals("전체") && !vo.getArea().equals("전체")&& vo.getKeyword().equals("")) {
+				return selectListByPageAndArea(vo.getPage(), vo.getArea());
+			}
+				// 지역이 전체일 경우
+			else if(!vo.getWeather().equals("전체") && vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
+				return selectListByPageAndWeather(vo.getPage(), vo.getWeather());
+			}
+				//계절과 지역이 전체가 아닌 경우
+			else if(!vo.getWeather().equals("전체") && !vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
+				return selectListByPageAndCategory(vo.getPage(), vo.getWeather(), vo.getArea());
+			}
+				//계절과 지역이 선택되고 검색 키워드가 있는 경우
 			else {
 				return selectListByPage(vo.getType(), vo.getKeyword(),vo.getWeather(),vo.getArea(), vo.getPage());
 			}
@@ -126,6 +189,7 @@ public class BoardDaoImpl implements BoardDao{
 			return jdbcTemplate.queryForObject(sql,int.class);
 		}
 	}
+
 
 
 	
