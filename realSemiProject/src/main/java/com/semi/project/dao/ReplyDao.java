@@ -8,6 +8,6 @@ public interface ReplyDao {
 	int sequence();
 	void insert(ReplyDto replyDto);
 	List<ReplyDto> selectList(int replyOrigin);
-	ReplyDto selectOnd(int replyNo);
+	ReplyDto selectOne(int replyNo);
 	boolean delete(int replyNo);
 }

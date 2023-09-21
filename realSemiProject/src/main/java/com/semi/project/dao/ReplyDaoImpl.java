@@ -42,7 +42,7 @@ public class ReplyDaoImpl implements ReplyDao{
 	}
 	
 	@Override
-	public ReplyDto selectOnd(int replyNo) {
+	public ReplyDto selectOne(int replyNo) {
 		String sql = "select * from reply "
 				+ "where reply_no=?";
 		Object[] data= {replyNo};
