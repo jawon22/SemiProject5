@@ -5,19 +5,14 @@
 
 <script src="https://code.jQuery.com/jQuery-3.7.1.min.js"></script>
 
-<h1>아이디 찾기 결과</h1>
+<h1>비밀번호 찾기</h1>
 
-<c:choose>
-	<c:when test="${memberId != null }">
-		찾은 아이디: ${memberId}
-	</c:when>
-	<c:otherwise>
-		등록된 아이디가 없습니다.
-	</c:otherwise>
-</c:choose>
-
-<br><br>
-
-<a href="/login">로그인 하기</a>
+<form action="searchPw" method="post" autocomplete="off">
+	아이디 <br><br>
+	<input type="text" name="memberId"> <br><br>
+	이메일 <br><br>
+	<input type="text" name="memberEmail"> <br><br>
+	<button type="submit">찾기</button>
+</form>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

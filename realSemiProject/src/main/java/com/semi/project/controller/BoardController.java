@@ -33,7 +33,9 @@ public class BoardController {
 		int count = boardDao.countList(vo);
 		vo.setCount(count);
 		
-		List<BoardListDto> list=  boardDao.selectListByPage(vo);
+		List<BoardListDto> list =  boardDao.selectListByPage(vo);
+	
+		
 		model.addAttribute("list",list);
 		return "/WEB-INF/views/board/list.jsp";
 	}
