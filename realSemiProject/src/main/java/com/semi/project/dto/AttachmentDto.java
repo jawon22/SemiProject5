@@ -7,6 +7,6 @@ public class AttachmentDto {
 	
 	private int attachmentNo;
 	private String attachmentName, attachmentType;
-	private int attachmentSize;
+	private long attachmentSize;
 	
 }
