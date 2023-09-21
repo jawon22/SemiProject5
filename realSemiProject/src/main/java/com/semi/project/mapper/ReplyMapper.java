@@ -19,9 +19,9 @@ public class ReplyMapper implements RowMapper<ReplyDto>{
 		replyDto.setReplyOrigin(rs.getInt("reply_origin"));
 		replyDto.setReplyContent(rs.getString("reply_content"));
 		replyDto.setReplyTime(rs.getDate("reply_time"));
-		replyDto.setBoardGroup(rs.getInt("board_Group"));
-		replyDto.setBoardParent(rs.getInt("board_parent"));
-		replyDto.setBoardDepth(rs.getInt("board_depth"));
+		replyDto.setReplyGroup(rs.getInt("reply_Group"));
+		replyDto.setReplyParent(rs.getObject("reply_parent", Integer.class));
+		replyDto.setReplyDepth(rs.getInt("reply_depth"));
 		return replyDto;
 	}
 
