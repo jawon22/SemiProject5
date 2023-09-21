@@ -31,7 +31,19 @@ $(function(){
 				window.alert("잠시 후 다시 시도해주세요");
 			},
 		});
-		
+			
+	});	
+	
+	$(".profile-delete").click(function() {
+		var choice = window.confirm("정말 프로필을 지우시겠습니까?");
+		if(choice == false) return;
+		$.ajax({
+			url:"/rest/member/delete",
+			method:"post",
+			success:function(response) {
+				$(".profile-image").attr("src", "https://dummyimage.com/130x130/000/fff");
+			},		
+		});	
 	});	
 });
 </script>
@@ -51,18 +63,22 @@ $(function(){
 				class="image image-circle image-border profile-image">
 				</c:otherwise>
 			</c:choose>
-		<label>
 		<input type="file" class="profile-chooser" accept="image/*" style="display:none;">
 		</label>
 		</div>
 		<div class="row w-75 left" style="margin-top:18%; margin-left:5%; margin-bottom:none;">	
 		<h1>${memberDto.memberId}</h1>
 		</div>
+		<div>
+		<i class="fa-solid fa-trash-can profile-delete" style="color: #78bdcf;"></i>
+		</div>
+
 		
 		</div>
 		
 		<div class="row">
-			<table border="1" class="table-stripe">
+			<table class="table table-slit">
+				<tbody>
 				<tr>
 					<th>아이디</th>
 					<td>${memberDto.memberId}
@@ -87,6 +103,7 @@ $(function(){
 					<th>포인트</th>
 					<td>${memberDto.memberPoint}
 				</tr>
+				</tbody>
 			</table>
 			
 			<div class="row">

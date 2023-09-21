@@ -42,9 +42,14 @@ public class AdminController {
 		MemberDto memberDto = memberDao.selectOne(memberId);
 		model.addAttribute("memberDto", memberDto);
 		
+		//멤버 프로필 보기
+		Integer attachNo = memberDao.findProfile(memberId);
+		model.addAttribute("attachNo", attachNo);
+		
 		//멤버 활동내역 보기(멤버가 쓴 글 리스트 불러오기)
 		List<BoardListDto> boardList = memberDao.findWriteListByMemberId(memberId);
 		model.addAttribute("boardList", boardList);
+		
 		
 		return "/WEB-INF/views/admin/member/detail.jsp";
 	}

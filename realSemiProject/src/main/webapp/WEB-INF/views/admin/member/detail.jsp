@@ -9,10 +9,11 @@
 
 <script>
 $(function(){
+	
 	$(".profile-delete").click(function(){
 		
 		$.ajax({
-			url:"rest/member/delete",
+			url:"http://localhost:8080/rest/member/delete",
 			method:"post",
 			success:function(response) {
 				$(".profile-image").attr("src", "https://dummyimage.com/130x130/000/fff");
@@ -26,19 +27,20 @@ $(function(){
 	<div class="flex-container auto-width">
 		
 		<div class="row mv-10 w-25">
-		<label>
+
 			<c:choose>
-				<c:when test="${profile == null}">
+
+				<c:when test="${attachNo == null}">
 					<img src="https://dummyimage.com/130x130/000/fff" width="130" height="130"
-						class="image image-circle image-border profile-delete">
+						class="image image-circle image-border profile-image">
 				</c:when>
 				<c:otherwise>
-				<img src="/rest/member/download?attachNo=${profile}" width="130" height="130"
-				class="image image-circle image-border profile-delete">
+				<img src="/rest/member/download?attachNo=${attachNo}" width="130" height="130"
+				class="image image-circle image-border profile-image">
 				</c:otherwise>
 			</c:choose>
-		<label>
-		<input type="file" class="profile-chooser" accept="image/*" style="display:none;">
+		<label class="row">
+		<i class="fa-solid fa-trash profile-delete" style="color: #78bdcf;"></i>
 		</label>
 		</div>
 		<div class="row w-75 left" style="margin-top:18%; margin-left:5%; margin-bottom:none;">	
