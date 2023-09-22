@@ -30,27 +30,26 @@
                         datasets: [{
                             data: data,
                             backgroundColor: [
-                                'rgb(255, 182, 193)',
-                                'rgb(255, 228, 196)',
-                                'rgb(255, 218, 185)',
-                                'rgb(152, 251, 152)',
-                                'rgb(173, 216, 230)'
+                            	'rgb(186, 219, 173)',
+                                'rgb(199, 173, 214)',
+                                'rgb(255, 187, 187)',
+                                'rgb(153, 204, 204)'
                             ],
                             borderWidth: 1,
                         }]
                     },
-//                     options: {
-//                     	responsive: true,
-//                         plugins: {
-//                             title: {
-//                                 display: true,
-//                                 text: '회원 나이 통계',
-//                             },
-//                             legend: {
-//                                 position: 'top',
-//                             }
-//                         }
-//                     }
+                    options: {
+                    	responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: '회원 나이 통계',
+                            },
+                            legend: {
+                                position: 'top',
+                            }
+                        }
+                    }
                 });
             },
         });
@@ -78,36 +77,36 @@
                         datasets: [{
                             data: data,
                             backgroundColor: [
-                                'rgb(255, 182, 193)',
-                                'rgb(255, 228, 196)',
-                                'rgb(255, 218, 185)',
-                                'rgb(152, 251, 152)',
-                                'rgb(173, 216, 230)',
-                                'rgb(240, 128, 128)',
-                                'rgb(255, 240, 245)',
-                                'rgb(250, 235, 215)',
-                                'rgb(173, 255, 47)',
-                                'rgb(240, 230, 140)',
-                                'rgb(255, 228, 225)',
-                                'rgb(176, 224, 230)',
-                                'rgb(255, 255, 224)',
-                                'rgb(244, 164, 96)'
+                            	'rgb(186, 219, 173)',
+                                'rgb(199, 173, 214)',
+                                'rgb(255, 187, 187)',
+                                'rgb(153, 204, 204)',
+                                'rgb(214, 173, 230)',
+                                'rgb(244, 230, 204)',
+                                'rgb(204, 173, 214)',
+                                'rgb(255, 204, 173)',
+                                'rgb(255, 214, 186)',
+                                'rgb(255, 244, 204)',
+                                'rgb(186, 219, 186)',
+                                'rgb(173, 204, 214)',
+                                'rgb(219, 186, 173)',
+                                'rgb(204, 204, 204)'
                             ],
                             borderWidth: 1,
                         }]
                     },
-//                     options: {
-//                         responsive: true,
-//                         plugins: {
-//                             title: {
-//                                 display: true,
-//                                 text: '회원 지역 통계',
-//                             },
-//                             legend: {
-//                                 position: 'top',
-//                             }
-//                         }
-//                     }
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: '회원 지역 통계',
+                            },
+                            legend: {
+                                position: 'top',
+                            }
+                        }
+                    }
                 });
             },
         });
@@ -135,34 +134,34 @@
                         datasets: [{
                             data: data,
                             backgroundColor: [
-                                'rgb(255, 182, 193)',
-                                'rgb(255, 228, 196)',
-                                'rgb(255, 218, 185)',
-                                'rgb(152, 251, 152)',
-                                'rgb(173, 216, 230)',
-                                'rgb(240, 128, 128)',
-                                'rgb(255, 240, 245)',
-                                'rgb(250, 235, 215)',
-                                'rgb(173, 255, 47)',
-                                'rgb(240, 230, 140)',
-                                'rgb(255, 228, 225)',
-                                'rgb(176, 224, 230)',
+                            	'rgb(186, 219, 173)',
+                                'rgb(199, 173, 214)',
+                                'rgb(255, 187, 187)',
+                                'rgb(153, 204, 204)',
+                                'rgb(214, 173, 230)',
+                                'rgb(244, 230, 204)',
+                                'rgb(204, 173, 214)',
+                                'rgb(255, 204, 173)',
+                                'rgb(255, 214, 186)',
+                                'rgb(255, 244, 204)',
+                                'rgb(186, 219, 186)',
+                                'rgb(173, 204, 214)'
                             ],
                             borderWidth: 1,
                         }]
                     },
-//                     options: {
-//                         responsive: true,
-//                         plugins: {
-//                             title: {
-//                                 display: true,
-//                                 text: '회원 가입월 통계',
-//                             },
-//                             legend: {
-//                                 position: 'top',
-//                             }
-//                         }
-//                     }
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: '회원 가입월 통계',
+                            },
+                            legend: {
+                                position: 'top',
+                            }
+                        }
+                    }
                 });
             },
         });
@@ -190,25 +189,25 @@
                         datasets: [{
                             data: data,
                             backgroundColor: [
-                                'rgb(255, 182, 193)',
-                                'rgb(255, 228, 196)',
-                                'rgb(255, 218, 185)',
+                                'rgb(186, 219, 173)',
+                                'rgb(199, 173, 214)',
+                                'rgb(255, 187, 187)',
                             ],
                             borderWidth: 1,
                         }]
                     },
-//                     options: {
-//                         responsive: true,
-//                         plugins: {
-//                             title: {
-//                                 display: true,
-//                                 text: '회원 등급 통계',
-//                             },
-//                             legend: {
-//                                 position: 'top',
-//                             }
-//                         }
-//                     }
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: '회원 등급 통계',
+                            },
+                            legend: {
+                                position: 'top',
+                            }
+                        }
+                    }
                 });
             },
         });
