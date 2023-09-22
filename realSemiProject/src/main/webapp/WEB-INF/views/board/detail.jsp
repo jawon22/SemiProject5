@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page = "/WEB-INF/views/template/header.jsp"></jsp:include>
  <script>
  $(function(){
+	
 	 $(".reply-insert-form").submit(function(e){
+// 		 console.log("성공");
 		 e.preventDefault();
-		
-		
 		 $.ajax({
 			 url:"/rest/reply/insert",
 			 method:"post",
@@ -25,6 +26,7 @@
 			
 			var memberId = "${sessionScope.name}";
 			
+				
 			$.ajax({
 				url:"/rest/reply/list",
 				method:"post",
@@ -98,6 +100,15 @@
 								});
 							});
 							
+							//대댓글 버튼
+							//replyGroup, replyParent, replyDepth 정보 필요
+							$(htmlTemplate).find(".btn-reply")
+												.attr("data-reply-no", reply.replyNo)
+												.attr("data-reply-content", reply.replyContent)
+												.click(function(){});
+															
+															
+							
 							//화면 배치
 							$(this).parents(".view-container")
 										.hide()
@@ -115,32 +126,30 @@
  </script>
 
  <script id="reply-template" type="text/template">
-        <div class="row flex-container view-container">
-        	<div class="w-75">
-				<div class="left">
-	`				<i>(사람아이콘)</i>
-					<pre class="replyWriter">작성자</pre>
+        <div class="row flex-container vertical view-container">
+			<div class="flex-container">
+		    	<div class="w-75">
+					<div class="left">
+			`			<i>(사람아이콘)</i>
+						<pre class="replyWriter">작성자</pre>
+					</div>
+					<div class="left">
+							<pre class="replyContent w-100 form-input"></pre>
+					</div>
 				</div>
-				<div class="left">
-					<pre class="replyContent w-100 form-input"></pre>
+				<div class="right w-25">
+						<button>버튼 생성 아이콘</button>
 				</div>
 			</div>
-			<div class="w-25">
-				<div class="row right">
-					<button class="btn w-100 btn-edit">수정</button>
+			
+				<div class="row">
+					<button class="btn  btn-edit">수정</button>
+					<button class="btn  btn-delete">삭제</button>
+					<button class="btn">신고</button>
+					<button class="btn btn-reply">대댓글</button>
 				</div>
-				<div class="row right">
-					<button class="btn w-100 btn-delete">삭제</button>
-				</div>
-				<div class="row right">
-					<button class="btn w-100">신고</button>
-				</div>
-				<div class="row right">
-					<button class="btn w-100">대댓글</button>
-				</div>       
-			</div>
-        </div>
-</script>
+	       </div>
+<!-- </script> -->
 
 
 
@@ -172,12 +181,13 @@
             <label>${boardDto.boardWriter}닉네임</label>
         </div>
         <div class="row right">
-            <label>${boardDto.boardLikecount}좋아요|${boardDto.boardReplycount}조회수</label>
+            <label>${boardDto.boardLikecount}좋아요|조회수${boardDto.boardReplycount}</label>
         </div>
         
         <div class="row">
            <pre>${boardDto.boardContent}</pre>
         </div>
+        
         
         <div class="row flex-container">
             <div class="col-2">
@@ -188,18 +198,19 @@
             <div class="col-2">
                 <div class="right">
                     <button class="button"><a href="/board/edit">블라인드</a></button>
-                    <button class="button"><a href="/board/list?keyword=${vo.type}, start=${vo.keyword}, end=${vo.page}">목록</a></button>
+                    <button class="button"><a href="/board/list">목록</a></button>
                     <button class="button"><a href="/board/edit?baordNo=${boardDto.boardNo}">수정</a></button>
                     <button class="button"><a href="/board/delete?boardNo=${boardDto.boardNo}">삭제</a></button>  
                 </div>
             </div>
-        </div>
+        </div>	
 		
-		<form class="reply-insert-form">
-		<div class="row flex-container">
 		
 <%-- 		<input type="hidden" name="replyWriter" value="${sessionScope.name}"> --%>
-		
+	<c:if test="${sessionScope.name != null}">
+		<form class="reply-insert-form">
+		<input type="hidden" name="replyOrigin" value="${boardDto.boardNo}">
+		<div class="row flex-container">
 			<div class="w-75">
 				<div class="row left">
 					<textarea class="w-100" name="replyContent"></textarea>
@@ -211,11 +222,17 @@
 					</div>
 				</div>
 		</div>
+<%-- 			<input type="hidden" name="replyGroup" value="${reply.replyNo}"> --%>
+			<input type="hidden" name="replyParent" value="${reply.replyNo}">
+		<c:if test="${reply.replyParent!=null}">
+			<input type="hidden" name="replyDepth" value="${reply.replyDepth}+1">
+		</c:if>
 		</form>
+	</c:if>
        
 			
-<div class="row left reply-list"></div>
-	</div>
+	<div class="row left reply-list"></div>
+</div>
 
 
 <jsp:include page = "/WEB-INF/views/template/footer.jsp"></jsp:include>
