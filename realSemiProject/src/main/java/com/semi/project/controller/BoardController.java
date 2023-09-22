@@ -92,6 +92,9 @@ public class BoardController {
 	    return "redirect:detail?boardNo=" + boardNo;
 	}
 
+	
+	
+	
     //삭제
 	@RequestMapping("/delete")
 	public String delete(@RequestParam int boardNo) {
