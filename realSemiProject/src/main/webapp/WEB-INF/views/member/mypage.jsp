@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
@@ -41,7 +42,7 @@ $(function(){
 			url:"/rest/member/delete",
 			method:"post",
 			success:function(response) {
-				$(".profile-image").attr("src", "https://dummyimage.com/130x130/000/fff");
+				$(".profile-image").attr("src", "/images/user.png");
 			},		
 		});	
 	});	
@@ -55,7 +56,7 @@ $(function(){
 		<label>
 			<c:choose>
 				<c:when test="${profile == null}">
-					<img src="https://dummyimage.com/130x130/000/fff" width="130" height="130"
+					<img src="/images/user.png" width="130" height="130"
 						class="image image-circle image-border profile-image">
 				</c:when>
 				<c:otherwise>
@@ -66,46 +67,89 @@ $(function(){
 		<input type="file" class="profile-chooser" accept="image/*" style="display:none;">
 		</label>
 		</div>
-		<div class="row w-75 left" style="margin-top:18%; margin-left:5%; margin-bottom:none;">	
-		<h1>${memberDto.memberId}</h1>
-		</div>
+		
+		<c:if test="${profile != null}">
 		<div>
-		<i class="fa-solid fa-trash-can profile-delete" style="color: #78bdcf;"></i>
+		<i class="fa-solid fa-circle-xmark profile-delete " style="color: #78bdcf; margin-right:100%;"></i>
+		</div>
+		</c:if>
+		
+		<div class="row w-75 left" style="margin-top:18%; margin-left:5%; margin-bottom:none;">	
+		<h1>${memberDto.memberId} <i class="fa-solid fa-crown" style="color: #74b6c8;"></i></h1>
 		</div>
 
-		
 		</div>
 		
 		<div class="row">
 			<table class="table table-slit">
-				<tbody>
 				<tr>
 					<th>아이디</th>
-					<td>${memberDto.memberId}
+					<td>${memberDto.memberId}</td>
 				</tr>
 				<tr>
 					<th>닉네임</th>
-					<td>${memberDto.memberNickname}
+					<td>${memberDto.memberNickname}</td>
 				</tr>
 				<tr>
 					<th>이메일</th>
-					<td>${memberDto.memberEmail}
+					<td>${memberDto.memberEmail}</td>
 				</tr>
 				<tr>
 					<th>지역</th>
-					<td>${memberDto.memberArea}
+					<td>${memberDto.memberArea}</td>
 				</tr>
 				<tr>
 					<th>회원등급</th>
-					<td>${memberDto.memberLevel}
+					<td>${memberDto.memberLevel}</td>
 				</tr>
 				<tr>
 					<th>포인트</th>
-					<td>${memberDto.memberPoint}
+					<td>${memberDto.memberPoint} <label>p</label></td>
 				</tr>
-				</tbody>
+				<tr>
+					<th>가입일</th>
+					<td><fmt:formatDate value="${memberDto.memberJoin}" 
+									pattern="y년 M월 d일 E a h시 m분 s초"/></td>
+										
+				</tr>
+				<tr>
+					<th>마지막 접속일</th>
+					<td><fmt:formatDate value="${memberDto.memberLogin}" 
+									pattern="y년 M월 d일 E a h시 m분 s초"/></td>
+				</tr>
 			</table>
 			
+			<c:if test="${expiredListDto.isExpired == 'Y'}">
+				<label style="font-size:40px; color:red;">비밀번호가 변경된지 90일이 경과되었습니다. <br> 비밀번호를 변경해 주세요.</label>
+			</c:if>
+			
+			
+			<div class="flex-container auto-width"> <!-- flex-container로 단을 나눌것임 -->
+			<div class="flex-container col-2">
+			<a class="link flex-container row" href="myLikeList">내가 좋아요 누른 글 보러가기 > </a>		
+			</div>
+			<div class="flex-container col-2">
+			<!-- flex-container로 단을 나눌것임 -->
+				<a class="link flex-container row" href="myWriteList">내가 쓴 글 보러가기 > </a>		
+					<br>
+				<div class="row">
+					<table>
+						<tbody>
+		<%-- 					<c:forEach var="boardDto" items="${myWriteList}"> --%>
+								<tr>
+									<th>
+										제목
+									</th>
+									<th>
+										작성자
+									</th>
+								</tr>		
+		<%-- 					</c:forEach> --%>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			</div>
 			<div class="row">
 			<a class="link" href="exit">탈퇴하기</a>
 			</div>
@@ -115,18 +159,12 @@ $(function(){
 			<div class="row">
 			<a class="link" href="pwChange">비밀번호변경하기</a>
 			</div>
-			
-			<div class="row" > <!-- flex-container로 단을 나눌것임 -->
-			<a class="link" href="myLikeList">내가 좋아요 누른 글 보러가기 > </a>		
-			</div>
-			<div class="row" > <!-- flex-container로 단을 나눌것임 -->
-			<a class="link" href="myWriteList">내가 쓴 글 보러가기 > </a>		
-			</div>
 			<div class="row">
 			<a class="link" href="logout">로그아웃</a>
 			</div>
 		</div>
 	</div>
+
 
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

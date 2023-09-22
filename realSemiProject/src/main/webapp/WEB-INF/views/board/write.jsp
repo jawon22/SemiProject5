@@ -30,10 +30,26 @@
                 ['color', ['color']],
                 ['para', ['paragraph']],
                 ['table', ['table']],
-                ['insert', ['link']],
-            ]
-        });
+                ['insert', ['link', 'picture']],
+                ],
+                
+                callbacks: {
+                    onImageUpload: function(files) {
+                      // upload image to server and create imgNode...
+                      $summernote.summernote('insertNode', imgNode);
+                    }
+                  }
+                });
 
+                // summernote.image.upload
+                $('#summernote').on('summernote.image.upload', function(we, files) {
+                  // upload image to server and create imgNode...
+                  $summernote.summernote('insertNode', imgNode);
+                });
+        
+        
+        
+        
         // 페이지 로드 시 초기값 설정
         updateBoardCategory();
 
@@ -56,12 +72,7 @@
         // 읽어온 파라미터를 출력
         console.log("boardCategory 파라미터 값: " + boardCategory);   
         console.log("성공");
-           
-      // 파라미터에서 boardCategory 값을 읽어와서 board_category 열에 직접 설정
-        //var boardCategory = params.get('boardCategory');
-        //$("input[name='board_category']").val(boardCategory); 
-        
-        
+                     
         
         
         if (selectedSeason == "전체") {
@@ -178,12 +189,13 @@
             updateBoardCategory();
         });
     });
+    
     /* 정보게시판: http://localhost:8080/board/write?boardCategory=1
     후기 게시판: http://localhost:8080/board/write?boardCategory=41
     자유게시판: http://localhost:8080/board/write?boardCategory=42  */  	
 </script>
     
-    	
+   	
 
 
 <script src="/js/boardWrite.js"></script>

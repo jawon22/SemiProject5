@@ -6,15 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.semi.project.dto.BlockListDto;
 import com.semi.project.dto.BoardListDto;
+import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
 import com.semi.project.dto.StatDto;
+import com.semi.project.mapper.BlockListMapper;
 import com.semi.project.mapper.BoardListMapper;
+import com.semi.project.mapper.MemberBlockMapper;
+import com.semi.project.mapper.ExpiredListMapper;
 import com.semi.project.mapper.MemberMapper;
-
-import com.semi.project.vo.PaginationVO;
-
 import com.semi.project.mapper.StatMapper;
+import com.semi.project.vo.PaginationVO;
 
 
 @Repository
@@ -31,6 +34,12 @@ public class MemberDaoImpl implements MemberDao {
 	
 	@Autowired
 	private StatMapper statMapper;
+	
+	@Autowired
+	private MemberBlockMapper memberblockMapper;
+	
+	@Autowired
+	private BlockListMapper blockListMapper;
 	
 	@Override
 	public void insert(MemberDto memberDto) {
@@ -166,7 +175,7 @@ public class MemberDaoImpl implements MemberDao {
 					+ "order by "+vo.getType()+ " asc"
 					+ ")TMP"
 					+ ") where rn between ? and ?";
-			Object[] data = {
+			Object[] data = { 
 					vo.getKeyword(), vo.getStartRow(), vo.getFinishRow()
 			};
 			return jdbcTemplate.query(sql, memberMapper, data);
@@ -182,7 +191,7 @@ public class MemberDaoImpl implements MemberDao {
 			Object[] data = {vo.getStartRow(), vo.getFinishRow()};
 			return jdbcTemplate.query(sql, memberMapper, data);
 		}
-		}
+	}
 
 
 	@Override
@@ -218,4 +227,104 @@ public class MemberDaoImpl implements MemberDao {
 		String sql = "select member_level name, count(*) cnt from member group by member_level";
 		return jdbcTemplate.query(sql, statMapper);
 	}
+	
+	@Override
+	public boolean updateMemberInfoByAdmin(MemberDto memberDto) {
+		String sql = "update member set "
+				+ "member_nickname = ?, member_level = ?, member_point = ? "
+				+ "where member_id = ?";
+		Object[] data = {
+				memberDto.getMemberNickname(), memberDto.getMemberLevel(),
+				memberDto.getMemberPoint(), memberDto.getMemberId()
+		};
+		return jdbcTemplate.update(sql, data) > 0;
+	}
+	
+	@Override
+	public boolean updateMemberLogin(String memberId) {
+		String sql = "update member set member_login = sysdate "
+				+ "where member_id = ?";
+		Object[] data = {memberId};
+		return jdbcTemplate.update(sql, data) > 0;
+	}
+
+	
+	@Override
+	public void insertBlock(String memberId) {
+		String sql = "insert into member_block(member_id) values(?)";
+		Object[] data = {memberId};
+		jdbcTemplate.update(sql, data);
+	}
+	
+	@Override
+	public boolean deleteBlock(String memberId) {
+		String sql = "delete member_block where member_id = ?";
+		Object[] data = {memberId};
+		return jdbcTemplate.update(sql, data) > 0;
+	}
+
+	@Override
+	public int countBlockList(PaginationVO vo) {
+	    if (vo.isSearch()) {
+	        String sql = "select count(*) from block_list "
+	        			+ "where instr(" + vo.getType() + ", ?) > 0 "
+	        			+ "and member_level != '관리자'";
+	        Object[] data = {vo.getKeyword()};
+	        return jdbcTemplate.queryForObject(sql, Integer.class, data);
+	    } else {
+	        String sql = "select count(*) from block_list "
+						+ "where member_level != '관리자'";
+	        return jdbcTemplate.queryForObject(sql, Integer.class);
+	    }
+	}
+	
+	@Override
+	public List<BlockListDto> selectBlockListByPage(PaginationVO vo) {
+		if(vo.isSearch()) {
+			String sql = "select * from ( "
+								+ "select rownum rn, tmp.* from ( "
+									+ "select * from block_list "
+									+ "order by block_time desc "
+									+ "where instr(" + vo.getType() + ", ?) > 0 "
+									+ "and member_level != '관리자' "
+									+	"order by block_time desc "
+								+ ") tmp"
+							+ ") where rn between ? and ?";
+			Object[] data = {
+					vo.getKeyword(), vo.getStartRow(), vo.getFinishRow()
+			};
+			return jdbcTemplate.query(sql, blockListMapper, data);
+		}
+		else {
+			String sql = "select * from ( "
+				    			+	"select rownum rn, tmp.* from ( "
+				    				+	"select * from block_list "
+				    				+	"order by block_time desc "
+				    			+	") tmp "
+				    		+	") where rn between ? and ? ";
+			Object[] data = {vo.getStartRow(), vo.getFinishRow()};
+			return jdbcTemplate.query(sql, blockListMapper, data);
+		}
+	}
+	
+	@Autowired
+	private ExpiredListMapper expiredListMapper;
+	
+	@Override
+	public ExpiredListDto findMemberExpiredList(String memberId) {
+		String sql = "select * from expired_list where member_id = ?";
+		Object[] data = {memberId};
+		List<ExpiredListDto> list = jdbcTemplate.query(sql, expiredListMapper, data);
+		return list.isEmpty() ? null : list.get(0);
+	}
+	
+	@Override
+	public boolean updateMemberLevel() {
+		String sql = "update member set member_level = 'tripper' "
+				+ "where member_id in ("
+				+ "select member_id from member "
+				+ "where member_point >= 1000)";
+		return jdbcTemplate.update(sql) > 0;
+	}
+
 }
