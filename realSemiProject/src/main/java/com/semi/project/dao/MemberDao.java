@@ -10,6 +10,7 @@ import com.semi.project.dto.StatDto;
 
 public interface MemberDao {
 	void insert(MemberDto memberDto); //회원가입
+	boolean updateMemberLogin(String memberId);
 	MemberDto selectOne(String memberId); //상세조회(마이페이지)
 	boolean updateMemberInfo(MemberDto memberDto); //회원정보변경(마이페이지)
 	boolean updateMemberPw(String memberId, String changePw); //비밀번호변경(마이페이지)
@@ -25,7 +26,7 @@ public interface MemberDao {
 	//관리자기능
 	int countList(PaginationVO vo);//회원목록
 	List<MemberDto> selectMemberListByPage(PaginationVO vo); //회원목록
-	
+	boolean updateMemberLevel(String memberId); //회원정보수정
 	
 	MemberDto selectIdByMemberEmail(String inputEmail);//아이디찾기
 	

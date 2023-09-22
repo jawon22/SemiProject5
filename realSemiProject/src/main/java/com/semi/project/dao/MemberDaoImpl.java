@@ -218,4 +218,19 @@ public class MemberDaoImpl implements MemberDao {
 		String sql = "select member_level name, count(*) cnt from member group by member_level";
 		return jdbcTemplate.query(sql, statMapper);
 	}
+	
+	@Override
+	public boolean updateMemberLevel(String memberId) {
+		String sql = "update member set member_level = ? where member_id = ?";
+		Object[] data = {memberId};
+		return jdbcTemplate.update(sql, data) > 0;
+	}
+	
+	@Override
+	public boolean updateMemberLogin(String memberId) {
+		String sql = "update member set member_login = sysdate "
+				+ "where member_id = ?";
+		Object[] data = {memberId};
+		return jdbcTemplate.update(sql, data) > 0;
+	}
 }
