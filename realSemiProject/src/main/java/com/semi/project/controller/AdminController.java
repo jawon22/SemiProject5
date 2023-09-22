@@ -2,10 +2,14 @@ package com.semi.project.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -54,5 +58,19 @@ public class AdminController {
 		return "/WEB-INF/views/admin/member/detail.jsp";
 	}
 	
+	@GetMapping("/member/edit") //개인정보변경
+	public String memberEdit(Model model, @RequestParam String memberId) {
+		MemberDto memberDto = memberDao.selectOne(memberId);
+		model.addAttribute("memberDto", memberDto);
+		return "/WEB-INF/views/admin/member/edit.jsp";
+	}
+	@PostMapping("/member/edit")
+	public String infochange(@ModelAttribute MemberDto inputDto,
+								@RequestParam String memberId) {
+		
+		memberDao.updateMemberInfo(inputDto);
+		
+		return "redirect:member/detail?memberId="+memberId;
+	}
 	
 }
