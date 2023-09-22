@@ -189,7 +189,7 @@
                 <div class="right">
                     <button class="button"><a href="/board/edit">블라인드</a></button>
                     <button class="button"><a href="/board/list?keyword=${vo.type}, start=${vo.keyword}, end=${vo.page}">목록</a></button>
-                    <button class="button"><a href="/board/edit?baordNo=${boardDto.boardNo}">수정</a></button>
+                    <button class="button"><a href="/board/edit?boardNo=${boardDto.boardNo}">수정</a></button>
                     <button class="button"><a href="/board/delete?boardNo=${boardDto.boardNo}">삭제</a></button>  
                 </div>
             </div>
