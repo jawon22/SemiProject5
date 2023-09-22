@@ -115,10 +115,4 @@ public class MemberController {
 		return "/WEB-INF/views/member/searchPwFinish.jsp";
 	}
 	
-	//adminController로 옮겨야 함
-	@GetMapping("/stat")
-	public String stat() {
-		return "/WEB-INF/views/admin/stat.jsp";
-	}
-	
 }
