@@ -107,12 +107,28 @@ public class BoardController {
 			//throw new NoTargetException("없는 게시글 번호");
 		}
 	}
+	
+	
+	
+	//수정
 	@GetMapping("/edit")
-	public String edit(@ModelAttribute BoardDto boardDto) {
-		
+	public String edit(@RequestParam int boardNo, Model model) {
+		BoardDto boardDto = boardDao.selectOne(boardNo);
+		model.addAttribute("boardDto", boardDto);
 		return "/WEB-INF/views/board/edit.jsp";
 	}
-	//@PostMapping("/edit")
+	
+	@PostMapping("/edit")
+	public String edit(@ModelAttribute BoardDto boardDto) {
+		boolean result = boardDao.edit(boardDto);
+		if(result) {
+			return "redirect:detail?boardNo=" + boardDto.getBoardNo();
+		}
+		else {
+			return "redirect:에러페이지";
+			//throw new NoTargetException("존재하지 않는 글번호");
+		}
+	}
 	
 }
 
