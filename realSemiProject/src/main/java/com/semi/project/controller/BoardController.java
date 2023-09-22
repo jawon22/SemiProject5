@@ -39,6 +39,38 @@ public class BoardController {
 		return "/WEB-INF/views/board/list.jsp";
 	}
 	
+	@RequestMapping("/list/readcount") // 정보게시판 조회수순 리스트
+	public String listReadcount(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
+		int count = boardDao.countList(vo);
+		vo.setCount(count);
+		
+		List<BoardListDto> list =  boardDao.selectListByReadcount(vo);
+		model.addAttribute("list",list);
+
+		if(vo.isSearch()) {
+			return "redirect:?weather="+vo.getWeather()+"&area="+vo.getArea()
+				+"&type="+vo.getType()+"&keyword="+vo.getKeyword();
+		}
+		
+		return "/WEB-INF/views/board/list.jsp";
+	}
+	
+	@RequestMapping("/list/likecount") // 정보게시판 좋아요순 리스트
+	public String listLikecount(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
+		int count = boardDao.countList(vo);
+		vo.setCount(count);
+		
+		List<BoardListDto> list =  boardDao.selectListByLikecount(vo);
+		model.addAttribute("list",list);
+		
+		if(vo.isSearch()) {
+			return "redirect:?weather="+vo.getWeather()+"&area="+vo.getArea()
+				+"&type="+vo.getType()+"&keyword="+vo.getKeyword();
+		}
+		
+		return "/WEB-INF/views/board/list.jsp";
+	}
+	
 	
 	@RequestMapping("/detail")
 	public String detail(@RequestParam int boardNo, Model model) {

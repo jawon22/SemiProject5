@@ -6,9 +6,9 @@ import lombok.Data;
 public class PaginationVO {
 	private String type, keyword; //검색 분류 및 키워드
 	private String weather, area; // 카테고리 계절, 지역
+	
 	private int page =1; //현재 페이지 번호
 	private int size =10; // 보유줄 게시글 수 ->기본값 10
-	
 	private int count; // 전체 글 수 (DB에서 구해와야하는 값)
 	private int navigatorSize=10; // 하단 네비게이터 표시 개수(기본값 10)
 	
@@ -73,6 +73,8 @@ public class PaginationVO {
 		return page* size;
 	}
 	
+	
+	// 관리자가 보는 회원 목록
 	public String getPrevQueryStringForMemberList() {
 		if(isSearch()) { //검색
 			return "page="+(getBegin() - 1)+"&type=" + type + "&keyword=" + keyword;

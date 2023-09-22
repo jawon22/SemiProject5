@@ -74,7 +74,7 @@ public class BoardDaoImpl implements BoardDao{
 		
 		String sql = "SELECT * FROM ("
 					+ "SELECT ROWNUM rn, TMP.* FROM("
-						+ "select * from board_list where board_category between 1 and 40 order by board_no asc"
+						+ "select * from board_list where board_category between 1 and 40 order by board_ctime desc"
 					+ ")TMP "
 				+ ")where rn between ? and ?";
 		return jdbcTemplate.query(sql, boardListMapper,start,end);
@@ -90,7 +90,7 @@ public class BoardDaoImpl implements BoardDao{
 						+ "SELECT ROWNUM rn, TMP.* FROM("
 							+ "select * from board_list where "
 							+ "board_category between 1 and 40 and board_categoryweather = ?"
-								+ " order by board_no asc"
+								+ " order by board_ctime desc"
 							+ ")TMP "
 						+ ")WHERE rn BETWEEN ? AND ?";
 		Object[] data = {weather,start,end};
@@ -107,7 +107,7 @@ public class BoardDaoImpl implements BoardDao{
 						+ "SELECT ROWNUM rn, TMP.* FROM("
 							+ "select * from board_list where board_category between 1 and 40 "
 									+ "and board_area = ?"
-								+ " order by board_no asc"
+								+ " order by board_ctime desc"
 							+ ")TMP "
 						+ ")WHERE rn BETWEEN ? AND ?";
 		Object[] data = {area,start,end};
@@ -125,7 +125,7 @@ public class BoardDaoImpl implements BoardDao{
 						+ "SELECT ROWNUM rn, TMP.* FROM("
 							+ "select * from board_list where board_category between 1 and 40 and"
 							+ " board_categoryweather = ? AND board_area = ?"
-								+ " order by board_no asc"
+								+ " order by board_ctime desc"
 							+ ")TMP "
 						+ ")WHERE rn BETWEEN ? AND ?";
 		Object[] data = {weather,area,start,end};
@@ -143,7 +143,7 @@ public class BoardDaoImpl implements BoardDao{
 							+ "select * from board_list where instr("+type+",?) >0 and "
 										+ "board_category between 1 and 40 and board_categoryweather = ? "
 									+ "AND board_area = ?"
-								+ " order by board_no asc"
+								+ " order by board_ctime desc"
 							+ ")TMP "
 						+ ")WHERE rn BETWEEN ? AND ?";
 		Object[] data = {keyword,weather,area,start,end};
@@ -151,33 +151,259 @@ public class BoardDaoImpl implements BoardDao{
 		
 	}
 	
+	
 	//정보게시판 목록 조회(검색,페이지)(VO로 간단히)
 	@Override
 	public List<BoardListDto> selectListByPage(PaginationVO vo) {
-		if(vo.isSearch()) {
-				// 계절과 지역이 전체일 경우
+		if(!vo.isSearch()) {
+			return selectListByPage(vo.getPage());
+		}
+		else {
+			// 계절과 지역이 전체일 경우
 			if(vo.getWeather().equals("전체") && vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
 				return selectListByPage(vo.getPage());
 			}
-				// 계절이 전체일 경우
+			// 계절이 전체일 경우
 			else if(vo.getWeather().equals("전체") && !vo.getArea().equals("전체")&& vo.getKeyword().equals("")) {
 				return selectListByPageAndArea(vo.getPage(), vo.getArea());
 			}
-				// 지역이 전체일 경우
+			// 지역이 전체일 경우
 			else if(!vo.getWeather().equals("전체") && vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
 				return selectListByPageAndWeather(vo.getPage(), vo.getWeather());
 			}
-				//계절과 지역이 전체가 아닌 경우
+			//계절과 지역이 전체가 아닌 경우
 			else if(!vo.getWeather().equals("전체") && !vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
 				return selectListByPageAndCategory(vo.getPage(), vo.getWeather(), vo.getArea());
 			}
-				//계절과 지역이 선택되고 검색 키워드가 있는 경우
+			//계절과 지역이 선택되고 검색 키워드가 있는 경우
 			else {
 				return selectListByPage(vo.getType(), vo.getKeyword(),vo.getWeather(),vo.getArea(), vo.getPage());
 			}
 		}
-		else return selectListByPage(vo.getPage());
 	}
+	
+	//조회수순 정렬
+	
+	@Override
+	public List<BoardListDto> selectListByReadcount(int page) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "SELECT * FROM ("
+					+ "SELECT ROWNUM rn, TMP.* FROM("
+						+ "select * from board_list where board_category between 1 and 40 order by board_readcount desc"
+					+ ")TMP "
+				+ ")where rn between ? and ?";
+		return jdbcTemplate.query(sql, boardListMapper,start,end);
+	}
+	
+	@Override
+	public List<BoardListDto> selectListByReadcountWeather(int page, String weather) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "SELECT * FROM ("
+						+ "SELECT ROWNUM rn, TMP.* FROM("
+							+ "select * from board_list where "
+							+ "board_category between 1 and 40 and board_categoryweather = ?"
+								+ " order by board_readcount desc"
+							+ ")TMP "
+						+ ")WHERE rn BETWEEN ? AND ?";
+		Object[] data = {weather,start,end};
+		return jdbcTemplate.query(sql, boardListMapper,data);
+	}
+	
+	@Override
+	public List<BoardListDto> selectListByReadcountArea(int page, String area) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "SELECT * FROM ("
+						+ "SELECT ROWNUM rn, TMP.* FROM("
+							+ "select * from board_list where board_category between 1 and 40 "
+									+ "and board_area = ?"
+								+ " order by board_readcount desc"
+							+ ")TMP "
+						+ ")WHERE rn BETWEEN ? AND ?";
+		Object[] data = {area,start,end};
+		return jdbcTemplate.query(sql, boardListMapper,data);
+		
+	}
+	
+	@Override
+	public List<BoardListDto> selectListByReadcountCategory(int page, String weather, String area) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "SELECT * FROM ("
+						+ "SELECT ROWNUM rn, TMP.* FROM("
+							+ "select * from board_list where board_category between 1 and 40 and"
+							+ " board_categoryweather = ? AND board_area = ?"
+								+ " order by board_readcount desc"
+							+ ")TMP "
+						+ ")WHERE rn BETWEEN ? AND ?";
+		Object[] data = {weather,area,start,end};
+		return jdbcTemplate.query(sql, boardListMapper,data);
+	}
+	
+	@Override
+	public List<BoardListDto> selectListByReadcountAll(String type, String keyword, String weather, String area, int page) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "SELECT * FROM ("
+						+ "SELECT ROWNUM rn, TMP.* FROM("
+							+ "select * from board_list where instr("+type+",?) >0 and "
+										+ "board_category between 1 and 40 and board_categoryweather = ? "
+									+ "AND board_area = ?"
+								+ " order by board_readcount desc"
+							+ ")TMP "
+						+ ")WHERE rn BETWEEN ? AND ?";
+		Object[] data = {keyword,weather,area,start,end};
+		return jdbcTemplate.query(sql, boardListMapper,data);
+		
+	}
+	
+	@Override
+	public List<BoardListDto> selectListByReadcount(PaginationVO vo) {
+		if(!vo.isSearch()) {
+			return selectListByReadcount(vo.getPage());
+		}
+		else {
+			// 계절과 지역이 전체일 경우
+			if(vo.getWeather().equals("전체") && vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
+				return selectListByReadcount(vo.getPage());
+			}
+			// 계절이 전체일 경우
+			else if(vo.getWeather().equals("전체") && !vo.getArea().equals("전체")&& vo.getKeyword().equals("")) {
+				return selectListByReadcountArea(vo.getPage(), vo.getArea());
+			}
+			// 지역이 전체일 경우
+			else if(!vo.getWeather().equals("전체") && vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
+				return selectListByReadcountWeather(vo.getPage(), vo.getWeather());
+			}
+			//계절과 지역이 전체가 아닌 경우
+			else if(!vo.getWeather().equals("전체") && !vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
+				return selectListByReadcountCategory(vo.getPage(), vo.getWeather(), vo.getArea());
+			}
+			//계절과 지역이 선택되고 검색 키워드가 있는 경우
+			else {
+				return selectListByReadcountAll(vo.getType(), vo.getKeyword(),vo.getWeather(),vo.getArea(), vo.getPage());
+			}
+		}
+	}
+	
+	
+	//좋아요순 정렬
+	@Override
+	public List<BoardListDto> selectListByLikecount(int page) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "SELECT * FROM ("
+					+ "SELECT ROWNUM rn, TMP.* FROM("
+						+ "select * from board_list where board_category between 1 and 40 order by board_likecount desc"
+					+ ")TMP "
+				+ ")where rn between ? and ?";
+		return jdbcTemplate.query(sql, boardListMapper,start,end);
+	}
+	
+	@Override
+	public List<BoardListDto> selectListByLikecountWeather(int page, String weather) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "SELECT * FROM ("
+						+ "SELECT ROWNUM rn, TMP.* FROM("
+							+ "select * from board_list where "
+							+ "board_category between 1 and 40 and board_categoryweather = ?"
+								+ " order by board_likecount desc"
+							+ ")TMP "
+						+ ")WHERE rn BETWEEN ? AND ?";
+		Object[] data = {weather,start,end};
+		return jdbcTemplate.query(sql, boardListMapper,data);
+	}
+	
+	@Override
+	public List<BoardListDto> selectListByLikecountArea(int page, String area) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "SELECT * FROM ("
+						+ "SELECT ROWNUM rn, TMP.* FROM("
+							+ "select * from board_list where board_category between 1 and 40 "
+									+ "and board_area = ?"
+								+ " order by board_likecount desc"
+							+ ")TMP "
+						+ ")WHERE rn BETWEEN ? AND ?";
+		Object[] data = {area,start,end};
+		return jdbcTemplate.query(sql, boardListMapper,data);
+		
+	}
+	
+	@Override
+	public List<BoardListDto> selectListByLikecountCategory(int page, String weather, String area) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "SELECT * FROM ("
+						+ "SELECT ROWNUM rn, TMP.* FROM("
+							+ "select * from board_list where board_category between 1 and 40 and"
+							+ " board_categoryweather = ? AND board_area = ?"
+								+ " order by board_likecount desc"
+							+ ")TMP "
+						+ ")WHERE rn BETWEEN ? AND ?";
+		Object[] data = {weather,area,start,end};
+		return jdbcTemplate.query(sql, boardListMapper,data);
+	}
+	
+	@Override
+	public List<BoardListDto> selectListByLikecount(String type, String keyword, String weather, String area, int page) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "SELECT * FROM ("
+						+ "SELECT ROWNUM rn, TMP.* FROM("
+							+ "select * from board_list where instr("+type+",?) >0 and "
+										+ "board_category between 1 and 40 and board_categoryweather = ? "
+									+ "AND board_area = ?"
+								+ " order by board_likecount desc"
+							+ ")TMP "
+						+ ")WHERE rn BETWEEN ? AND ?";
+		Object[] data = {keyword,weather,area,start,end};
+		return jdbcTemplate.query(sql, boardListMapper,data);
+		
+	}
+	
+	@Override
+	public List<BoardListDto> selectListByLikecount(PaginationVO vo) {
+		if(!vo.isSearch()) {
+			return selectListByLikecount(vo.getPage());
+		}
+		else {
+			// 계절과 지역이 전체일 경우
+			if(vo.getWeather().equals("전체") && vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
+				return selectListByLikecount(vo.getPage());
+			}
+			// 계절이 전체일 경우
+			else if(vo.getWeather().equals("전체") && !vo.getArea().equals("전체")&& vo.getKeyword().equals("")) {
+				return selectListByLikecountArea(vo.getPage(), vo.getArea());
+			}
+			// 지역이 전체일 경우
+			else if(!vo.getWeather().equals("전체") && vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
+				return selectListByLikecountWeather(vo.getPage(), vo.getWeather());
+			}
+			//계절과 지역이 전체가 아닌 경우
+			else if(!vo.getWeather().equals("전체") && !vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
+				return selectListByLikecountCategory(vo.getPage(), vo.getWeather(), vo.getArea());
+			}
+			//계절과 지역이 선택되고 검색 키워드가 있는 경우
+			else {
+				return selectListByLikecount(vo.getType(), vo.getKeyword(),vo.getWeather(),vo.getArea(), vo.getPage());
+			}
+		}
+	}
+	
 
 	@Override
 	public int countList(PaginationVO vo) {
