@@ -4,6 +4,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<style>
+
+</style>
+
 <script>
 $(function(){
 	$(".profile-chooser").change(function(){
@@ -71,7 +75,7 @@ $(function(){
 		</c:if>
 		
 		<div class="row w-75 left" style="margin-top:18%; margin-left:5%; margin-bottom:none;">	
-		<h1>${memberDto.memberId} <i class="fa-solid fa-crown fa-bounce" style="color: #74b6c8;"></i></h1>
+		<h1>${memberDto.memberId} <i class="fa-solid fa-crown" style="color: #74b6c8;"></i></h1>
 		</div>
 
 		</div>
@@ -115,6 +119,10 @@ $(function(){
 				</tr>
 			</table>
 			
+			<c:if test="${expiredListDto.isExpired == 'Y'}">
+				<label style="font-size:40px; color:red;">비밀번호가 변경된지 90일이 경과되었습니다. <br> 비밀번호를 변경해 주세요.</label>
+			</c:if>
+			
 			
 			<div class="flex-container auto-width"> <!-- flex-container로 단을 나눌것임 -->
 			<div class="flex-container col-2">
@@ -156,6 +164,7 @@ $(function(){
 			</div>
 		</div>
 	</div>
+
 
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
