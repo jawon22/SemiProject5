@@ -45,19 +45,16 @@
         	return confirm("정말 삭제하시겠습니까?");
         });
 		
-        $(".btn-desc").click(function(e){
-        	$.ajax({
-				url:"/board/list",        		
-				data:$(e.target).serialize(),
-				success:function(response){
-					$(".rangelist")
-				}
-        	});
-        	
-        });
-		
-		
-
+//         $(".btn-desc").click(function(e){
+//         	$.ajax({
+// 				url:"/board/list",        		
+// 				data:$(e.target).serialize(),
+// 				success:function(response){
+// 					$(".rangelist")
+// 				}
+//         	});
+//         });
+        
 	});
 
 </script>
@@ -127,9 +124,9 @@
 	</form>
 
 <div class="row right">
-	<button class="btn-desc" data-sort="ctime">최신순</button>
-	<button class="btn-readcount" data-sort="readcount">조회수순</button>
-	<button class="btn-likecount" data-sort="likecount">좋아요순</button>
+	<a href="http://localhost:8080/board/list" class="btn">최신순</a>
+	<a href="http://localhost:8080/board/list/readcount" class="btn">조회수순</a>
+	<a href="http://localhost:8080/board/list/likecount" class="btn">좋아요순</a>
 </div>
 
 		<!-- action을 아직 지정안했음 -->
@@ -170,7 +167,7 @@
 			</thead>
 			<tbody>
 				<c:forEach var="boardListDto" items="${list}">
-					<tr class="rangelist">
+					<tr>
 						<c:if test="${sessionScope.level == '관리자'}">
 						<td>
 						<!-- 개별항목 체크박스 -->
