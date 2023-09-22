@@ -7,14 +7,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.semi.project.dto.BoardListDto;
+import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
 import com.semi.project.dto.StatDto;
 import com.semi.project.mapper.BoardListMapper;
+import com.semi.project.mapper.ExpiredListMapper;
 import com.semi.project.mapper.MemberMapper;
-
-import com.semi.project.vo.PaginationVO;
-
 import com.semi.project.mapper.StatMapper;
+import com.semi.project.vo.PaginationVO;
 
 
 @Repository
@@ -220,9 +220,14 @@ public class MemberDaoImpl implements MemberDao {
 	}
 	
 	@Override
-	public boolean updateMemberLevel(String memberId) {
-		String sql = "update member set member_level = ? where member_id = ?";
-		Object[] data = {memberId};
+	public boolean updateMemberInfoByAdmin(MemberDto memberDto) {
+		String sql = "update member set "
+				+ "member_nickname = ?, member_level = ?, member_point = ? "
+				+ "where member_id = ?";
+		Object[] data = {
+				memberDto.getMemberNickname(), memberDto.getMemberLevel(),
+				memberDto.getMemberPoint(), memberDto.getMemberId()
+		};
 		return jdbcTemplate.update(sql, data) > 0;
 	}
 	
@@ -233,4 +238,16 @@ public class MemberDaoImpl implements MemberDao {
 		Object[] data = {memberId};
 		return jdbcTemplate.update(sql, data) > 0;
 	}
+	
+	@Autowired
+	private ExpiredListMapper expiredListMapper;
+	
+	@Override
+	public ExpiredListDto findMemberExpiredList(String memberId) {
+		String sql = "select * from expired_list where member_id = ?";
+		Object[] data = {memberId};
+		List<ExpiredListDto> list = jdbcTemplate.query(sql, expiredListMapper, data);
+		return list.isEmpty() ? null : list.get(0);
+	}
+	
 }
