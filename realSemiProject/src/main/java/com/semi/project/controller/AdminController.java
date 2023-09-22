@@ -68,7 +68,7 @@ public class AdminController {
 	public String infochange(@ModelAttribute MemberDto inputDto,
 								@RequestParam String memberId) {
 		
-		memberDao.updateMemberInfo(inputDto);
+		memberDao.updateMemberInfoByAdmin(inputDto);
 		
 		return "redirect:member/detail?memberId="+memberId;
 	}

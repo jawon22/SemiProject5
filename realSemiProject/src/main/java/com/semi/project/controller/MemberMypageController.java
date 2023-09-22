@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.semi.project.dao.MemberDao;
+import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +31,10 @@ public class MemberMypageController {
 	}
 	@PostMapping("/login")
 	public String login(@ModelAttribute MemberDto inputDto,
-										HttpSession session) {
+										HttpSession session, Model model) {
 		MemberDto findDto = memberDao.selectOne(inputDto.getMemberId());
 		
-		if(findDto == null) {
+		if(findDto == null) { //회원정보가 없으면
 			return "redirect:login?error";
 		}
 		
@@ -41,7 +42,15 @@ public class MemberMypageController {
 		if(isCorrect) { //비밀번호가 일치하면
 			session.setAttribute("name", findDto.getMemberId());
 			session.setAttribute("level", findDto.getMemberLevel());
-			return "redirect:mypage";
+			
+			memberDao.updateMemberLogin(findDto.getMemberId());
+			ExpiredListDto expiredListDto =  memberDao.findMemberExpiredList(findDto.getMemberId());
+			
+			if(expiredListDto.getIsExpired().equals("Y")) {
+				return "redirect:mypage";
+			}
+			
+			return "redirect:/";
 		}
 		else { //비밀번호가 일치하지 않으면
 			return "redirect:login?error"; //나중에 param으로 바꿀 것임
@@ -54,7 +63,9 @@ public class MemberMypageController {
 		
 		String memberId = (String)session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);
+		ExpiredListDto expiredListDto =  memberDao.findMemberExpiredList(memberId);
 		
+		model.addAttribute("expiredListDto", expiredListDto);
 		model.addAttribute("memberDto", memberDto);
 		model.addAttribute("profile", memberDao.findProfile(memberId));
 

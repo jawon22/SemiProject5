@@ -48,16 +48,16 @@ $(function(){
 
 		</div>
 		<div class="row w-75 left" style="margin-top:18%; margin-left:5%; margin-bottom:none;">	
-			<h1>${memberDto.memberId} <i class="fa-solid fa-crown fa-bounce" style="color: #74b6c8;"></i></h1>
+			<h1>${memberDto.memberId} <i class="fa-solid fa-crown" style="color: #74b6c8;"></i></h1>
 		</div>
 		<c:if test="${attachNo != null}">
 			<div>
-				<i class="fa-solid fa-circle-xmark profile-delete " style="color: #78bdcf; margin-right:100%;"></i>
+				<i class="fa-solid fa-circle-xmark profile-delete" style="color: #78bdcf; margin-right:100%;"></i>
 			</div>
 		</c:if>
 		
 		</div>
-		
+			
 		<div class="row">
 				<table class="table table-stripe">
 				<tr>
@@ -78,13 +78,12 @@ $(function(){
 				</tr>
 				<tr>
 					<th>회원등급</th>
-					<td>${memberDto.memberLevel}
-					<button class="btn">변경</button>
-					</td>
+					<td>${memberDto.memberLevel}</td>
 				</tr>
 				<tr>
 					<th>포인트</th>
-					<td>${memberDto.memberPoint} <label>p</label></td>
+					<td>${memberDto.memberPoint}
+					<i class="fa-solid fa-p fa-xs" style="color: #001c40;"></i></td>
 				</tr>
 				<tr>
 					<th>가입일</th>
