@@ -30,6 +30,22 @@ public interface BoardDao {
 	List<BoardListDto> selectListByPage(String type, String keyword, String weather, String area, int page);
 	List<BoardListDto> selectListByPage(PaginationVO vo);
 	
+	//조회수정렬
+	List<BoardListDto> selectListByReadcount(int page);
+	List<BoardListDto> selectListByReadcountWeather(int page, String weather);
+	List<BoardListDto> selectListByReadcountArea(int page, String area);
+	List<BoardListDto> selectListByReadcountCategory(int page, String weather, String area);
+	List<BoardListDto> selectListByReadcountAll(String type, String keyword, String weather, String area, int page);
+	List<BoardListDto> selectListByReadcount(PaginationVO vo);
+	
+	//좋아요정렬
+	List<BoardListDto> selectListByLikecount(int page);
+	List<BoardListDto> selectListByLikecountWeather(int page, String weather);
+	List<BoardListDto> selectListByLikecountArea(int page, String area);
+	List<BoardListDto> selectListByLikecountCategory(int page, String weather, String area);
+	List<BoardListDto> selectListByLikecount(String type, String keyword, String weather, String area, int page);
+	List<BoardListDto> selectListByLikecount(PaginationVO vo);
+	
 	//정보게시판 갯수 세기
 	int countList(PaginationVO vo);
 	
