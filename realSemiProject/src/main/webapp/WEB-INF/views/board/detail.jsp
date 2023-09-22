@@ -4,7 +4,42 @@
 <jsp:include page = "/WEB-INF/views/template/header.jsp"></jsp:include>
  <script>
  $(function(){
-	
+	 var params = new URLSearchParams(location.search);
+		var no = params.get("boardNo");
+		
+		//좋아요 처리
+			 $.ajax({
+				 url:"/rest/boardLike/check",
+				 method:"post",
+				 data:{boardNo : no},
+			 	success:function(response){
+				 if(response=="Y"){
+					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-regular")
+				 }
+				 else if(response=="N"){
+					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-solid")
+				 }
+				 return 
+			 	}
+			 });
+			
+		$(".fa-heart").click(function(){
+			 $.ajax({
+				 url:"/rest/boardLike/action",
+				 method:"post",
+				 data:{boardNo : no},
+			 	success:function(response){
+				 if(response=="Y"){
+					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-regular")
+				 }
+				 else if(response=="N"){
+					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-solid")
+				 }
+			 	}
+			 });		
+		});
+		
+		
 	 $(".reply-insert-form").submit(function(e){
 // 		 console.log("성공");
 		 e.preventDefault();
@@ -94,7 +129,7 @@
 									method:"post",
 									data : $(e.target).serialize(),
 									success:function(response){
-								console.log("성공");
+// 								console.log("성공");
 										loadList();
 									}
 								});
@@ -107,7 +142,9 @@
 												.attr("data-reply-content", reply.replyContent)
 												.click(function(){});
 															
-															
+							
+							
+											
 							
 							//화면 배치
 							$(this).parents(".view-container")
@@ -119,7 +156,7 @@
 					}
 				},
 			});
-		}
+	}
  });
  
  
@@ -181,7 +218,7 @@
             <label>${boardDto.boardWriter}닉네임</label>
         </div>
         <div class="row right">
-            <label>${boardDto.boardLikecount}좋아요|조회수${boardDto.boardReplycount}</label>
+          <i class="fa-solid fa-heart red">${boardDto.boardLikecount}</i>|조회수${boardDto.boardReplycount}</label>
         </div>
         
         <div class="row">
