@@ -30,10 +30,26 @@
                 ['color', ['color']],
                 ['para', ['paragraph']],
                 ['table', ['table']],
-                ['insert', ['link']],
-            ]
-        });
+                ['insert', ['link', 'picture']],
+                ],
+                
+                callbacks: {
+                    onImageUpload: function(files) {
+                      // upload image to server and create imgNode...
+                      $summernote.summernote('insertNode', imgNode);
+                    }
+                  }
+                });
 
+                // summernote.image.upload
+                $('#summernote').on('summernote.image.upload', function(we, files) {
+                  // upload image to server and create imgNode...
+                  $summernote.summernote('insertNode', imgNode);
+                });
+        
+        
+        
+        
         // 페이지 로드 시 초기값 설정
         updateBoardCategory();
 
@@ -178,12 +194,13 @@
             updateBoardCategory();
         });
     });
+    
     /* 정보게시판: http://localhost:8080/board/write?boardCategory=1
     후기 게시판: http://localhost:8080/board/write?boardCategory=41
     자유게시판: http://localhost:8080/board/write?boardCategory=42  */  	
 </script>
     
-    	
+   	
 
 
 <script src="/js/boardWrite.js"></script>
