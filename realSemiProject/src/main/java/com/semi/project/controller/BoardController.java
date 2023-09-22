@@ -17,6 +17,7 @@ import com.semi.project.dao.BoardDao;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
+import com.semi.project.dto.MemberDto;
 import com.semi.project.vo.PaginationVO;
 
 @Controller
@@ -39,7 +40,7 @@ public class BoardController {
 		return "/WEB-INF/views/board/list.jsp";
 	}
 	
-	@RequestMapping("/list/readcount") // 정보게시판 조회수순 리스트
+	@RequestMapping("/readcount") // 정보게시판 조회수순 리스트
 	public String listReadcount(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
 		int count = boardDao.countList(vo);
 		vo.setCount(count);
@@ -55,7 +56,7 @@ public class BoardController {
 		return "/WEB-INF/views/board/list.jsp";
 	}
 	
-	@RequestMapping("/list/likecount") // 정보게시판 좋아요순 리스트
+	@RequestMapping("/likecount") // 정보게시판 좋아요순 리스트
 	public String listLikecount(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
 		int count = boardDao.countList(vo);
 		vo.setCount(count);
@@ -109,18 +110,23 @@ public class BoardController {
 
 
 	@PostMapping("/write")
-	public String write(@ModelAttribute BoardDto boardDto, HttpSession session) {
+	public String write(@ModelAttribute BoardDto boardDto, HttpSession session, MemberDto memberDto) {
 	    int boardNo = boardDao.sequence();
-	    String memberNickname = (String) session.getAttribute("name");
-	    boardDto.setBoardWriter(memberNickname);
+	    
 	    boardDto.setBoardNo(boardNo);
 	    //boardDto.setBoardCategory(boardDto.getBoardCategory()); // 이미 모델에 설정되어 있음
 
+	    String memberId = (String) session.getAttribute("name");
+	    boardDto.setBoardWriter(memberId);
+	    
 	    // 글을 등록
 	    boardDao.insert(boardDto);
 	    return "redirect:detail?boardNo=" + boardNo;
 	}
 
+	
+	
+	
     //삭제
 	@RequestMapping("/delete")
 	public String delete(@RequestParam int boardNo) {
@@ -133,12 +139,27 @@ public class BoardController {
 			//throw new NoTargetException("없는 게시글 번호");
 		}
 	}
+	
+	
+	
+	//수정
 	@GetMapping("/edit")
-	public String edit(@ModelAttribute BoardDto boardDto) {
-		
+	public String edit(@RequestParam int boardNo, Model model) {
+		BoardDto boardDto = boardDao.selectOne(boardNo);
+		model.addAttribute("boardDto", boardDto);
 		return "/WEB-INF/views/board/edit.jsp";
 	}
-	//@PostMapping("/edit")
+	
+	@PostMapping("/edit")
+	public String edit(@ModelAttribute BoardDto boardDto) {
+		boolean result = boardDao.edit(boardDto);
+		if(result) {
+			return "redirect:detail?boardNo=" + boardDto.getBoardNo();
+		}
+		else {
+			return "redirect:에러페이지";
+			//throw new NoTargetException("존재하지 않는 글번호");
+		}
+	}
 	
 }
-

@@ -250,4 +250,13 @@ public class MemberDaoImpl implements MemberDao {
 		return list.isEmpty() ? null : list.get(0);
 	}
 	
+	@Override
+	public boolean updateMemberLevel() {
+		String sql = "update member set member_level = 'tripper' "
+				+ "where member_id in ("
+				+ "select member_id from member "
+				+ "where member_point >= 1000)";
+		return jdbcTemplate.update(sql) > 0;
+	}
+	
 }

@@ -15,7 +15,8 @@ public interface MemberDao {
 	boolean updateMemberInfo(MemberDto memberDto); //회원정보변경(마이페이지)
 	boolean updateMemberPw(String memberId, String changePw); //비밀번호변경(마이페이지)
 	boolean delete(String memberId); //탈퇴(마이페이지)
-	ExpiredListDto findMemberExpiredList(String memberId);
+	boolean updateMemberLevel(); //멤버등업
+	ExpiredListDto findMemberExpiredList(String memberId); //비밀번호 변경 90일 경과 멤버조회
 	List<BoardListDto> findWriteListByMemberId(String memberId); //내가 쓴 글 조회
 	List<BoardListDto> findLikeListByMemberId(String memberId); //내가 좋아요 한 글 조회
 	
