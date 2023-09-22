@@ -4,54 +4,43 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<script>
+$(function(){
+	
+	$("[name=memberLevel]").change(function(e){
+		
+		window.comfirm("진짜로?");
+		
+	});
+	
+});
+
+</script>
+
+
 <div class="container w-500">
-<form action="infoChange" method="post" autocomplete="off">
+<form action="edit" method="post" autocomplete="off">
 	<input type="hidden" name="memberId" value="${memberDto.memberId}">
 	<div class="row">
-		<table class="table table-stripe">
-				<tr>
-					<th>아이디</th>
-					<td>${memberDto.memberId}</td>
-				</tr>
-				<tr>
-					<th>닉네임</th>
-					<td>${memberDto.memberNickname}</td>
-				</tr>
-				<tr>
-					<th>이메일</th>
-					<td>${memberDto.memberEmail}</td>
-				</tr>
-				<tr>
-					<th>지역</th>
-					<td>${memberDto.memberArea}</td>
-				</tr>
-				<tr>
-					<th>회원등급</th>
-					<td>${memberDto.memberLevel}</td>
-				</tr>
-				<tr>
-					<th>포인트</th>
-					<td>${memberDto.memberPoint} <label>p</label></td>
-				</tr>
-				<tr>
-					<th>가입일</th>
-					<td><fmt:formatDate value="${memberDto.memberJoin}" 
-									pattern="y년 M월 d일 E a h시 m분 s초"/></td>
-										
-				</tr>
-				<tr>
-					<th>마지막 접속일</th>
-					<td><fmt:formatDate value="${memberDto.memberLogin}" 
-									pattern="y년 M월 d일 E a h시 m분 s초"/></td>
-				</tr>
-			</table>
+	닉네임 <input type="text" name="memberNickname" value="${memberDto.memberNickname}">
 	</div>
+	<div class="row">
+	포인트 <input type="number" name="memberPoint" value="${memberDto.memberPoint}">
+	</div>
+	<div class="row">
+	등급 
+		<select name="memberLevel" value="${memberDto.memberLevel}">
+		<option value="beginner">beginner</option>
+		<option value="관리자">관리자</option>
+		</select>
+	</div>	
 	
 	<div class="row">
-	<button type="submit"> 수정하기 </button>
+	<button type="submit" class="btn btn-positive"> 수정하기 </button>
 	</div>
 	
 </form>
+	
 </div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
