@@ -40,7 +40,7 @@ public class BoardController {
 		return "/WEB-INF/views/board/list.jsp";
 	}
 	
-	@RequestMapping("/list/readcount") // 정보게시판 조회수순 리스트
+	@RequestMapping("/readcount") // 정보게시판 조회수순 리스트
 	public String listReadcount(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
 		int count = boardDao.countList(vo);
 		vo.setCount(count);
@@ -56,7 +56,7 @@ public class BoardController {
 		return "/WEB-INF/views/board/list.jsp";
 	}
 	
-	@RequestMapping("/list/likecount") // 정보게시판 좋아요순 리스트
+	@RequestMapping("/likecount") // 정보게시판 좋아요순 리스트
 	public String listLikecount(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
 		int count = boardDao.countList(vo);
 		vo.setCount(count);

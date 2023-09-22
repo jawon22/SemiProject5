@@ -45,15 +45,7 @@
         	return confirm("정말 삭제하시겠습니까?");
         });
 		
-//         $(".btn-desc").click(function(e){
-//         	$.ajax({
-// 				url:"/board/list",        		
-// 				data:$(e.target).serialize(),
-// 				success:function(response){
-// 					$(".rangelist")
-// 				}
-//         	});
-//         });
+     
         
 	});
 
@@ -125,8 +117,9 @@
 
 <div class="row right">
 	<a href="http://localhost:8080/board/list" class="btn">최신순</a>
-	<a href="http://localhost:8080/board/list/readcount" class="btn">조회수순</a>
-	<a href="http://localhost:8080/board/list/likecount" class="btn">좋아요순</a>
+	<a href="http://localhost:8080/board/readcount" class="btn">조회수순</a>
+	<a href="http://localhost:8080/board/likecount" class="btn">좋아요순</a>
+
 </div>
 
 		<!-- action을 아직 지정안했음 -->
