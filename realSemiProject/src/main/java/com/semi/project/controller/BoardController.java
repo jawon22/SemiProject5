@@ -17,6 +17,7 @@ import com.semi.project.dao.BoardDao;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
+import com.semi.project.dto.MemberDto;
 import com.semi.project.vo.PaginationVO;
 
 @Controller
@@ -77,13 +78,15 @@ public class BoardController {
 
 
 	@PostMapping("/write")
-	public String write(@ModelAttribute BoardDto boardDto, HttpSession session) {
+	public String write(@ModelAttribute BoardDto boardDto, HttpSession session, MemberDto memberDto) {
 	    int boardNo = boardDao.sequence();
-	    String memberNickname = (String) session.getAttribute("name");
-	    boardDto.setBoardWriter(memberNickname);
+	    
 	    boardDto.setBoardNo(boardNo);
 	    //boardDto.setBoardCategory(boardDto.getBoardCategory()); // 이미 모델에 설정되어 있음
 
+	    String memberId = (String) session.getAttribute("name");
+	    boardDto.setBoardWriter(memberId);
+	    
 	    // 글을 등록
 	    boardDao.insert(boardDto);
 	    return "redirect:detail?boardNo=" + boardNo;
