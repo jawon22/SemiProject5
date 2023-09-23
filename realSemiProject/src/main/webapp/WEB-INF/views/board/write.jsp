@@ -35,17 +35,33 @@
                 
                 callbacks: {
                     onImageUpload: function(files) {
-                      // upload image to server and create imgNode...
-                      $summernote.summernote('insertNode', imgNode);
-                    }
-                  }
-                });
+                        if(files.length != 1) return;
+                        
+                        var fd = new FormData();
+                        fd.append("attach", files[0]);
+                        
+                        $.ajax({
+                            url: "${pageContext.request.contextPath}/rest/attachment/upload",
+                            method: "post",
+                            data: fd,
+                            processData: false,
+                            contentType: false,
+                            success: function(response) {
+                                var input = $("<input>")
+                                    .attr("type", "hidden")
+                                    .attr("name", "attachmentNo")
+                                    .val(response.attachmentNo);
+                                $("form").prepend(input);
 
-                // summernote.image.upload
-                $('#summernote').on('summernote.image.upload', function(we, files) {
-                  // upload image to server and create imgNode...
-                  $summernote.summernote('insertNode', imgNode);
-                });
+                                var imgNode = $("<img>")
+                                    .attr("src", "${pageContext.request.contextPath}/rest/attachment/download/" + response.attachmentNo);
+                                $("[name=boardContent]").summernote('insertNode', imgNode.get(0));
+                            },
+                            error: function(){}
+                        });
+                    }
+                }
+            });
         
         
         
