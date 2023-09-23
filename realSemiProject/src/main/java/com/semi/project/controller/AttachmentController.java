@@ -2,57 +2,71 @@ package com.semi.project.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.http.HttpHeaders;
+import java.nio.charset.StandardCharsets;
+
+import javax.annotation.PostConstruct;
+import javax.mail.internet.ContentDisposition;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.semi.project.dao.AttachmentDao;
 import com.semi.project.dto.AttachmentDto;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
-@Controller
-@RequestMapping("/file")
+//첨부파일의 다운로드를 처리하는 컨트롤러
+@RestController//=@Controller + @ResponseBody
+@RequestMapping("/attachment")
 public class AttachmentController {
+
+	@Autowired
+	private CustomFileuploadProperties fileuploadProperties;
+
+	private File dir;
+	@PostConstruct
+	public void init() {
+		dir = new File(fileuploadProperties.getPath());
+	}
 	
 	@Autowired
 	private AttachmentDao attachmentDao;
 	
-	@PostMapping("/upload")
-	public String upload(@RequestParam("file") MultipartFile attachment) throws IllegalStateException, IOException {
-		log.info("name = {}", attachment.getName());//전송된이름(파일명x)
-		log.info("origin = {}", attachment.getOriginalFilename());//파일명
-		log.info("size = {}", attachment.getSize());//파일크기(byte)
-		log.info("contentType = {}", attachment.getContentType());//파일유형
+	@GetMapping("/download")
+	public ResponseEntity<ByteArrayResource> download(
+			@RequestParam int attachmentNo) throws IOException {
+		//DB 조회
+		AttachmentDto attachmentDto = attachmentDao.selectOne(attachmentNo);
+		if(attachmentDto == null) {//없으면 404
+			return ResponseEntity.notFound().build();
+		}	
 		
-		//절대규칙 - 파일은 하드디스크에, 정보는 DB에!
+		//파일 찾기
+		File target = new File(dir, String.valueOf(attachmentNo));
 		
-		//[1] 시퀀스 번호를 생성한다
-		int attachmentNo = attachmentDao.sequence();
+		//보낼 데이터 생성
+		byte[] data = FileUtils.readFileToByteArray(target);
+		ByteArrayResource resource = new ByteArrayResource(data);
 		
-		//[2] 시퀀스 번호를 파일명으로 하여 실제 파일을 저장한다
-		//- 같은 이름에 대한 충돌을 방지하기 위해
-		String home = System.getProperty("user.home");
-		File dir = new File(home, "upload");//저장할디렉터리
-		dir.mkdirs();//디렉터리 생성
-		
-		File target = new File(dir, String.valueOf(attachmentNo));//저장할파일
-		attachment.transferTo(target);//저장
-		
-		//[3] DB에 저장한 파일의 정보를 모아서 INSERT
-		AttachmentDto attachmentDto = new AttachmentDto();
-		attachmentDto.setAttachmentNo(attachmentNo);
-		attachmentDto.setAttachmentName(attachment.getOriginalFilename());
-		attachmentDto.setAttachmentSize(attachment.getSize());
-		attachmentDto.setAttachmentType(attachment.getContentType());
-		attachmentDao.insert(attachmentDto);
-		
-		return "페이지정보";
+		//헤더와 바디를 설정하며 ResponseEntity를 만들어 반환
+		return ResponseEntity.ok()
+			.contentType(MediaType.APPLICATION_OCTET_STREAM)
+			.contentLength(attachmentDto.getAttachmentSize())
+			.header(HttpHeaders.CONTENT_ENCODING, 
+										StandardCharsets.UTF_8.name())
+			.header(HttpHeaders.CONTENT_DISPOSITION,
+				ContentDisposition.attachment()
+							.filename(
+									attachmentDto.getAttachmentName(), 
+									StandardCharsets.UTF_8
+							).build().toString()
+			)
+			.body(resource);
 	}
 	
 }
