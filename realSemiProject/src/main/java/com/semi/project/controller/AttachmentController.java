@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import javax.annotation.PostConstruct;
 import javax.mail.internet.ContentDisposition;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.semi.project.configuration.CustomFileuploadProperties;
 import com.semi.project.dao.AttachmentDao;
 import com.semi.project.dto.AttachmentDto;
 

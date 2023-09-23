@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.semi.project.dao.BoardDao;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.service.BoardService;
 import com.semi.project.vo.PaginationVO;
 
 @Controller
@@ -28,6 +30,9 @@ public class BoardController {
 	
 	@Autowired
 	MemberDao memberDao;
+	
+	@Autowired
+	private BoardService boardService;
 	
 	@RequestMapping("/list") // 정보게시판 리스트
 	public String list(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
@@ -110,18 +115,29 @@ public class BoardController {
 
 
 	@PostMapping("/write")
-	public String write(@ModelAttribute BoardDto boardDto, HttpSession session, MemberDto memberDto) {
-	    int boardNo = boardDao.sequence();
-	    
-	    boardDto.setBoardNo(boardNo);
-	    //boardDto.setBoardCategory(boardDto.getBoardCategory()); // 이미 모델에 설정되어 있음
-
+	public String write(@ModelAttribute BoardDto boardDto, 
+			HttpSession session
+	/* , MemberDto memberDto */
+			, @RequestParam(required = false) List<Integer> attachmentNo,
+			RedirectAttributes attr
+			) {
+		
 	    String memberId = (String) session.getAttribute("name");
 	    boardDto.setBoardWriter(memberId);
 	    
+		int boardNo1 = boardDao.sequence();
+	    
+		int boardNo = boardService.write(boardDto, attachmentNo); 
+	    
+	    boardDto.setBoardNo(boardNo1);
+	    //boardDto.setBoardCategory(boardDto.getBoardCategory()); // 이미 모델에 설정되어 있음
+	    
 	    // 글을 등록
-	    boardDao.insert(boardDto);
-	    return "redirect:detail?boardNo=" + boardNo;
+	    //boardDao.insert(boardDto);
+	    attr.addAttribute("boardNo", boardNo);
+	    
+	    //상세페이지로
+	    return "redirect:detail?boardNo=" + boardNo1;
 	}
 
 	
