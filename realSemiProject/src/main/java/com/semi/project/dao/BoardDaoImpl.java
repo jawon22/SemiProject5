@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+//import org.springframework.util.StringUtils;
 
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
@@ -83,6 +84,10 @@ public class BoardDaoImpl implements BoardDao{
 	//검색을 안하고 계절만 선택했을때
 	@Override
 	public List<BoardListDto> selectListByPageAndWeather(int page, String weather) {
+//		if (weather.equals("전체")) {
+//	        return selectListByPage(page); // 전체인 경우 모든 게시글을 불러옵니다.
+//	    }
+		
 		int start = (page-1)*10 +1;
 		int end = page*10;
 		
@@ -100,6 +105,10 @@ public class BoardDaoImpl implements BoardDao{
 	//검색을 안하고 지역만 선택했을때
 	@Override
 	public List<BoardListDto> selectListByPageAndArea(int page, String area) {
+//		if (area.equals("전체")) {
+//	        return selectListByPage(page); // 전체인 경우 모든 게시글을 불러옵니다.
+//	    }
+		
 		int start = (page-1)*10 +1;
 		int end = page*10;
 		
@@ -112,12 +121,15 @@ public class BoardDaoImpl implements BoardDao{
 						+ ")WHERE rn BETWEEN ? AND ?";
 		Object[] data = {area,start,end};
 		return jdbcTemplate.query(sql, boardListMapper,data);
-		
 	}
 	
 	//검색을 안하고 계절과 지역을 선택했을때
 	@Override
 	public List<BoardListDto> selectListByPageAndCategory(int page, String weather, String area) {
+		if (weather.equals("전체") && area.equals("전체")) {
+	        return selectListByPage(page); // 계절과 지역이 모두 전체인 경우 모든 게시글을 불러옵니다.
+	    }
+		
 		int start = (page-1)*10 +1;
 		int end = page*10;
 		
@@ -135,6 +147,10 @@ public class BoardDaoImpl implements BoardDao{
 	//정보게시판 목록 페이지 검색 및 페이지 조회
 	@Override
 	public List<BoardListDto> selectListByPage(String type, String keyword, String weather, String area, int page) {
+//		if (!StringUtils.hasText(keyword)) {
+//	        return selectListByPageAndCategory(page, weather, area);
+//	    }
+		
 		int start = (page-1)*10 +1;
 		int end = page*10;
 		
@@ -407,18 +423,33 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public int countList(PaginationVO vo) {
-		if(vo.isSearch()) {
-			String sql = "select count(*) from board_list where instr("+vo.getType()+",?)>0 "
-							+ "and board_categoryweather = ? AND board_area = ?";
-			
-			Object[] data = {vo.getKeyword(),vo.getWeather(),vo.getArea()};
-			return jdbcTemplate.queryForObject(sql, int.class,data);
+//		if(vo.isSearch()) {
+//			String sql = "select count(*) from board_list where instr("+vo.getType()+",?)>0 "
+//							+ "and board_categoryweather = ? AND board_area = ?";
+//			
+//			Object[] data = {vo.getKeyword(),vo.getWeather(),vo.getArea()};
+//			return jdbcTemplate.queryForObject(sql, int.class,data);
+//		
+//		}
+//		else {
+//			String sql= "select count(*) from board";
+//			return jdbcTemplate.queryForObject(sql,int.class);
+//		}
 		
-		}
-		else {
-			String sql= "select count(*) from board";
-			return jdbcTemplate.queryForObject(sql,int.class);
-		}
+		String sql;
+	    Object[] data;
+
+	    if (vo.isSearch()) {
+	        sql = "select count(*) from board_list where " + vo.getType() + " like ? " +
+	              "and board_categoryweather = ? and board_area = ?";
+	        data = new Object[]{"%" + vo.getKeyword() + "%", vo.getWeather(), vo.getArea()};
+	    } else {
+	        sql = "select count(*) from board";
+	        data = new Object[0];
+	    }
+	    
+	    return jdbcTemplate.queryForObject(sql, Integer.class, data);
+		
 	}
 
 

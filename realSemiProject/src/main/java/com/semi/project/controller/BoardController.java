@@ -29,47 +29,26 @@ public class BoardController {
 	@Autowired
 	MemberDao memberDao;
 	
+	
 	@RequestMapping("/list") // 정보게시판 리스트
-	public String list(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
-		int count = boardDao.countList(vo);
-		vo.setCount(count);
-		
-		List<BoardListDto> list =  boardDao.selectListByPage(vo);
-	
-		model.addAttribute("list",list);
-		return "/WEB-INF/views/board/list.jsp";
-	}
-	
-	@RequestMapping("/readcount") // 정보게시판 조회수순 리스트
-	public String listReadcount(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
-		int count = boardDao.countList(vo);
-		vo.setCount(count);
-		
-		List<BoardListDto> list =  boardDao.selectListByReadcount(vo);
-		model.addAttribute("list",list);
+	public String list(@ModelAttribute(name="vo") PaginationVO vo, Model model,
+	                   @RequestParam(name = "sort", required = false) String sort) {
+	    int count = boardDao.countList(vo);
+	    vo.setCount(count);
 
-		if(vo.isSearch()) {
-			return "redirect:?weather="+vo.getWeather()+"&area="+vo.getArea()
-				+"&type="+vo.getType()+"&keyword="+vo.getKeyword();
-		}
-		
-		return "/WEB-INF/views/board/list.jsp";
-	}
-	
-	@RequestMapping("/likecount") // 정보게시판 좋아요순 리스트
-	public String listLikecount(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
-		int count = boardDao.countList(vo);
-		vo.setCount(count);
-		
-		List<BoardListDto> list =  boardDao.selectListByLikecount(vo);
-		model.addAttribute("list",list);
-		
-		if(vo.isSearch()) {
-			return "redirect:?weather="+vo.getWeather()+"&area="+vo.getArea()
-				+"&type="+vo.getType()+"&keyword="+vo.getKeyword();
-		}
-		
-		return "/WEB-INF/views/board/list.jsp";
+	    List<BoardListDto> list;
+
+	    if ("readcount".equals(sort)) {
+	        list = boardDao.selectListByReadcount(vo);
+	    } else if ("likecount".equals(sort)) {
+	        list = boardDao.selectListByLikecount(vo);
+	    } else {
+	        list = boardDao.selectListByPage(vo);
+	    }
+
+	    model.addAttribute("list", list);
+
+	    return "/WEB-INF/views/board/list.jsp";
 	}
 	
 	
