@@ -13,13 +13,13 @@
 				 method:"post",
 				 data:{boardNo : no},
 			 	success:function(response){
-				 if(response=="Y"){
-					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-regular")
-				 }
-				 else if(response=="N"){
+				 if(response.check){
 					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-solid")
 				 }
-				 return 
+				 else{
+					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-regular")
+				 }
+				 $(".fa-heart").next("label").text(response.count);
 			 	}
 			 });
 			
@@ -29,12 +29,13 @@
 				 method:"post",
 				 data:{boardNo : no},
 			 	success:function(response){
-				 if(response=="Y"){
+				 if(response.check){
+					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-solid	")
+				 }
+				 else{
 					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-regular")
 				 }
-				 else if(response=="N"){
-					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-solid")
-				 }
+				 $(".fa-heart").next("label").text(response.count);	
 			 	}
 			 });		
 		});
@@ -218,7 +219,7 @@
             <label>${boardDto.boardWriter}닉네임</label>
         </div>
         <div class="row right">
-          <i class="fa-solid fa-heart red">${boardDto.boardLikecount}</i>|조회수${boardDto.boardReplycount}</label>
+          <i class="fa-solid fa-heart red"></i><label>0</label>|조회수${boardDto.boardReplycount}
         </div>
         
         <div class="row">
@@ -235,13 +236,9 @@
             <div class="col-2">
                 <div class="right">
                     <button class="button"><a href="/board/edit">블라인드</a></button>
-<<<<<<< HEAD
-                    <button class="button"><a href="/board/list">목록</a></button>
                     <button class="button"><a href="/board/edit?baordNo=${boardDto.boardNo}">수정</a></button>
-=======
                     <button class="button"><a href="/board/list?keyword=${vo.type}, start=${vo.keyword}, end=${vo.page}">목록</a></button>
                     <button class="button"><a href="/board/edit?boardNo=${boardDto.boardNo}">수정</a></button>
->>>>>>> refs/remotes/origin/main
                     <button class="button"><a href="/board/delete?boardNo=${boardDto.boardNo}">삭제</a></button>  
                 </div>
             </div>
