@@ -35,33 +35,41 @@
                 
                 callbacks: {
                     onImageUpload: function(files) {
-                        if(files.length != 1) return;
-                        
-                        var fd = new FormData();
-                        fd.append("attach", files[0]);
-                        
-                        $.ajax({
-                            url: "${pageContext.request.contextPath}/rest/attachment/upload",
-                            method: "post",
-                            data: fd,
-                            processData: false,
-                            contentType: false,
-                            success: function(response) {
-                                var input = $("<input>")
-                                    .attr("type", "hidden")
-                                    .attr("name", "attachmentNo")
-                                    .val(response.attachmentNo);
-                                $("form").prepend(input);
-
-                                var imgNode = $("<img>")
-                                    .attr("src", "${pageContext.request.contextPath}/rest/attachment/download/" + response.attachmentNo);
-                                $("[name=boardContent]").summernote('insertNode', imgNode.get(0));
-                            },
-                            error: function(){}
-                        });
+                       // upload image to server and create imgNode...
+                       //$summernote.summernote('insertNode', imgNode);
+                       if(files.length != 1) return;
+                       
+                       console.log("비동기 파일 업로드 시작")
+                       //1. FormData 2. processdata 3.contentType
+                       var fd = new FormData();
+                       fd.append("attach", files[0]);
+                       
+                       $.ajax({
+                          url:"${pageContext.request.contextPath}/rest/attachment/upload",
+                          method:"post",
+                          data:fd,
+                          processData:false,
+                          contentType:false,
+                          success:function(response){
+                             //서버로 전송할 이미지 번호 정보 생성
+                             var input = $("<input>").attr("type", "hidden")
+                                               .attr("name", "attachmentNo")
+                                               .val(response.attachmentNo);
+                             
+                             $("form").prepend(input);
+                             
+                             //에디터에 추가할 이미지 생성
+                             var imgNode = $("<img>").attr("src", "${pageContext.request.contextPath}/rest/attachment/download/" + response.attachmentNo);
+                             //var imgNode = $("<img>").attr("src", "/rest/attachment/download?attachmentNo" + response.attachmentNo);
+                             $("[name=qnaContent]").summernote("insertNode", imgNode.get(0));
+                          },
+                          error:function(){
+                             window.alert("통신 오류 발생");
+                          }
+                       });
                     }
-                }
-            });
+                 }
+                });
         
         
         

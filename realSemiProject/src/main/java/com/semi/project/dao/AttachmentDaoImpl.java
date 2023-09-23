@@ -1,9 +1,12 @@
 package com.semi.project.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.semi.project.dto.AttachmentDto;
@@ -18,6 +21,21 @@ public class AttachmentDaoImpl implements AttachmentDao{
 	@Autowired
 	private AttachmentMapper attachMapper;
 	
+	   private RowMapper<AttachmentDto> mapper = new RowMapper<AttachmentDto>() {
+		      
+		      @Override
+		      public AttachmentDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+		         
+		         //Builder Pattern(Lombok 제공)
+		         return AttachmentDto.builder()
+		                     .attachmentNo(rs.getInt("attachment_no"))
+		                     .attachmentName(rs.getString("attachment_name"))
+		                     .attachmentType(rs.getString("attachment_type"))
+		                     .attachmentSize(rs.getLong("attachment_size"))
+		                  .build();
+		      }
+		   };
+		   
 	@Override
 	public int sequence() {
 		String sql = "select attachment_seq.nextval from dual";

@@ -2,7 +2,6 @@ package com.semi.project.dao;
 
 import java.util.List;
 
-import com.semi.project.dto.AttachmentDto;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.vo.PaginationVO;
@@ -15,10 +14,7 @@ public interface BoardDao {
 	List<BoardListDto> selectList();
 	boolean delete(int boardNo);
 	boolean edit(BoardDto boardDto);
-	
-	//이미지관련기능
-	void connect(int boardNo, int attachNo); 
-	AttachmentDto findImage(int boardNo);
+	void connect(int boardNo, int attachmentNo);
 	
 	//정보게시판 목록(검색 페이징 처리)
 	List<BoardListDto> selectListByPage(int page);

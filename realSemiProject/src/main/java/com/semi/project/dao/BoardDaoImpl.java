@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.semi.project.dto.AttachmentDto;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
-import com.semi.project.mapper.AttachmentMapper;
 import com.semi.project.mapper.BoardDetailMapper;
 import com.semi.project.mapper.BoardListMapper;
 import com.semi.project.vo.PaginationVO;
@@ -24,9 +22,6 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Autowired
 	BoardDetailMapper boardDetailMapper;
-	
-	@Autowired
-	AttachmentMapper attachmentMapper;
 	
 	@Override
 	public int sequence() {
@@ -62,6 +57,14 @@ public class BoardDaoImpl implements BoardDao{
 		String sql = "delete board where board_no = ?";
 		Object[] data = {boardNo};
 		return jdbcTemplate.update(sql, data)>0;
+	}
+	
+	//게시판 번호와 첨부파일 번호 커넥트
+	@Override
+	public void connect(int boardNo, int attachmentNo) {
+		String sql = "insert into board_attachment values(?, ?)";
+		Object[] data = {boardNo, attachmentNo};
+		jdbcTemplate.update(sql, data);
 	}
 
 	@Override
@@ -426,27 +429,8 @@ public class BoardDaoImpl implements BoardDao{
 		}
 	}
 
-	@Override
-	public void connect(int boardNo, int attachmentNo) {
-		String sql = "insert into board_attachment values(?, ?)";
-		Object[] data = {boardNo, attachmentNo};
-		jdbcTemplate.update(sql, data);
-	}
-
-	@Override
-	public AttachmentDto findImage(int boardNo) {
-		String sql = "select * from attachment where attachment_no = ("
-				+ "select attachment_no from board_attachment "
-				+ "where board_no = ?"
-			+ ")";
-		Object[] data = {boardNo};
-		List<AttachmentDto> list = jdbcTemplate.query(sql, attachmentMapper, data);
-		return list.isEmpty() ? null : list.get(0);
-	}
-}
-
 
 
 	
 
-
+}
