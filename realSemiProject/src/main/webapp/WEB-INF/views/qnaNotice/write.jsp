@@ -93,7 +93,7 @@
         </div>
         <div class="row left">
             <label>내용</label>
-            <textarea type="text" name="boardContent" class="form-input w-100 fixed"></textarea>
+            <textarea name="boardContent" class="form-input w-100 fixed"></textarea>
         </div>
         <div class="row">
             <button class="btn btn-positive">
@@ -102,8 +102,7 @@
                     <c:otherwise>등록하기</c:otherwise>
                 </c:choose>
             </button>
-            <a
- href="list" class="btn">목록보기</a>
+            <a href="list" class="btn">목록보기</a>
         </div>
     </div>
 </form>

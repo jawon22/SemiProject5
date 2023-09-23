@@ -5,7 +5,6 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
-
 </style>
 
 <script>
@@ -45,7 +44,11 @@ $(function(){
 				$(".profile-image").attr("src", "/images/user.png");
 			},		
 		});	
-	});	
+	});
+	
+	
+	
+	
 });
 </script>
 
@@ -119,7 +122,7 @@ $(function(){
 				</tr>
 			</table>
 			
-			<c:if test="${expiredListDto.isExpired == 'Y'}">
+			<c:if test="${expiredListDto.isExpired == 'Y'}">	
 				<label style="font-size:40px; color:red;">비밀번호가 변경된지 90일이 경과되었습니다. <br> 비밀번호를 변경해 주세요.</label>
 			</c:if>
 			
