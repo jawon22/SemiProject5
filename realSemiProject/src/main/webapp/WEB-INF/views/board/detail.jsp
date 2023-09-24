@@ -7,6 +7,11 @@
 	 var params = new URLSearchParams(location.search);
 		var no = params.get("boardNo");
 		
+		//신고사유 옵션 숨기기-실패
+// 		$(".select-block").click(function(){
+// 			$("select option[value='0']").hide();
+// 		});
+		
 		//좋아요 처리
 			 $.ajax({
 				 url:"/rest/boardLike/check",
@@ -15,7 +20,7 @@
 			 	success:function(response){
 				 if(response.check){
 					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-solid")
-				 }
+				 }	
 				 else{
 					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-regular")
 				 }
@@ -27,7 +32,7 @@
 			 $.ajax({
 				 url:"/rest/boardLike/action",
 				 method:"post",
-				 data:{boardNo : no},
+				 data:{boardNo : no},	
 			 	success:function(response){
 				 if(response.check){
 					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-solid	")
@@ -62,7 +67,7 @@
 			
 			var memberId = "${sessionScope.name}";
 			
-				
+				//리스트 리로드
 			$.ajax({
 				url:"/rest/reply/list",
 				method:"post",
@@ -157,7 +162,53 @@
 					}
 				},
 			});
+			
+$(htmlTemplate).find(".btn-block")
+// 			.attr("data-reply-content", reply.replyContent)
+			.click(function(){
+	//this == 수정버튼
+	var blockTemplate = $("#block-template").html();
+	var blockHtmlTemplate = $.parseHTML(blockTemplate);
+
+	//value 설정
+	var replyNo = $(this).attr("data-reply-no");
+	var replyContent = $(this).attr("data-reply-content");
+	//console.log(replyContent);
+	$(blockHtmlTemplate).find("[name=replyNo]").val(replyNo);
+	$(blockHtmlTemplate).find("[name=replyContent]").val(replyContent);
+	
+	$(blockHtmlTemplate).find(".btn-cancel")
+						.click(function(){
+		$(this).parents(".block-container")
+			.prev(".view-container").show();
+		$(this).parents(".block-container").remove();
+	});
+	
+	//완료(등록) 버튼 처리
+	$(blockHtmlTemplate).submit(function(e){
+		e.preventDefault();
+	
+		$.ajax({
+			url:"/rest/reply/edit",
+			method:"post",
+			data : $(e.target).serialize(),
+			success:function(response){
+			loadList();
+			}
+		});
+	});
+	
+	
+	//화면 배치
+	$(this).parents(".view-container")
+		.hide()
+		.after(blockHtmlTemplate);
+	});
+	
+	$(".reply-list").append(htmlTemplate);
 	}
+				
+				
  });
  
  
@@ -187,7 +238,7 @@
 					<button class="btn btn-reply">대댓글</button>
 				</div>
 	       </div>
-<!-- </script> -->
+</script>
 
 
 
@@ -212,26 +263,48 @@
        </script>
         
         <div class="w-75">
-            <span class="row left">${boardDto.boardTitle}</span>
-            <span class="right right">${boardDto.boardCtime}</span>
+	        <div class="flex-container">
+		        <div class="row left w-50">
+		            <span>${boardDto.boardTitle}</span>
+		        </div>
+		        <div class="row right">
+		            <span>${boardDto.boardCtime}</span>
+		        </div>
+	        </div>
         </div>
         <div class="row left">
             <label>${boardDto.boardWriter}닉네임</label>
         </div>
         <div class="row right">
-          <i class="fa-solid fa-heart red"></i><label>0</label>|조회수${boardDto.boardReplycount}
+          <i class="fa-solid fa-heart red"></i><label>0</label>|조회수<label class="readCount">${boardDto.boardReadcount}</label>
         </div>
         
         <div class="row">
            <pre>${boardDto.boardContent}</pre>
         </div>
-        
+<!--         <script id="block-template" type="text/template"> -->
+			<div class="right">
+			<form class="block-form block-contailner" >
+				<button type="submit" class="btn block-send">보내기</button>
+				<button class="btn block-cencel">취소</button>
+				<select id="select-block" name="reportReason" class="form-input">
+						<option value="0" selected disabled>신고사유</option>
+					    <option value="1" >1. 광고/음란성 글</option>
+					    <option value="2">2. 욕설/반말/부적절한 언어</option>
+					    <option value="3">3. 회원 분란 유도</option>
+					    <option value="4">4. 회원 비방</option>
+					    <option value="5">5. 지나친 정치/종교 논쟁</option>
+					    <option value="6">6. 도배성 글</option>
+				</select>
+			</form>
+			</div>
+<!-- 		</script> -->
         
         <div class="row flex-container">
             <div class="col-2">
                 <div class="left">
-                    <button value="">신고 버튼(이미지)</button>
-                </div>
+                    <button class = "btn-block" value="">신고 버튼(이미지)</button>
+                 </div>
             </div>
             <div class="col-2">
                 <div class="right">
@@ -245,7 +318,6 @@
         </div>	
 		
 		
-<%-- 		<input type="hidden" name="replyWriter" value="${sessionScope.name}"> --%>
 	<c:if test="${sessionScope.name != null}">
 		<form class="reply-insert-form">
 		<input type="hidden" name="replyOrigin" value="${boardDto.boardNo}">
@@ -261,7 +333,6 @@
 					</div>
 				</div>
 		</div>
-<%-- 			<input type="hidden" name="replyGroup" value="${reply.replyNo}"> --%>
 			<input type="hidden" name="replyParent" value="${reply.replyNo}">
 		<c:if test="${reply.replyParent!=null}">
 			<input type="hidden" name="replyDepth" value="${reply.replyDepth}+1">

@@ -46,6 +46,8 @@ public interface BoardDao {
 	//정보게시판 갯수 세기
 	int countList(PaginationVO vo);
 	
+	//조회수 업데이트
+	boolean readcountEdit(long boardReadcount, int boardNo);
 	
 }
 
