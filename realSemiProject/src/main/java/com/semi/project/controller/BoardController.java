@@ -95,14 +95,12 @@ public class BoardController {
 	                    @RequestParam(required = false) Integer boardParent,
 	                    @RequestParam(required = false) Integer boardCategory,
 	                    HttpSession session) {
-	    // 답글이라면 원본글 정보를 화면에 전달
-	    if (boardParent != null) {
-	        BoardDto originDto = boardDao.selectOne(boardParent);
-	        model.addAttribute("originDto", originDto);
-	        model.addAttribute("isReply", true);
-	    } else {
-	        model.addAttribute("isReply", false);
-	    }
+		/*
+		 * // 답글이라면 원본글 정보를 화면에 전달 if (boardParent != null) { BoardDto originDto =
+		 * boardDao.selectOne(boardParent); model.addAttribute("originDto", originDto);
+		 * model.addAttribute("isReply", true); } else { model.addAttribute("isReply",
+		 * false); }
+		 */
 	    
 	    // boardCategory가 null이 아닌 경우, 즉, 파라미터로 전달된 경우에만 설정
 	    if (boardCategory != null) {
@@ -127,27 +125,26 @@ public class BoardController {
 		
 	    String memberId = (String) session.getAttribute("name");
 	    boardDto.setBoardWriter(memberId);
-	    
-		/* int boardNo1 = boardDao.sequence(); */
-	    
-		int boardNo = boardService.write(boardDto, attachmentNo); 
+	
 	    
 	    //boardDto.setBoardNo(boardNo1);
 	    //boardDto.setBoardCategory(boardDto.getBoardCategory()); // 이미 모델에 설정되어 있음
 	    
-		
 		//이 사용자의 마지막 글번호를 조회
 		Integer lastNo = boardDao.selectMax(memberId);
+
+		System.out.println(lastNo);
 		
 	    // 글을 등록
 	    //boardDao.insert(boardDto);
+		int boardNo = boardService.write(boardDto, attachmentNo); 
 	    attr.addAttribute("boardNo", boardNo);
-		
+	
 		//포인트 계산 작업
 		//- lastNo가 null이라는 것은 처음 글을 작성했다는 의미
 		//- lastNo가 null이 아니면 조회한 다음 시간차를 비교
 		if(lastNo == null) {//처음이라면
-			memberDao.increaseMemberPoint(memberId, 100);//10점 부여
+			memberDao.increaseMemberPoint(memberId, 100);//100점 부여
 		}
 		else {//처음이 아니라면 시간 차이를 계산
 			BoardDto lastDto = boardDao.selectOne(lastNo);
@@ -158,11 +155,10 @@ public class BoardController {
 			
 			Duration duration = Duration.between(lastTime, currentTime);
 			long seconds = duration.getSeconds();
-			if(seconds > 3) {//시간차가 300초보다 크다면(5분 초과)
+			if(seconds > 300) {//시간차가 300초보다 크다면(5분 초과)
 				memberDao.increaseMemberPoint(memberId, 100);//100점 부여
 			}
 		}
-
 	    
 	    //상세페이지로
 	    return "redirect:detail?boardNo=" + boardNo;
