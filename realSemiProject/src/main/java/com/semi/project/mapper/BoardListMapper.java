@@ -21,10 +21,13 @@ public class BoardListMapper implements RowMapper<BoardListDto>{
 		boardListDto.setBoardNo(rs.getInt("board_no"));
 		boardListDto.setBoardWriter(rs.getString("board_writer"));
 		boardListDto.setBoardTitle(rs.getString("board_title"));
+		boardListDto.setBoardContent(rs.getString("board_content"));
 		boardListDto.setBoardCtime(rs.getDate("board_ctime"));
 		boardListDto.setBoardReadcount(rs.getLong("board_readcount"));
 		boardListDto.setBoardReplycount(rs.getLong("board_replycount"));
 		boardListDto.setBoardLikecount(rs.getLong("board_likecount"));
+		boardListDto.setReportCount(rs.getInt("report_count"));
+		boardListDto.setAttachmentNo(rs.getInt("attachment_no"));
 		return boardListDto;
 	}
 
