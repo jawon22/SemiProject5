@@ -21,6 +21,9 @@ public interface MemberDao {
 	List<BoardListDto> findWriteListByMemberId(String memberId); //내가 쓴 글 조회
 	List<BoardListDto> findLikeListByMemberId(String memberId); //내가 좋아요 한 글 조회
 	
+	//글작성시 포인트 증가
+	boolean increaseMemberPoint(String memberId, int memberPoint);
+	
 	
 	//프로필 관련 기능
 	void insertProfile(String memberId, int attachNo); //프로필등록

@@ -327,4 +327,14 @@ public class MemberDaoImpl implements MemberDao {
 		return jdbcTemplate.update(sql) > 0;
 	}
 
+	//글작성시 포인트 증가
+	@Override
+	public boolean increaseMemberPoint(String memberId, int memberPoint) {
+		String sql = "update member "
+				+ "set member_point = member_point + ? "
+				+ "where member_id = ?";
+		Object[] data = {memberPoint, memberId};
+		return jdbcTemplate.update(sql, data)>0;
+	}
+
 }

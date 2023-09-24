@@ -429,6 +429,15 @@ public class BoardDaoImpl implements BoardDao{
 		}
 	}
 
+	//마지막으로 쓴글 찾기
+	@Override
+	public Integer selectMax(String boardWriter) {
+		String sql = "select max(board_no) from board "
+				+ "where board_writer = ?";
+		Object[] data = {boardWriter};
+		return jdbcTemplate.queryForObject(sql, Integer.class, data);
+	}
+
 
 
 	

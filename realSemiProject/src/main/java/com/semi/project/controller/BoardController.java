@@ -1,5 +1,8 @@
 package com.semi.project.controller;
 
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -125,19 +128,44 @@ public class BoardController {
 	    String memberId = (String) session.getAttribute("name");
 	    boardDto.setBoardWriter(memberId);
 	    
-		int boardNo1 = boardDao.sequence();
+		/* int boardNo1 = boardDao.sequence(); */
 	    
 		int boardNo = boardService.write(boardDto, attachmentNo); 
 	    
-	    boardDto.setBoardNo(boardNo1);
+	    //boardDto.setBoardNo(boardNo1);
 	    //boardDto.setBoardCategory(boardDto.getBoardCategory()); // 이미 모델에 설정되어 있음
 	    
+		
+		//이 사용자의 마지막 글번호를 조회
+		Integer lastNo = boardDao.selectMax(memberId);
+		
 	    // 글을 등록
 	    //boardDao.insert(boardDto);
 	    attr.addAttribute("boardNo", boardNo);
+		
+		//포인트 계산 작업
+		//- lastNo가 null이라는 것은 처음 글을 작성했다는 의미
+		//- lastNo가 null이 아니면 조회한 다음 시간차를 비교
+		if(lastNo == null) {//처음이라면
+			memberDao.increaseMemberPoint(memberId, 100);//10점 부여
+		}
+		else {//처음이 아니라면 시간 차이를 계산
+			BoardDto lastDto = boardDao.selectOne(lastNo);
+			Timestamp stamp = new Timestamp(
+								lastDto.getBoardCtime().getTime());
+			LocalDateTime lastTime = stamp.toLocalDateTime();
+			LocalDateTime currentTime = LocalDateTime.now();
+			
+			Duration duration = Duration.between(lastTime, currentTime);
+			long seconds = duration.getSeconds();
+			if(seconds > 3) {//시간차가 300초보다 크다면(5분 초과)
+				memberDao.increaseMemberPoint(memberId, 100);//100점 부여
+			}
+		}
+
 	    
 	    //상세페이지로
-	    return "redirect:detail?boardNo=" + boardNo1;
+	    return "redirect:detail?boardNo=" + boardNo;
 	}
 
 	
