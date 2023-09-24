@@ -49,7 +49,8 @@ public class AttachmentController {
 		}	
 		
 		//파일 찾기
-		File target = new File(dir, String.valueOf(attachmentNo));
+		//File target = new File(dir, String.valueOf(attachmentNo));
+		File target = new File(fileuploadProperties.getPath(), String.valueOf(attachmentNo));
 		
 		//보낼 데이터 생성
 		byte[] data = FileUtils.readFileToByteArray(target);
