@@ -72,7 +72,7 @@
 		  var currentURL = window.location.href;
 		  var newURL = '<%= request.getContextPath() %>/board/list?sort=' + sortType; // 새로운 주소
 		
-		  // 현재 URL에서 정렬 방식 파라미터 제거
+		  // 현재 URL에서 정렬 방식 파라미터 제거 -> 주소 뒤에 붙는거 삭제
 		  currentURL = removeURLParameter(currentURL, 'sort');
 		
 		  // 검색어 및 검색 타입 쿼리 매개변수 유지
@@ -260,15 +260,27 @@
 						
 						<td align="left">
 						<!--  제목을 누르면 상세페이디로 이동 -->
-							<a class="link" href="detail?boardNo=${boardListDto.boardNo}">
-							${boardListDto.boardTitle}</a>
-						
-						<!--  댓글이 있다면 개수를 표시 -->
-							<c:if test="${boardListDto.boardReplycount >0}">
-								&nbsp;&nbsp;
-								<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
-								<label>${boardListDto.boardReplycount}</label>
-							</c:if>
+							<c:choose>
+								<c:when test="${boardListDto.reportCount >= 5}">
+									<span style="color:red;">블라인드 처리된 글입니다</span>
+								</c:when>
+								
+								<c:otherwise>
+									<a class="link" href="detail?boardNo=${boardListDto.boardNo}">
+									${boardListDto.boardTitle}</a>
+								
+								<!--  댓글이 있다면 개수를 표시 -->
+									<c:if test="${boardListDto.boardReplycount >0}">
+										&nbsp;&nbsp;
+										<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
+										<label>${boardListDto.boardReplycount}</label>
+									</c:if>
+									<c:if test="${boardListDto.attachmentNo !=0}">
+										<i class="fa-regular fa-image"></i>
+									</c:if>
+								
+								</c:otherwise>
+							</c:choose>
 						</td>
 						
 						<!-- 작성자 -->
@@ -279,40 +291,45 @@
 						
 						<!-- 조회수 -->
 						<td>${boardListDto.boardReadcount}</td>
-					</tr>
+							
+				</tr>
 				</c:forEach>
 			
 			</tbody>
 		</table>
 	</div>
-
 </form>
-
 
 <br>
 				<!-- 페이지 네비게이터 -->
 	<!-- 이전 버튼 -->
-	<c:if test="${vo.first ==false}">
-		<a href="list?${vo.prevQueryString}">&lt;</a>
-	</c:if>
-
-	<c:forEach var="i" begin="${vo.begin}" end="${vo.end}" step="1">
-		<c:choose>
-			<c:when test="${vo.page ==i}">  <!-- 현재 페이지면 --> 
-				${i}			
-			</c:when>
-			<c:otherwise>
-				<%-- 링크는 검색과 목록을 따로 구현 --%>
-				<a href="list?${vo.getQueryString(i)}">${i}</a>
-			</c:otherwise>
-		</c:choose>
-	</c:forEach>
+	<div class="row mv-30">
+		<c:if test="${vo.first ==false}">
+			<a href="list?${vo.prevQueryString}">
+				<i class="fa-solid fa-angle-left"></i>
+			</a>
+		</c:if>
 	
-	<!-- 다음 버튼 -->
-	<c:if test="${!vo.last}">
-		<%-- 링크는 검색과 목록을 따로 구현 --%>
-			<a href="list?${vo.nextQueryString}">&gt;</a>
-	</c:if>
+		<c:forEach var="i" begin="${vo.begin}" end="${vo.end}" step="1">
+			<c:choose>
+				<c:when test="${vo.page ==i}">  <!-- 현재 페이지면 --> 
+					${i}			
+				</c:when>
+				<c:otherwise>
+					<%-- 링크는 검색과 목록을 따로 구현 --%>
+					<a href="list?${vo.getQueryString(i)}">${i}</a>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+		
+		<!-- 다음 버튼 -->
+		<c:if test="${!vo.last}">
+			<%-- 링크는 검색과 목록을 따로 구현 --%>
+				<a href="list?${vo.nextQueryString}">
+					<i class="fa-solid fa-angle-right"></i>
+				</a>
+		</c:if>
+	</div>
 
 </div>
 

@@ -34,7 +34,7 @@ public class PaginationVO {
 					"&type="+type+"&keyword="+keyword;
 			}
 		else {//목록
-			return "page="+(getBegin()-1)+"&weather="+weather+"&area="+area+"&size="+size;
+			return "page="+(getBegin()-1)+"&size="+size+"&weather="+weather+"&area="+area;
 		}
 	}
 	
@@ -62,7 +62,7 @@ public class PaginationVO {
 					"&type="+type+"&keyword="+keyword;
 			}
 		else {//목록
-			return "page="+page+"&weather="+weather+"&area="+area+"&size="+size;
+			return "page="+page+"&size="+size+"&weather="+weather+"&area="+area;
 		}
 	}
 	

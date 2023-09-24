@@ -16,11 +16,13 @@ public class BoardListDto {
 	private String boardCategoryWeather;
 	private String boardArea;
 	private int boardNo;
-	private String boardWriter, boardTitle;
+	private String boardWriter, boardTitle, boardContent;
 	long boardReadcount;
 	long boardReplycount;
 	long boardLikecount;
 	Date boardCtime;
+	int reportCount;
+	int attachmentNo;
 	
 	//작성자 출력용 메소드
 	public String getBoardWriterString() {

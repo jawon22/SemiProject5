@@ -17,13 +17,10 @@ public interface BoardDao {
 	
 	//정보게시판 목록(검색 페이징 처리)
 	List<BoardListDto> selectListByPage(int page);
-	
 	//검색을 안하고 계절만 선택했을때
 	List<BoardListDto> selectListByPageAndWeather(int page, String weather);
-	
 	//검색을 안하고 지역만 선택했을때
 	List<BoardListDto> selectListByPageAndArea(int page, String area);
-	
 	//검색을 안하고 계절과 지역을 선택했을때
 	List<BoardListDto> selectListByPageAndCategory(int page, String weather, String area);
 	// 검색을 포함한 조회
@@ -49,4 +46,24 @@ public interface BoardDao {
 	//정보게시판 갯수 세기
 	int countList(PaginationVO vo);
 	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
