@@ -420,14 +420,17 @@ public class BoardDaoImpl implements BoardDao{
 		}
 	}
 	
-
 	@Override
 	public int countList(PaginationVO vo) {
 //		if(vo.isSearch()) {
-//			String sql = "select count(*) from board_list where instr("+vo.getType()+",?)>0 "
-//							+ "and board_categoryweather = ? AND board_area = ?";
+//			String sql = "select count(*) from board_list where instr("+vo.getType()+",?)>0 ";
 //			
-//			Object[] data = {vo.getKeyword(),vo.getWeather(),vo.getArea()};
+//			Object[] data = {vo.getKeyword()};
+//			
+////			String sql = "select count(*) from board_list where instr("+vo.getType()+",?)>0 "
+////					+ "and board_categoryweather = ? AND board_area = ?";
+////			
+////			Object[] data = {vo.getKeyword(),vo.getWeather(),vo.getArea()};
 //			return jdbcTemplate.queryForObject(sql, int.class,data);
 //		
 //		}
@@ -448,11 +451,9 @@ public class BoardDaoImpl implements BoardDao{
 	        data = new Object[0];
 	    }
 	    
-	    return jdbcTemplate.queryForObject(sql, Integer.class, data);
+	    return jdbcTemplate.queryForObject(sql, int.class, data);
 		
 	}
-
-
 
 	
 
