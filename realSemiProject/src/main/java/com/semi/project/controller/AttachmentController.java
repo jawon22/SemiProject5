@@ -59,15 +59,12 @@ public class AttachmentController {
 		return ResponseEntity.ok()
 			.contentType(MediaType.APPLICATION_OCTET_STREAM)
 			.contentLength(attachmentDto.getAttachmentSize())
-			.header(HttpHeaders.CONTENT_ENCODING, 
-										StandardCharsets.UTF_8.name())
-			.header(HttpHeaders.CONTENT_DISPOSITION,
-				ContentDisposition.attachment()
-							.filename(
-									attachmentDto.getAttachmentName(), 
-									StandardCharsets.UTF_8
-							).build().toString()
-			)
+				/*
+				 * .header(HttpHeaders.CONTENT_ENCODING, StandardCharsets.UTF_8.name())
+				 * .header(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment()
+				 * .filename( attachmentDto.getAttachmentName(), StandardCharsets.UTF_8
+				 * ).build().toString() )
+				 */
 			.body(resource);
 	}
 	
