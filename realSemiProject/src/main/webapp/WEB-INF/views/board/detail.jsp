@@ -143,14 +143,10 @@
 							
 							//대댓글 버튼
 							//replyGroup, replyParent, replyDepth 정보 필요
-							$(htmlTemplate).find(".btn-reply")
+							$(htmlTemplate).find(".block-form")
 												.attr("data-reply-no", reply.replyNo)
 												.attr("data-reply-content", reply.replyContent)
 												.click(function(){});
-															
-							
-							
-											
 							
 							//화면 배치
 							$(this).parents(".view-container")
@@ -162,52 +158,45 @@
 					}
 				},
 			});
+	
 			
-$(htmlTemplate).find(".btn-block")
-// 			.attr("data-reply-content", reply.replyContent)
-			.click(function(){
-	//this == 수정버튼
-	var blockTemplate = $("#block-template").html();
-	var blockHtmlTemplate = $.parseHTML(blockTemplate);
-
-	//value 설정
-	var replyNo = $(this).attr("data-reply-no");
-	var replyContent = $(this).attr("data-reply-content");
-	//console.log(replyContent);
-	$(blockHtmlTemplate).find("[name=replyNo]").val(replyNo);
-	$(blockHtmlTemplate).find("[name=replyContent]").val(replyContent);
-	
-	$(blockHtmlTemplate).find(".btn-cancel")
-						.click(function(){
-		$(this).parents(".block-container")
-			.prev(".view-container").show();
-		$(this).parents(".block-container").remove();
-	});
-	
-	//완료(등록) 버튼 처리
-	$(blockHtmlTemplate).submit(function(e){
+			//신고버튼 구현중
+	$(".btn-block").click(function(e){
 		e.preventDefault();
+		var blockTemplate = $("#block-template").html();
+		var blockHtmlTemplate = $.parseHTML(blockTemplate);
 	
-		$.ajax({
-			url:"/rest/reply/edit",
-			method:"post",
-			data : $(e.target).serialize(),
-			success:function(response){
-			loadList();
-			}
+		
+		
+		//취소버튼
+		$(blockHtmlTemplate).find(".block-cencel")
+							.click(function(){
+			$(this).parents(".block-container")
+				.prev(".btn-block").show();
+			$(this).parents(".block-container").remove();
 		});
-	});
-	
-	
-	//화면 배치
-	$(this).parents(".view-container")
-		.hide()
-		.after(blockHtmlTemplate);
-	});
-	
-	$(".reply-list").append(htmlTemplate);
-	}
+		
+		//완료(등록) 버튼 처리
+		$(blockHtmlTemplate).submit(function(e){
+			e.preventDefault();
+			
+		
+			$.ajax({
+				url:"/rest/boardReport/insert",
+				method:"post",
+				data : $(e.target).serialize(),
+				success:function(response){
 				
+				}
+			});
+		
+		});
+		
+		
+		$(this).hide().after(blockHtmlTemplate);
+		});
+	 
+	 }			
 				
  });
  
@@ -261,30 +250,9 @@ $(htmlTemplate).find(".btn-block")
 	        </div>
         </form>
        </script>
-        
-        <div class="w-75">
-	        <div class="flex-container">
-		        <div class="row left w-50">
-		            <span>${boardDto.boardTitle}</span>
-		        </div>
-		        <div class="row right">
-		            <span>${boardDto.boardCtime}</span>
-		        </div>
-	        </div>
-        </div>
-        <div class="row left">
-            <label>${boardDto.boardWriter}닉네임</label>
-        </div>
-        <div class="row right">
-          <i class="fa-solid fa-heart red"></i><label>0</label>|조회수<label class="readCount">${boardDto.boardReadcount}</label>
-        </div>
-        
-        <div class="row">
-           <pre>${boardDto.boardContent}</pre>
-        </div>
-<!--         <script id="block-template" type="text/template"> -->
-			<div class="right">
-			<form class="block-form block-contailner" >
+       
+        <script id="block-template" type="text/template">
+			<form class="block-form block-container" >
 				<button type="submit" class="btn block-send">보내기</button>
 				<button class="btn block-cencel">취소</button>
 				<select id="select-block" name="reportReason" class="form-input">
@@ -297,8 +265,38 @@ $(htmlTemplate).find(".btn-block")
 					    <option value="6">6. 도배성 글</option>
 				</select>
 			</form>
-			</div>
-<!-- 		</script> -->
+		</script>
+		<div class="flex-container">
+        	<div class="row w-50 left">
+        		<h2>${boardDto.boardTitle}</h2>
+        	</div>
+		        <div class="row w-50 right">
+		            <span>${boardDto.boardCtime}</span>
+		        </div>
+		</div>
+		<div class="flex-container">
+        <div class="row left w-50">
+        <c:choose>
+				<c:when test="${attachNo == null}">
+					<img src="https://dummyimage.com/80x80/000/fff" width="80" height="80"
+						class="image image-circle image-border profile-image">
+				</c:when>
+				<c:otherwise>
+				<img src="/rest/member/download?attachNo=${attachNo}" width="80" height="80"
+				class="image image-circle image-border profile-image">
+				</c:otherwise>
+			</c:choose>	
+            <label style="font-size: 20px">${boardDto.boardWriter}닉네임</label>
+        </div>
+        <div class="row right w-50">
+          <i class="fa-solid fa-heart red"></i><label>0</label>|조회수<label class="readCount">${boardDto.boardReadcount}</label>
+        </div>
+		</div>
+        
+        <div class="row left">
+           <pre style="height: 200px">${boardDto.boardContent}</pre>
+        </div>
+       
         
         <div class="row flex-container">
             <div class="col-2">
@@ -309,10 +307,11 @@ $(htmlTemplate).find(".btn-block")
             <div class="col-2">
                 <div class="right">
                     <button class="button"><a href="/board/edit">블라인드</a></button>
-                    <button class="button"><a href="/board/edit?baordNo=${boardDto.boardNo}">수정</a></button>
                     <button class="button"><a href="/board/list?keyword=${vo.type}, start=${vo.keyword}, end=${vo.page}">목록</a></button>
+                    <c:if test="${sessionScope.name==boardDto.boardWriter||	memberDto.memberlevel=='관리자' }">
                     <button class="button"><a href="/board/edit?boardNo=${boardDto.boardNo}">수정</a></button>
                     <button class="button"><a href="/board/delete?boardNo=${boardDto.boardNo}">삭제</a></button>  
+                    </c:if>
                 </div>
             </div>
         </div>	

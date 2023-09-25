@@ -59,6 +59,8 @@ public class BoardController {
 		BoardDto boardDto = boardDao.selectOne(boardNo);
 		boardDao.readcountEdit(boardDto.getBoardReadcount(), boardNo);
 		boardDto = boardDao.selectOne(boardNo);
+		Integer attachNo = memberDao.findProfile(boardDto.getBoardWriter());
+		model.addAttribute("attachNo", attachNo);
 		model.addAttribute("boardDto", boardDto);
 		return "/WEB-INF/views/board/detail.jsp";
 	}
