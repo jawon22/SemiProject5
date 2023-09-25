@@ -4,9 +4,7 @@ import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.semi.project.dao.BoardDao;
-import com.semi.project.dao.BoardReportDao;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
@@ -68,23 +65,7 @@ public class BoardController {
 	
 	
 	@RequestMapping("/detail")
-	public String detail(@RequestParam int boardNo, Model model, HttpSession session) {
-		Set<Integer> history;
-		if(session.getAttribute("history")!=null) {
-			history = (Set<Integer>) session.getAttribute("history");
-		}
-		else {
-			history = new HashSet<>();
-		}
-		boolean isRead = history.contains(boardNo);
-		
-		if(isRead == false) {
-			history.add(boardNo);
-			session.setAttribute("history", history);
-			
-		}
-		
-		
+	public String detail(@RequestParam int boardNo, Model model) {
 		BoardDto boardDto = boardDao.selectOne(boardNo);
 		boardDao.readcountEdit(boardDto.getBoardReadcount(), boardNo);
 		boardDto = boardDao.selectOne(boardNo);
@@ -210,8 +191,8 @@ public class BoardController {
 	
 	//게시글 신고 등록
 	@RequestMapping("/report/board")
-	public String report(@RequestParam int boardNo,
-									@RequestParam String reportReason) {
+	public String report(@RequestParam("boardNo") int boardNo,
+									@RequestParam("reportReason") String reportReason) {
 		
 		ReportDto reportDto = new ReportDto();
 		int reportNo = boardDao.reportSequence();
@@ -219,46 +200,13 @@ public class BoardController {
 		reportDto.setReportReason(reportReason);
 		boardDao.insertReport(reportDto);
 		
-		BoardDto boardDto = new BoardDto();
-		
-		
-		return "redirect:edit?boardNo=" + boardNo;
-	}
-		
-	//게시글 신고 처리
-	@PostMapping("/report/board")
-	public String boardReport(@ModelAttribute BoardReportDto inputBoardReportDto) {
-		inputBoardReportDto.setReportNo(boardDao.reportSequence());
 		BoardReportDto boardReportDto = new BoardReportDto();
-		boardReportDto.setReportNo(inputBoardReportDto.getReportNo());
-		boardReportDto.setBoardNo(inputBoardReportDto.getBoardNo());
-		boardReportDto.setBoardWriter(inputBoardReportDto.getBoardWriter());
+		boardReportDto.setReportNo(reportNo);
+		boardReportDto.setBoardNo(boardNo);
+		boardReportDto.setBoardWriter(boardReportDto.getBoardWriter());
 		boardDao.insertBoardReport(boardReportDto);
 		
-		return "redirect:/board/detail?boardNo=" + boardReportDto.getBoardNo();
-	}
-	
-	//신고 삭제
-	@RequestMapping("/report/board/delete")
-	public String reportBoardDelete(@RequestParam("reportNo") int reportNo) {
-		boolean result = boardDao.deleteReport(reportNo);
-		if(result) {
-			return "redirect:/board/report/reportList";
-		}else {
-			return "redirect:에러페이지";
-		}
-	}
-	
-	
-	//신고 목록
-	@RequestMapping("/report/reportList")
-	public String reportList(Model model, @ModelAttribute(name="vo") PaginationVO vo) {
-		int countReportList = boardDao.countReportList(vo);
-		vo.setCount(countReportList);
-		
-		List<ReportListDto> reportList = boardDao.selectReportList(vo);
-		model.addAttribute("reportList", reportList);
-		return "/WEB-INF/views/admin/board/reportList.jsp";
+		return "redirect:/board/detail?boardNo=" + boardNo;
 	}
 	
 }

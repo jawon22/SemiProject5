@@ -287,7 +287,7 @@ public class MemberDaoImpl implements MemberDao {
 	        return jdbcTemplate.queryForObject(sql, Integer.class, data);
 	    } else {
 	        String sql = "select count(*) from block_list "
-						+ "where member_level != '관리자'";
+						+ "wher member_level != '관리자'";
 	        return jdbcTemplate.queryForObject(sql, Integer.class);
 	    }
 	}
@@ -299,7 +299,7 @@ public class MemberDaoImpl implements MemberDao {
 								+ "select rownum rn, tmp.* from ( "
 									+ "select * from block_list "
 									+ "where instr(" + vo.getType() + ", ?) > 0 "
-									+ "and member_level != '관리자' "
+								+ "and member_level != '관리자' "
 									+	"order by block_time desc "
 								+ ") tmp"
 							+ ") where rn between ? and ?";
@@ -338,25 +338,6 @@ public class MemberDaoImpl implements MemberDao {
 				+ "select member_id from member "
 				+ "where member_point >= 1000)";
 		return jdbcTemplate.update(sql) > 0;
-	}
-
-	@Override
-	public boolean deleteReport(int ReportNo) {
-		String sql = "delete report_list where report_no = ?";
-		Object[] data = {ReportNo};
-		return jdbcTemplate.update(sql, data) > 0;
-	}
-	
-	@Override
-	public List<ReportListDto> selectReportList(PaginationVO vo) {
-		String sql = "SELECT * FROM ( "
-							+ "SELECT rownum rn, tmp.* FROM( "
-								+ "SELECT * FROM report_list "
-								+ "ORDER BY report_no desc"
-							+ ") tmp"
-						+ ") WHERE rn BETWEEN ? AND ?";
-		Object[] data = {vo.getStartRow(), vo.getFinishRow()};
-		return jdbcTemplate.query(sql, reportListMapper, data);
 	}
 
 	//글작성시 포인트 증가
