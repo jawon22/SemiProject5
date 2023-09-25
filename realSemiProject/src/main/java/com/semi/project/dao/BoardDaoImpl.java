@@ -208,6 +208,7 @@ public class BoardDaoImpl implements BoardDao{
 		}
 	}
 	
+	
 	//조회수순 정렬
 	
 	@Override
@@ -430,41 +431,41 @@ public class BoardDaoImpl implements BoardDao{
 		}
 	}
 	
+	
+	 // 정보게시판 페이지네비게이터 갯수 새기
 	@Override
 	public int countList(PaginationVO vo) {
-//		if(vo.isSearch()) {
-//			String sql = "select count(*) from board_list where instr("+vo.getType()+",?)>0 ";
-//			
-//			Object[] data = {vo.getKeyword()};
-//			
-////			String sql = "select count(*) from board_list where instr("+vo.getType()+",?)>0 "
-////					+ "and board_categoryweather = ? AND board_area = ?";
-////			
-////			Object[] data = {vo.getKeyword(),vo.getWeather(),vo.getArea()};
-//			return jdbcTemplate.queryForObject(sql, int.class,data);
-//		
-//		}
-//		else {
-//			String sql= "select count(*) from board";
-//			return jdbcTemplate.queryForObject(sql,int.class);
-//		}
-		
 		String sql;
 	    Object[] data;
 
-	    if (vo.isSearch()) {
-	        sql = "select count(*) from board_list where " + vo.getType() + " like ? " +
-	              "and board_categoryweather = ? and board_area = ?";
-	        data = new Object[]{"%" + vo.getKeyword() + "%", vo.getWeather(), vo.getArea()};
-	    } else {
-	        sql = "select count(*) from board";
-	        data = new Object[0];
+	    if (!vo.isSearch()) {
+	    	sql = "select count(*) from board_list";
+	    	data = new Object[0];
+	    } 
+	    else {
+	    	if(vo.getWeather().equals("전체")&& vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
+	    		sql="select count(*) from board_list";
+	    		data = new Object[0];
+	    	}
+	    	else if(!vo.getWeather().equals("전체") && vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
+	    		sql="select count(*) from board_list where board_categoryweather =?";
+	    		data = new Object[]{vo.getWeather()};
+	    	}
+	    	else if(vo.getWeather().equals("전체") && !vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
+	    		sql="select count(*) from board_list where board_area =?";
+	    		data = new Object[]{vo.getArea()};
+	    	}
+	    	else {
+	    	sql = "select count(*) from board_list where " + vo.getType() + " like ? " +
+	    			"and board_categoryweather = ? and board_area = ?";
+	    	data = new Object[]{"%" + vo.getKeyword() + "%", vo.getWeather(), vo.getArea()};
+	    	}
 	    }
 	    
 	    return jdbcTemplate.queryForObject(sql, int.class, data);
-		
 	}
 
+	
 	//마지막으로 쓴글 찾기
 	@Override
 	public Integer selectMax(String boardWriter) {

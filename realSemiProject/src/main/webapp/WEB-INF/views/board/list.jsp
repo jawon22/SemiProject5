@@ -206,7 +206,7 @@
 </div>
 
 		<!-- action을 아직 지정안했음 -->
-<form class="delete-form" action="#" method="post">
+<form class="delete-form" action="deleteByAdmin" method="post">
 	<c:if test="${sessionScope.name !=null}">
 			<div class="row right">
 				<c:if test="${sessionScope.level == '관리자'}">
@@ -262,7 +262,7 @@
 						<!--  제목을 누르면 상세페이디로 이동 -->
 							<c:choose>
 								<c:when test="${boardListDto.reportCount >= 5}">
-									<span style="color:red;">블라인드 처리된 글입니다</span>
+									<span style="color:gray;">블라인드 처리된 글입니다</span>
 								</c:when>
 								
 								<c:otherwise>
