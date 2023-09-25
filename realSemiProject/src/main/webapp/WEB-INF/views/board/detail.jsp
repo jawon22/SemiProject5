@@ -312,7 +312,7 @@
             <div class="col-2">
                 <div class="right">
                     <button class="button"><a href="/board/edit">블라인드</a></button>
-                    <button class="button"><a href="/board/list?keyword=${vo.type}, start=${vo.keyword}, end=${vo.page}">목록</a></button>
+                    <button class="button"><a href="/board/list?">목록</a></button>
                     <c:if test="${sessionScope.name==boardDto.boardWriter||	memberDto.memberlevel=='관리자' }">
                     <button class="button"><a href="/board/edit?boardNo=${boardDto.boardNo}">수정</a></button>
                     <button class="button"><a href="/board/delete?boardNo=${boardDto.boardNo}">삭제</a></button>  
