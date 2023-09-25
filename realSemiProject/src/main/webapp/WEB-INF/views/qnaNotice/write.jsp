@@ -17,7 +17,7 @@
 <script src="./custom-link.js"></script><!-- 내가 만든 파일-->
 <script>
     $(function () {
-        $('[name=boardContent]').summernote({
+        $('[name=qnaNoticeContent]').summernote({
             placeholder: '내용을 작성하세요',
             tabsize: 2, // 탭을 누르면 이동할 간격
             height: 200, // 에디터 높이
@@ -29,57 +29,136 @@
                 ['color', ['color']],
                 ['para', ['paragraph']],
                 ['table', ['table']],
-                ['insert', ['link']],
-            ]
-        });
-
+                ['insert', ['link', 'picture']],
+            ],
+            
+            callbacks: {
+                onImageUpload: function(files) {
+                   // upload image to server and create imgNode...
+                   //$summernote.summernote('insertNode', imgNode);
+                   if(files.length != 1) return;
+                   
+                   //console.log("비동기 파일 업로드 시작")
+                   //1. FormData 2. processdata 3.contentType
+                   var fd = new FormData();
+                   fd.append("attach", files[0]);
+                   
+                   $.ajax({
+                      url:"${pageContext.request.contextPath}/rest/attachment/upload",
+                      method:"post",
+                      data:fd,
+                      processData:false,
+                      contentType:false,
+                      success:function(response){
+                         //서버로 전송할 이미지 번호 정보 생성
+                         var input = $("<input>").attr("type", "hidden")
+                                           .attr("name", "attachmentNo")
+                                           .val(response.attachmentNo);
+                         
+                         $("form").prepend(input);
+                         
+                         //에디터에 추가할 이미지 생성
+                         var imgNode = $("<img>").attr("src", "${pageContext.request.contextPath}/rest/attachment/download/" + response.attachmentNo);
+                         //var imgNode = $("<img>").attr("src", "/rest/attachment/download?attachmentNo" + response.attachmentNo);
+                         $("[name=qnaContent]").summernote("insertNode", imgNode.get(0));
+                      },
+                      error:function(){
+                         window.alert("통신 오류 발생");
+                      }
+                   });
+                }
+             }
+            });
+        
+        
         // 게시글 타입 선택 시
         $('select[name="qnaNotice_type"]').change(function () {
             var selectedType = $(this).val();
             $('#selectedType').val(selectedType);
         });
     });
+    
+    $(document).ready(function() {
+        // 비밀글 체크박스 상태가 변경될 때 호출되는 함수
+        $('input[name="qnaNoticeSecret"]').change(function() {
+            if ($(this).is(':checked')) {
+                // 비밀글 체크되었을 때
+                console.log('비밀글이 선택되었습니다.');
+                $('[name="qnaNoticeSecret"]').val('Y');
+            } else {
+                // 비밀글 체크 해제되었을 때
+                console.log('비밀글이 해제되었습니다.');
+                $('[name="qnaNoticeSecret"]').val('N');
+            }
+        });
+        
+/*         // 원본 글의 비밀글 여부를 확인하여 답글의 비밀글 체크 상태 설정
+        var originalSecret = "${originDto.qnaNoticeSecret}"; // 원본 글의 비밀글 상태
+        if (originalSecret === 'Y') {
+            // 원본 글이 비밀글이라면 답글도 비밀글로 설정
+            $('input[name="qnaNoticeSecret"]').prop('checked', true);
+            $('[name="qnaNoticeSecret"]').val('Y');
+        } else {
+            // 원본 글이 비밀글이 아니라면 답글은 비밀글 해제
+            $('input[name="qnaNoticeSecret"]').prop('checked', false);
+            $('[name="qnaNoticeSecret"]').val('N');
+        } */
+    });
 </script>
+
 
 <script src="/js/boardWrite.js"></script>
 
-<c:choose>
-    <c:when test="${isReply}">
-        <c:if test="${sessionScope.level == '관리자'}">
-            <h2>답글 작성</h2>
-        </c:if>
-    </c:when>
-    <c:otherwise>
-        <h2>게시글 작성</h2>
-    </c:otherwise>
-</c:choose>
+
 
 <form action="write" method="post" enctype="multipart/form-data" autocomplete="off">
+
     <%-- 답글일 때만 추가 정보를 전송--%>
-    <c:if test="${isReply}">
+     <c:if test="${isReply}">
         <c:if test="${sessionScope.level == '관리자'}">
             <input type="hidden" name="qnaNoticeParent" value="${originDto.qnaNoticeNo}">
         </c:if>
-    </c:if>
+    </c:if> 
     <div class="container w-600">
         <c:choose>
             <c:when test="${sessionScope.level == '관리자'}">
-                    <label>유형</label>
-                    <select name="qnaNoticeType">
-                        <option value="1">QnA</option>
-                        <option value="2">공지사항</option>
-                    </select>      
+    			<div class="row">
+    			
+    			<c:choose>
+    				<c:when test="${isReply}">
+        				<c:if test="${sessionScope.level == '관리자'}">
+            				<h2>답글 작성</h2>
+            				<input type="hidden" name="qnaNoticeType" value="3">
+        				</c:if>
+    				</c:when>
+    				<c:otherwise>
+        				<h2>게시글 작성</h2>
+        				<label>유형</label>
+                    		<select name="qnaNoticeType">
+                        		<option value="1">공지사항</option>
+                        		<option value="2">QnA</option>
+                    		</select> 
+                    		<input type="checkbox" name="qnaNoticeSecret" >비밀글
+    				</c:otherwise>
+				</c:choose>   	
+   	 			</div>
+   	 			
             </c:when>
+            
             <c:otherwise>
-                <input type="hidden" name="qnaNoticeType" value="1">
-            </c:otherwise>
+            	<div class="row">
+            		<h2>Q&A</h2>
+            	</div>
+                <input type="hidden" name="qnaNoticeType" value="2">
+                <input type="checkbox" name="qnaNoticeSecret">비밀글
+            </c:otherwise>            
 		</c:choose>
 
-        <div class="row left">
+<!--         <div class="row left">
         <label>
        		<input type="file" name="attach" accept="image/*" multiple>
         </label>
-        </div>
+        </div> -->
     	
         <div class="row left">
             <label>제목</label>
