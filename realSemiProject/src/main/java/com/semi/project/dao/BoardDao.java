@@ -16,6 +16,8 @@ public interface BoardDao {
 	List<BoardListDto> selectList();
 	boolean delete(int boardNo);
 	boolean edit(BoardDto boardDto);
+	void connect(int boardNo, int attachmentNo);
+	Integer selectMax(String boardWriter);
 	
 	//정보게시판 목록(검색 페이징 처리)
 	List<BoardListDto> selectListByPage(int page);
