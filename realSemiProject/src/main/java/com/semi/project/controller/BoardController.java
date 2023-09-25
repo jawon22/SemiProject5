@@ -26,6 +26,7 @@ import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.MemberDto;
 import com.semi.project.service.BoardService;
 import com.semi.project.dto.ReportDto;
+import com.semi.project.dto.ReportListDto;
 import com.semi.project.vo.PaginationVO;
 
 @Controller
@@ -66,6 +67,10 @@ public class BoardController {
 	@RequestMapping("/detail")
 	public String detail(@RequestParam int boardNo, Model model) {
 		BoardDto boardDto = boardDao.selectOne(boardNo);
+		boardDao.readcountEdit(boardDto.getBoardReadcount(), boardNo);
+		boardDto = boardDao.selectOne(boardNo);
+		Integer attachNo = memberDao.findProfile(boardDto.getBoardWriter());
+		model.addAttribute("attachNo", attachNo);
 		model.addAttribute("boardDto", boardDto);
 		return "/WEB-INF/views/board/detail.jsp";
 	}
@@ -190,22 +195,24 @@ public class BoardController {
 		}
 	}
 	
-	//신고 등록
-	@GetMapping("/report/board")
-	public String report(@RequestParam ReportDto reportDto) {
+	//게시글 신고 등록
+	@RequestMapping("/report/board")
+	public String report(@RequestParam("boardNo") int boardNo,
+									@RequestParam("reportReason") String reportReason) {
+		
+		ReportDto reportDto = new ReportDto();
+		int reportNo = boardDao.reportSequence();
+		reportDto.setReportNo(reportNo);
+		reportDto.setReportReason(reportReason);
 		boardDao.insertReport(reportDto);
 		
-		BoardDto boardDto = new BoardDto();
-		int boardNo = boardDto.getBoardNo();
-		
-		return "redirect:edit?boardNo=" + boardNo;
-	}
-		
-	//게시글 신고 처리
-	@PostMapping("/report/board")
-	public String boardReport(@ModelAttribute BoardReportDto boardReportDto) {
+		BoardReportDto boardReportDto = new BoardReportDto();
+		boardReportDto.setReportNo(reportNo);
+		boardReportDto.setBoardNo(boardNo);
+		boardReportDto.setBoardWriter(boardReportDto.getBoardWriter());
 		boardDao.insertBoardReport(boardReportDto);
-		return "redirect:detail";
+		
+		return "redirect:/board/detail?boardNo=" + boardNo;
 	}
 	
 }

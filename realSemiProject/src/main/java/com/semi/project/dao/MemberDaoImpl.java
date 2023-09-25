@@ -9,21 +9,14 @@ import org.springframework.stereotype.Repository;
 import com.semi.project.dto.BlockDetailDto;
 import com.semi.project.dto.BlockListDto;
 import com.semi.project.dto.BoardListDto;
-import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
-import com.semi.project.dto.ReportDto;
-import com.semi.project.dto.ReportListDto;
 import com.semi.project.dto.StatDto;
 import com.semi.project.mapper.BlockDetailMapper;
 import com.semi.project.mapper.BlockListMapper;
 import com.semi.project.mapper.BoardListMapper;
-import com.semi.project.mapper.BoardReportMapper;
 import com.semi.project.mapper.ExpiredListMapper;
-import com.semi.project.mapper.MemberBlockMapper;
 import com.semi.project.mapper.MemberMapper;
-import com.semi.project.mapper.ReportListMapper;
-import com.semi.project.mapper.ReportMapper;
 import com.semi.project.mapper.StatMapper;
 import com.semi.project.vo.PaginationVO;
 
@@ -44,22 +37,11 @@ public class MemberDaoImpl implements MemberDao {
 	private StatMapper statMapper;
 	
 	@Autowired
-	private MemberBlockMapper memberblockMapper;
-	
-	@Autowired
 	private BlockListMapper blockListMapper;
 	
 	@Autowired
 	private BlockDetailMapper blockDetailMapper;
 	
-	@Autowired
-	private ReportMapper reportMapper;
-	
-	@Autowired
-	private BoardReportMapper boardReportMapper;
-	
-	@Autowired
-	private ReportListMapper reportListMapper;
 	
 	@Override
 	public void insert(MemberDto memberDto) {
@@ -311,7 +293,6 @@ public class MemberDaoImpl implements MemberDao {
 			String sql = "select * from ( "
 								+ "select rownum rn, tmp.* from ( "
 									+ "select * from block_list "
-									+ "order by block_time desc "
 									+ "where instr(" + vo.getType() + ", ?) > 0 "
 									+ "and member_level != '관리자' "
 									+	"order by block_time desc "
@@ -352,25 +333,6 @@ public class MemberDaoImpl implements MemberDao {
 				+ "select member_id from member "
 				+ "where member_point >= 1000)";
 		return jdbcTemplate.update(sql) > 0;
-	}
-	
-	@Override
-	public boolean deleteReport(int ReportNo) {
-		String sql = "delete report_list where report_no = ?";
-		Object[] data = {ReportNo};
-		return jdbcTemplate.update(sql, data) > 0;
-	}
-	
-	@Override
-	public List<ReportListDto> selectReportList(PaginationVO vo) {
-		String sql = "SELECT * FROM ( "
-							+ "SELECT rownum rn, tmp.* FROM( "
-								+ "SELECT * FROM report_list "
-								+ "ORDER BY report_no desc"
-							+ ") tmp"
-						+ ") WHERE rn BETWEEN ? AND ?";
-		Object[] data = {vo.getStartRow(), vo.getFinishRow()};
-		return jdbcTemplate.query(sql, reportListMapper, data);
 	}
 
 	//글작성시 포인트 증가

@@ -14,6 +14,7 @@ public class QnaNoticeDto {
 	private Date qnaNoticeTime;
 	private int qnaNoticeGroup, qnaNoticeDepth;
 	private Integer qnaNoticeParent;
+	private String memberNickname;
 	
 	//이미지 유무(DB아님)
 	private boolean image;
