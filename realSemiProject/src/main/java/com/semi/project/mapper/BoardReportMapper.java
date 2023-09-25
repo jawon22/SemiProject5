@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.semi.project.dto.BoardReportDto;
 
 @Component
-public class BoardReportMapper implements RowMapper<BoardReportDto>{
+public class BoardReportMapper implements RowMapper<BoardReportDto> {
 
 	@Override
 	public BoardReportDto mapRow(ResultSet rs, int rowNum) throws SQLException {

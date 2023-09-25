@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
+import com.semi.project.dto.BoardReportDto;
+import com.semi.project.dto.ReportDto;
 import com.semi.project.mapper.BoardDetailMapper;
 import com.semi.project.mapper.BoardListMapper;
 import com.semi.project.vo.PaginationVO;
@@ -58,6 +60,14 @@ public class BoardDaoImpl implements BoardDao{
 		String sql = "delete board where board_no = ?";
 		Object[] data = {boardNo};
 		return jdbcTemplate.update(sql, data)>0;
+	}
+	
+	//게시판 번호와 첨부파일 번호 커넥트
+	@Override
+	public void connect(int boardNo, int attachmentNo) {
+		String sql = "insert into board_attachment values(?, ?)";
+		Object[] data = {boardNo, attachmentNo};
+		jdbcTemplate.update(sql, data);
 	}
 
 	@Override
@@ -462,6 +472,40 @@ public class BoardDaoImpl implements BoardDao{
 		return jdbcTemplate.update(sql, data)>0;
 	}
 
+	//마지막으로 쓴글 찾기
+	@Override
+	public Integer selectMax(String boardWriter) {
+		String sql = "select max(board_no) from board "
+				+ "where board_writer = ?";
+		Object[] data = {boardWriter};
+		return jdbcTemplate.queryForObject(sql, Integer.class, data);
+	}
+
+
+
+	@Override
+	public int reportSequence() {
+		String sql = "select report_seq.nextval from dual";
+		return jdbcTemplate.queryForObject(sql, int.class);
+	}
 	
+	@Override
+	public void insertReport(ReportDto reportDto) {
+        String sql = "INSERT INTO report (report_no, report_reason) VALUES (?, ?)";
+        Object[] data = { reportDto.getReportNo(), reportDto.getReportReason() };
+        jdbcTemplate.update(sql, data);
+    }
+	
+	@Override
+	public void insertBoardReport(BoardReportDto boardReportDto) {
+        String sql = "INSERT INTO board_report (report_no, board_no, board_writer) VALUES (?, ?, ?)";
+        Object[] data = {
+            boardReportDto.getReportNo(),
+            boardReportDto.getBoardNo(),
+            boardReportDto.getBoardWriter()
+        };
+        jdbcTemplate.update(sql, data);
+    }
+
 
 }

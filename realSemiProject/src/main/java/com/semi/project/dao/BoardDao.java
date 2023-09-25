@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
+import com.semi.project.dto.BoardReportDto;
+import com.semi.project.dto.ReportDto;
 import com.semi.project.vo.PaginationVO;
 
 public interface BoardDao {
@@ -14,6 +16,8 @@ public interface BoardDao {
 	List<BoardListDto> selectList();
 	boolean delete(int boardNo);
 	boolean edit(BoardDto boardDto);
+	void connect(int boardNo, int attachmentNo);
+	Integer selectMax(String boardWriter);
 	
 	//정보게시판 목록(검색 페이징 처리)
 	List<BoardListDto> selectListByPage(int page);
@@ -48,6 +52,10 @@ public interface BoardDao {
 	
 	//조회수 업데이트
 	boolean readcountEdit(long boardReadcount, int boardNo);
+	//신고 관련 기능
+	int reportSequence();//신고 번호 시퀀스
+	void insertReport(ReportDto reportDto);//신고 등록
+	void insertBoardReport(BoardReportDto boardReportDto);//게시글 신고 등록
 	
 }
 

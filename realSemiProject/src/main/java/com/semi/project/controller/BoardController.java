@@ -1,5 +1,8 @@
 package com.semi.project.controller;
 
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +16,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.semi.project.dao.BoardDao;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
+import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.service.BoardService;
+import com.semi.project.dto.ReportDto;
 import com.semi.project.vo.PaginationVO;
 
 @Controller
@@ -30,6 +37,8 @@ public class BoardController {
 	@Autowired
 	MemberDao memberDao;
 	
+	@Autowired
+	private BoardService boardService;
 	
 	@RequestMapping("/list") // 정보게시판 리스트
 	public String list(@ModelAttribute(name="vo") PaginationVO vo, Model model,
@@ -72,14 +81,12 @@ public class BoardController {
 	                    @RequestParam(required = false) Integer boardParent,
 	                    @RequestParam(required = false) Integer boardCategory,
 	                    HttpSession session) {
-	    // 답글이라면 원본글 정보를 화면에 전달
-	    if (boardParent != null) {
-	        BoardDto originDto = boardDao.selectOne(boardParent);
-	        model.addAttribute("originDto", originDto);
-	        model.addAttribute("isReply", true);
-	    } else {
-	        model.addAttribute("isReply", false);
-	    }
+		/*
+		 * // 답글이라면 원본글 정보를 화면에 전달 if (boardParent != null) { BoardDto originDto =
+		 * boardDao.selectOne(boardParent); model.addAttribute("originDto", originDto);
+		 * model.addAttribute("isReply", true); } else { model.addAttribute("isReply",
+		 * false); }
+		 */
 	    
 	    // boardCategory가 null이 아닌 경우, 즉, 파라미터로 전달된 경우에만 설정
 	    if (boardCategory != null) {
@@ -95,17 +102,51 @@ public class BoardController {
 
 
 	@PostMapping("/write")
-	public String write(@ModelAttribute BoardDto boardDto, HttpSession session, MemberDto memberDto) {
-	    int boardNo = boardDao.sequence();
-	    
-	    boardDto.setBoardNo(boardNo);
-	    //boardDto.setBoardCategory(boardDto.getBoardCategory()); // 이미 모델에 설정되어 있음
-
+	public String write(@ModelAttribute BoardDto boardDto, 
+			HttpSession session
+	/* , MemberDto memberDto */
+			, @RequestParam(required = false) List<Integer> attachmentNo,
+			RedirectAttributes attr
+			) {
+		
 	    String memberId = (String) session.getAttribute("name");
 	    boardDto.setBoardWriter(memberId);
+	
 	    
+	    //boardDto.setBoardNo(boardNo1);
+	    //boardDto.setBoardCategory(boardDto.getBoardCategory()); // 이미 모델에 설정되어 있음
+	    
+		//이 사용자의 마지막 글번호를 조회
+		Integer lastNo = boardDao.selectMax(memberId);
+
+		System.out.println(lastNo);
+		
 	    // 글을 등록
-	    boardDao.insert(boardDto);
+	    //boardDao.insert(boardDto);
+		int boardNo = boardService.write(boardDto, attachmentNo); 
+	    attr.addAttribute("boardNo", boardNo);
+	
+		//포인트 계산 작업
+		//- lastNo가 null이라는 것은 처음 글을 작성했다는 의미
+		//- lastNo가 null이 아니면 조회한 다음 시간차를 비교
+		if(lastNo == null) {//처음이라면
+			memberDao.increaseMemberPoint(memberId, 100);//100점 부여
+		}
+		else {//처음이 아니라면 시간 차이를 계산
+			BoardDto lastDto = boardDao.selectOne(lastNo);
+			Timestamp stamp = new Timestamp(
+								lastDto.getBoardCtime().getTime());
+			LocalDateTime lastTime = stamp.toLocalDateTime();
+			LocalDateTime currentTime = LocalDateTime.now();
+			
+			Duration duration = Duration.between(lastTime, currentTime);
+			long seconds = duration.getSeconds();
+			if(seconds > 300) {//시간차가 300초보다 크다면(5분 초과)
+				memberDao.increaseMemberPoint(memberId, 100);//100점 부여
+			}
+		}
+	    
+	    //상세페이지로
 	    return "redirect:detail?boardNo=" + boardNo;
 	}
 
@@ -145,6 +186,24 @@ public class BoardController {
 			return "redirect:에러페이지";
 			//throw new NoTargetException("존재하지 않는 글번호");
 		}
+	}
+	
+	//신고 등록
+	@GetMapping("/report/board")
+	public String report(@RequestParam ReportDto reportDto) {
+		boardDao.insertReport(reportDto);
+		
+		BoardDto boardDto = new BoardDto();
+		int boardNo = boardDto.getBoardNo();
+		
+		return "redirect:edit?boardNo=" + boardNo;
+	}
+		
+	//게시글 신고 처리
+	@PostMapping("/report/board")
+	public String boardReport(@ModelAttribute BoardReportDto boardReportDto) {
+		boardDao.insertBoardReport(boardReportDto);
+		return "redirect:detail";
 	}
 	
 }

@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.semi.project.dao.BoardDao;
 import com.semi.project.dao.MemberDao;
+import com.semi.project.dto.BlockDetailDto;
 import com.semi.project.dto.BlockListDto;
 import com.semi.project.dto.BoardListDto;
+import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.dto.ReportDto;
 import com.semi.project.vo.PaginationVO;
 
 @Controller
@@ -27,7 +30,6 @@ public class AdminController {
 	
 	@Autowired
 	private BoardDao boardDao;
-
 	
 	@RequestMapping("/member/list")
 	public String memberList(Model model,
@@ -54,6 +56,8 @@ public class AdminController {
 		List<BoardListDto> boardList = memberDao.findWriteListByMemberId(memberId);
 		model.addAttribute("boardList", boardList);
 		
+		List<BlockDetailDto> blockDetailList = memberDao.findBlock(memberId);
+		model.addAttribute("blockDetailList", blockDetailList);
 		
 		return "/WEB-INF/views/admin/member/detail.jsp";
 	}
@@ -92,12 +96,19 @@ public class AdminController {
 	}
 	
 	//회원 차단 설정
-	@RequestMapping("/block")
-	public String block(@RequestParam String memberId) {
+	@RequestMapping("/member/block")
+	public String memberBlock(@RequestParam String memberId) {
 		memberDao.insertBlock(memberId);
-		return "redirect:member/blockList";
+		return "redirect:list";
 	}
 	
 	//회원 차단 해제
-//	@RequestMapping("/member/cancel")
+	@RequestMapping("/member/cancel")
+	public String memberCancel(@RequestParam String memberId) {
+		memberDao.deleteBlock(memberId);
+		return "redirect:list";
+	}
+	
+	
+	
 }
