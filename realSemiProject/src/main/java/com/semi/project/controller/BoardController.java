@@ -29,6 +29,7 @@ import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.MemberDto;
 import com.semi.project.service.BoardService;
 import com.semi.project.dto.ReportDto;
+import com.semi.project.dto.ReportListDto;
 import com.semi.project.vo.PaginationVO;
 
 @Controller
@@ -207,23 +208,57 @@ public class BoardController {
 		}
 	}
 	
-	//신고 등록
-	@GetMapping("/report/board")
-	public String report(@RequestParam ReportDto reportDto) {
+	//게시글 신고 등록
+	@RequestMapping("/report/board")
+	public String report(@RequestParam int boardNo,
+									@RequestParam String reportReason) {
+		
+		ReportDto reportDto = new ReportDto();
+		int reportNo = boardDao.reportSequence();
+		reportDto.setReportNo(reportNo);
+		reportDto.setReportReason(reportReason);
 		boardDao.insertReport(reportDto);
 		
 		BoardDto boardDto = new BoardDto();
-		int boardNo = boardDto.getBoardNo();
+		
 		
 		return "redirect:edit?boardNo=" + boardNo;
 	}
 		
 	//게시글 신고 처리
 	@PostMapping("/report/board")
-	public String boardReport(@ModelAttribute BoardReportDto boardReportDto) {
-		boardReportDto.setReportNo(boardDao.reportSequence());
+	public String boardReport(@ModelAttribute BoardReportDto inputBoardReportDto) {
+		inputBoardReportDto.setReportNo(boardDao.reportSequence());
+		BoardReportDto boardReportDto = new BoardReportDto();
+		boardReportDto.setReportNo(inputBoardReportDto.getReportNo());
+		boardReportDto.setBoardNo(inputBoardReportDto.getBoardNo());
+		boardReportDto.setBoardWriter(inputBoardReportDto.getBoardWriter());
 		boardDao.insertBoardReport(boardReportDto);
-		return "redirect:detail";
+		
+		return "redirect:/board/detail?boardNo=" + boardReportDto.getBoardNo();
+	}
+	
+	//신고 삭제
+	@RequestMapping("/report/board/delete")
+	public String reportBoardDelete(@RequestParam("reportNo") int reportNo) {
+		boolean result = boardDao.deleteReport(reportNo);
+		if(result) {
+			return "redirect:/board/report/reportList";
+		}else {
+			return "redirect:에러페이지";
+		}
+	}
+	
+	
+	//신고 목록
+	@RequestMapping("/report/reportList")
+	public String reportList(Model model, @ModelAttribute(name="vo") PaginationVO vo) {
+		int countReportList = boardDao.countReportList(vo);
+		vo.setCount(countReportList);
+		
+		List<ReportListDto> reportList = boardDao.selectReportList(vo);
+		model.addAttribute("reportList", reportList);
+		return "/WEB-INF/views/admin/board/reportList.jsp";
 	}
 	
 }

@@ -165,7 +165,8 @@
 		e.preventDefault();
 		var blockTemplate = $("#block-template").html();
 		var blockHtmlTemplate = $.parseHTML(blockTemplate);
-	
+		var params = new URLSearchParams(location.search);
+		var no = params.get("boardNo");
 		
 		
 		//취소버튼
@@ -179,23 +180,26 @@
 		//완료(등록) 버튼 처리
 		$(blockHtmlTemplate).submit(function(e){
 			e.preventDefault();
-			
-		
+// 			var boardNo = $("[name=boardNo]").val();
+// 			var longBoardNo = $.parseLong(boardNo);
+			var reportReason = $("[name=reportReason]").val();
 			$.ajax({
 				url:"/board/report/board",
-				method:"requ",
-				data : $(e.target).serialize(),
+				method:"get",
+				data :{boardNo:no, reportReason:reportReason},
 				success:function(response){
+			console.log("성공");
+					
 					$(this).parents(".block-container")
 					.prev(".btn-block").show();
 				$(this).parents(".block-container").remove();
-				}
+				},
 			});
 		
 		});
 		
 		
-		$(this).hide().after(blockHtmlTemplate);
+			$(this).hide().after(blockHtmlTemplate);
 		});
 	 
 	 }			
@@ -255,9 +259,9 @@
        
         <script id="block-template" type="text/template">
 			<form class="block-form block-container" >
-				<input type="hidden" name="boardNo" value="${board.boardNo}">
 				<button type="submit" class="btn block-send">보내기</button>
 				<button class="btn block-cencel">취소</button>
+				<input type="hidden" name="boardNo">
 				<select id="select-block" name="reportReason" class="form-input">
 						<option name="reportReason" value="" selected disabled>신고사유</option>
 					    <option name="reportReason" value="광고/음란성 글" >1. 광고/음란성 글</option>

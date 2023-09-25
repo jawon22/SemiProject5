@@ -6,6 +6,7 @@ import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.ReportDto;
+import com.semi.project.dto.ReportListDto;
 import com.semi.project.vo.PaginationVO;
 
 public interface BoardDao {
@@ -56,7 +57,9 @@ public interface BoardDao {
 	int reportSequence();//신고 번호 시퀀스
 	void insertReport(ReportDto reportDto);//신고 등록
 	void insertBoardReport(BoardReportDto boardReportDto);//게시글 신고 등록
-	
+	boolean deleteReport(int ReportNo);//신고 삭제
+	int countReportList(PaginationVO vo);//신고 목록 개수 세기
+	List<ReportListDto> selectReportList(PaginationVO vo);//신고 목록
 }
 
 

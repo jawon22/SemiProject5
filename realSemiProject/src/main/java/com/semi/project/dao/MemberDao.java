@@ -41,7 +41,6 @@ public interface MemberDao {
 	
 	int countBlockList(PaginationVO vo);//차단 회원 목록
 	List<BlockListDto> selectBlockListByPage(PaginationVO vo); //차단 회원목록
-	
 	MemberDto selectIdByMemberEmail(String inputEmail);//아이디찾기
 	
 	//통계 기능
@@ -55,7 +54,8 @@ public interface MemberDao {
 	boolean deleteBlock(String memberId);
 	List<BlockDetailDto> findBlock(String memberId);//차단 여부 찾기
 	
-	//신고 관련 기능
-	boolean deleteReport(int ReportNo);//신고 삭제
-	List<ReportListDto> selectReportList(PaginationVO vo);//신고 목록
+	//차단 리스트
+	List<ReportListDto> selectReportList(PaginationVO vo);
+	//차단 해제
+	 boolean deleteReport(int ReportNo);
 }
