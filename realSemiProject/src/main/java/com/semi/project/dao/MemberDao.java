@@ -55,7 +55,4 @@ public interface MemberDao {
 	boolean deleteBlock(String memberId);
 	List<BlockDetailDto> findBlock(String memberId);//차단 여부 찾기
 	
-	//신고 관련 기능
-	boolean deleteReport(int ReportNo);//신고 삭제
-	List<ReportListDto> selectReportList(PaginationVO vo);//신고 목록
 }

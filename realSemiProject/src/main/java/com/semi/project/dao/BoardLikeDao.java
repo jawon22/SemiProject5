@@ -6,4 +6,5 @@ public interface BoardLikeDao {
 	void insert(BoardLikeDto boardLikeDto);
 	boolean delete(BoardLikeDto boardLikeDto);
 	boolean check(BoardLikeDto boardLikeDto);
+	int count(int boardNo);
 }

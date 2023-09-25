@@ -11,20 +11,26 @@ import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.ReportDto;
+import com.semi.project.dto.ReportListDto;
 import com.semi.project.mapper.BoardDetailMapper;
 import com.semi.project.mapper.BoardListMapper;
+import com.semi.project.mapper.ReportListMapper;
 import com.semi.project.vo.PaginationVO;
 
 @Repository
 public class BoardDaoImpl implements BoardDao{
-	@Autowired
-	JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	BoardListMapper boardListMapper;
+	private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	BoardDetailMapper boardDetailMapper;
+	private BoardListMapper boardListMapper;
+	
+	@Autowired
+	 private BoardDetailMapper boardDetailMapper;
+	
+	@Autowired
+	private ReportListMapper reportListMapper;
 	
 	@Override
 	public int sequence() {
@@ -465,6 +471,13 @@ public class BoardDaoImpl implements BoardDao{
 		
 	}
 
+	@Override
+	public boolean readcountEdit(long boardReadcount, int boardNo) {
+		String sql =  "update board set board_readcount=? where board_no=?";
+		Object[] data= {boardReadcount+1, boardNo};
+		return jdbcTemplate.update(sql, data)>0;
+	}
+
 	//마지막으로 쓴글 찾기
 	@Override
 	public Integer selectMax(String boardWriter) {
@@ -499,6 +512,51 @@ public class BoardDaoImpl implements BoardDao{
         };
         jdbcTemplate.update(sql, data);
     }
-
+	
+	@Override
+	public boolean deleteReport(int ReportNo) {
+		String sql = "delete from report where report_no = ?";
+		Object[] data = {ReportNo};
+		return jdbcTemplate.update(sql, data) > 0;
+	}
+	
+	@Override
+	public int countReportList(PaginationVO vo) {
+		if(vo.isSearch()) {
+			String sql = "select count(*) from report_list "
+								+ "where instr(" + vo.getType() + ", ?) > 0 ";
+			Object[] data = {vo.getKeyword()};
+			return jdbcTemplate.queryForObject(sql, Integer.class,data);
+		}else {
+			String sql = "select count(*) from report_list";
+			return jdbcTemplate.queryForObject(sql, Integer.class);
+		}
+	}
+	
+	@Override
+	public List<ReportListDto> selectReportList(PaginationVO vo) {
+		if(vo.isSearch()) {
+			String sql = "SELECT * FROM ( "
+								+ "SELECT rownum rn, tmp.* FROM( "
+									+ "SELECT * FROM report_list "
+									+ "where instr(" + vo.getType() + ", ?) > 0  "
+									+ "ORDER BY report_no desc "
+								+ ") tmp"
+							+ ") WHERE rn BETWEEN ? AND ?";
+			Object[] data = {
+					vo.getKeyword(), vo.getStartRow(), vo.getFinishRow()
+			};
+			return jdbcTemplate.query(sql, reportListMapper, data);
+		} else {
+			String sql = "SELECT * FROM ( "
+					+ "SELECT rownum rn, tmp.* FROM( "
+					+ "SELECT * FROM report_list "
+					+ "ORDER BY report_no desc"
+					+ ") tmp"
+					+ ") WHERE rn BETWEEN ? AND ?";
+			Object[] data = {vo.getStartRow(), vo.getFinishRow()};
+			return jdbcTemplate.query(sql, reportListMapper, data);	
+		}
+	}
 
 }

@@ -7,19 +7,24 @@
 	 var params = new URLSearchParams(location.search);
 		var no = params.get("boardNo");
 		
+		//신고사유 옵션 숨기기-실패
+// 		$(".select-block").click(function(){
+// 			$("select option[value='0']").hide();
+// 		});
+		
 		//좋아요 처리
 			 $.ajax({
 				 url:"/rest/boardLike/check",
 				 method:"post",
 				 data:{boardNo : no},
 			 	success:function(response){
-				 if(response=="Y"){
+				 if(response.check){
+					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-solid")
+				 }	
+				 else{
 					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-regular")
 				 }
-				 else if(response=="N"){
-					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-solid")
-				 }
-				 return 
+				 $(".fa-heart").next("label").text(response.count);
 			 	}
 			 });
 			
@@ -27,14 +32,15 @@
 			 $.ajax({
 				 url:"/rest/boardLike/action",
 				 method:"post",
-				 data:{boardNo : no},
+				 data:{boardNo : no},	
 			 	success:function(response){
-				 if(response=="Y"){
+				 if(response.check){
+					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-solid	")
+				 }
+				 else{
 					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-regular")
 				 }
-				 else if(response=="N"){
-					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-solid")
-				 }
+				 $(".fa-heart").next("label").text(response.count);	
 			 	}
 			 });		
 		});
@@ -61,7 +67,7 @@
 			
 			var memberId = "${sessionScope.name}";
 			
-				
+				//리스트 리로드
 			$.ajax({
 				url:"/rest/reply/list",
 				method:"post",
@@ -137,14 +143,10 @@
 							
 							//대댓글 버튼
 							//replyGroup, replyParent, replyDepth 정보 필요
-							$(htmlTemplate).find(".btn-reply")
+							$(htmlTemplate).find(".block-form")
 												.attr("data-reply-no", reply.replyNo)
 												.attr("data-reply-content", reply.replyContent)
 												.click(function(){});
-															
-							
-							
-											
 							
 							//화면 배치
 							$(this).parents(".view-container")
@@ -156,7 +158,46 @@
 					}
 				},
 			});
-	}
+	
+			
+			//신고버튼 구현중
+	$(".btn-block").click(function(e){
+		e.preventDefault();
+		var blockTemplate = $("#block-template").html();
+		var blockHtmlTemplate = $.parseHTML(blockTemplate);
+	
+		
+		
+		//취소버튼
+		$(blockHtmlTemplate).find(".block-cencel")
+							.click(function(){
+			$(this).parents(".block-container")
+				.prev(".btn-block").show();
+			$(this).parents(".block-container").remove();
+		});
+		
+		//완료(등록) 버튼 처리
+		$(blockHtmlTemplate).submit(function(e){
+			e.preventDefault();
+			
+		
+			$.ajax({
+				url:"/rest/boardReport/insert",
+				method:"post",
+				data : $(e.target).serialize(),
+				success:function(response){
+				
+				}
+			});
+		
+		});
+		
+		
+		$(this).hide().after(blockHtmlTemplate);
+		});
+	 
+	 }			
+				
  });
  
  
@@ -186,7 +227,7 @@
 					<button class="btn btn-reply">대댓글</button>
 				</div>
 	       </div>
-<!-- </script> -->
+</script>
 
 
 
@@ -209,46 +250,73 @@
 	        </div>
         </form>
        </script>
-        
-        <div class="w-75">
-            <span class="row left">${boardDto.boardTitle}</span>
-            <span class="right right">${boardDto.boardCtime}</span>
+       
+        <script id="block-template" type="text/template">
+			<form class="block-form block-container" >
+				<button type="submit" class="btn block-send">보내기</button>
+				<button class="btn block-cencel">취소</button>
+				<select id="select-block" name="reportReason" class="form-input">
+						<option value="0" selected disabled>신고사유</option>
+					    <option value="1" >1. 광고/음란성 글</option>
+					    <option value="2">2. 욕설/반말/부적절한 언어</option>
+					    <option value="3">3. 회원 분란 유도</option>
+					    <option value="4">4. 회원 비방</option>
+					    <option value="5">5. 지나친 정치/종교 논쟁</option>
+					    <option value="6">6. 도배성 글</option>
+				</select>
+			</form>
+		</script>
+		<div class="flex-container">
+        	<div class="row w-50 left">
+        		<h2>${boardDto.boardTitle}</h2>
+        	</div>
+		        <div class="row w-50 right">
+		            <span>${boardDto.boardCtime}</span>
+		        </div>
+		</div>
+		<div class="flex-container">
+        <div class="row left w-50">
+        <c:choose>
+				<c:when test="${attachNo == null}">
+					<img src="https://dummyimage.com/80x80/000/fff" width="80" height="80"
+						class="image image-circle image-border profile-image">
+				</c:when>
+				<c:otherwise>
+				<img src="/rest/member/download?attachNo=${attachNo}" width="80" height="80"
+				class="image image-circle image-border profile-image">
+				</c:otherwise>
+			</c:choose>	
+            <label style="font-size: 20px">${boardDto.boardWriter}닉네임</label>
         </div>
+        <div class="row right w-50">
+          <i class="fa-solid fa-heart red"></i><label>0</label>|조회수<label class="readCount">${boardDto.boardReadcount}</label>
+        </div>
+		</div>
+        
         <div class="row left">
-            <label>${boardDto.boardWriter}닉네임</label>
+           <pre style="height: 200px">${boardDto.boardContent}</pre>
         </div>
-        <div class="row right">
-          <i class="fa-solid fa-heart red">${boardDto.boardLikecount}</i>|조회수${boardDto.boardReplycount}</label>
-        </div>
-        
-        <div class="row">
-           <pre>${boardDto.boardContent}</pre>
-        </div>
-        
+       
         
         <div class="row flex-container">
             <div class="col-2">
                 <div class="left">
-                    <button value="">신고 버튼(이미지)</button>
-                </div>
+                    <button class = "btn-block" value="">신고 버튼(이미지)</button>
+                 </div>
             </div>
             <div class="col-2">
                 <div class="right">
                     <button class="button"><a href="/board/edit">블라인드</a></button>
-<<<<<<< HEAD
-                    <button class="button"><a href="/board/list">목록</a></button>
-                    <button class="button"><a href="/board/edit?baordNo=${boardDto.boardNo}">수정</a></button>
-=======
                     <button class="button"><a href="/board/list?keyword=${vo.type}, start=${vo.keyword}, end=${vo.page}">목록</a></button>
+                    <c:if test="${sessionScope.name==boardDto.boardWriter||	memberDto.memberlevel=='관리자' }">
                     <button class="button"><a href="/board/edit?boardNo=${boardDto.boardNo}">수정</a></button>
->>>>>>> refs/remotes/origin/main
                     <button class="button"><a href="/board/delete?boardNo=${boardDto.boardNo}">삭제</a></button>  
+                    </c:if>
                 </div>
             </div>
         </div>	
 		
 		
-<%-- 		<input type="hidden" name="replyWriter" value="${sessionScope.name}"> --%>
 	<c:if test="${sessionScope.name != null}">
 		<form class="reply-insert-form">
 		<input type="hidden" name="replyOrigin" value="${boardDto.boardNo}">
@@ -264,7 +332,6 @@
 					</div>
 				</div>
 		</div>
-<%-- 			<input type="hidden" name="replyGroup" value="${reply.replyNo}"> --%>
 			<input type="hidden" name="replyParent" value="${reply.replyNo}">
 		<c:if test="${reply.replyParent!=null}">
 			<input type="hidden" name="replyDepth" value="${reply.replyDepth}+1">

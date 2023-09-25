@@ -17,7 +17,7 @@
 <!-- 		<h3> -->
 <!-- 			<i class="fa-solid fa-user"></i> -->
 <%-- 			${qnaNoticeDto.qnaNoticeMemberId} --%>
-<%-- 			<%-- 탈퇴한 사용자가 아닐 경우 닉네임을 옆에 추가로 출력 --%> --%>
+<%-- 			<%-- 탈퇴한 사용자가 아닐 경우 닉네임을 옆에 추가로 출력 --%>
 <%-- 			<c:if test="${qnaNoticeDto. != null}"> --%>
 <%-- 			(${writerDto.memberNickname}) --%>
 <%-- 			</c:if> --%>
@@ -37,9 +37,9 @@
 	
 	<%-- 사진이 있으면 --%>
 
-	<c:if test="${qnaNoticeDto.image}">
+<%-- 	<c:if test="${qnaNoticeDto.image}">
 	<img src="image?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}" width="200" height="200">
-	</c:if>
+	</c:if> --%>
 
 	
 	
@@ -49,16 +49,19 @@
 	</div>
 
 		 
-<%-- 글쓰기는 로그인 상태인 경우에만 출력 --%>
-
-		<c:if test="${sessionScope.level == '관리자'}">
-			<a href="write?qnaNoticeParent=${qnaNoticeDto.qnaNoticeNo}">답글</a>		
-<!-- 		수정/삭제는 소유자일 경우에만 나와야 한다  -->
-		<c:if test="${sessionScope.name == qnaNoticeDto.memberId}">
-			<a href="edit?boardNo=${qnaNoticeDto.qnaNoticeDtoNo}">글수정</a>		
-			<a href="delete?boardNo=${qnaNoticeDto.qnaNoticeDtoNo}">글삭제</a>
-		</c:if>
-		</c:if>
+<!-- 글 수정 및 삭제 버튼은 로그인 상태에서만 표시 -->
+<c:if test="${sessionScope.name != null}">
+    <!-- 글 수정 및 삭제는 소유자일 경우에만 나와야 한다 -->
+    <c:if test="${sessionScope.name == qnaNoticeDto.memberId}">
+        <a href="edit?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}">글 수정</a>        
+        <a href="delete?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}">글 삭제</a>
+    </c:if>
+    
+    <!-- 답글 버튼은 관리자일 경우에만 표시 -->
+    <c:if test="${sessionScope.level == '관리자'}">
+        <a href="write?qnaNoticeParent=${qnaNoticeDto.qnaNoticeNo}">답글</a>
+    </c:if>
+</c:if>
 			<a href="list">목록으로</a>
 </div>
 

@@ -3,9 +3,42 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<h1>회원 가입</h1>
-
-<form action="join" method="post" autocomplete="off"> <br><br>
+<form class="join-form mt-30" action="join" method="post" autocomplete="off">
+<!-- 	<div class="container w-600"> -->
+<!-- 		<div class="row"> -->
+<!-- 			<h1>회원 가입</h1> -->
+<!-- 		</div> -->
+		
+<!-- 		<hr> -->
+		
+<!-- 		<div class="row"> -->
+<!-- 			<div class="row"> -->
+<!-- 				<label>아이디</label> -->
+<!-- 				<input class="form-input w-100" type="text" name="memberId" placeholder="영문 소문자, 숫자 5~18자"> -->
+<!-- 				<div class="success-feedback">사용 가능한 아이디입니다</div> -->
+<!-- 				<div class="fail-feedback">사용할 수 없는 아이디입니다</div> -->
+<!-- 				<div class="fail-feedback">이미 사용 중인 아이디입니다</div> -->
+<!-- 			</div> -->
+<!-- 			<div class="row"> -->
+<!-- 				<label>비밀번호</label> -->
+<!-- 				<input class="form-input w-100" type="password" name="memberPw" placeholder="영문 대•소문자, 숫자, 특수문자(!@#$) 포함 8~16자"> -->
+<!-- 				<div class="success-feedback">사용 가능한 비밀번호입니다</div> -->
+<!-- 				<div class="fail-feedback">사용할 수 없는 비밀번호입니다</div> -->
+<!-- 			</div> -->
+<!-- 			<div class="row"> -->
+<!-- 				<label>비밀번호 확인</label> -->
+<!-- 				<input class="form-input w-100" type="password" name="checkPw"  -->
+<!-- 			</div> -->
+		
+		
+<!-- 		</div> -->
+		
+		
+		
+	
+	</div>
+	
+	
 	아이디 <input type="text" name="memberId"> <br><br>
 	비밀번호 <input type="password" name="memberPw"> <br><br>
 	닉네임 <input type="text" name="memberNickname"> <br><br>

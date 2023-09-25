@@ -38,13 +38,14 @@ public class QnaNoticeDaoImpl implements QnaNoticeDao {
 	public void insert(QnaNoticeDto qnaNoticeDto) {
 		String sql = "insert into qnanotice("
 				+ "qnanotice_no, qnanotice_title, qnanotice_content, member_id, "
-				+ "qnanotice_type, qnanotice_group, qnanotice_parent, qnanotice_depth"
-				+ ") values(?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "qnanotice_type, qnanotice_group, qnanotice_parent, qnanotice_depth, qnanotice_secret"
+				+ ") values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		Object[] data = {
 				qnaNoticeDto.getQnaNoticeNo(), qnaNoticeDto.getQnaNoticeTitle(),
 				qnaNoticeDto.getQnaNoticeContent(), qnaNoticeDto.getMemberId(),
 				qnaNoticeDto.getQnaNoticeType(), qnaNoticeDto.getQnaNoticeGroup(), 
-				qnaNoticeDto.getQnaNoticeParent(), qnaNoticeDto.getQnaNoticeDepth()
+				qnaNoticeDto.getQnaNoticeParent(), qnaNoticeDto.getQnaNoticeDepth(),
+				qnaNoticeDto.getQnaNoticeSecret()
 		};
 		jdbcTemplate.update(sql, data);
 	}
@@ -77,6 +78,7 @@ public class QnaNoticeDaoImpl implements QnaNoticeDao {
 		List<QnaNoticeDto> list = jdbcTemplate.query(sql, qnaNoticeMapper, data);
 		return list.isEmpty() ? null : list.get(0);
 	}
+
 	
 	//list 상단에 나오는 공지글(5개까지)
 	@Override
@@ -161,4 +163,15 @@ public class QnaNoticeDaoImpl implements QnaNoticeDao {
 			return jdbcTemplate.queryForObject(sql, int.class);
 		}
 	}
+
+	
+	@Override
+	public boolean delete(int qnaNoticeNo) {//삭제
+		String sql = "delete qnaNotice where qnaNotice_no = ?";
+		Object[] data = {qnaNoticeNo};
+		return jdbcTemplate.update(sql, data)>0;
+	}
+
+
+
 }
