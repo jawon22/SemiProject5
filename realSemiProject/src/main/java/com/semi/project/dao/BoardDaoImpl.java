@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
+import com.semi.project.dto.BoardReportDto;
+import com.semi.project.dto.ReportDto;
 import com.semi.project.mapper.BoardDetailMapper;
 import com.semi.project.mapper.BoardListMapper;
 import com.semi.project.vo.PaginationVO;
@@ -455,6 +457,29 @@ public class BoardDaoImpl implements BoardDao{
 		
 	}
 
+	@Override
+	public int reportSequence() {
+		String sql = "select report_seq.nextval from dual";
+		return jdbcTemplate.queryForObject(sql, int.class);
+	}
 	
+	@Override
+	public void insertReport(ReportDto reportDto) {
+        String sql = "INSERT INTO report (report_no, report_reason) VALUES (?, ?)";
+        Object[] data = { reportDto.getReportNo(), reportDto.getReportReason() };
+        jdbcTemplate.update(sql, data);
+    }
+	
+	@Override
+	public void insertBoardReport(BoardReportDto boardReportDto) {
+        String sql = "INSERT INTO board_report (report_no, board_no, board_writer) VALUES (?, ?, ?)";
+        Object[] data = {
+            boardReportDto.getReportNo(),
+            boardReportDto.getBoardNo(),
+            boardReportDto.getBoardWriter()
+        };
+        jdbcTemplate.update(sql, data);
+    }
+
 
 }
