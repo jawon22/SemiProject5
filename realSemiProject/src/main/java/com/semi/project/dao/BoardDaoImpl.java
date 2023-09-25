@@ -465,6 +465,13 @@ public class BoardDaoImpl implements BoardDao{
 		
 	}
 
+	@Override
+	public boolean readcountEdit(long boardReadcount, int boardNo) {
+		String sql =  "update board set board_readcount=? where board_no=?";
+		Object[] data= {boardReadcount+1, boardNo};
+		return jdbcTemplate.update(sql, data)>0;
+	}
+
 	//마지막으로 쓴글 찾기
 	@Override
 	public Integer selectMax(String boardWriter) {

@@ -50,6 +50,8 @@ public interface BoardDao {
 	//정보게시판 갯수 세기
 	int countList(PaginationVO vo);
 	
+	//조회수 업데이트
+	boolean readcountEdit(long boardReadcount, int boardNo);
 	//신고 관련 기능
 	int reportSequence();//신고 번호 시퀀스
 	void insertReport(ReportDto reportDto);//신고 등록
