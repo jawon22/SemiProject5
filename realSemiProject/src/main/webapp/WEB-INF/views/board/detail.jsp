@@ -182,11 +182,13 @@
 			
 		
 			$.ajax({
-				url:"/rest/boardReport/insert",
-				method:"post",
+				url:"/board/report/board",
+				method:"requ",
 				data : $(e.target).serialize(),
 				success:function(response){
-				
+					$(this).parents(".block-container")
+					.prev(".btn-block").show();
+				$(this).parents(".block-container").remove();
 				}
 			});
 		
@@ -253,16 +255,17 @@
        
         <script id="block-template" type="text/template">
 			<form class="block-form block-container" >
+				<input type="hidden" name="boardNo" value="${board.boardNo}">
 				<button type="submit" class="btn block-send">보내기</button>
 				<button class="btn block-cencel">취소</button>
 				<select id="select-block" name="reportReason" class="form-input">
-						<option value="0" selected disabled>신고사유</option>
-					    <option value="1" >1. 광고/음란성 글</option>
-					    <option value="2">2. 욕설/반말/부적절한 언어</option>
-					    <option value="3">3. 회원 분란 유도</option>
-					    <option value="4">4. 회원 비방</option>
-					    <option value="5">5. 지나친 정치/종교 논쟁</option>
-					    <option value="6">6. 도배성 글</option>
+						<option name="reportReason" value="" selected disabled>신고사유</option>
+					    <option name="reportReason" value="광고/음란성 글" >1. 광고/음란성 글</option>
+					    <option name="reportReason" value="욕설/반말/부적절한 언어">2. 욕설/반말/부적절한 언어</option>
+					    <option name="reportReason" value="회원 분란 유도">3. 회원 분란 유도</option>
+					    <option name="reportReason" value="회원 비방">4. 회원 비방</option>
+					    <option name="reportReason" value="지나친 정치/종교 논쟁">5. 지나친 정치/종교 논쟁</option>
+					    <option name="reportReason" value="도배성 글">6. 도배성 글</option>
 				</select>
 			</form>
 		</script>

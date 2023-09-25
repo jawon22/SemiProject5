@@ -4,7 +4,9 @@ import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.semi.project.dao.BoardDao;
+import com.semi.project.dao.BoardReportDao;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
@@ -64,7 +67,23 @@ public class BoardController {
 	
 	
 	@RequestMapping("/detail")
-	public String detail(@RequestParam int boardNo, Model model) {
+	public String detail(@RequestParam int boardNo, Model model, HttpSession session) {
+		Set<Integer> history;
+		if(session.getAttribute("history")!=null) {
+			history = (Set<Integer>) session.getAttribute("history");
+		}
+		else {
+			history = new HashSet<>();
+		}
+		boolean isRead = history.contains(boardNo);
+		
+		if(isRead == false) {
+			history.add(boardNo);
+			session.setAttribute("history", history);
+			
+		}
+		
+		
 		BoardDto boardDto = boardDao.selectOne(boardNo);
 		boardDao.readcountEdit(boardDto.getBoardReadcount(), boardNo);
 		boardDto = boardDao.selectOne(boardNo);
@@ -202,6 +221,7 @@ public class BoardController {
 	//게시글 신고 처리
 	@PostMapping("/report/board")
 	public String boardReport(@ModelAttribute BoardReportDto boardReportDto) {
+		boardReportDto.setReportNo(boardDao.reportSequence());
 		boardDao.insertBoardReport(boardReportDto);
 		return "redirect:detail";
 	}
