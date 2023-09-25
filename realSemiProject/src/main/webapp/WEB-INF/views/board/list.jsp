@@ -111,7 +111,7 @@
 
 <div class="container w-800">
 	<div class="row">
-		<h2><a href="list">정보게시판 목록</a></h2>
+		<h2><a class="link" href="list">정보게시판 목록</a></h2>
 	</div>
 
 	<c:if test="${vo.search}">
@@ -163,22 +163,6 @@
 						</select>
 				</c:otherwise>
 			</c:choose>
-			
-			
-<%-- 			<c:choose> --%>
-<%-- 				<c:when test="${param.type == 'board_writer'}"> --%>
-<!-- 					<select name="type" class="form-input" required> -->
-<%-- 					  <option value="board_title" ${param.type == 'board_title' ? 'selected' : ''}>제목</option> --%>
-<%-- 					  <option value="board_writer" ${param.type == 'board_writer' ? 'selected' : ''} selected>작성자</option> --%>
-<!-- 					</select> -->
-<%-- 				</c:when> --%>
-<%-- 				<c:otherwise> --%>
-<!-- 					<select name="type" class="form-input" required> -->
-<%-- 					  <option value="board_title" ${param.type == 'board_title' ? 'selected' : ''}>제목</option> --%>
-<%-- 					  <option value="board_writer" ${param.type == 'board_writer' ? 'selected' : ''}>작성자</option> --%>
-<!-- 					</select> -->
-<%-- 				</c:otherwise> --%>
-<%-- 			</c:choose> --%>
 	
 			<input type="search" name="keyword" placeholder="검색어를 입력하세요" value="${param.keyword}" class="form-input">		
 			<button class="btn btn-positive" type="submit">
@@ -190,14 +174,6 @@
 	</form>
 
 <div class="row right">
-
-<!-- 	<a href="list?sort=latest" class="btn btn-desc">최신순</a> -->
-<!--    <a href="list?sort=readcount" class="btn btn-readcount">조회수순</a> -->
-<!--    <a href="list?sort=likecount" class="btn btn-likecount">좋아요순</a> -->
-
-<!-- 	<a href="#" class="btn btn-desc">최신순</a> -->
-<!--    <a href="#" class="btn btn-readcount">조회수순</a> -->
-<!--    <a href="#" class="btn btn-likecount">좋아요순</a> -->
     
    	<a href="<%= request.getContextPath() %>/board/list?sort=latest" class="btn btn-desc">최신순</a>
 	<a href="<%= request.getContextPath() %>/board/list?sort=readcount" class="btn btn-readcount">조회수순</a>

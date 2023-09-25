@@ -3,7 +3,6 @@ package com.semi.project.controller;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -23,10 +22,8 @@ import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.BoardReportDto;
-import com.semi.project.dto.MemberDto;
-import com.semi.project.service.BoardService;
 import com.semi.project.dto.ReportDto;
-import com.semi.project.dto.ReportListDto;
+import com.semi.project.service.BoardService;
 import com.semi.project.vo.PaginationVO;
 
 @Controller
@@ -40,6 +37,18 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	
+	@RequestMapping("/all") // 정보게시판 전체 목록
+	public String all(Model model) {
+		
+		List<BoardListDto> list = boardDao.selectList();
+		
+		model.addAttribute("list",list);
+		
+		return "/WEB-INF/views/board/all.jsp";
+	}
+	
 	
 	@RequestMapping("/list") // 정보게시판 리스트
 	public String list(@ModelAttribute(name="vo") PaginationVO vo, Model model,
