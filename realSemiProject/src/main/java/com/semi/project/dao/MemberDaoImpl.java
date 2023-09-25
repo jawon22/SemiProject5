@@ -334,4 +334,34 @@ public class MemberDaoImpl implements MemberDao {
 				+ "where member_point >= 1000)";
 		return jdbcTemplate.update(sql) > 0;
 	}
+
+	@Override
+	public boolean deleteReport(int ReportNo) {
+		String sql = "delete report_list where report_no = ?";
+		Object[] data = {ReportNo};
+		return jdbcTemplate.update(sql, data) > 0;
+	}
+	
+	@Override
+	public List<ReportListDto> selectReportList(PaginationVO vo) {
+		String sql = "SELECT * FROM ( "
+							+ "SELECT rownum rn, tmp.* FROM( "
+								+ "SELECT * FROM report_list "
+								+ "ORDER BY report_no desc"
+							+ ") tmp"
+						+ ") WHERE rn BETWEEN ? AND ?";
+		Object[] data = {vo.getStartRow(), vo.getFinishRow()};
+		return jdbcTemplate.query(sql, reportListMapper, data);
+	}
+
+	//글작성시 포인트 증가
+	@Override
+	public boolean increaseMemberPoint(String memberId, int memberPoint) {
+		String sql = "update member "
+				+ "set member_point = member_point + ? "
+				+ "where member_id = ?";
+		Object[] data = {memberPoint, memberId};
+		return jdbcTemplate.update(sql, data)>0;
+	}
+
 }

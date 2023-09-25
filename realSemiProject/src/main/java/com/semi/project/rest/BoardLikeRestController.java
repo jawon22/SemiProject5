@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.semi.project.dao.BoardLikeDao;
 import com.semi.project.dto.BoardLikeDto;
+import com.semi.project.vo.BoardLikeVo;
 
 @RestController
 @RequestMapping("/rest/boardLike")
@@ -17,28 +18,38 @@ public class BoardLikeRestController {
 	BoardLikeDao boardLikeDao;
 	
 	@RequestMapping("/check")
-	public String check(@ModelAttribute BoardLikeDto boardLikeDto, HttpSession session) {
+	public BoardLikeVo check(@ModelAttribute BoardLikeDto boardLikeDto, HttpSession session) {
 		String memberId = (String)session.getAttribute("name");
 		boardLikeDto.setMemberId(memberId);
 		
 		boolean isCheck = boardLikeDao.check(boardLikeDto);
-		return isCheck ? "Y" : "N";
+		int count = boardLikeDao.count(boardLikeDto.getBoardNo());
+		
+		BoardLikeVo vo = new BoardLikeVo();
+		vo.setCheck(isCheck);
+		vo.setCount(count);
+		return vo;
 	}
 	
 	@RequestMapping("/action")
-	public String action(@ModelAttribute BoardLikeDto boardLikeDto, HttpSession session) {
+	public BoardLikeVo action(@ModelAttribute BoardLikeDto boardLikeDto, HttpSession session) {
 		String memberId = (String)session.getAttribute("name");
 		boardLikeDto.setMemberId(memberId);
 		
 		boolean isCheck=boardLikeDao.check(boardLikeDto);
 		if(isCheck) {
 			boardLikeDao.delete(boardLikeDto);
-			return "N";
 		}
 		else {
 			boardLikeDao.insert(boardLikeDto);
-			return "Y";
 		}
+		int count = boardLikeDao.count(boardLikeDto.getBoardNo());
+		
+		BoardLikeVo vo = new BoardLikeVo();
+		vo.setCheck(!isCheck);
+		vo.setCount(count);
+		
+		return vo;
 	}
 	
 }

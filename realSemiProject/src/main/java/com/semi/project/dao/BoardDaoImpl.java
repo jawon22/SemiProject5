@@ -67,6 +67,14 @@ public class BoardDaoImpl implements BoardDao{
 		Object[] data = {boardNo};
 		return jdbcTemplate.update(sql, data)>0;
 	}
+	
+	//게시판 번호와 첨부파일 번호 커넥트
+	@Override
+	public void connect(int boardNo, int attachmentNo) {
+		String sql = "insert into board_attachment values(?, ?)";
+		Object[] data = {boardNo, attachmentNo};
+		jdbcTemplate.update(sql, data);
+	}
 
 	@Override
 	public boolean edit(BoardDto boardDto) {//수정
@@ -462,6 +470,24 @@ public class BoardDaoImpl implements BoardDao{
 	    return jdbcTemplate.queryForObject(sql, int.class, data);
 		
 	}
+
+	@Override
+	public boolean readcountEdit(long boardReadcount, int boardNo) {
+		String sql =  "update board set board_readcount=? where board_no=?";
+		Object[] data= {boardReadcount+1, boardNo};
+		return jdbcTemplate.update(sql, data)>0;
+	}
+
+	//마지막으로 쓴글 찾기
+	@Override
+	public Integer selectMax(String boardWriter) {
+		String sql = "select max(board_no) from board "
+				+ "where board_writer = ?";
+		Object[] data = {boardWriter};
+		return jdbcTemplate.queryForObject(sql, Integer.class, data);
+	}
+
+
 
 	@Override
 	public int reportSequence() {
