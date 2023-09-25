@@ -182,15 +182,16 @@ public class QnaNoticeController {
 		return "/WEB-INF/views/qnaNotice/list.jsp";
 	}
 	
+	//공지보기 선택했을 때 공지 전체목록을 보여줌
 	@RequestMapping("/noticeList")
 	public String noticeList(@ModelAttribute(name="vo") PaginationVO vo,
 			Model model) {
-		//공지보기 선택했을 때 공지 전체목록을 보여줌
 		List<QnaNoticeDto> noticeList = qnaNoticeDao.selectNoticeListByPage(vo);
 		model.addAttribute("noticeList", noticeList);
 		
 		return "/WEB-INF/views/qnaNotice/noticeList.jsp";
-
+	}
+	
 	@RequestMapping("/delete")
 	public String delete(@RequestParam int qnaNoticeNo) {
 		boolean result = qnaNoticeDao.delete(qnaNoticeNo);
