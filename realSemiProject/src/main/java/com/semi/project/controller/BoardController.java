@@ -1,5 +1,6 @@
 package com.semi.project.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -35,6 +36,7 @@ public class BoardController {
 	@RequestMapping("/list") // 정보게시판 리스트
 	public String list(@ModelAttribute(name="vo") PaginationVO vo, Model model,
 	                   @RequestParam(name = "sort", required = false) String sort) {
+		
 	    int count = boardDao.countList(vo);
 	    vo.setCount(count);
 
@@ -47,7 +49,7 @@ public class BoardController {
 	    } else {
 	        list = boardDao.selectListByPage(vo);
 	    }
-
+	    
 	    model.addAttribute("list", list);
 
 	    return "/WEB-INF/views/board/list.jsp";
