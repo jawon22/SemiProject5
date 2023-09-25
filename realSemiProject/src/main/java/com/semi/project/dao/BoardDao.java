@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
+import com.semi.project.dto.BoardReportDto;
+import com.semi.project.dto.ReportDto;
 import com.semi.project.vo.PaginationVO;
 
 public interface BoardDao {
@@ -48,5 +50,10 @@ public interface BoardDao {
 	
 	//정보게시판 갯수 세기
 	int countList(PaginationVO vo);
+	
+	//신고 관련 기능
+	int reportSequence();//신고 번호 시퀀스
+	void insertReport(ReportDto reportDto);//신고 등록
+	void insertBoardReport(BoardReportDto boardReportDto);//게시글 신고 등록
 	
 }

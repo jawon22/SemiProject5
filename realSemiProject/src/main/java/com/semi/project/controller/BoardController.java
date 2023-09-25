@@ -17,7 +17,9 @@ import com.semi.project.dao.BoardDao;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
+import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.dto.ReportDto;
 import com.semi.project.vo.PaginationVO;
 
 @Controller
@@ -139,6 +141,24 @@ public class BoardController {
 			return "redirect:에러페이지";
 			//throw new NoTargetException("존재하지 않는 글번호");
 		}
+	}
+	
+	//신고 등록
+	@GetMapping("/report/board")
+	public String report(@RequestParam ReportDto reportDto) {
+		boardDao.insertReport(reportDto);
+		
+		BoardDto boardDto = new BoardDto();
+		int boardNo = boardDto.getBoardNo();
+		
+		return "redirect:edit?boardNo=" + boardNo;
+	}
+		
+	//게시글 신고 처리
+	@PostMapping("/report/board")
+	public String boardReport(@ModelAttribute BoardReportDto boardReportDto) {
+		boardDao.insertBoardReport(boardReportDto);
+		return "redirect:detail";
 	}
 	
 }
