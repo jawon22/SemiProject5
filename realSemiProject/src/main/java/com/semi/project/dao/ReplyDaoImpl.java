@@ -23,24 +23,32 @@ public class ReplyDaoImpl implements ReplyDao{
 		return jdbcTemplate.queryForObject(sql, int.class);
 	}
 
+//	@Override
+//	public void insert(ReplyDto replyDto) {
+//		String sql = "insert into reply(reply_no, reply_writer, reply_origin, reply_content, reply_group, reply_parent, reply_depth) "
+//							+ "values	(?, ?, ?, ?, ?, ?, ?)";
+//		Object[] data = {replyDto.getReplyNo(), replyDto.getReplyWriter(), replyDto.getReplyOrigin(), replyDto.getReplyContent(), 
+//										replyDto.getReplyGroup(), replyDto.getReplyParent(), replyDto.getReplyDepth()
+//										};
+//		jdbcTemplate.update(sql, data);
+//	}
+	
 	@Override
 	public void insert(ReplyDto replyDto) {
-		String sql = "insert into reply(reply_no, reply_writer, reply_origin, reply_content, reply_group, reply_parent, reply_depth) "
-							+ "values(?, ?, ?, ?, ?, ?, ?)";
-		Object[] data = {replyDto.getReplyNo(), replyDto.getReplyWriter(), replyDto.getReplyOrigin(), replyDto.getReplyContent(), 
-										replyDto.getReplyGroup(), replyDto.getReplyParent(), replyDto.getReplyDepth()
-										};
+		String sql = "insert into reply(reply_no, reply_writer, reply_origin, reply_content) "
+							+ "values	(?, ?, ?, ?)";
+		Object[] data = {replyDto.getReplyNo(), replyDto.getReplyWriter(), replyDto.getReplyOrigin(), replyDto.getReplyContent()};
 		jdbcTemplate.update(sql, data);
-		
 	}
+		
 
 	@Override
 	public List<ReplyDto> selectList(int replyOrigin) {
-		String sql = "select * from reply connect by prior reply_no=reply_parent "
+		String sql = "select * from reply where reply_origin=? connect by prior reply_no=reply_parent "
 				+ "start with reply_parent is null "
 				+ "order siblings by reply_group desc, reply_no asc";
 		Object[] data = {replyOrigin}; 
-		return jdbcTemplate.query(sql, replyMapper);
+		return jdbcTemplate.query(sql, replyMapper, data);
 	}
 	
 	@Override

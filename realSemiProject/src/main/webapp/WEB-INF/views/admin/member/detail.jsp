@@ -102,7 +102,14 @@ $(function(){
 			<a class="link" href="list">목록</a>
 			</div>
 			<div class="row">
-			<a class="link" href="#">차단(토글로설정)</a>
+				<c:choose>
+					<c:when test="${blockDetailList[0].block == 'Y'}">
+						<a class="link" href="cancel?memberId=${memberDto.memberId}">해제</a>
+					</c:when>
+					<c:otherwise>
+						<a class="link" href="block?memberId=${memberDto.memberId}">차단</a>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<div class="row">
 			<a class="link" href="edit?memberId=${memberDto.memberId}">회원정보변경하기(등급만수정)</a>

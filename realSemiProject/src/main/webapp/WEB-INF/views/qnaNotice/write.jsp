@@ -45,7 +45,7 @@
 
 <c:choose>
     <c:when test="${isReply}">
-        <c:if test="${sessionScope.level == 'admin'}">
+        <c:if test="${sessionScope.level == '관리자'}">
             <h2>답글 작성</h2>
         </c:if>
     </c:when>
@@ -54,36 +54,41 @@
     </c:otherwise>
 </c:choose>
 
-<form action="write" method="post">
+<form action="write" method="post" enctype="multipart/form-data" autocomplete="off">
     <%-- 답글일 때만 추가 정보를 전송--%>
     <c:if test="${isReply}">
-        <c:if test="${sessionScope.level == 'admin'}">
-            <input type="hidden" name="boardParent" value="${originDto.boardNo}">
+        <c:if test="${sessionScope.level == '관리자'}">
+            <input type="hidden" name="qnaNoticeParent" value="${originDto.qnaNoticeNo}">
         </c:if>
     </c:if>
     <div class="container w-600">
         <c:choose>
-            <c:when test="${sessionScope.level == 'admin'}">
-                <div class="row left">
+            <c:when test="${sessionScope.level == '관리자'}">
                     <label>유형</label>
-                    <select name="qnaNotice_type">
+                    <select name="qnaNoticeType">
                         <option value="1">QnA</option>
                         <option value="2">공지사항</option>
-                    </select>
-                </div>
+                    </select>      
             </c:when>
             <c:otherwise>
-                <input type="hidden" name="qnaNotice_type" value="1">
+                <input type="hidden" name="qnaNoticeType" value="1">
             </c:otherwise>
-        </c:choose>
+		</c:choose>
+
+        <div class="row left">
+        <label>
+       		<input type="file" name="attach" accept="image/*" multiple>
+        </label>
+        </div>
+    	
         <div class="row left">
             <label>제목</label>
             <c:choose>
                 <c:when test="${isReply}">
-                    <input type="text" name="boardTitle" class="form-input w-100" value="RE: ${originDto.boardTitle}" required>
+                    <input type="text" name="qnaNoticeTitle" class="form-input w-100" value="RE: ${originDto.qnaNoticeTitle}" required>
                 </c:when>
                 <c:otherwise>
-                    <input type="text" name="boardTitle" class="form-input w-100">
+                    <input type="text" name="qnaNoticeTitle" class="form-input w-100">
                 </c:otherwise>
             </c:choose>
         </div>
@@ -93,17 +98,20 @@
         </div>
         <div class="row left">
             <label>내용</label>
-            <textarea type="text" name="boardContent" class="form-input w-100 fixed"></textarea>
+            <textarea name="qnaNoticeContent" class="form-input w-100 fixed"></textarea>
         </div>
         <div class="row">
-            <button class="btn btn-positive">
+          
                 <c:choose>
-                    <c:when test="${isReply && sessionScope.level == 'admin'}">답글 작성</c:when>
-                    <c:otherwise>등록하기</c:otherwise>
+                    <c:when test="${isReply && sessionScope.level == '관리자'}">
+                      <button class="btn btn-positive">답글작성</button>
+                    </c:when>
+                    <c:otherwise>
+                  		<button class="btn btn-positive">등록하기</button>
+                    </c:otherwise>
                 </c:choose>
-            </button>
-            <a
- href="list" class="btn">목록보기</a>
+
+            <a href="list" class="btn">목록보기</a>
         </div>
     </div>
 </form>

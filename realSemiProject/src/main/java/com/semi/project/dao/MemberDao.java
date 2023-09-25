@@ -2,10 +2,14 @@ package com.semi.project.dao;
 
 import java.util.List;
 
+import com.semi.project.dto.BlockDetailDto;
 import com.semi.project.dto.BlockListDto;
 import com.semi.project.dto.BoardListDto;
+import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.dto.ReportDto;
+import com.semi.project.dto.ReportListDto;
 import com.semi.project.dto.StatDto;
 import com.semi.project.vo.PaginationVO;
 
@@ -49,4 +53,9 @@ public interface MemberDao {
 	//차단+해제 기능
 	void insertBlock(String memberId);
 	boolean deleteBlock(String memberId);
+	List<BlockDetailDto> findBlock(String memberId);//차단 여부 찾기
+	
+	//신고 관련 기능
+	boolean deleteReport(int ReportNo);//신고 삭제
+	List<ReportListDto> selectReportList(PaginationVO vo);//신고 목록
 }

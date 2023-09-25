@@ -16,7 +16,6 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +26,7 @@ import com.semi.project.configuration.FileUploadProperties;
 import com.semi.project.dao.AttachmentDao;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.AttachmentDto;
+import com.semi.project.dto.MemberDto;
 import com.semi.project.dto.StatDto;
 
 @CrossOrigin
@@ -129,4 +129,19 @@ public class MemberRestController {
 	public List<StatDto> statLevelCount(){
 		return memberDao.selectGroupByMemberLevel();
 	}
+	
+	//아이디 체크
+	@PostMapping("/idCheck")
+	public String idCheck(@RequestParam String memberId) {
+		MemberDto memberDto = memberDao.selectOne(memberId);
+		if(memberDto != null) { //아이디가 있으면
+			return "Y";
+		}
+		else { //아이디가 없으면
+			return "N";
+		}
+	}
+	
+	
+	
 }
