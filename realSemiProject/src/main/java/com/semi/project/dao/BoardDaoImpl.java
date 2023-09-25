@@ -56,7 +56,7 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public List<BoardListDto> selectList() {//리스트 조회
-		String sql = "select * from board where board_category between 1 and 40 order by board_no asc";
+		String sql = "select * from board_list where board_category between 1 and 40 order by board_no asc";
 		
 		return jdbcTemplate.query(sql, boardListMapper);
 	}
