@@ -188,11 +188,9 @@
 				method:"get",
 				data :{boardNo:no, reportReason:reportReason},
 				success:function(response){
-			console.log("성공");
-					
-					$(this).parents(".block-container")
+					$(".block-container")
 					.prev(".btn-block").show();
-				$(this).parents(".block-container").remove();
+				$(".block-container").remove();
 				},
 			});
 		
