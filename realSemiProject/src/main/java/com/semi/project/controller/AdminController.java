@@ -19,6 +19,7 @@ import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.MemberDto;
 import com.semi.project.dto.ReportDto;
+import com.semi.project.dto.ReportListDto;
 import com.semi.project.vo.PaginationVO;
 
 @Controller
@@ -109,6 +110,23 @@ public class AdminController {
 		return "redirect:list";
 	}
 	
+	//신고 목록
+	@RequestMapping("/board/reportList")
+	public String reportList(Model model, @ModelAttribute(name="vo") PaginationVO vo) {
+		int countReportList = boardDao.countReportList(vo);
+		vo.setCount(countReportList);
+		
+		List<ReportListDto> reportList = boardDao.selectReportList(vo);
+		model.addAttribute("reportList", reportList);
+		return "/WEB-INF/views/admin/board/reportList.jsp";
+	}
 	
-	
+	//신고 삭제
+	@RequestMapping("/board/reportDelete")
+	public String deleteBoardReport(@RequestParam List<Integer> reportNoList) {
+		for(int reportNo : reportNoList) {
+			boardDao.deleteReport(reportNo);
+		}
+		return "redirect:reportList";
+	}
 }

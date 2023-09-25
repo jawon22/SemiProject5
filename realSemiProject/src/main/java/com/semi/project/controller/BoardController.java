@@ -209,27 +209,4 @@ public class BoardController {
 		return "redirect:/board/detail?boardNo=" + boardNo;
 	}
 	
-	//신고 삭제
-	@RequestMapping("/report/board/delete")
-	public String reportBoardDelete(@RequestParam("reportNo") int reportNo) {
-		boolean result = boardDao.deleteReport(reportNo);
-		if(result) {
-			return "redirect:/board/report/reportList";
-		}else {
-			return "redirect:에러페이지";
-		}
-	}
-	
-	
-	//신고 목록
-	@RequestMapping("/report/reportList")
-	public String reportList(Model model, @ModelAttribute(name="vo") PaginationVO vo) {
-		int countReportList = boardDao.countReportList(vo);
-		vo.setCount(countReportList);
-		
-		List<ReportListDto> reportList = boardDao.selectReportList(vo);
-		model.addAttribute("reportList", reportList);
-		return "/WEB-INF/views/admin/board/reportList.jsp";
-	}
-	
 }

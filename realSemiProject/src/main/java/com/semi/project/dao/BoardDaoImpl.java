@@ -515,7 +515,7 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Override
 	public boolean deleteReport(int ReportNo) {
-		String sql = "delete report where report_no = ?";
+		String sql = "delete from report where report_no = ?";
 		Object[] data = {ReportNo};
 		return jdbcTemplate.update(sql, data) > 0;
 	}
