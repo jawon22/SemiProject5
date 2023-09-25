@@ -12,6 +12,11 @@ public class QnaNoticeDto {
 	private int qnaNoticeType;
 	private String qnaNoticeSecret;
 	private Date qnaNoticeTime;
-	private int qnaNoticeGroup, qnaNoticeParent, qnaNoticeDepth;
+	private int qnaNoticeGroup, qnaNoticeDepth;
+	private Integer qnaNoticeParent;
+	
+	//이미지 유무(DB아님)
+	private boolean image;
+	
 	
 }
