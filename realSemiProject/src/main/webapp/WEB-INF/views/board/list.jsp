@@ -280,7 +280,7 @@
 									</c:if>
 								
 								</c:otherwise>
-							</c:choose>
+							</c:choose	>
 						</td>
 						
 						<!-- 작성자 -->
