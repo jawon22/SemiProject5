@@ -22,8 +22,11 @@ public class QnaNoticeMapper implements RowMapper<QnaNoticeDto> {
 		qnaNoticeDto.setQnaNoticeSecret(rs.getString("qnanotice_secret"));
 		qnaNoticeDto.setQnaNoticeTime(rs.getDate("qnanotice_time"));
 		qnaNoticeDto.setQnaNoticeGroup(rs.getInt("qnanotice_group"));
-		qnaNoticeDto.setQnaNoticeParent(rs.getInt("qnanotice_parent"));
+		qnaNoticeDto.setQnaNoticeParent(rs.getObject("qnanotice_parent", Integer.class));
 		qnaNoticeDto.setQnaNoticeDepth(rs.getInt("qnanotice_depth"));
+		
+		//이미지 유무
+		qnaNoticeDto.setImage(rs.getObject("attachment_no") != null);
 		return qnaNoticeDto;
 	}
 }
