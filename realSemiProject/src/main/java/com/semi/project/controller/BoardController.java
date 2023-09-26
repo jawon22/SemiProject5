@@ -3,7 +3,9 @@ package com.semi.project.controller;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,6 +24,7 @@ import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.BoardReportDto;
+import com.semi.project.dto.MemberDto;
 import com.semi.project.dto.ReportDto;
 import com.semi.project.service.BoardService;
 import com.semi.project.vo.PaginationVO;
@@ -74,9 +77,28 @@ public class BoardController {
 	
 	
 	@RequestMapping("/detail")
-	public String detail(@RequestParam int boardNo, Model model) {
+	public String detail(@RequestParam int boardNo, Model model, HttpSession session) {
 		BoardDto boardDto = boardDao.selectOne(boardNo);
-		boardDao.readcountEdit(boardDto.getBoardReadcount(), boardNo);
+		//조회수 1회 제한
+		Set<Integer> history;
+		if(session.getAttribute("history")!=null) {
+			history = (Set<Integer>) session.getAttribute("history");
+		}
+		else {
+			history = new HashSet<>();
+		}
+		boolean isRead = history.contains(boardNo);
+		if(!isRead==false) {
+			history.add(boardNo);
+			session.setAttribute("history", history);
+			boardDao.readcountEdit(boardDto.getBoardReadcount(), boardNo);
+		}
+
+		String boardWriter =  boardDto.getBoardWriter();
+		if(boardWriter!=null) {
+			MemberDto memberDto = memberDao.selectOne(boardWriter);
+			model.addAttribute("writerDto", memberDto);
+		}
 		boardDto = boardDao.selectOne(boardNo);
 		Integer attachNo = memberDao.findProfile(boardDto.getBoardWriter());
 		model.addAttribute("attachNo", attachNo);

@@ -510,7 +510,7 @@ public class BoardDaoImpl implements BoardDao{
             boardReportDto.getBoardNo(),
             boardReportDto.getBoardWriter()
         };
-        jdbcTemplate.update(sql, data);
+
     }
 	
 	@Override

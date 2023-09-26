@@ -11,12 +11,14 @@ import com.semi.project.dto.BlockListDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.dto.ReportListDto;
 import com.semi.project.dto.StatDto;
 import com.semi.project.mapper.BlockDetailMapper;
 import com.semi.project.mapper.BlockListMapper;
 import com.semi.project.mapper.BoardListMapper;
 import com.semi.project.mapper.ExpiredListMapper;
 import com.semi.project.mapper.MemberMapper;
+import com.semi.project.mapper.ReportListMapper;
 import com.semi.project.mapper.StatMapper;
 import com.semi.project.vo.PaginationVO;
 
@@ -41,6 +43,9 @@ public class MemberDaoImpl implements MemberDao {
 	
 	@Autowired
 	private BlockDetailMapper blockDetailMapper;
+	
+	@Autowired
+	private ReportListMapper reportListMapper;
 	
 	
 	@Override
@@ -282,7 +287,7 @@ public class MemberDaoImpl implements MemberDao {
 	        return jdbcTemplate.queryForObject(sql, Integer.class, data);
 	    } else {
 	        String sql = "select count(*) from block_list "
-						+ "where member_level != '관리자'";
+						+ "wher member_level != '관리자'";
 	        return jdbcTemplate.queryForObject(sql, Integer.class);
 	    }
 	}
@@ -294,7 +299,7 @@ public class MemberDaoImpl implements MemberDao {
 								+ "select rownum rn, tmp.* from ( "
 									+ "select * from block_list "
 									+ "where instr(" + vo.getType() + ", ?) > 0 "
-									+ "and member_level != '관리자' "
+								+ "and member_level != '관리자' "
 									+	"order by block_time desc "
 								+ ") tmp"
 							+ ") where rn between ? and ?";
