@@ -24,6 +24,7 @@ import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.BoardReportDto;
+import com.semi.project.dto.MemberDto;
 import com.semi.project.dto.ReportDto;
 import com.semi.project.service.BoardService;
 import com.semi.project.vo.PaginationVO;
@@ -93,7 +94,11 @@ public class BoardController {
 			boardDao.readcountEdit(boardDto.getBoardReadcount(), boardNo);
 		}
 
-		
+		String boardWriter =  boardDto.getBoardWriter();
+		if(boardWriter!=null) {
+			MemberDto memberDto = memberDao.selectOne(boardWriter);
+			model.addAttribute("writerDto", memberDto);
+		}
 		boardDto = boardDao.selectOne(boardNo);
 		Integer attachNo = memberDao.findProfile(boardDto.getBoardWriter());
 		model.addAttribute("attachNo", attachNo);

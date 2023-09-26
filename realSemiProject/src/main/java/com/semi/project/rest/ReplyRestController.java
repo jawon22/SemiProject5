@@ -33,14 +33,12 @@ public class ReplyRestController {
 		
 		replyDao.insert(replyDto);
 	}
-	@PostMapping("/profile")
-	public Integer profile(@RequestParam String memberId) {
-		Integer attach = memberDao.findProfile(memberId);
-		return attach;
-	}
 	
 	@PostMapping("/list")
 	public List<ReplyDto> list(@RequestParam int replyOrigin, HttpSession session) {
+		ReplyDto replyDto = new ReplyDto();
+		String memberId = (String) session.getAttribute("name");
+		replyDto.setAttachNo(memberDao.findProfile(memberId));
 		List<ReplyDto> list = replyDao.selectList(replyOrigin);
 		return list;
 	}

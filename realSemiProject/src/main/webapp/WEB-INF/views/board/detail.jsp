@@ -68,24 +68,7 @@
 			var no = params.get("boardNo");
 			
 			var memberId = "${sessionScope.name}";
-			$.ajax({
-				url:"/rest/reply/profile",
-				method:"post",
-				data:{memberId : memberId},
-				success:function(response){
-					for(var i=0; i < response.length; i++) {
-						var attach=response[i];
-						var template = $("#reply-template").html();
-						var htmlTemplate = $.parseHTML(template);
-						if(attachNo == null){
-						$(htmlTemplate).find(".reply-profile").src("https://dummyimage.com/80x80/000/fff");
-						}
-						else{
-						$(htmlTemplate).find(".reply-profile").src("/rest/member/download?attachNo=${attachNo}");
-						}
-					}
-				}
-			});
+			
 			
 			
 				//리스트 리로드
@@ -106,9 +89,20 @@
 						$(htmlTemplate).find(".replyContent").text(reply.replyContent);
 						$(htmlTemplate).find(".replyTime").text(reply.replyTime);
 						
+						if(attachNo == null){
+							$(htmlTemplate).find(".reply-profile").prop("src","https://dummyimage.com/80x80/000/fff");
+							}
+							else{
+							$(htmlTemplate).find(".reply-profile").prop("src", "/rest/member/download?attachNo="+attachNo+"");
+							console.log(response);
+							}
+						
 						if(memberId.length == 0 || memberId != reply.replyWriter) {
 							$(htmlTemplate).find(".w-25").empty();
+						
 						}
+						
+						
 						
 						//삭제버튼
 						$(htmlTemplate).find(".btn-delete")
@@ -316,7 +310,7 @@
 				class="image image-circle image-border profile-image">
 				</c:otherwise>
 			</c:choose>
-            <label style="font-size: 20px">${boardDto.boardWriter}닉네임</label>
+            <label style="font-size: 20px">${writerDto.memberNickname}닉네임</label>
         </div>
         <div class="row right w-50">
           <i class="fa-solid fa-heart red"></i><label>0</label>|조회수<label class="readCount">${boardDto.boardReadcount}</label>
