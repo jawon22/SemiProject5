@@ -14,18 +14,18 @@
 </thead>
 
 <tbody>
-	<c:forEach var="boardDto" items="${boardDto}">
+	<c:forEach var="qnaNoticeDto" items="${qnaNoticeDto}">
 		<tr>
 			<th class="left">
-				<a class="link" href="/board/detail?boardNo=${boardDto.boardNo}">
-				${boardDto.boardTitle}	
+				<a class="link" href="/qnaNotice/detail?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}">
+				${qnaNoticeDto.qnaNoticeTitle}	
 				</a>
 			</th>
 			<th>
 				${memberDto.memberNickname}
 			</th>
 			<th>
-				${boardDto.boardCtime}
+				${qnaNoticeDto.qnaNoticeTime}
 			</th>
 		</tr>		
 	</c:forEach>

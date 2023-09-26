@@ -141,7 +141,7 @@ public class QnaNoticeDaoImpl implements QnaNoticeDao {
 	}
 
 	@Override
-	public int countList(PaginationVO vo) {
+	public int countQnaList(PaginationVO vo) {
 		if(vo.isSearch()) {
 			String sql = "select count(*) from qnanotice_list "
 					+ "where (instr("+vo.getType()+", ?) > 0) "
@@ -152,6 +152,22 @@ public class QnaNoticeDaoImpl implements QnaNoticeDao {
 		else {
 			String sql = "select count(*) from qnanotice_list "
 					+ "where (qnanotice_type = 2 or qnanotice_type = 3)";
+			return jdbcTemplate.queryForObject(sql, int.class);
+		}
+	}
+	
+	@Override
+	public int countNoticeList(PaginationVO vo) {
+		if(vo.isSearch()) {
+			String sql = "select count(*) from qnanotice_list "
+					+ "where instr("+vo.getType()+", ?) > 0 "
+					+ "and qnanotice_type = 1";
+			Object[] data = {vo.getKeyword()};
+			return jdbcTemplate.queryForObject(sql, int.class, data);
+		}
+		else {
+			String sql = "select count(*) from qnanotice_list "
+					+ "where qnanotice_type = 1 ";
 			return jdbcTemplate.queryForObject(sql, int.class);
 		}
 	}

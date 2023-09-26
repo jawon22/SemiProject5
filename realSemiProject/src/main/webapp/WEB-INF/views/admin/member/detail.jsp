@@ -29,7 +29,7 @@ $(function(){
 });
 </script>
 
-	<div class="container w-500 mt-20">
+	<div class="container w-800 mt-20">
 	<div class="flex-container auto-width">
 		
 		<div class="row mv-10 w-25">

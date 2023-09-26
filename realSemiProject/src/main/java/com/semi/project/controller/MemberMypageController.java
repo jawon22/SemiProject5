@@ -72,7 +72,12 @@ public class MemberMypageController {
 		model.addAttribute("expiredListDto", expiredListDto);
 		model.addAttribute("memberDto", memberDto);
 		model.addAttribute("profile", memberDao.findProfile(memberId));
-
+		
+		//내가쓴글
+		model.addAttribute("myWriteList", memberDao.findWriteListByMemberId(memberId));
+		model.addAttribute("myLikeList", memberDao.findLikeListByMemberId(memberId));
+		
+		
 		return "/WEB-INF/views/member/mypage.jsp";
 	}
 	
@@ -156,7 +161,8 @@ public class MemberMypageController {
 	public String myWriteList(HttpSession session, Model model) {
 		
 		String memberId = (String) session.getAttribute("name");
-		model.addAttribute("myWriteList", memberDao.findWriteListByMemberId(memberId));
+		model.addAttribute("boardDto", memberDao.findWriteListByMemberId(memberId));
+		model.addAttribute("memberDto", memberDao.selectOne(memberId));
 		
 		return "/WEB-INF/views/member/myWriteList.jsp";				
 	}
@@ -165,10 +171,32 @@ public class MemberMypageController {
 	public String myLikeList(HttpSession session, Model model) {
 		
 		String memberId = (String) session.getAttribute("name");
-		model.addAttribute("myLikeList", memberDao.findLikeListByMemberId(memberId));
+		model.addAttribute("boardDto", memberDao.findLikeListByMemberId(memberId));
+		model.addAttribute("memberDto", memberDao.selectOne(memberId));
 		
-		return "/WEB-INF/views/member/myLikeList.jsp";
+		return "/WEB-INF/views/member/myWriteList.jsp";
 	}
+	
+	@RequestMapping("/myReplyList")
+	public String myReplyList(HttpSession session, Model model) {
+		
+		String memberId = (String) session.getAttribute("name");
+		model.addAttribute("boardDto", memberDao.findReplyListByMemberId(memberId));
+		model.addAttribute("memberDto", memberDao.selectOne(memberId));
+		
+		return "/WEB-INF/views/member/myWriteList.jsp";
+	}
+	
+	@RequestMapping("/myQnaList")
+	public String myQnaList(HttpSession session, Model model) {
+		
+		String memberId = (String) session.getAttribute("name");
+		model.addAttribute("qnaNoticeDto", memberDao.findQnaListByMemberId(memberId));
+		model.addAttribute("memberDto", memberDao.selectOne(memberId));
+		
+		return "/WEB-INF/views/member/myQnaList.jsp";
+	}
+	
 	
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {

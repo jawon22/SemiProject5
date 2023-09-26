@@ -117,10 +117,13 @@ public class QnaNoticeController {
 	}
 
 	@RequestMapping("/list")
-	public String list(@ModelAttribute(name = "vo") PaginationVO vo, Model model) {
+	public String list(@ModelAttribute(name="vo") PaginationVO vo,
+			Model model) {
+		
+	    int count = qnaNoticeDao.countQnaList(vo);
+	    vo.setCount(count);
 
-		int count = qnaNoticeDao.countList(vo);
-		vo.setCount(count);
+
 
 		// 첫번째페이지에 공지글 5개만 보여줌
 		List<QnaNoticeDto> noticeListTop5 = qnaNoticeDao.selectNoticeListTop5();
@@ -135,12 +138,33 @@ public class QnaNoticeController {
 
 	// 공지보기 선택했을 때 공지 전체목록을 보여줌
 	@RequestMapping("/noticeList")
-	public String noticeList(@ModelAttribute(name = "vo") PaginationVO vo, Model model) {
+	public String noticeList(@ModelAttribute(name="vo") PaginationVO vo,
+			Model model) {
+	
+	    int count = qnaNoticeDao.countNoticeList(vo);
+	    vo.setCount(count);
+		
+
 		List<QnaNoticeDto> noticeList = qnaNoticeDao.selectNoticeListByPage(vo);
 		model.addAttribute("noticeList", noticeList);
 
 		return "/WEB-INF/views/qnaNotice/noticeList.jsp";
 	}
+
+	//Q&A보기 선택했을 때 Q&A 전체목록을 보여줌
+	@RequestMapping("/qnaList")
+	public String qnaList(@ModelAttribute(name="vo") PaginationVO vo,
+			Model model) {
+		
+	    int count = qnaNoticeDao.countQnaList(vo);
+	    vo.setCount(count);
+		
+		List<QnaNoticeDto> qnaList = qnaNoticeDao.selectQnaListByPage(vo);
+		model.addAttribute("qnaList", qnaList);
+		
+		return "/WEB-INF/views/qnaNotice/qnaList.jsp";
+	}
+	
 
 	@RequestMapping("/delete")
 	public String delete(@RequestParam int qnaNoticeNo) {
