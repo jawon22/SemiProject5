@@ -5,11 +5,9 @@ import java.util.List;
 import com.semi.project.dto.BlockDetailDto;
 import com.semi.project.dto.BlockListDto;
 import com.semi.project.dto.BoardListDto;
-import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
-import com.semi.project.dto.ReportDto;
-import com.semi.project.dto.ReportListDto;
+import com.semi.project.dto.QnaNoticeDto;
 import com.semi.project.dto.StatDto;
 import com.semi.project.vo.PaginationVO;
 
@@ -24,6 +22,8 @@ public interface MemberDao {
 	ExpiredListDto findMemberExpiredList(String memberId); //비밀번호 변경 90일 경과 멤버조회
 	List<BoardListDto> findWriteListByMemberId(String memberId); //내가 쓴 글 조회
 	List<BoardListDto> findLikeListByMemberId(String memberId); //내가 좋아요 한 글 조회
+	List<BoardListDto> findReplyListByMemberId(String memberId); //내가 댓글 단 글 조회
+	List<QnaNoticeDto> findQnaListByMemberId(String memberId); //내가 쓴 문의글 조회
 	
 	//글작성시 포인트 증가
 	boolean increaseMemberPoint(String memberId, int memberPoint);

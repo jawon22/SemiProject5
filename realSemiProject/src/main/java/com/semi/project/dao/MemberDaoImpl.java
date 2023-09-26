@@ -11,12 +11,15 @@ import com.semi.project.dto.BlockListDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.dto.QnaNoticeDto;
 import com.semi.project.dto.StatDto;
 import com.semi.project.mapper.BlockDetailMapper;
 import com.semi.project.mapper.BlockListMapper;
 import com.semi.project.mapper.BoardListMapper;
+import com.semi.project.mapper.BoardMyListMapper;
 import com.semi.project.mapper.ExpiredListMapper;
 import com.semi.project.mapper.MemberMapper;
+import com.semi.project.mapper.QnaNoticeListMapper;
 import com.semi.project.mapper.StatMapper;
 import com.semi.project.vo.PaginationVO;
 
@@ -42,6 +45,11 @@ public class MemberDaoImpl implements MemberDao {
 	@Autowired
 	private BlockDetailMapper blockDetailMapper;
 	
+	@Autowired
+	private BoardMyListMapper boardMyListMapper;
+	
+	@Autowired
+	private QnaNoticeListMapper qnaNoticeListMapper;
 	
 	@Override
 	public void insert(MemberDto memberDto) {
@@ -106,22 +114,52 @@ public class MemberDaoImpl implements MemberDao {
 	
 	@Override
 	public List<BoardListDto> findWriteListByMemberId(String memberId) {
-		String sql = "select board_list.* from board_list left outer join member "
-				+ "on board_list.board_writer = member.member_id "
-				+ "where member.member_id = ? "
-				+ "order by board_no desc";
+		String sql = "select b.board_no, b.board_writer, b.board_title, b.board_ctime "
+				+ "from board_list b left outer join member m "
+				+ "on b.board_writer = m.member_id "
+				+ "where m.member_id = ? "
+				+ "order by b.board_no desc";
+//		String sql = "select b.*"
+//				+ "from board_list b left outer join member m "
+//				+ "on b.board_writer = m.member_id "
+//				+ "where m.member_id = ? "
+//				+ "order by b.board_no desc";
 		Object[] data = {memberId};
-		return  jdbcTemplate.query(sql, boardListMapper, data);
+		return  jdbcTemplate.query(sql, boardMyListMapper, data);
 	}
 	
 	@Override
 	public List<BoardListDto> findLikeListByMemberId(String memberId) {
-		String sql = "select board_list.* from board_list left outer join board_like "
-				+ "on board_list.board_no = board_like.board_no "
-				+ "where board_like.member_id = ? "
-				+ "order by board_list.board_no desc";
+		String sql = "select b.board_no, b.board_writer, b.board_title, b.board_ctime "
+				+ "from board_list b left outer join board_like l "
+				+ "on b.board_no = l.board_no "
+				+ "where l.member_id = ? "
+				+ "order by b.board_no desc";
 		Object[] data = {memberId};
-		return jdbcTemplate.query(sql, boardListMapper, data);
+		return jdbcTemplate.query(sql, boardMyListMapper, data);
+	}
+	
+	@Override
+	public List<BoardListDto> findReplyListByMemberId(String memberId) {
+		String sql = "select b.board_no, b.board_title, b.board_writer, b.board_ctime "
+				+ "from board b inner join ("
+				+ "select r.reply_origin from reply r "
+				+ "left outer join member m on r.reply_writer = m.member_id "
+				+ "where m.member_id = ? "
+				+ ") t on b.board_no = t.reply_origin "
+				+ "order by b.board_no desc";
+		Object[] data = {memberId};
+		return jdbcTemplate.query(sql, boardMyListMapper, data);
+	}
+	
+	@Override
+	public List<QnaNoticeDto> findQnaListByMemberId(String memberId) {
+		String sql = "select q.* from qnanotice_list q left outer join member m "
+				+ "on q.member_id = m.member_id "
+				+ "where m.member_id = ? "
+				+ "order by q.qnanotice_no desc";
+		Object[] data = {memberId};
+		return jdbcTemplate.query(sql, qnaNoticeListMapper, data);
 	}
 	
 	@Override
