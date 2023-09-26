@@ -76,6 +76,12 @@ public class QnaNoticeController {
 		System.out.println(qnaNoticeNo);
 		System.out.println(qnaNoticeSecret);
 
+		
+	    // 원본 글의 qnaNoticeSecret 값 가져오기
+	    if (qnaNoticeDto.getQnaNoticeParent() != null) {
+	        QnaNoticeDto originDto = qnaNoticeDao.selectOne(qnaNoticeDto.getQnaNoticeParent());
+	        qnaNoticeSecret = originDto.getQnaNoticeSecret();
+	    }
 	    // 글 작성 시 qnaNoticeSecret 값을 업데이트
 	    qnaNoticeDto.setQnaNoticeSecret(qnaNoticeSecret);
 	    

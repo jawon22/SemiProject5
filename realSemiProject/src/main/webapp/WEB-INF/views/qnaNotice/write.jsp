@@ -92,17 +92,6 @@
             }
         });
         
-/*         // 원본 글의 비밀글 여부를 확인하여 답글의 비밀글 체크 상태 설정
-        var originalSecret = "${originDto.qnaNoticeSecret}"; // 원본 글의 비밀글 상태
-        if (originalSecret === 'Y') {
-            // 원본 글이 비밀글이라면 답글도 비밀글로 설정
-            $('input[name="qnaNoticeSecret"]').prop('checked', true);
-            $('[name="qnaNoticeSecret"]').val('Y');
-        } else {
-            // 원본 글이 비밀글이 아니라면 답글은 비밀글 해제
-            $('input[name="qnaNoticeSecret"]').prop('checked', false);
-            $('[name="qnaNoticeSecret"]').val('N');
-        } */
     });
 </script>
 
