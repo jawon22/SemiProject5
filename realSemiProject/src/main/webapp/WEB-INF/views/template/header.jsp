@@ -13,6 +13,7 @@
 	
 	<!--css 불러오기-->
 	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/css/test.css">
 	<link rel="stylesheet" type="text/css" href="/css/layout.css">
 	<link rel="stylesheet" type="text/css" href="/css/commons.css">
 	
@@ -45,7 +46,7 @@
 		<main>
 			<header class="flex-container" >
 				<div class="logo" style="margin-left : 150px;">
-					<a class="link" href="/"><img width=50% src="images/logo.png"></a>
+					<a class="link" href="/"><img width=50% src="/images/logo.png"></a>
 				</div>
 				
 				<div class="etc" style="margin-left : 220px; font-weight:bolder; width:400px;">

@@ -3,8 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<div class="container w-500">
-<table class="table table-slit">
+<div class="container w-700">
+<table class="table table-slit center">
 <thead>
 	<tr>
 		<th>
