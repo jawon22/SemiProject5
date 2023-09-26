@@ -27,6 +27,7 @@ public class QnaNoticeMapper implements RowMapper<QnaNoticeDto> {
 		
 		//이미지 유무
 		qnaNoticeDto.setImage(rs.getObject("attachment_no") != null);
+		
 		return qnaNoticeDto;
 	}
 }

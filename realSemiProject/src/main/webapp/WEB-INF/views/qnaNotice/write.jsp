@@ -38,29 +38,28 @@
                    //$summernote.summernote('insertNode', imgNode);
                    if(files.length != 1) return;
                    
-                   //console.log("비동기 파일 업로드 시작")
+                   console.log("비동기 파일 업로드 시작")
                    //1. FormData 2. processdata 3.contentType
                    var fd = new FormData();
                    fd.append("attach", files[0]);
                    
                    $.ajax({
-                      url:"${pageContext.request.contextPath}/rest/attachment/upload",
-                      method:"post",
-                      data:fd,
-                      processData:false,
-                      contentType:false,
-                      success:function(response){
+                       url:"${pageContext.request.contextPath}/rest/attachment/upload",
+                       method:"post",
+                       data:fd,
+                       processData:false,
+                       contentType:false,
+                       success:function(response){
                          //서버로 전송할 이미지 번호 정보 생성
-                         var input = $("<input>").attr("type", "hidden")
-                                           .attr("name", "attachmentNo")
-                                           .val(response.attachmentNo);
-                         
-                         $("form").prepend(input);
+//                          var input = $("<input>").attr("type", "hidden")
+//                                            .attr("name", "attachmentNo")
+//                                            .val(response.attachmentNo);
+//                          $("form").prepend(input);
                          
                          //에디터에 추가할 이미지 생성
                          var imgNode = $("<img>").attr("src", "${pageContext.request.contextPath}/rest/attachment/download/" + response.attachmentNo);
                          //var imgNode = $("<img>").attr("src", "/rest/attachment/download?attachmentNo" + response.attachmentNo);
-                         $("[name=qnaContent]").summernote("insertNode", imgNode.get(0));
+                         $("[name=qnaNoticeContent]").summernote("insertNode", imgNode.get(0));
                       },
                       error:function(){
                          window.alert("통신 오류 발생");
@@ -92,17 +91,6 @@
             }
         });
         
-/*         // 원본 글의 비밀글 여부를 확인하여 답글의 비밀글 체크 상태 설정
-        var originalSecret = "${originDto.qnaNoticeSecret}"; // 원본 글의 비밀글 상태
-        if (originalSecret === 'Y') {
-            // 원본 글이 비밀글이라면 답글도 비밀글로 설정
-            $('input[name="qnaNoticeSecret"]').prop('checked', true);
-            $('[name="qnaNoticeSecret"]').val('Y');
-        } else {
-            // 원본 글이 비밀글이 아니라면 답글은 비밀글 해제
-            $('input[name="qnaNoticeSecret"]').prop('checked', false);
-            $('[name="qnaNoticeSecret"]').val('N');
-        } */
     });
 </script>
 
@@ -111,7 +99,7 @@
 
 
 
-<form action="write" method="post" enctype="multipart/form-data" autocomplete="off">
+<form action="write" method="post" enctype="multipart/form-data">
 
     <%-- 답글일 때만 추가 정보를 전송--%>
      <c:if test="${isReply}">
