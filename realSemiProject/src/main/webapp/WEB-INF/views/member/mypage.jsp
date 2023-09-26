@@ -52,7 +52,7 @@ $(function(){
 });
 </script>
 
-	<div class="container w-500 mt-20">
+	<div class="container w-800 mt-20">
 	<div class="flex-container auto-width">
 		
 		<div class="row mv-10 w-25">
@@ -128,31 +128,68 @@ $(function(){
 			
 			
 			<div class="flex-container auto-width"> <!-- flex-container로 단을 나눌것임 -->
-			<div class="flex-container col-2">
-			<a class="link flex-container row" href="myLikeList">내가 좋아요 누른 글 보러가기 > </a>		
-			</div>
-			<div class="flex-container col-2">
-			<!-- flex-container로 단을 나눌것임 -->
-				<a class="link flex-container row" href="myWriteList">내가 쓴 글 보러가기 > </a>		
-					<br>
-				<div class="row">
-					<table>
+			<div class="flex-container col-2 align-center">
+			
+								<table class="table table-stripe" style="width:350;">
+					<thead>
+						<th>제목</th>
+						<th>작성자</th>
+					</thead>
 						<tbody>
-		<%-- 					<c:forEach var="boardDto" items="${myWriteList}"> --%>
+							<c:forEach var="myLikeList" items="${myLikeList}">
 								<tr>
-									<th>
-										제목
-									</th>
-									<th>
-										작성자
-									</th>
+									<td>
+										${myLikeList.boardTitle}
+									</td>
+									<td>
+										${myLikeList.boardWriter}
+									</td>
 								</tr>		
-		<%-- 					</c:forEach> --%>
+							</c:forEach>
 						</tbody>
 					</table>
-				</div>
+				
+			</div>
+			<div class="flex-container col-2 align-center">
+			
+					<table class="table table-stripe" style="width:350;">
+					<thead>
+						<th>제목</th>
+						<th>작성자</th>
+					</thead>
+						<tbody>
+							<c:forEach var="myWriteList" items="${myWriteList}">
+								<tr>
+									<td>
+										${myWriteList.boardTitle}
+									</td>
+									<td>
+										${myWriteList.boardWriter}
+									</td>
+								</tr>		
+							</c:forEach>
+						</tbody>
+					</table>
 			</div>
 			</div>
+			
+			<div class="flex-container auto-width"> <!-- flex-container로 단을 나눌것임 -->
+			<div class="flex-container col-2" >
+			<a class="link flex-container row" href="myLikeList">내가 좋아요 누른 글 보러가기 > </a>	
+			</div>
+			<div class="flex-container col-2">
+			<a class="link flex-container row " href="myWriteList">내가 쓴 글 보러가기 > </a>
+			</div>
+			</div>
+			<div class="flex-container auto-width"> 
+			<div class="flex-container col-2" >
+			<a class="link flex-container row" href="myReplyList">내가 댓글 단 글 보러가기 > </a>	
+			</div>
+			<div class="flex-container col-2">
+			<a class="link flex-container row " href="myQnaList">내 문의글 보러가기 > </a>
+			</div>
+			</div>
+			
 			<div class="row">
 			<a class="link" href="exit">탈퇴하기</a>
 			</div>

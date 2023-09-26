@@ -85,7 +85,16 @@ public class MemberDaoImpl implements MemberDao {
 		};
 		return jdbcTemplate.update(sql, data) > 0;
 	}
-
+	
+	//이메일 중복 검사
+	@Override
+	public MemberDto checkEmail(String memberEmail) {
+		String sql = "select * from member where member_email = ?";
+		Object[] data = {memberEmail};
+		List<MemberDto> list = jdbcTemplate.query(sql, memberMapper, data);
+		return list.isEmpty() ? null : list.get(0);
+	}
+	
 	@Override
 	public boolean updateMemberPw(String memberId, String changePw) {
 		String sql = "update member set member_pw = ?, "

@@ -24,6 +24,7 @@ public interface MemberDao {
 	List<BoardListDto> findLikeListByMemberId(String memberId); //내가 좋아요 한 글 조회
 	List<BoardListDto> findReplyListByMemberId(String memberId); //내가 댓글 단 글 조회
 	List<QnaNoticeDto> findQnaListByMemberId(String memberId); //내가 쓴 문의글 조회
+	MemberDto checkEmail(String memberEmail);
 	
 	//글작성시 포인트 증가
 	boolean increaseMemberPoint(String memberId, int memberPoint);

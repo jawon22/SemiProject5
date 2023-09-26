@@ -142,6 +142,39 @@ public class MemberRestController {
 		}
 	}
 	
+	//비밀번호 체크
+	@PostMapping("/pwCheck")
+	public String pwCheck(@RequestParam String memberPw,
+								HttpSession session) {
+		
+		String memberId = (String)session.getAttribute("name");
+		MemberDto memberDto = memberDao.selectOne(memberId);
+		//변경하려는 비밀번호와 기존 비밀번호가 같음
+		if(memberDto.getMemberPw().equals(memberPw)) {
+			return "N"; //변경 전 비밀번호와 동일함
+		}
+		else { //변경 전 비밀번호와 다르고 형식에 맞음
+			return "Y";
+		}
+		
+	}
+	
+	//이메일체크
+	@PostMapping("/emailCheck")
+	public String emailCheck(@RequestParam(required = false) String memberEmail,
+			HttpSession session) {
+		
+		MemberDto findEmailDto = memberDao.checkEmail(memberEmail);
+		//변경하려는 이메일과 기존 이메일이 같음
+		if(findEmailDto != null) {
+			return "N"; //등록 된 이메일이 있을 때
+		}
+		else { 
+			return "Y";
+		}
+		
+	}
+	
 	
 	
 }
