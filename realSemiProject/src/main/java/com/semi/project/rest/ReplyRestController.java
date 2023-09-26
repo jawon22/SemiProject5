@@ -1,5 +1,6 @@
 package com.semi.project.rest;
 
+import java.lang.reflect.Member;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.semi.project.dao.MemberDao;
 import com.semi.project.dao.ReplyDao;
 import com.semi.project.dto.ReplyDto;
 
@@ -19,6 +21,8 @@ import com.semi.project.dto.ReplyDto;
 public class ReplyRestController {
 	@Autowired
 	private ReplyDao replyDao;
+	@Autowired
+	private MemberDao memberDao;
 	
 	@PostMapping("/insert")
 	public void insert(@ModelAttribute ReplyDto replyDto, HttpSession session) {
@@ -29,9 +33,14 @@ public class ReplyRestController {
 		
 		replyDao.insert(replyDto);
 	}
+	@PostMapping("/profile")
+	public Integer profile(@RequestParam String memberId) {
+		Integer attach = memberDao.findProfile(memberId);
+		return attach;
+	}
 	
 	@PostMapping("/list")
-	public List<ReplyDto> list(@RequestParam int replyOrigin) {
+	public List<ReplyDto> list(@RequestParam int replyOrigin, HttpSession session) {
 		List<ReplyDto> list = replyDao.selectList(replyOrigin);
 		return list;
 	}

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
+import com.semi.project.dto.AttachmentDto;
 import com.semi.project.dto.ReplyDto;
 
 @Component
@@ -24,5 +25,4 @@ public class ReplyMapper implements RowMapper<ReplyDto>{
 		replyDto.setReplyDepth(rs.getInt("reply_depth"));
 		return replyDto;
 	}
-
 }
