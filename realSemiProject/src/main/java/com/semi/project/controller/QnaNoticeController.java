@@ -3,8 +3,8 @@ package com.semi.project.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
@@ -23,11 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.semi.project.configuration.FileUploadProperties;
 import com.semi.project.dao.AttachmentDao;
 import com.semi.project.dao.QnaNoticeDao;
 import com.semi.project.dto.AttachmentDto;
 import com.semi.project.dto.QnaNoticeDto;
+import com.semi.project.vo.PaginationVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,8 +46,10 @@ public class QnaNoticeController {
 	@GetMapping("/write")
 	public String write(Model model, 
 				@RequestParam(required = false) Integer qnaNoticeParent) {
+
 		//답글이면
 		if(qnaNoticeParent != null) {
+
 			QnaNoticeDto originDto = qnaNoticeDao.selectOne(qnaNoticeParent);
 			model.addAttribute("originDto", originDto); 
 			model.addAttribute("isReply", true);
@@ -160,6 +162,36 @@ public class QnaNoticeController {
 		return "/WEB-INF/views/qnaNotice/detail.jsp";
 	}
 	
+
+	@RequestMapping("/list")
+	public String list(@ModelAttribute(name="vo") PaginationVO vo,
+			Model model) {
+		
+	    int count = qnaNoticeDao.countList(vo);
+	    vo.setCount(count);
+
+		
+		//첫번째페이지에 공지글 5개만 보여줌
+		List<QnaNoticeDto> noticeListTop5 = qnaNoticeDao.selectNoticeListTop5();
+		model.addAttribute("noticeListTop5", noticeListTop5);
+
+		//첫번째페이지부터 목록을 보여줌(공지글 5개 밑에)
+		List<QnaNoticeDto> qnaList = qnaNoticeDao.selectQnaListByPage(vo);
+		model.addAttribute("qnaList", qnaList);
+		
+		return "/WEB-INF/views/qnaNotice/list.jsp";
+	}
+	
+	//공지보기 선택했을 때 공지 전체목록을 보여줌
+	@RequestMapping("/noticeList")
+	public String noticeList(@ModelAttribute(name="vo") PaginationVO vo,
+			Model model) {
+		List<QnaNoticeDto> noticeList = qnaNoticeDao.selectNoticeListByPage(vo);
+		model.addAttribute("noticeList", noticeList);
+		
+		return "/WEB-INF/views/qnaNotice/noticeList.jsp";
+	}
+	
 	@RequestMapping("/delete")
 	public String delete(@RequestParam int qnaNoticeNo) {
 		boolean result = qnaNoticeDao.delete(qnaNoticeNo);
@@ -170,5 +202,6 @@ public class QnaNoticeController {
 			return "redirect:에러페이지";
 			//throw new NoTargetException("없는 게시글 번호");
 		}
+
 	}
 }

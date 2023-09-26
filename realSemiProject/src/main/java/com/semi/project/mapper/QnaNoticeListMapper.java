@@ -22,6 +22,8 @@ public class QnaNoticeListMapper implements RowMapper<QnaNoticeDto> {
 		qnaNoticeDto.setQnaNoticeGroup(rs.getInt("qnanotice_group"));
 		qnaNoticeDto.setQnaNoticeParent(rs.getInt("qnanotice_parent"));
 		qnaNoticeDto.setQnaNoticeDepth(rs.getInt("qnanotice_depth"));
+		qnaNoticeDto.setMemberNickname(rs.getString("member_nickname"));
+		
 		return qnaNoticeDto;
 	}
 }
