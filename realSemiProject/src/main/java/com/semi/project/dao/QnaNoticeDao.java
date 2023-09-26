@@ -2,7 +2,6 @@ package com.semi.project.dao;
 
 import java.util.List;
 
-import com.semi.project.dto.AttachmentDto;
 import com.semi.project.dto.QnaNoticeDto;
 import com.semi.project.vo.PaginationVO;
 
@@ -10,10 +9,12 @@ public interface QnaNoticeDao {
 	
 	int sequence();
 	void insert(QnaNoticeDto qnaNoticeDto);	
-	void connect(int attachmentNo, int qnaNoticeNo);
 	QnaNoticeDto selectOne(int qnaNoticeNo);
 	boolean delete(int qnaNoticeNo);
-	AttachmentDto findImage(int qnaNoticeNo);
+	
+	//썸머노트 파일연결
+	void connect(int qnaNoticeNo, int attachmentNo);
+	
 
 	//qna 게시글을 카운트
 	int countQnaList(PaginationVO vo);

@@ -8,6 +8,19 @@
 	.note-viewer {
 	    line-height: 5 !important;
 	}
+	/* 가운데 정렬 스타일 */
+     /* 부모 컨테이너 스타일 */
+     .center-container {
+         display: flex; /* 요소를 flex 컨테이너로 지정 */
+         justify-content: center; /* 수평 가운데 정렬 */
+         align-items: center; /* 수직 가운데 정렬 */
+         height: 100vh; /* 뷰포트 높이와 같은 높이로 설정 */
+     }
+
+     /* 가운데로 정렬할 요소의 스타일 */
+     .centered-element {
+         /* 원하는 스타일을 여기에 추가 */
+     }
 </style>
 
 <div class="container w-800">
@@ -32,7 +45,23 @@
 		<h2>${qnaNoticeDto.qnaNoticeTitle}</h2>
 	</div>
 	<div class="row left" >
-		<h2>${qnaNoticeDto.memberId}</h2>
+		<div class="flex-container">
+		<div class="left">
+		<c:choose>
+				<c:when test="${attachNo == null}">
+					<img src="https://dummyimage.com/50x50/000/fff" width="50" height="50"
+						class="image image-circle image-border profile-image">
+				</c:when>
+				<c:otherwise>
+				<img src="/rest/member/download?attachNo=${attachDto.attachNo}" width="80" height="80"
+				class="image image-circle image-border profile-image">
+				</c:otherwise>
+			</c:choose>	
+		</div>
+			<div class="left">
+				<h2 class="mt-10 ms-10">${qnaNoticeDto.memberId}</h2>
+			</div>
+		</div>
 	</div>
 	
 	<%-- 사진이 있으면 --%>

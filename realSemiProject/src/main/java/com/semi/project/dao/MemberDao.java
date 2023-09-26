@@ -42,7 +42,6 @@ public interface MemberDao {
 	
 	int countBlockList(PaginationVO vo);//차단 회원 목록
 	List<BlockListDto> selectBlockListByPage(PaginationVO vo); //차단 회원목록
-	
 	MemberDto selectIdByMemberEmail(String inputEmail);//아이디찾기
 	
 	//통계 기능

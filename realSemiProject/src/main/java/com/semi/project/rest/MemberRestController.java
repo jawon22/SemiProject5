@@ -141,6 +141,7 @@ public class MemberRestController {
 			return "N";
 		}
 	}
+
 	
 	//비밀번호 체크
 	@PostMapping("/pwCheck")
@@ -174,7 +175,5 @@ public class MemberRestController {
 		}
 		
 	}
-	
-	
-	
+
 }

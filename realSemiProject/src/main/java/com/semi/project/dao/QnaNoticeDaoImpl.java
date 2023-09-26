@@ -50,23 +50,15 @@ public class QnaNoticeDaoImpl implements QnaNoticeDao {
 		jdbcTemplate.update(sql, data);
 	}
 	
+	//썸머노트 파일첨부
 	@Override
-	public void connect(int attachmentNo, int qnaNoticeNo) {
-			String sql = "insert into qna_attach values(?, ?)";
-			Object[] data = {attachmentNo, qnaNoticeNo};
-			jdbcTemplate.update(sql, data);
+	public void connect(int qnaNoticeNo, int attachmentNo) {
+	    String sql = "insert into qna_attach values(?, ?)";
+	    Object[] data = {qnaNoticeNo, attachmentNo};
+	    jdbcTemplate.update(sql, data);
 	}
 	
-	@Override
-	public AttachmentDto findImage(int qnaNoticeNo) {
-		String sql = "select * from attachment where attachment_no = ("
-				+ "select attachment_no from qna_attach "
-				+ "where qnanotice_no = ?)";
-		Object[] data = {qnaNoticeNo};
-		List<AttachmentDto> list = jdbcTemplate.query(sql, attachmentMapper, data);
-		return list.isEmpty() ? null : list.get(0);			
-
-	}
+	
 	
 	@Override
 	public QnaNoticeDto selectOne(int qnaNoticeNo) {

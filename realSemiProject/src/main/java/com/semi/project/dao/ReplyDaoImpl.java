@@ -51,6 +51,7 @@ public class ReplyDaoImpl implements ReplyDao{
 		return jdbcTemplate.query(sql, replyMapper, data);
 	}
 	
+	
 	@Override
 	public ReplyDto selectOne(int replyOrigin) {
 		String sql = "select * from reply "

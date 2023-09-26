@@ -35,7 +35,7 @@
 				 data:{boardNo : no},	
 			 	success:function(response){
 				 if(response.check){
-					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-solid	")
+					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-solid")
 				 }
 				 else{
 					 $(".fa-heart").removeClass("fa-regular fa-solid").addClass("fa-regular")
@@ -61,11 +61,15 @@
 	 });
 	 loadList();	
 	 
+	 
+	 
 	 function loadList() {
 			var params = new URLSearchParams(location.search);
 			var no = params.get("boardNo");
 			
 			var memberId = "${sessionScope.name}";
+			
+			
 			
 				//리스트 리로드
 			$.ajax({
@@ -85,9 +89,20 @@
 						$(htmlTemplate).find(".replyContent").text(reply.replyContent);
 						$(htmlTemplate).find(".replyTime").text(reply.replyTime);
 						
+						if(attachNo == null){
+							$(htmlTemplate).find(".reply-profile").prop("src","https://dummyimage.com/80x80/000/fff");
+							}
+							else{
+							$(htmlTemplate).find(".reply-profile").prop("src", "/rest/member/download?attachNo="+attachNo+"");
+							console.log(response);
+							}
+						
 						if(memberId.length == 0 || memberId != reply.replyWriter) {
 							$(htmlTemplate).find(".w-25").empty();
+						
 						}
+						
+						
 						
 						//삭제버튼
 						$(htmlTemplate).find(".btn-delete")
@@ -143,10 +158,10 @@
 							
 							//대댓글 버튼
 							//replyGroup, replyParent, replyDepth 정보 필요
-							$(htmlTemplate).find(".block-form")
-												.attr("data-reply-no", reply.replyNo)
-												.attr("data-reply-content", reply.replyContent)
-												.click(function(){});
+// 							$(htmlTemplate).find(".block-form")
+// 												.attr("data-reply-no", reply.replyNo)
+// 												.attr("data-reply-content", reply.replyContent)
+// 												.click(function(){});
 							
 							//화면 배치
 							$(this).parents(".view-container")
@@ -165,7 +180,8 @@
 		e.preventDefault();
 		var blockTemplate = $("#block-template").html();
 		var blockHtmlTemplate = $.parseHTML(blockTemplate);
-	
+		var params = new URLSearchParams(location.search);
+		var no = params.get("boardNo");
 		
 		
 		//취소버튼
@@ -179,21 +195,24 @@
 		//완료(등록) 버튼 처리
 		$(blockHtmlTemplate).submit(function(e){
 			e.preventDefault();
-			
-		
+// 			var boardNo = $("[name=boardNo]").val();
+// 			var longBoardNo = $.parseLong(boardNo);
+			var reportReason = $("[name=reportReason]").val();
 			$.ajax({
-				url:"/rest/boardReport/insert",
-				method:"post",
-				data : $(e.target).serialize(),
+				url:"/board/report/board",
+				method:"get",
+				data :{boardNo:no, reportReason:reportReason},
 				success:function(response){
-				
-				}
+					$(".block-container")
+					.prev(".btn-block").show();
+				$(".block-container").remove();
+				},
 			});
 		
 		});
 		
 		
-		$(this).hide().after(blockHtmlTemplate);
+			$(this).hide().after(blockHtmlTemplate);
 		});
 	 
 	 }			
@@ -205,25 +224,29 @@
 
  <script id="reply-template" type="text/template">
         <div class="row flex-container vertical view-container">
-			<div class="flex-container">
-		    	<div class="w-75">
-					<div class="left">
-			`			<i>(사람아이콘)</i>
-						<pre class="replyWriter">작성자</pre>
-					</div>
-					<div class="left">
-							<pre class="replyContent w-100 form-input"></pre>
+		    	<div class = "flex-container">
+			    	<div class="w-75">
+				    	<div class="flex-container">
+							<div class=" row left">
+								<img src="" class="reply-profile image image-circle image-border profile-image" width="50" height="50"
+								class="image image-circle image-border profile-image">
+							</div>
+							<div class="row right">
+								<pre class="replyWriter mt-30">작성자</pre>
+							</div>
+					    </div>
+						<div class="row left">
+								<pre class="replyContent w-100 form-input"></pre>
+						</div>
+				    	</div>
+					<div class="right w-25">
+							<button class="btn">버튼 생성 아이콘</button>
 					</div>
 				</div>
-				<div class="right w-25">
-						<button>버튼 생성 아이콘</button>
-				</div>
-			</div>
-			
 				<div class="row">
 					<button class="btn  btn-edit">수정</button>
 					<button class="btn  btn-delete">삭제</button>
-					<button class="btn">신고</button>
+					<button class="btn reply-report">신고</button>
 					<button class="btn btn-reply">대댓글</button>
 				</div>
 	       </div>
@@ -231,7 +254,7 @@
 
 
 
- <div class="container w-700">
+ <div class="container w-800">
   <script id="reply-edit-template" type="text/template">
 	      <form class="reply-edit-form edit-contailner">
 			<input type="hidden" name="replyNo" value="?">	        
@@ -255,14 +278,15 @@
 			<form class="block-form block-container" >
 				<button type="submit" class="btn block-send">보내기</button>
 				<button class="btn block-cencel">취소</button>
+				<input type="hidden" name="boardNo">
 				<select id="select-block" name="reportReason" class="form-input">
-						<option value="0" selected disabled>신고사유</option>
-					    <option value="1" >1. 광고/음란성 글</option>
-					    <option value="2">2. 욕설/반말/부적절한 언어</option>
-					    <option value="3">3. 회원 분란 유도</option>
-					    <option value="4">4. 회원 비방</option>
-					    <option value="5">5. 지나친 정치/종교 논쟁</option>
-					    <option value="6">6. 도배성 글</option>
+						<option name="reportReason" value="" selected disabled>신고사유</option>
+					    <option name="reportReason" value="광고/음란성 글" >1. 광고/음란성 글</option>
+					    <option name="reportReason" value="욕설/반말/부적절한 언어">2. 욕설/반말/부적절한 언어</option>
+					    <option name="reportReason" value="회원 분란 유도">3. 회원 분란 유도</option>
+					    <option name="reportReason" value="회원 비방">4. 회원 비방</option>
+					    <option name="reportReason" value="지나친 정치/종교 논쟁">5. 지나친 정치/종교 논쟁</option>
+					    <option name="reportReason" value="도배성 글">6. 도배성 글</option>
 				</select>
 			</form>
 		</script>
@@ -278,15 +302,15 @@
         <div class="row left w-50">
         <c:choose>
 				<c:when test="${attachNo == null}">
-					<img src="https://dummyimage.com/80x80/000/fff" width="80" height="80"
+					<img src="https://dummyimage.com/50x50/000/fff" width="50" height="50"
 						class="image image-circle image-border profile-image">
 				</c:when>
 				<c:otherwise>
-				<img src="/rest/member/download?attachNo=${attachNo}" width="80" height="80"
+				<img src="/rest/member/download?attachNo=${attachNo}" width="50" height="50"
 				class="image image-circle image-border profile-image">
 				</c:otherwise>
-			</c:choose>	
-            <label style="font-size: 20px">${boardDto.boardWriter}닉네임</label>
+			</c:choose>
+            <label style="font-size: 20px">${writerDto.memberNickname}닉네임</label>
         </div>
         <div class="row right w-50">
           <i class="fa-solid fa-heart red"></i><label>0</label>|조회수<label class="readCount">${boardDto.boardReadcount}</label>
@@ -306,8 +330,7 @@
             </div>
             <div class="col-2">
                 <div class="right">
-                    <button class="button"><a href="/board/edit">블라인드</a></button>
-                    <button class="button"><a href="/board/list?keyword=${vo.type}, start=${vo.keyword}, end=${vo.page}">목록</a></button>
+                    <button class="button"><a href="/board/list?">목록</a></button>
                     <c:if test="${sessionScope.name==boardDto.boardWriter||	memberDto.memberlevel=='관리자' }">
                     <button class="button"><a href="/board/edit?boardNo=${boardDto.boardNo}">수정</a></button>
                     <button class="button"><a href="/board/delete?boardNo=${boardDto.boardNo}">삭제</a></button>  
