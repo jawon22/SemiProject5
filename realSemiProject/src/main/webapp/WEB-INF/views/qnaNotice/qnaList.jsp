@@ -60,21 +60,41 @@ $(function(){
 		</tr>
 </thead>
 <tbody>
-	<c:forEach var="noticeList" items="${noticeList}">
+	<c:forEach var="qnaList" items="${qnaList}">
 		<tr>
 			<td>
-				[공지]
+				<c:if test="${qnaList.qnaNoticeType == 2}">
+					[문의]
+				</c:if>
+				<c:if test="${qnaList.qnaNoticeType == 3}">
+					[답변]
+				</c:if>		
 			</td>
 			<td class="left">
-			<a class="link" href="detail?qnaNoticeNo=${noticeList.qnaNoticeNo}">
-				${noticeList.qnaNoticeTitle}	
+			<c:forEach var="i" begin="1" 
+			end="${qnaList.qnaNoticeDepth}" step="1">
+			&nbsp;&nbsp;
+			</c:forEach>
+		
+			<%-- 띄어쓰기 뒤에 화살표 표시 --%>
+			<c:if test="${qnaList.qnaNoticeDepth > 0}">
+				<i class="fa-solid fa-reply fa-rotate-180" style="color: #3dc1d3;"></i>
+			</c:if>
+	
+			<a class="link" href="detail?qnaNoticeNo=${qnaList.qnaNoticeNo}">
+				${qnaList.qnaNoticeTitle}	
 			</a>
+			
+			<c:if test="${qnaList.qnaNoticeSecret == 'Y'}">
+				<i class="fa-solid fa-lock" style="color: #3dc1d3;"></i>
+			</c:if>
+
 			</td>
 			<td>
-				${noticeList.memberNickname}
+				${qnaList.memberNickname}
 			</td>
 			<td>
-				${noticeList.qnaNoticeTime}
+				${qnaList.qnaNoticeTime}
 			</td>
 		</tr>		
 	</c:forEach>
@@ -85,7 +105,7 @@ $(function(){
 </div>
 
 <div class="row">
-<form action="noticeList" method="get" autocomplete="off">
+<form action="qnaList" method="get" autocomplete="off">
 	<select name="type">
 		<option value="qnanotice_title">제목</option>
 	</select>	
@@ -102,7 +122,7 @@ $(function(){
 <!-- 이전 버튼 -->
 <div class="row">
 <c:if test="${!vo.first}">
-	<a href="noticeList?${vo.prevQueryStringForMemberList}">&lt;</a>	
+	<a href="qnaList?${vo.prevQueryStringForMemberList}">&lt;</a>	
 </c:if>
 
 <!-- 숫자 부분 -->
@@ -113,14 +133,14 @@ $(function(){
 			${i}
 		</c:when>
 		<c:otherwise>
-			<a href="noticeList?${vo.getQueryStringForMemberList(i)}">${i}</a>		
+			<a href="qnaList?${vo.getQueryStringForMemberList(i)}">${i}</a>		
 		</c:otherwise>
 	</c:choose>
 </c:forEach>
 
 <!--  다음버튼 -->
 <c:if test="${!vo.last}">
-	<a href="noticeList?${vo.nextQueryStringForMemberList}">&gt;</a>		
+	<a href="qnaList?${vo.nextQueryStringForMemberList}">&gt;</a>		
 </c:if>
 </div>
 

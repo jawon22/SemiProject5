@@ -13,9 +13,11 @@ $(function(){
 
             if(check){
            	 $(".mint10").hide();
+           	 $(".status").text("공지 보기");
             }
             else{
            	 $(".mint10").show();
+           	 $(".status").text("공지 숨기기");
             }
 		
 		
@@ -23,7 +25,7 @@ $(function(){
 });
 </script>
 
-<div class="container w-700">
+<div class="container w-800">
 
 <div class="row">
 	<a href="list">	
@@ -33,13 +35,17 @@ $(function(){
 
 <div class="row">
 	<div class="btn">
-	<a href="noticeList"><label>공지사항</label></a></div>
-	<div class="btn"><label>Q&A</label></div> 
+	<a class="link" href="noticeList"><label>공지사항</label></a>
+	</div>
+	<div class="btn">
+	<a class="link" href="qnaList"><label>Q&A</label></a>
+	</div> 
 </div>
 
 <c:if test="${vo.page == 1}">
 <div class="row right">
-	<input type="checkbox" class="noticehide"> 공지숨기기
+	<input type="checkbox" class="noticehide"> 
+	<label class="status">공지 숨기기</label>
 </div>
 </c:if>
 

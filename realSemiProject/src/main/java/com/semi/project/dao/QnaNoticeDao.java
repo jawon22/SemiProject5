@@ -15,9 +15,17 @@ public interface QnaNoticeDao {
 	boolean delete(int qnaNoticeNo);
 	AttachmentDto findImage(int qnaNoticeNo);
 
-	int countList(PaginationVO vo);
+	//qna 게시글을 카운트
+	int countQnaList(PaginationVO vo);
+	// 공지글을 카운트
+	int countNoticeList(PaginationVO vo);
+//	//qna+공지글을 카운트
+//	int countQnaNoticeList(PaginationVO vo);
+	//상단에 보여주는 공지 5개
 	List<QnaNoticeDto> selectNoticeListTop5();
+	//공지목록조회
 	List<QnaNoticeDto> selectNoticeListByPage(PaginationVO vo);
+	//qna목록조회
 	List<QnaNoticeDto> selectQnaListByPage(PaginationVO vo);
 
 	
