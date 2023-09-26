@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.semi.project.dao.CertDao;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
@@ -24,6 +25,9 @@ public class MemberMypageController {
 
 	@Autowired
 	private MemberDao memberDao;
+	
+	@Autowired
+	private CertDao certDao;
 	
 	@GetMapping("/login")
 	public String login() {
@@ -108,6 +112,12 @@ public class MemberMypageController {
 		
 		if(originPw.equals(findDto.getMemberPw())) { //비밀번호가 일치하면
 			memberDao.updateMemberPw(memberId, changePw);
+			
+			String memberEmail = findDto.getMemberEmail();
+			if(certDao.selectOne(memberEmail) != null) {
+				certDao.delete(memberEmail);
+			}
+			
 			return "/WEB-INF/views/member/pwChangeFinish.jsp";
 		}
 		else { //비밀번호가 일치하지 않으면
