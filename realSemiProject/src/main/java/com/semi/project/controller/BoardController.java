@@ -21,10 +21,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.semi.project.dao.BoardDao;
 import com.semi.project.dao.MemberDao;
+import com.semi.project.dao.ReplyDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.dto.ReplyDto;
 import com.semi.project.dto.ReportDto;
 import com.semi.project.service.BoardService;
 import com.semi.project.vo.PaginationVO;
@@ -33,10 +35,13 @@ import com.semi.project.vo.PaginationVO;
 @RequestMapping("/board")
 public class BoardController {
 	@Autowired
-	BoardDao boardDao;
+	private BoardDao boardDao;
 	
 	@Autowired
-	MemberDao memberDao;
+	private MemberDao memberDao;
+	
+	@Autowired
+	private ReplyDao replyDao;
 	
 	@Autowired
 	private BoardService boardService;
@@ -228,8 +233,9 @@ public class BoardController {
 	
 	//게시글 신고 등록
 	@RequestMapping("/report/board")
-	public String report(@RequestParam("boardNo") int boardNo,
-									@RequestParam("reportReason") String reportReason) {
+	public String reportBoard(@RequestParam("boardNo") int boardNo,
+									@RequestParam("reportReason") String reportReason,
+									HttpSession session) {
 		
 		ReportDto reportDto = new ReportDto();
 		int reportNo = boardDao.reportSequence();
@@ -237,13 +243,14 @@ public class BoardController {
 		reportDto.setReportReason(reportReason);
 		boardDao.insertReport(reportDto);
 		
+		String memberId = (String) session.getAttribute("name");
+		
 		BoardReportDto boardReportDto = new BoardReportDto();
 		boardReportDto.setReportNo(reportNo);
 		boardReportDto.setBoardNo(boardNo);
-		boardReportDto.setBoardWriter(boardReportDto.getBoardWriter());
+		boardReportDto.setMemberId(memberId);
 		boardDao.insertBoardReport(boardReportDto);
 		
 		return "redirect:/board/detail?boardNo=" + boardNo;
 	}
-	
 }
