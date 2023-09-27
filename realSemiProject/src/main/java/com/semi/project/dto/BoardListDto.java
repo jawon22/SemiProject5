@@ -11,12 +11,13 @@ import lombok.Data;
 
 @Data
 public class BoardListDto {
+	private int ranking;
 	private String memberNickname;
 	private int boardCategory;
 	private String boardCategoryWeather;
 	private String boardArea;
 	private int boardNo;
-	private String boardWriter, boardTitle, boardContent;
+	private String boardWriter, boardTitle;
 	long boardReadcount;
 	long boardReplycount;
 	long boardLikecount;

@@ -38,7 +38,7 @@
 <div class="container w-1000">
 	<div class="flex-container">
 	
-		<div class="row" style="width:450px"> 
+		<div class="row" style="width:450px; margin-left:25px;"> 
 			<h1>계절 게시판</h1>
 			<div class="flex-container">
 				<div>
@@ -75,7 +75,7 @@
 		</div>
 		
 <!-- 		일단 지도만 띄워놓음 -->
-		<div class="row ms-20" style="width:450px">
+		<div class="row ms-50" style="width:450px">
 			<h1>지역 게시판</h1>
 			<div id="map" style="width:450px;height:450px;"></div>
 		</div>
