@@ -338,8 +338,15 @@
             <div class="col-2">
                 <div class="right">
                 <c:choose>
-                <c:when test></c:when>
-                    <button class="button"><a href="#">목록</a></button>
+	                <c:when test="${boardDto.boardCategory==41}">
+	                    <button class="button"><a href="/board/community/list">목록</a></button>
+	                </c:when>
+	                <c:when test="${boardDto.baordCategory==42}">
+	                	<button class="button"><a href="#">목록</a></button>
+	                </c:when>
+	                <c:otherwise>
+	                	<button class="button"><a href="#">목록</a></button>
+	                </c:otherwise>
                 </c:choose>
                     <c:if test="${sessionScope.name==boardDto.boardWriter||	memberDto.memberlevel=='관리자' }">
                     <button class="button"><a href="/board/edit?boardNo=${boardDto.boardNo}">수정</a></button>
