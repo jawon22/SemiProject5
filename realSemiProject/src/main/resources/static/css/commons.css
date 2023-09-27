@@ -749,3 +749,11 @@ a.link:hover
     /* 스르륵 */
     transition: width 0.1s ease-out;
 }
+
+
+/* 세미 프로젝트 작성 수정 삭제 타이틀 설정*/
+        .crudTitle {
+            color: white; /* 텍스트 색상 */
+            font-size: 48px; /* 텍스트 크기 */
+            text-shadow: -1px -1px 0 #26C2BF, 1px -1px 0 #26C2BF, -1px 1px 0 #26C2BF, 3px 1px 0 #26C2BF; /* 테두리 효과 설정 */
+        }

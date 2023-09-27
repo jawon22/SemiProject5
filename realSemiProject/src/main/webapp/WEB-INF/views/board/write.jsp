@@ -23,13 +23,12 @@
             placeholder: '내용을 작성하세요',
             tabsize: 2, // 탭을 누르면 이동할 간격
             height: 200, // 에디터 높이
-            minHeight: 200, // 에디터 최소 높이
+            minHeight: 300, // 에디터 최소 높이
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'italic', 'underline']],
                 ['color', ['color']],
                 ['para', ['paragraph']],
-                ['table', ['table']],
                 ['insert', ['link', 'picture']],
                 ],
                 
@@ -217,6 +216,7 @@
     /* 정보게시판: http://localhost:8080/board/write?boardCategory=1
     후기 게시판: http://localhost:8080/board/write?boardCategory=41
     자유게시판: http://localhost:8080/board/write?boardCategory=42  */  	
+    	console.log(boardCategory);
 </script>
     
    	
@@ -227,9 +227,9 @@
 
 
 <form action="write" method="post">
-    <div class="container w-600">
+    <div class="container w-800">
 <div class="row">
-<h2>
+<h2 class="crudTitle">
     <c:choose>
         <c:when test="${boardDto.boardCategory == 1}">계절 지역 게시글 작성</c:when>
         <c:when test="${boardDto.boardCategory == 41}"> 후기 게시글 작성</c:when>
@@ -264,14 +264,10 @@
         </div>      	  
     </c:when>
     <c:when test="${boardDto.boardCategory == 41}"><!-- 후기게시판이면 -->
-        <select name="board_categoryweather" style="display: none;">
-            <option value="후기" selected></option>
-        </select>
+        <input type="hidden" name="boardCategory" id="boardCategory" value="41">
     </c:when>
     <c:when test="${boardDto.boardCategory == 42}"><!-- 자유게시판이면 -->
-        <select name="board_categoryweather" style="display: none;">
-            <option value="자유" selected></option>
-        </select>
+<input type="hidden" name="boardCategory" id="boardCategory" value="42">
     </c:when>
     <c:otherwise>
         <!-- 다른 경우 처리 -->
@@ -284,11 +280,16 @@
             <input type="text" name="boardTitle" class="form-input w-100">
         </div>
     </div>
-    <div class="container w-600">
+    <div class="container w-800">
         <div class="row left">
             <label>내용</label>
             <textarea type="text" name="boardContent" class="form-input w-100 fixed"></textarea>
         </div>
+        
+        <div class="row right">
+        	<span id="byteCount" class="byteCount">0</span>/ 3989byte
+        </div>
+        
         <div class="row">
             <button class="btn btn-positive">등록하기</button>
             <a href="list" class="btn">목록보기</a> 
