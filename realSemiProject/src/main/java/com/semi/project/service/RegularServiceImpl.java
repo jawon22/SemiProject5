@@ -15,11 +15,12 @@ public class RegularServiceImpl implements RegularService {
 	@Autowired
 	private MemberDao memberDao;
 	
-	@Scheduled(cron = "* * * * * *") //매일 오후6시
+//	@Scheduled(fixedRate = 1000) //매일 오후6시
+//	@Scheduled(cron = "0 0 18 * * *") //매일 오후6시
 	@Override
 	public void memberLevelUp() {
+		memberDao.updateMemberLevel();
 		log.debug("실행되니?");
-//		memberDao.updateMemberLevel();
 	}
 
 }
