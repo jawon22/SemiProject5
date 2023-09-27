@@ -16,7 +16,7 @@ public class BoardReportMapper implements RowMapper<BoardReportDto> {
 		BoardReportDto boardReportDto = new BoardReportDto();
 		boardReportDto.setReportNo(rs.getInt("report_no"));
 		boardReportDto.setBoardNo(rs.getInt("board_no"));
-		boardReportDto.setBoardWriter(rs.getString("board_writer"));
+		boardReportDto.setMemberId(rs.getString("member_id"));
 		return boardReportDto;
 	}
 

@@ -16,8 +16,8 @@ public class BoardReportDaoImpl implements BoardReportDao{
 	
 	@Override
 	public void insert(BoardReportDto boardReportDto) {
-		String sql = "insert into board_report(report_no, board_no, board_writer) values(?, ?, ?)";
-		Object[] data = {boardReportDto.getReportNo(), boardReportDto.getBoardNo(), boardReportDto.getBoardWriter()};
+		String sql = "insert into board_report(report_no, board_no, member_id) values(?, ?, ?)";
+		Object[] data = {boardReportDto.getReportNo(), boardReportDto.getBoardNo(), boardReportDto.getMemberId()};
 		jdbcTemplate.update(sql, data);
 	}
 	@Override

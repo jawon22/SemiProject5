@@ -15,12 +15,12 @@ public class ReportListMapper implements RowMapper<ReportListDto>{
 	public ReportListDto mapRow(ResultSet rs, int rowNum) throws SQLException {
 		ReportListDto reportListDto = new ReportListDto();
 		reportListDto.setBoardCategory(rs.getInt("board_category"));
-		reportListDto.setMemberNickname(rs.getString("member_nickname"));
+		reportListDto.setBoardWriter(rs.getString("board_writer"));
 		reportListDto.setBoardTitle(rs.getString("board_title"));
 		reportListDto.setBoardContent(rs.getString("board_content"));
 		reportListDto.setReportNo(rs.getInt("report_no"));
 		reportListDto.setBoardNo(rs.getInt("board_no"));
-		reportListDto.setBoardWriter(rs.getString("board_writer"));
+		reportListDto.setMemberId(rs.getString("member_id"));
 		reportListDto.setReportReason(rs.getString("report_reason"));
 		return reportListDto;
 	}
