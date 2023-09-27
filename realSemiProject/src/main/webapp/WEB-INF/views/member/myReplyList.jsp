@@ -33,13 +33,17 @@
 </table>
 </div>
 
+
 <div class="row">
 <form action="myWriteList" method="get" autocomplete="off">
-	<input type="hidden" value="board_title">
-	<input class="form-input" type="search" name="keyword" 
+	<select name="type">
+		<option value="board_title">제목</option>
+		<option value="member_nickname">닉네임</option>
+	</select>	
+	<input type="search" name="keyword" 
 		value="${param.keyword}" 
 		placeholder="검색어 입력" required>
-	<button class="btn">검색</button>
+	<button>검색</button>
 </form>
 </div>
 
@@ -49,7 +53,7 @@
 <!-- 이전 버튼 -->
 <div class="row">
 <c:if test="${!vo.first}">
-	<a href="myWriteList?${vo.prevQueryStringForMemberList}">&lt;</a>	
+	<a href="myReplyList?${vo.prevQueryStringForMemberList}">&lt;</a>	
 </c:if>
 
 <!-- 숫자 부분 -->
@@ -60,13 +64,13 @@
 			${i}
 		</c:when>
 		<c:otherwise>
-			<a href="myWriteList?${vo.getQueryStringForMemberList(i)}">${i}</a>		
+			<a href="myReplyList?${vo.getQueryStringForMemberList(i)}">${i}</a>		
 		</c:otherwise>
 	</c:choose>
 </c:forEach>
 <!--  다음버튼 -->
 <c:if test="${!vo.last}">
-	<a href="myWriteList?${vo.nextQueryStringForMemberList}">&gt;</a>		
+	<a href="myReplyList?${vo.nextQueryStringForMemberList}">&gt;</a>		
 </c:if>
 </div>
 

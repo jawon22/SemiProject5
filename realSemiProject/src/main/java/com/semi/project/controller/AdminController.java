@@ -45,7 +45,7 @@ public class AdminController {
 	
 	@RequestMapping("/member/detail")
 	public String memberDetail(Model model, 
-					@RequestParam String memberId) {
+					@RequestParam String memberId, PaginationVO vo) {
 		MemberDto memberDto = memberDao.selectOne(memberId);
 		model.addAttribute("memberDto", memberDto);
 		
@@ -54,7 +54,7 @@ public class AdminController {
 		model.addAttribute("attachNo", attachNo);
 		
 		//멤버 활동내역 보기(멤버가 쓴 글 리스트 불러오기)
-		List<BoardListDto> boardList = memberDao.findWriteListByMemberId(memberId);
+		List<BoardListDto> boardList = memberDao.findWriteListByMemberId(vo, memberId);
 		model.addAttribute("boardList", boardList);
 		
 		List<BlockDetailDto> blockDetailList = memberDao.findBlock(memberId);

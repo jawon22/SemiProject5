@@ -14,7 +14,7 @@ public class BoardMyListMapper implements RowMapper<BoardListDto> {
 	@Override
 	public BoardListDto mapRow(ResultSet rs, int rowNum) throws SQLException {
 		BoardListDto boardListDto = new BoardListDto();
-//		boardListDto.setMemberNickname(rs.getString("member_nickname"));
+		boardListDto.setMemberNickname(rs.getString("member_nickname"));
 		boardListDto.setBoardNo(rs.getInt("board_no"));
 		boardListDto.setBoardWriter(rs.getString("board_writer"));
 		boardListDto.setBoardTitle(rs.getString("board_title"));
