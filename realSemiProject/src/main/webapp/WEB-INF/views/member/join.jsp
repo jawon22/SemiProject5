@@ -152,7 +152,7 @@
 </script>
 
 <form class="join-form" action="join" method="post" autocomplete="off">
-	<div class="container w-500">
+	<div class="container w-300">
 		<div class="row">
 			<h1>회원 가입</h1>
 		</div>

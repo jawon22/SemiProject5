@@ -3,6 +3,30 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<style>
+	h1 {
+		font-size: 30px;
+		font-weight: bold;
+		color: #26C2BF;
+	}
+	label {
+		font-size: 18px;
+		font-weight: 500;
+	}
+	.form-input{
+		border-radius: 10px;
+		border-width: 3px;
+		border-color: #26C2BF;
+	}
+	.btn{
+		border-radius: 10px;
+	}
+	.form-input:focus,
+	.btn:focus {
+		border-color: #26C2BF;
+	}
+</style>
+
 <script>
 	$(function(){
 	
@@ -110,25 +134,37 @@
 
 <form class="changeform" action="infoChange" method="post" autocomplete="off">
 	<div class="container w-300">
+		<div class="row">
+			<h1>정보 변경</h1>
+		</div>
+	
 		<input type="hidden" name="memberId" value="${memberDto.memberId}">
-		<div class="row left">닉네임</div>
+		<div class="row left">
+			<label>닉네임</label>
+		</div>
 		<div class="row">
 			<input class="form-input w-100" type="text" name="memberNickname"
 				value="${memberDto.memberNickname}">
 		</div>
-		<div class="row left">이메일</div>
+		<div class="row left">
+			<label>이메일</label>
+		</div>
 		<div class="row">
 			<input class="form-input w-100" type="email" name="memberEmail"
 				value="${memberDto.memberEmail}">
 			<div class="fail-feedback">올바른 이메일 주소를 입력하세요</div>
 			<div class="fail2-feedback">이미 등록된 이메일 주소입니다</div>
 		</div>
-		<div class="row left">생년월일</div>
+		<div class="row left">
+			<label>생년월일</label>
+		</div>
 		<div class="row">
 			<input class="form-input w-100" type="date" name="memberBirth"
 				value="${memberDto.memberBirth}">
 		</div>
-		<div class="row left">거주지</div>
+		<div class="row left">
+			<label>거주지</label>
+		</div>
 		<div class="row">
 			<select class="form-input w-100" name="memberArea">
 				<option value="서울">서울</option>
@@ -147,7 +183,9 @@
 				<option value="강원도">강원도</option>
 			</select>
 		</div>
-		<div class="row left">비밀번호 확인</div>
+		<div class="row left">
+			<label>비밀번호 확인</label>
+		</div>
 		<div class="row">
 			<input class="form-input w-100" type="password" name="memberPw">
 		</div>
