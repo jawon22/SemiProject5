@@ -42,9 +42,6 @@ public class MemberDaoImpl implements MemberDao {
 	private MemberMapper memberMapper;
 	
 	@Autowired
-	private BoardListMapper boardListMapper;
-	
-	@Autowired
 	private StatMapper statMapper;
 	
 	@Autowired
@@ -59,10 +56,6 @@ public class MemberDaoImpl implements MemberDao {
 	
 	@Autowired
 	private QnaNoticeListMapper qnaNoticeListMapper;
-
-	@Autowired
-	private ReportListMapper reportListMapper;
-	
 
 	
 	@Override
@@ -128,9 +121,9 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public MemberDto selectIdByMemberEmail(String inputEmail) {
+	public MemberDto selectIdByMemberEmail(String memberEmail) {
 		String sql = "select * from member where member_email = ?";
-		Object[] data = {inputEmail};
+		Object[] data = {memberEmail};
 		List<MemberDto> list = jdbcTemplate.query(sql, memberMapper, data);
 		return list.isEmpty() ? null : list.get(0);
 	}
@@ -494,7 +487,7 @@ public class MemberDaoImpl implements MemberDao {
 	        return jdbcTemplate.queryForObject(sql, Integer.class, data);
 	    } else {
 	        String sql = "select count(*) from block_list "
-						+ "wher member_level != '관리자'";
+						+ "where member_level != '관리자'";
 	        return jdbcTemplate.queryForObject(sql, Integer.class);
 	    }
 	}

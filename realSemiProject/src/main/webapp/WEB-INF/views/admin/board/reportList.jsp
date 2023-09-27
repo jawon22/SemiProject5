@@ -71,7 +71,7 @@
 							글 작성자
 						</th>
 						<th>
-							신고자 닉네임
+							신고자
 						</th>
 						<th>
 							신고 사유
@@ -104,7 +104,7 @@
 								${reportList.boardWriter}
 							</td>
 							<td>
-								${reportList.memberNickname}
+								${reportList.memberId}
 							</td>
 							<td>
 								${reportList.reportReason}

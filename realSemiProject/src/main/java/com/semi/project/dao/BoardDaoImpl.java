@@ -488,13 +488,14 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 
-
+	//신고 번호(시퀀스)
 	@Override
 	public int reportSequence() {
 		String sql = "select report_seq.nextval from dual";
 		return jdbcTemplate.queryForObject(sql, int.class);
 	}
 	
+	//신고 등록
 	@Override
 	public void insertReport(ReportDto reportDto) {
         String sql = "INSERT INTO report (report_no, report_reason) VALUES (?, ?)";
@@ -502,17 +503,19 @@ public class BoardDaoImpl implements BoardDao{
         jdbcTemplate.update(sql, data);
     }
 	
+	//게시글 신고 등록
 	@Override
 	public void insertBoardReport(BoardReportDto boardReportDto) {
-        String sql = "INSERT INTO board_report (report_no, board_no, board_writer) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO board_report (report_no, board_no, member_id) VALUES (?, ?, ?)";
         Object[] data = {
             boardReportDto.getReportNo(),
             boardReportDto.getBoardNo(),
-            boardReportDto.getBoardWriter()
+            boardReportDto.getMemberId()
         };
-
+        jdbcTemplate.update(sql, data);
     }
 	
+	//신고 삭제
 	@Override
 	public boolean deleteReport(int ReportNo) {
 		String sql = "delete from report where report_no = ?";
@@ -520,6 +523,7 @@ public class BoardDaoImpl implements BoardDao{
 		return jdbcTemplate.update(sql, data) > 0;
 	}
 	
+	//신고 개수
 	@Override
 	public int countReportList(PaginationVO vo) {
 		if(vo.isSearch()) {
@@ -533,6 +537,7 @@ public class BoardDaoImpl implements BoardDao{
 		}
 	}
 	
+	//신고 목록
 	@Override
 	public List<ReportListDto> selectReportList(PaginationVO vo) {
 		if(vo.isSearch()) {
