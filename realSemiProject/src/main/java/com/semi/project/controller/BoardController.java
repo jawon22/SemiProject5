@@ -52,6 +52,17 @@ public class BoardController {
 		return "/WEB-INF/views/board/all.jsp";
 	}
 	
+	@RequestMapping("/communityAll") //커뮤니티 전체
+	public String communityAll(Model model) {
+		List<BoardListDto> freeList = boardDao.selectFreeTop10();
+		model.addAttribute("freeList",freeList);
+		
+		List<BoardListDto> reviewList = boardDao.selectReviewTop10();
+		model.addAttribute("reviewList",reviewList);
+		
+		return "/WEB-INF/views/board/communityAll.jsp";
+	}
+	
 	
 	@RequestMapping("/list") // 정보게시판 리스트
 	public String list(@ModelAttribute(name="vo") PaginationVO vo, Model model,
@@ -74,6 +85,33 @@ public class BoardController {
 
 	    return "/WEB-INF/views/board/list.jsp";
 	}
+	
+	@RequestMapping("/reviewList") // 커뮤니티 리스트(후기)
+	public String cmReviewList(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
+		
+		int count = boardDao.countCommunityReviewList(vo);
+		vo.setCount(count);
+		
+		List<BoardListDto> list = boardDao.selectReviewListSearchByPage(vo);
+		model.addAttribute("list",list);
+		
+		return "/WEB-INF/views/board/reviewList.jsp";
+		
+	}
+	
+	@RequestMapping("/freeList") // 커뮤니티 리스트(후기)
+	public String cmFreeList(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
+		
+		int count = boardDao.countCommunityFreeList(vo);
+		vo.setCount(count);
+		
+		List<BoardListDto> list = boardDao.selectFreeListSearchByPage(vo);
+		model.addAttribute("list",list);
+		
+		return "/WEB-INF/views/board/freeList.jsp";
+		
+	}
+	
 	
 	
 	@RequestMapping("/detail")
