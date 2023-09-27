@@ -147,8 +147,8 @@
 
 		</div>
 
-		<div class="row">
 			<!-- 검색창 -->
+		<div class="row">
 			<c:choose>
 				<c:when test="${param.type == 'board_writer'}">
 					<select name="type" class="form-input" required>
@@ -181,7 +181,6 @@
 
 </div>
 
-		<!-- action을 아직 지정안했음 -->
 <form class="delete-form" action="deleteByAdmin" method="post">
 	<c:if test="${sessionScope.name !=null}">
 			<div class="row right">
