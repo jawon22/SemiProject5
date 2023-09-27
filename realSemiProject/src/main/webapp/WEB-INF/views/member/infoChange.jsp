@@ -4,12 +4,12 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
-	h1 {
+	h1{
 		font-size: 30px;
 		font-weight: bold;
 		color: #26C2BF;
 	}
-	label {
+	label{
 		font-size: 18px;
 		font-weight: 500;
 	}
@@ -20,13 +20,13 @@
 	}
 	.btn{
 		border-radius: 10px;
-	}
+  }
 	.form-input:focus,
 	.btn:focus {
 		border-color: #26C2BF;
 	}
-</style>
 
+</style>
 <script>
 	$(function(){
 	
@@ -56,7 +56,7 @@
 
 		$("[name=memberEmail]").blur(function() {
 		    var Regex = /^.*@.*$/;
-		    var isValid = (Regex.test($(this).val())) || ($(this).val().length != 0); // 이메일 유효성 검사 수정
+		    var isValid = (Regex.test($(this).val())) && ($(this).val().length != 0); // 이메일 유효성 검사 수정
 		    var email = $("[name=memberEmail]").val();
 			
 // 		    if(backupEmail == email){
@@ -122,22 +122,25 @@
 	        status.pw = isValid;
 	    });
 	
-	    $(".changeform").submit(function(e){
+// 	    $(".changeform").submit(function(e){
 	
-	        if(status.ok() == false){
-	        	console.table(status);
-	            e.preventDefault();
-	        }
-	    });
+// 	        if(status.ok() == false){
+// // 	        	window.alert("모든 항목을 다 입력해 주세요");
+// 	            e.preventDefault();
+// 	        }
+// 	    });
 	});
 </script>
 
+<div class="row">
+	<h1>개인정보 변경</h1>
+</div>
 <form class="changeform" action="infoChange" method="post" autocomplete="off">
 	<div class="container w-300">
 		<div class="row">
 			<h1>정보 변경</h1>
 		</div>
-	
+
 		<input type="hidden" name="memberId" value="${memberDto.memberId}">
 		<div class="row left">
 			<label>닉네임</label>

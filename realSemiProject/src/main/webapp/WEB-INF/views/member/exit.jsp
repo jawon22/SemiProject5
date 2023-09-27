@@ -4,12 +4,12 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
-	h1 {
+	h1{
 		font-size: 30px;
 		font-weight: bold;
 		color: #26C2BF;
 	}
-	label {
+	label{
 		font-size: 18px;
 		font-weight: 500;
 	}

@@ -41,6 +41,9 @@ $(function(){
 </div>
 
 <div class="row right">
+<div class="row right" >
+	<a class=" btn link" href="write">글쓰기</a>
+</div>
 
 <table class="table table-slit center">
 <thead>

@@ -33,15 +33,23 @@
 </table>
 </div>
 
+
 <div class="row">
-<form action="myWriteList" method="get" autocomplete="off">
-	<input type="hidden" value="board_title">
-	<input class="form-input" type="search" name="keyword" 
+<form action="myLikeList" method="get" autocomplete="off">
+	<select name="type">
+		<option value="board_title">제목</option>
+		<option value="member_nickname">닉네임</option>
+	</select>	
+	<input type="search" name="keyword" 
 		value="${param.keyword}" 
 		placeholder="검색어 입력" required>
-	<button class="btn">검색</button>
+	<button>검색</button>
 </form>
 </div>
+
+
+
+
 
 
 <!-- 페이지 네비게이터 출력(목록) -->
@@ -49,7 +57,7 @@
 <!-- 이전 버튼 -->
 <div class="row">
 <c:if test="${!vo.first}">
-	<a href="myWriteList?${vo.prevQueryStringForMemberList}">&lt;</a>	
+	<a href="myLikeList?${vo.prevQueryStringForMemberList}">&lt;</a>	
 </c:if>
 
 <!-- 숫자 부분 -->
@@ -60,13 +68,13 @@
 			${i}
 		</c:when>
 		<c:otherwise>
-			<a href="myWriteList?${vo.getQueryStringForMemberList(i)}">${i}</a>		
+			<a href="myLikeList?${vo.getQueryStringForMemberList(i)}">${i}</a>		
 		</c:otherwise>
 	</c:choose>
 </c:forEach>
 <!--  다음버튼 -->
 <c:if test="${!vo.last}">
-	<a href="myWriteList?${vo.nextQueryStringForMemberList}">&gt;</a>		
+	<a href="myLikeList?${vo.nextQueryStringForMemberList}">&gt;</a>		
 </c:if>
 </div>
 
