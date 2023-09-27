@@ -217,6 +217,7 @@
     /* 정보게시판: http://localhost:8080/board/write?boardCategory=1
     후기 게시판: http://localhost:8080/board/write?boardCategory=41
     자유게시판: http://localhost:8080/board/write?boardCategory=42  */  	
+    	console.log(boardCategory);
 </script>
     
    	
@@ -264,14 +265,10 @@
         </div>      	  
     </c:when>
     <c:when test="${boardDto.boardCategory == 41}"><!-- 후기게시판이면 -->
-        <select name="board_categoryweather" style="display: none;">
-            <option value="후기" selected></option>
-        </select>
+        <input type="hidden" name="boardCategory" id="boardCategory" value="41">
     </c:when>
     <c:when test="${boardDto.boardCategory == 42}"><!-- 자유게시판이면 -->
-        <select name="board_categoryweather" style="display: none;">
-            <option value="자유" selected></option>
-        </select>
+<input type="hidden" name="boardCategory" id="boardCategory" value="42">
     </c:when>
     <c:otherwise>
         <!-- 다른 경우 처리 -->

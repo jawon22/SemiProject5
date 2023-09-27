@@ -137,7 +137,8 @@ public class BoardController {
 	public String write(@ModelAttribute BoardDto boardDto, 
 			HttpSession session
 	/* , MemberDto memberDto */
-			, @RequestParam(required = false) List<Integer> attachmentNo,
+			, @RequestParam(required = false) List<Integer> attachmentNo
+			,
 			RedirectAttributes attr
 			) {
 		
@@ -156,7 +157,7 @@ public class BoardController {
 	    // 글을 등록
 	    //boardDao.insert(boardDto);
 		int boardNo = boardService.write(boardDto, attachmentNo); 
-	    attr.addAttribute("boardNo", boardNo);
+	    //attr.addAttribute("boardNo", boardNo);
 	
 		//포인트 계산 작업
 		//- lastNo가 null이라는 것은 처음 글을 작성했다는 의미
