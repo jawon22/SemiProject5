@@ -17,6 +17,8 @@
 <script src="./custom-link.js"></script><!-- 내가 만든 파일-->
 <script>
     $(function () {
+    	var isExceedingLimit = false; // 글자 수 제한 초과 여부를 나타내는 변수
+    	
         $('[name=qnaNoticeContent]').summernote({
             placeholder: '내용을 작성하세요',
             tabsize: 2, // 탭을 누르면 이동할 간격
@@ -33,8 +35,12 @@
             
             callbacks: {
                 onImageUpload: function(files) {
-                   // upload image to server and create imgNode...
-                   //$summernote.summernote('insertNode', imgNode);
+                	
+                    if (isExceedingLimit) {
+                        alert('용량 제한을 초과하여 이미지를 추가할 수 없습니다.');
+                        return;
+                    }
+                    
                    if(files.length != 1) return;
                    
                    console.log("비동기 파일 업로드 시작")
@@ -60,13 +66,22 @@
                          //var imgNode = $("<img>").attr("src", "/rest/attachment/download?attachmentNo" + response.attachmentNo);
                          $("[name=qnaNoticeContent]").summernote("insertNode", imgNode.get(0));
                       },
-                      error:function(){
-                         window.alert("통신 오류 발생");
+                      error: function() {
+                          alert("통신 오류 발생");
                       }
-                   });
-                }
-             }
-            });
+                  });
+              },
+              onKeydown: function(e) {
+                  var content = $('[name=qnaNoticeContent]').summernote('code');
+                  var byteCount = countBytes(content);
+
+                  if (byteCount > 3988) {
+                      alert('글자 수 제한을 초과하여 텍스트를 추가할 수 없습니다.');
+                      e.preventDefault();
+                  }
+              }
+          }
+      });
         
         
      // 입력 내용이 변경될 때마다 byte 수 업데이트
@@ -102,10 +117,12 @@
             }
             
             // byteCount가 초과하면 클래스 추가
-            if (byteCount > 3989) {
+            if (byteCount > 3988) {
                 $('#byteCount').addClass("red");
+                isExceedingLimit = true;
             } else {
                 $('#byteCount').removeClass("red");
+                isExceedingLimit = false;
             }
             
             return byteCount;
@@ -211,7 +228,7 @@
         </div>
         
         <div class="row right">
-        	<span id="byteCount" class="byteCount">0</span>/ 3989byte
+        	<span id="byteCount" class="byteCount">0</span>/ 3988byte
         </div>
         
         <div class="row">

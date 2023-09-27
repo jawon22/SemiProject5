@@ -285,6 +285,11 @@
             <label>내용</label>
             <textarea type="text" name="boardContent" class="form-input w-100 fixed"></textarea>
         </div>
+        
+        <div class="row right">
+        	<span id="byteCount" class="byteCount">0</span>/ 3989byte
+        </div>
+        
         <div class="row">
             <button class="btn btn-positive">등록하기</button>
             <a href="list" class="btn">목록보기</a> 
