@@ -2,16 +2,14 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page = "/WEB-INF/views/template/header.jsp"></jsp:include>
+ <style>
+ </style>
  <script>
  $(function(){
 	 var params = new URLSearchParams(location.search);
 		var no = params.get("boardNo");
 		
-		//신고사유 옵션 숨기기-실패
-// 		$(".select-block").click(function(){
-// 			$("select option[value='0']").hide();
-// 		});
-		
+
 		//좋아요 처리
 			 $.ajax({
 				 url:"/rest/boardLike/check",
@@ -61,7 +59,7 @@
 	 });
 	 loadList();	
 	 
-	 
+		
 	 
 	 function loadList() {
 			var params = new URLSearchParams(location.search);
@@ -78,31 +76,38 @@
 				data:{replyOrigin : no},
 				success:function(response){
 					$(".reply-list").empty();
-					
-					for(var i=0; i < response.length; i++) {
-						var reply = response[i];
-						
+					for(var i=0; i < response.list.length; i++) {
+						var attachNo = response.attachNo[i];
+						var reply = response.list[i];
+						var attach = response.attachNo[i];
 						var template = $("#reply-template").html();
 						var htmlTemplate = $.parseHTML(template);
-						
 						$(htmlTemplate).find(".replyWriter").text(reply.replyWriter || "탈퇴한 사용자");
 						$(htmlTemplate).find(".replyContent").text(reply.replyContent);
 						$(htmlTemplate).find(".replyTime").text(reply.replyTime);
+						console.log(attach);
 						
-						if(attachNo == null){
+						//이미지 소스 보내기
+						if(attach	 == null){
 							$(htmlTemplate).find(".reply-profile").prop("src","https://dummyimage.com/80x80/000/fff");
 							}
-							else{
-							$(htmlTemplate).find(".reply-profile").prop("src", "/rest/member/download?attachNo="+attachNo+"");
-							console.log(response);
-							}
+						else{
+							$(htmlTemplate).find(".reply-profile").prop("src", "/rest/member/download?attachNo="+attach);
+						}
 						
 						if(memberId.length == 0 || memberId != reply.replyWriter) {
 							$(htmlTemplate).find(".w-25").empty();
-						
 						}
 						
-						
+							
+						//버튼 생성 버튼
+						$(htmlTemplate).find(".btn-create").attr("data-reply-no", reply.replyNo).click(function (e) {
+						var replyNo = $(this).attr("data-reply-no");
+							if(reply.replyNo==replyNo){
+							
+								$(".btn-create").after($(htmlTemplate).find(".btn-hide").css("display", "inline-block"));
+							}	
+						});
 						
 						//삭제버튼
 						$(htmlTemplate).find(".btn-delete")
@@ -175,6 +180,7 @@
 			});
 	
 			
+				
 			//신고버튼 구현중
 	$(".btn-block").click(function(e){
 		e.preventDefault();
@@ -216,7 +222,7 @@
 		});
 	 
 	 }			
-				
+	
  });
  
  
@@ -224,12 +230,12 @@
 
  <script id="reply-template" type="text/template">
         <div class="row flex-container vertical view-container">
-		    	<div class = "flex-container">
+				<div class = "flex-container">
 			    	<div class="w-75">
 				    	<div class="flex-container">
 							<div class=" row left">
 								<img src="" class="reply-profile image image-circle image-border profile-image" width="50" height="50"
-								class="image image-circle image-border profile-image">
+								>
 							</div>
 							<div class="row right">
 								<pre class="replyWriter mt-30">작성자</pre>
@@ -239,17 +245,18 @@
 								<pre class="replyContent w-100 form-input"></pre>
 						</div>
 				    	</div>
-					<div class="right w-25">
-							<button class="btn">버튼 생성 아이콘</button>
+					<div class="right btn-wrap w-25">
+							<button class="btn btn-create">버튼 생성 아이콘</button>
 					</div>
+					<div class="btn-append"></div>
 				</div>
-				<div class="row">
-					<button class="btn  btn-edit">수정</button>
-					<button class="btn  btn-delete">삭제</button>
-					<button class="btn reply-report">신고</button>
-					<button class="btn btn-reply">대댓글</button>
-				</div>
-	       </div>
+				
+				<div class="row btn-hide" style="display: none;">
+						<button class="btn  btn-edit">수정</button>
+						<button class="btn  btn-delete">삭제</button>
+						<button class="btn btn-reply">대댓글</button>
+	       		</div>
+			</div>
 </script>
 
 
@@ -330,7 +337,10 @@
             </div>
             <div class="col-2">
                 <div class="right">
-                    <button class="button"><a href="/board/list?">목록</a></button>
+                <c:choose>
+                <c:when test></c:when>
+                    <button class="button"><a href="#">목록</a></button>
+                </c:choose>
                     <c:if test="${sessionScope.name==boardDto.boardWriter||	memberDto.memberlevel=='관리자' }">
                     <button class="button"><a href="/board/edit?boardNo=${boardDto.boardNo}">수정</a></button>
                     <button class="button"><a href="/board/delete?boardNo=${boardDto.boardNo}">삭제</a></button>  

@@ -2,11 +2,13 @@ package com.semi.project.dao;
 
 import java.util.List;
 
+import com.semi.project.dto.AttachmentDto;
 import com.semi.project.dto.BlockDetailDto;
 import com.semi.project.dto.BlockListDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.dto.MemberProfileDto;
 import com.semi.project.dto.QnaNoticeDto;
 import com.semi.project.dto.StatDto;
 import com.semi.project.vo.PaginationVO;
@@ -34,6 +36,7 @@ public interface MemberDao {
 	void insertProfile(String memberId, int attachNo); //프로필등록
 	boolean deleteProfile(String memberId); //프로필삭제
 	Integer findProfile(String memberId); //프로필찾기
+	List<MemberProfileDto> findProfileList(String memberId);//프로필 전체 조회
 	
 	//관리자기능
 	int countList(PaginationVO vo);//회원목록

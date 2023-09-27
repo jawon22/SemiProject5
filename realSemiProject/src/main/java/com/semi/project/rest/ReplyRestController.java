@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dao.ReplyDao;
 import com.semi.project.dto.ReplyDto;
+import com.semi.project.vo.ReplyProfileVo;
 
 @RestController
 @RequestMapping("/rest/reply")
@@ -35,12 +36,14 @@ public class ReplyRestController {
 	}
 	
 	@PostMapping("/list")
-	public List<ReplyDto> list(@RequestParam int replyOrigin, HttpSession session) {
-		ReplyDto replyDto = new ReplyDto();
+	public ReplyProfileVo list(@RequestParam int replyOrigin, HttpSession session) {
+		ReplyProfileVo profileVo  =  new ReplyProfileVo();
 		String memberId = (String) session.getAttribute("name");
-		replyDto.setAttachNo(memberDao.findProfile(memberId));
+		
 		List<ReplyDto> list = replyDao.selectList(replyOrigin);
-		return list;
+		profileVo.setAttachNo(memberDao.findProfileList(memberId));
+		profileVo.setList(list);
+		return profileVo;
 	}
 	
 	@PostMapping("/delete")

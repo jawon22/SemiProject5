@@ -6,24 +6,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.semi.project.dto.AttachmentDto;
 import com.semi.project.dto.BlockDetailDto;
 import com.semi.project.dto.BlockListDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
-
+import com.semi.project.dto.MemberProfileDto;
 import com.semi.project.dto.QnaNoticeDto;
 
 import com.semi.project.dto.ReportListDto;
 
 import com.semi.project.dto.StatDto;
+import com.semi.project.mapper.AttachmentMapper;
 import com.semi.project.mapper.BlockDetailMapper;
 import com.semi.project.mapper.BlockListMapper;
 import com.semi.project.mapper.BoardListMapper;
 import com.semi.project.mapper.BoardMyListMapper;
 import com.semi.project.mapper.ExpiredListMapper;
 import com.semi.project.mapper.MemberMapper;
-
+import com.semi.project.mapper.MemberProfileMapper;
 import com.semi.project.mapper.QnaNoticeListMapper;
 
 import com.semi.project.mapper.ReportListMapper;
@@ -62,6 +64,9 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Autowired
 	private ReportListMapper reportListMapper;
+	
+	@Autowired
+	private MemberProfileMapper profileMapper;
 	
 
 	
@@ -404,6 +409,17 @@ public class MemberDaoImpl implements MemberDao {
 				+ "where member_id = ?";
 		Object[] data = {memberPoint, memberId};
 		return jdbcTemplate.update(sql, data)>0;
+	}
+
+	@Override
+	public List<MemberProfileDto> findProfileList(String memberId) {
+		String sql = "SELECT mp.attachment_no "
+				+ "FROM member_profile mp "
+				+ "INNER JOIN member m ON mp.member_id = m.member_id "
+				+ "INNER JOIN reply r ON m.member_id = r.reply_writer "
+				+ "ORDER BY r.reply_no asc";
+		
+		return jdbcTemplate.query(sql, profileMapper);
 	}
 
 }

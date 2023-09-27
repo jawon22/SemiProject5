@@ -42,14 +42,20 @@ public class ReplyDaoImpl implements ReplyDao{
 	}
 		
 
+//	@Override
+//	public List<ReplyDto> selectList(int replyOrigin) {
+//		String sql = "select * from reply where reply_origin=? connect by prior reply_no=reply_parent "
+//				+ "start with reply_parent is null "
+//				+ "order siblings by reply_group desc, reply_no asc";
+//		Object[] data = {replyOrigin}; 
+//		return jdbcTemplate.query(sql, replyMapper, data);
+//	}
 	@Override
 	public List<ReplyDto> selectList(int replyOrigin) {
-		String sql = "select * from reply where reply_origin=? connect by prior reply_no=reply_parent "
-				+ "start with reply_parent is null "
-				+ "order siblings by reply_group desc, reply_no asc";
-		Object[] data = {replyOrigin}; 
-		return jdbcTemplate.query(sql, replyMapper, data);
+		String sql = "select * from reply order by reply_no asc";
+		return jdbcTemplate.query(sql, replyMapper);
 	}
+	
 	
 	
 	@Override
