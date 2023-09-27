@@ -31,7 +31,7 @@ public class QnaService {
 				qnaNoticeDao.connect(qnaNoticeNo, no);
 			}
 		}		
-		System.out.print(qnaNoticeNo);
+		//System.out.print(qnaNoticeNo);
 		return qnaNoticeNo;
 	}
 }	
