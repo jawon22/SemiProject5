@@ -42,9 +42,6 @@ public class MemberDaoImpl implements MemberDao {
 	private MemberMapper memberMapper;
 	
 	@Autowired
-	private BoardListMapper boardListMapper;
-	
-	@Autowired
 	private StatMapper statMapper;
 	
 	@Autowired
@@ -59,10 +56,6 @@ public class MemberDaoImpl implements MemberDao {
 	
 	@Autowired
 	private QnaNoticeListMapper qnaNoticeListMapper;
-
-	@Autowired
-	private ReportListMapper reportListMapper;
-	
 
 	
 	@Override
@@ -128,61 +121,212 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public MemberDto selectIdByMemberEmail(String inputEmail) {
+	public MemberDto selectIdByMemberEmail(String memberEmail) {
 		String sql = "select * from member where member_email = ?";
-		Object[] data = {inputEmail};
+		Object[] data = {memberEmail};
 		List<MemberDto> list = jdbcTemplate.query(sql, memberMapper, data);
 		return list.isEmpty() ? null : list.get(0);
 	}
 	
+	//페이지내이션을 위해 글 수를 카운트함
 	@Override
-	public List<BoardListDto> findWriteListByMemberId(String memberId) {
-		String sql = "select b.board_no, b.board_writer, b.board_title, b.board_ctime "
-				+ "from board_list b left outer join member m "
+	public int countListMyWriteList(PaginationVO vo, String memberId) {
+		if(vo.isSearch()) {
+			String sql = "select count(*) from board_list b left outer join member m "
+					+ "on b.board_writer = m.member_id "
+					+ "where m.member_id = ? "
+					+ "and instr("+vo.getType()+", ?) > 0 "
+					+ "order by b.board_no desc";
+			Object[] data = {memberId, vo.getKeyword()};
+			return jdbcTemplate.queryForObject(sql, int.class, data);
+		}
+		else {
+			String sql = "select count(*) from board_list b left outer join member m "
+					+ "on b.board_writer = m.member_id "
+					+ "where m.member_id = ? "
+					+ "order by b.board_no desc";
+			Object[] data = {memberId};
+			return jdbcTemplate.queryForObject(sql, int.class, data);
+		}
+	}
+	
+	@Override
+	public int countListMyLikeList(PaginationVO vo, String memberId) {
+		if(vo.isSearch()) {
+			String sql = "select count(*) from board_list b left outer join board_like l "
+					+ "on b.board_no = l.board_no "
+					+ "where l.member_id = ? "
+					+ "and instr("+vo.getType()+", ?) > 0 "
+					+ "order by b.board_no desc";
+			Object[] data = {memberId, vo.getKeyword()};
+			return jdbcTemplate.queryForObject(sql, int.class, data);
+		}
+		else {
+			String sql = "select count(*) from board_list b left outer join board_like l "
+					+ "on b.board_no = l.board_no "
+					+ "where l.member_id = ? "
+					+ "order by b.board_no desc";
+			Object[] data = {memberId};
+			return jdbcTemplate.queryForObject(sql, int.class, data);
+		}
+	}
+	
+	@Override
+	public int countListMyReplyList(PaginationVO vo, String memberId) {
+		if(vo.isSearch()) {
+			String sql = "select count(*) from board_list b inner join ("
+					+ "select r.reply_origin from reply r "
+					+ "left outer join member m on r.reply_writer = m.member_id "
+					+ "where m.member_id = ? "
+					+ ") t on b.board_no = t.reply_origin "
+					+ "where instr("+vo.getType()+", ?) > 0 "
+					+ "order by b.board_no desc";
+			Object[] data = {memberId, vo.getKeyword()};
+			return jdbcTemplate.queryForObject(sql, int.class, data);
+		}
+		else {
+			String sql = "select count(*) from board_list b inner join ("
+					+ "select r.reply_origin from reply r "
+					+ "left outer join member m on r.reply_writer = m.member_id "
+					+ "where m.member_id = ? "
+					+ ") t on b.board_no = t.reply_origin "
+					+ "order by b.board_no desc";
+			Object[] data = {memberId};
+			return jdbcTemplate.queryForObject(sql, int.class, data);
+		}
+	}
+	
+	@Override
+	public int countListMyQnaList(PaginationVO vo, String memberId) {
+		if(vo.isSearch()) {
+			String sql = "select count(*) from qnanotice_list q left outer join member m "
+					+ "on q.member_id = m.member_id "
+					+ "where m.member_id = ? "
+					+ "and instr("+vo.getType()+", ?) > 0 "
+					+ "order by q.qnanotice_no desc";
+			Object[] data = {memberId, vo.getKeyword()};
+			return jdbcTemplate.queryForObject(sql, int.class, data);
+		}
+		else {
+			String sql = "select count(*) from qnanotice_list q left outer join member m "
+					+ "on q.member_id = m.member_id "
+					+ "where m.member_id = ? "
+					+ "order by q.qnanotice_no desc";
+			Object[] data = {memberId};
+			return jdbcTemplate.queryForObject(sql, int.class, data);
+		}
+	}
+	
+	@Override
+	public List<BoardListDto> findWriteListByMemberId(PaginationVO vo, String memberId) {
+		if(vo.isSearch()) { 
+		String sql = "select * from (select rownum rn, TMP.* from ("
+				+ "select b.* from board_list b left outer join member m "
 				+ "on b.board_writer = m.member_id "
 				+ "where m.member_id = ? "
-				+ "order by b.board_no desc";
-//		String sql = "select b.*"
-//				+ "from board_list b left outer join member m "
-//				+ "on b.board_writer = m.member_id "
-//				+ "where m.member_id = ? "
-//				+ "order by b.board_no desc";
-		Object[] data = {memberId};
-		return  jdbcTemplate.query(sql, boardMyListMapper, data);
+				+ "and instr("+vo.getType()+", ?) > 0 "
+				+ "order by b.board_no desc "
+				+ ")TMP) where rn between ? and ?";
+		Object[] data = { 
+				memberId, vo.getKeyword(), vo.getStartRow(), vo.getFinishRow()
+		};
+		return jdbcTemplate.query(sql, boardMyListMapper, data);
+		}
+		else {
+			String sql = "select * from (select rownum rn, TMP.* from ("
+					+ "select b.* from board_list b left outer join member m "
+					+ "on b.board_writer = m.member_id "
+					+ "where m.member_id = ? "
+					+ "order by b.board_no desc "
+					+ ")TMP) where rn between ? and ?";
+			Object[] data = {memberId, vo.getStartRow(), vo.getFinishRow()};
+			return jdbcTemplate.query(sql, boardMyListMapper, data);
+		}
 	}
 	
 	@Override
-	public List<BoardListDto> findLikeListByMemberId(String memberId) {
-		String sql = "select b.board_no, b.board_writer, b.board_title, b.board_ctime "
-				+ "from board_list b left outer join board_like l "
+	public List<BoardListDto> findLikeListByMemberId(PaginationVO vo, String memberId) {
+		if(vo.isSearch()) { 
+		String sql = "select * from (select rownum rn, TMP.* from ("
+				+ "select b.* from board_list b left outer join board_like l "
 				+ "on b.board_no = l.board_no "
 				+ "where l.member_id = ? "
-				+ "order by b.board_no desc";
-		Object[] data = {memberId};
+				+ "and instr("+vo.getType()+", ?) > 0 "
+				+ "order by b.board_no desc "
+				+ ")TMP) where rn between ? and ?";
+		Object[] data = { 
+				memberId, vo.getKeyword(), vo.getStartRow(), vo.getFinishRow()
+		};
 		return jdbcTemplate.query(sql, boardMyListMapper, data);
+		}
+		else {
+			String sql = "select * from (select rownum rn, TMP.* from ("
+					+ "select b.* from board_list b left outer join board_like l "
+					+ "on b.board_no = l.board_no "
+					+ "where l.member_id = ? "
+					+ "order by b.board_no desc "
+					+ ")TMP) where rn between ? and ?";
+			Object[] data = {memberId, vo.getStartRow(), vo.getFinishRow()};
+			return jdbcTemplate.query(sql, boardMyListMapper, data);
+		}
 	}
 	
 	@Override
-	public List<BoardListDto> findReplyListByMemberId(String memberId) {
-		String sql = "select b.board_no, b.board_title, b.board_writer, b.board_ctime "
-				+ "from board b inner join ("
+	public List<BoardListDto> findReplyListByMemberId(PaginationVO vo, String memberId) {
+		if(vo.isSearch()) { 
+		String sql = "select * from (select rownum rn, TMP.* from ("
+				+ "select b.* from board_list b inner join ("
 				+ "select r.reply_origin from reply r "
 				+ "left outer join member m on r.reply_writer = m.member_id "
 				+ "where m.member_id = ? "
 				+ ") t on b.board_no = t.reply_origin "
-				+ "order by b.board_no desc";
-		Object[] data = {memberId};
+				+ "where instr("+vo.getType()+", ?) > 0 "
+				+ "order by b.board_no desc "
+				+ ")TMP) where rn between ? and ?";
+		Object[] data = { 
+				memberId, vo.getKeyword(), vo.getStartRow(), vo.getFinishRow()
+		};
 		return jdbcTemplate.query(sql, boardMyListMapper, data);
+		}
+		else {
+			String sql = "select * from (select rownum rn, TMP.* from ("
+					+ "select b.* from board_list b inner join ("
+					+ "select r.reply_origin from reply r "
+					+ "left outer join member m on r.reply_writer = m.member_id "
+					+ "where m.member_id = ? "
+					+ ") t on b.board_no = t.reply_origin "
+					+ "order by b.board_no desc "
+					+ ")TMP) where rn between ? and ?";
+			Object[] data = {memberId, vo.getStartRow(), vo.getFinishRow()};
+			return jdbcTemplate.query(sql, boardMyListMapper, data);
+		}	
 	}
 	
 	@Override
-	public List<QnaNoticeDto> findQnaListByMemberId(String memberId) {
-		String sql = "select q.* from qnanotice_list q left outer join member m "
+	public List<QnaNoticeDto> findQnaListByMemberId(PaginationVO vo, String memberId) {
+		if(vo.isSearch()) { 
+		String sql = "select * from ( select rownum rn, TMP.* from ("
+				+ "select q.* from qnanotice_list q left outer join member m "
 				+ "on q.member_id = m.member_id "
 				+ "where m.member_id = ? "
-				+ "order by q.qnanotice_no desc";
-		Object[] data = {memberId};
+				+ "and instr("+vo.getType()+", ?) > 0 "
+				+ "order by q.qnanotice_no desc "
+				+ ")TMP) where rn between ? and ?";
+		Object[] data = { 
+				memberId, vo.getKeyword(), vo.getStartRow(), vo.getFinishRow()
+		};
 		return jdbcTemplate.query(sql, qnaNoticeListMapper, data);
+		}
+		else {
+			String sql = "select * from ( select rownum rn, TMP.* from ("
+					+ "select q.* from qnanotice_list q left outer join member m "
+					+ "on q.member_id = m.member_id "
+					+ "where m.member_id = ? "
+					+ "order by q.qnanotice_no desc "
+					+ ")TMP) where rn between ? and ?";
+			Object[] data = {memberId, vo.getStartRow(), vo.getFinishRow()};
+			return jdbcTemplate.query(sql, qnaNoticeListMapper, data);
+		}
 	}
 	
 	@Override
@@ -343,7 +487,7 @@ public class MemberDaoImpl implements MemberDao {
 	        return jdbcTemplate.queryForObject(sql, Integer.class, data);
 	    } else {
 	        String sql = "select count(*) from block_list "
-						+ "wher member_level != '관리자'";
+						+ "where member_level != '관리자'";
 	        return jdbcTemplate.queryForObject(sql, Integer.class);
 	    }
 	}
@@ -388,12 +532,12 @@ public class MemberDaoImpl implements MemberDao {
 	}
 	
 	@Override
-	public boolean updateMemberLevel() {
+	public void updateMemberLevel() {
 		String sql = "update member set member_level = 'tripper' "
 				+ "where member_id in ("
 				+ "select member_id from member "
 				+ "where member_point >= 1000)";
-		return jdbcTemplate.update(sql) > 0;
+		jdbcTemplate.update(sql);
 	}
 
 	//글작성시 포인트 증가

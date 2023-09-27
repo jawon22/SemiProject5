@@ -18,12 +18,19 @@ public interface MemberDao {
 	boolean updateMemberInfo(MemberDto memberDto); //회원정보변경(마이페이지)
 	boolean updateMemberPw(String memberId, String changePw); //비밀번호변경(마이페이지)
 	boolean delete(String memberId); //탈퇴(마이페이지)
-	boolean updateMemberLevel(); //멤버등업
+	void updateMemberLevel(); //멤버등업
 	ExpiredListDto findMemberExpiredList(String memberId); //비밀번호 변경 90일 경과 멤버조회
-	List<BoardListDto> findWriteListByMemberId(String memberId); //내가 쓴 글 조회
-	List<BoardListDto> findLikeListByMemberId(String memberId); //내가 좋아요 한 글 조회
-	List<BoardListDto> findReplyListByMemberId(String memberId); //내가 댓글 단 글 조회
-	List<QnaNoticeDto> findQnaListByMemberId(String memberId); //내가 쓴 문의글 조회
+	
+	int countListMyWriteList(PaginationVO vo, String memberId); //내가 쓴 글 카운트
+	int countListMyLikeList(PaginationVO vo, String memberId); //내가 좋아요 한 글 카운트
+	int countListMyQnaList(PaginationVO vo, String memberId); //내 문의글 카운트
+	int countListMyReplyList(PaginationVO vo, String memberId); //내가 댓글 단 글 카운트
+	
+	List<BoardListDto> findWriteListByMemberId(PaginationVO vo, String memberId); //내가 쓴 글 조회
+	List<BoardListDto> findLikeListByMemberId(PaginationVO vo, String memberId); //내가 좋아요 한 글 조회
+	List<BoardListDto> findReplyListByMemberId(PaginationVO vo, String memberId); //내가 댓글 단 글 조회
+	List<QnaNoticeDto> findQnaListByMemberId(PaginationVO vo, String memberId); //내가 쓴 문의글 조회
+	//이메일 중복체크
 	MemberDto checkEmail(String memberEmail);
 	
 	//글작성시 포인트 증가

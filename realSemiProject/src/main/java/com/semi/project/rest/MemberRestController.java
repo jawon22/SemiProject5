@@ -160,6 +160,21 @@ public class MemberRestController {
 		
 	}
 	
+	//비밀번호 일치 여부 체크
+	@PostMapping("/pwCorrect")
+	public String pwCorrect(@RequestParam String inputPw,
+											HttpSession session) {
+		
+		String memberId = (String) session.getAttribute("name");
+		MemberDto memberDto = memberDao.selectOne(memberId);
+		//입력한 비밀번호와 회원 비밀번호가 일치하다면
+		if(memberDto.getMemberPw().equals(inputPw)) {
+			return "Y";
+		}else {
+			return "N";
+		}
+	}
+	
 	//이메일체크
 	@PostMapping("/emailCheck")
 	public String emailCheck(@RequestParam(required = false) String memberEmail,

@@ -7,14 +7,9 @@
 
 <h1>아이디 찾기 결과</h1>
 
-<c:choose>
-	<c:when test="${memberId != null }">
-		찾은 아이디: ${memberId}
-	</c:when>
-	<c:otherwise>
-		등록된 아이디가 없습니다.
-	</c:otherwise>
-</c:choose>
+
+<h2>찾은 아이디: ${param.memberId}</h2>
+
 
 <br><br>
 

@@ -82,8 +82,8 @@
         <nav>
         	<div style="margin-left:150px;">
         		<a class="link me-10" href="/board/all">여행정보</a>
-        		<a class="link me-10" href="#">커뮤니티</a>
-        		<a class="link me-10" href="#">QnA</a>
+        		<a class="link me-10" href="/board/communityAll">커뮤니티</a>
+        		<a class="link me-10" href="/qnaNotice/list">QnA</a>
         	</div>
        </nav>
 
