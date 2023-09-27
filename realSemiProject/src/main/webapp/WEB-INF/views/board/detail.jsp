@@ -76,7 +76,7 @@
 				data:{replyOrigin : no},
 				success:function(response){
 					$(".reply-list").empty();
-					for(var i=0; i < response.list.length; i++) {
+					for(var i=0; i < response.attachNo.length; i++) {
 						var attachNo = response.attachNo[i];
 						var reply = response.list[i];
 						var attach = response.attachNo[i];
@@ -103,10 +103,14 @@
 						//버튼 생성 버튼
 						$(htmlTemplate).find(".btn-create").attr("data-reply-no", reply.replyNo).click(function (e) {
 						var replyNo = $(this).attr("data-reply-no");
-							if(reply.replyNo==replyNo){
-							
-								$(".btn-create").after($(htmlTemplate).find(".btn-hide").css("display", "inline-block"));
-							}	
+								$(this).after($(htmlTemplate).find(".btn-hide").css("display", "inline-block"));
+								
+								$(htmlTemplate).find(".btn-create")
+								.click(function(){
+								$(this).parents(".edit-container")
+								.prev(".view-container").show();
+								$(this).parents(".edit-container").remove();
+								});
 						});
 						
 						//삭제버튼
@@ -339,13 +343,13 @@
                 <div class="right">
                 <c:choose>
 	                <c:when test="${boardDto.boardCategory==41}">
-	                    <button class="button"><a href="/board/community/list">목록</a></button>
+	                    <button class="button"><a href="/board/list?boardCategory=${boardDto.boardCategory}">목록</a></button>
 	                </c:when>
-	                <c:when test="${boardDto.baordCategory==42}">
-	                	<button class="button"><a href="#">목록</a></button>
+	                <c:when test="${boardDto.boardCategory==42}">
+	                	<button class="button"><a href="/board/list?boardCategory=${boardDto.boardCategory}">목록</a></button>
 	                </c:when>
 	                <c:otherwise>
-	                	<button class="button"><a href="#">목록</a></button>
+	                	<button class="button"><a href="/board/list">목록</a></button>
 	                </c:otherwise>
                 </c:choose>
                     <c:if test="${sessionScope.name==boardDto.boardWriter||	memberDto.memberlevel=='관리자' }">
