@@ -23,13 +23,12 @@
             placeholder: '내용을 작성하세요',
             tabsize: 2, // 탭을 누르면 이동할 간격
             height: 200, // 에디터 높이
-            minHeight: 200, // 에디터 최소 높이
+            minHeight: 300, // 에디터 최소 높이
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'italic', 'underline']],
                 ['color', ['color']],
                 ['para', ['paragraph']],
-                ['table', ['table']],
                 ['insert', ['link', 'picture']],
                 ],
                 
@@ -228,9 +227,9 @@
 
 
 <form action="write" method="post">
-    <div class="container w-600">
+    <div class="container w-800">
 <div class="row">
-<h2>
+<h2 class="crudTitle">
     <c:choose>
         <c:when test="${boardDto.boardCategory == 1}">계절 지역 게시글 작성</c:when>
         <c:when test="${boardDto.boardCategory == 41}"> 후기 게시글 작성</c:when>
@@ -281,7 +280,7 @@
             <input type="text" name="boardTitle" class="form-input w-100">
         </div>
     </div>
-    <div class="container w-600">
+    <div class="container w-800">
         <div class="row left">
             <label>내용</label>
             <textarea type="text" name="boardContent" class="form-input w-100 fixed"></textarea>
