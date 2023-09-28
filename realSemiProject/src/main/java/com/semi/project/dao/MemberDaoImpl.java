@@ -119,7 +119,16 @@ public class MemberDaoImpl implements MemberDao {
 		};
 		return jdbcTemplate.update(sql, data) > 0;
 	}
-
+	
+	@Override
+	public boolean updateMemberPwDelay(String memberId) {
+		String sql = "update member set member_pwchange = sysdate "
+				+ "where member_id = ?";
+		Object[] data = {memberId};
+		return jdbcTemplate.update(sql, data) > 0;
+	}
+	
+	
 	@Override
 	public boolean delete(String memberId) {
 		String sql = "delete member where member_id = ?";

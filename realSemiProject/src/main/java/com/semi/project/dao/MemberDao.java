@@ -20,6 +20,7 @@ public interface MemberDao {
 	boolean delete(String memberId); //탈퇴(마이페이지)
 	void updateMemberLevel(); //멤버등업
 	ExpiredListDto findMemberExpiredList(String memberId); //비밀번호 변경 90일 경과 멤버조회
+	boolean updateMemberPwDelay(String memberId); //비밀번호 변경일 90일 미루기
 	
 	int countListMyWriteList(PaginationVO vo, String memberId); //내가 쓴 글 카운트
 	int countListMyLikeList(PaginationVO vo, String memberId); //내가 좋아요 한 글 카운트

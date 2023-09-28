@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.semi.project.dao.CertDao;
 import com.semi.project.dao.MemberDao;
+import com.semi.project.dao.MemberDaoImpl;
 import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
 import com.semi.project.vo.PaginationVO;
@@ -63,9 +64,16 @@ public class MemberMypageController {
 		}
 	}
 	
+	@RequestMapping("/delay")
+	public String delay(HttpSession session) {
+		String memberId = (String)session.getAttribute("name");
+		memberDao.updateMemberPwDelay(memberId);
+		return "redirect:/";
+	}
 	
 	@RequestMapping("/mypage") //마이페이지
-	public String mypage(Model model, HttpSession session, PaginationVO vo) {
+	public String mypage(Model model, HttpSession session, 
+			@ModelAttribute(name="vo") PaginationVO vo) {
 		
 		String memberId = (String)session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);

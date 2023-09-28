@@ -55,7 +55,7 @@ label {
 	transform: translate(-50%, -50%);
 	border-radius: 10px;
 	background-color: white;
-	width: 400px;
+	width: 500px;
 	height: 400px;
 	padding: 20px;
 	border: 1px solid #012D5C;
@@ -175,12 +175,23 @@ label {
 	
 				<div class="popupbody">
 					<form>
-					
-					<h1>비밀번호 변경 안내</h1> 
-					<input type="radio" name="check">
-					<a href="/member/pwChange">비밀번호변경하러가기</a> 
-					<input type="radio" name="check">					
-					<a href="#">90일 미루기</a>
+					<div class="row mv-20">
+						<img src="/images/lock.png">
+					</div>
+					<div class="row">
+					<h1>비밀번호를 변경해주세요</h1>
+					<label style="font-size:16px;">회원님께서는 3개월 동안 비밀번호를 변경하지 않았습니다. <p>
+					개인정보를 보호하고 개인정보도용의 피해를 예방하기 위해 <p>
+					3개월마다 주기적으로 비밀번호 변경을 안내하고 있습니다.</label> 
+					</div>
+					<div class="flex-container auto-width">
+					<div class="col-2">			
+					<a class="btn btn-negative link" href="/member/delay">나중에 변경하기</a>
+					</div>
+					<div class="col-2">
+					<a class="btn btn-positive link" href="/member/pwChange">지금 변경하기</a> 
+					</div>
+					</div>
 					</form>
 				</div>
 
