@@ -27,7 +27,7 @@ $(function(){
 
 <div class="row">
 	<a href="list">	
-	<img src="/images/notice.png" width="250">
+	<img src="/images/notice.png" width="150">
 	</a>
 </div>
 
@@ -109,13 +109,13 @@ $(function(){
 
 <div class="row">
 <form action="qnaList" method="get" autocomplete="off">
-	<select name="type">
+	<select name="type" class="search-input">
 		<option value="qnanotice_title">제목</option>
 	</select>	
 	<input type="search" name="keyword" 
-		value="${param.keyword}" 
+		value="${param.keyword}" class="search-input"
 		placeholder="검색어 입력" required>
-	<button>검색</button>
+	<button class="search-btn">검색</button>
 </form>
 </div>
 
@@ -125,7 +125,7 @@ $(function(){
 <!-- 이전 버튼 -->
 <div class="row">
 <c:if test="${!vo.first}">
-	<a href="qnaList?${vo.prevQueryStringForMemberList}">&lt;</a>	
+	<a href="qnaList?${vo.prevQueryStringForMemberList}" class="prev">&lt;</a>	
 </c:if>
 
 <!-- 숫자 부분 -->
@@ -143,7 +143,7 @@ $(function(){
 
 <!--  다음버튼 -->
 <c:if test="${!vo.last}">
-	<a href="qnaList?${vo.nextQueryStringForMemberList}">&gt;</a>		
+	<a href="qnaList?${vo.nextQueryStringForMemberList}" class="next">&gt;</a>		
 </c:if>
 </div>
 

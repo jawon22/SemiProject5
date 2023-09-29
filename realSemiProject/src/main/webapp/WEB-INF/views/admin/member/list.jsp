@@ -3,7 +3,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<div class="container w-700">
+<style>
+	.title{
+		font-size: 30px;
+		font-weight: bold;
+		color: #26C2BF;
+	}
+</style>
+
+<div class="container w-800">
+	<div class="row">
+		<a href="list" class="link" ><span class="title">회원목록</span></a>
+	</div>
+
 <table class="table table-slit center">
 <thead>
 	<tr>
