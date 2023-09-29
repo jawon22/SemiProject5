@@ -3,6 +3,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<style>
+	.title{
+		font-size: 30px;
+		font-weight: bold;
+		color: #26C2BF;
+	}
+	.flex-container {
+        justify-content: space-between;
+    }
+</style>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
@@ -214,30 +225,35 @@
     });
 </script>
 
-<div class="container w-600">
+<div class="container w-700">
 
-<h1>회원 통계</h1>
+	<div class="row">
+		<a href="stat" class="link" ><span class="title">회원통계</span></a>
+	</div>
 
-        <div class="flex-container" style="flex-grow: 1;">
-            <div class="row flex-container card">
-                <div>
+        <div class="flex-container">
+            <div class="inline-flex-container align-center card">
+                <div class="center">
         			<canvas id="birthChart"></canvas>
     			</div>
             </div>
-            <div class="row flex-container card">
-                <div>
+            <div class="inline-flex-container align-center card">
+                <div class="center">
         			<canvas id="areaChart"></canvas>
     			</div>
             </div>
         </div>
-        <div class="flex-container" style="flex-grow: 1;">
-            <div class="row flex-container card align-center">
-                <div>
+        
+        <div class="row"></div>
+        
+        <div class="flex-container">
+            <div class="inline-flex-container align-center card">
+                <div class="center">
         			<canvas id="joinChart"></canvas>
     			</div>
             </div>
-            <div class="row flex-container card align-center">
-                <div>
+            <div class="inline-flex-container align-center card">
+                <div class="center">
         			<canvas id="levelChart"></canvas>
     			</div>
             </div>

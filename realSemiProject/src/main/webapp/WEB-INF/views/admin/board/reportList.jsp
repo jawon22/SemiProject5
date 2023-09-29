@@ -3,6 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<style>
+	.title{
+		font-size: 30px;
+		font-weight: bold;
+		color: #26C2BF;
+	}
+</style>
+
 <script>
 	$(function(){
 		$(".delete-btn").hide();
@@ -37,8 +45,11 @@
 </script>
 
 
-<div class="container w-700">
-	<form class="delete-form" action="/admin/board/reportDelete" method="post">
+<div class="container w-900">
+	<div class="row">
+		<a href="reportList" class="link" ><span class="title">신고현황</span></a>
+	</div>
+
 		<div class="row right">
 			<button type="submit" class="btn btn-negative delete-btn">
 				<i class="fa-solid fa-trash"></i>삭제
@@ -114,18 +125,17 @@
 				</tbody>
 			</table>
 		</div>
-	</form>
 	
 	<div class="row">
 		<form action="reportList" method="get" autocomplete="off">
-			<select name="type">
+			<select name="type" class="search-input">
 				<option value="board_no">글 번호</option>
 				<option value="board_writer">작성자</option>
 			</select>	
 			<input type="search" name="keyword" 
-				value="${param.keyword}" 
+				value="${param.keyword}"  class="search-input"
 				placeholder="검색어 입력" required>
-			<button>검색</button>
+			<button class="search-btn">검색</button>
 		</form>
 	</div>
 
@@ -134,7 +144,7 @@
 	<!-- 이전 버튼 -->
 	<div class="row">
 		<c:if test="${!vo.first}">
-			<a href="reportList?${vo.prevQueryStringForMemberList}">&lt;</a>	
+			<a href="reportList?${vo.prevQueryStringForMemberList}" class="prev">&lt;</a>	
 		</c:if>
 
 		<!-- 숫자 부분 -->
@@ -152,7 +162,7 @@
 
 		<!--  다음버튼 -->
 		<c:if test="${!vo.last}">
-			<a href="reportList?${vo.nextQueryStringForMemberList}">&gt;</a>		
+			<a href="reportList?${vo.nextQueryStringForMemberList}" class="next">&gt;</a>		
 		</c:if>
 	</div>
 </div>

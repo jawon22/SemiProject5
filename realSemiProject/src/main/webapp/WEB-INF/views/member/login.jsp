@@ -129,7 +129,7 @@ label {
 
 					if (!isValid) {
 						e.preventDefault();
-						alert("모든 항목을 입력해야 전송 가능합니다!");
+						alert("모든 항목을 입력해야 합니다!");
 					}
 
 				});
@@ -144,6 +144,7 @@ label {
 </div>
 
 <form class="login-form" action="login" method="post" autocomplete="off">
+	<div class="container w-300">
 		<div class="row">
 			<h1>로그인</h1>
 		</div>
