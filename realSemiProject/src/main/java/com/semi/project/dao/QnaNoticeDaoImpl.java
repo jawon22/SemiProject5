@@ -171,8 +171,14 @@ public class QnaNoticeDaoImpl implements QnaNoticeDao {
 			return jdbcTemplate.queryForObject(sql, int.class);
 		}
 	}
-
 	
+	@Override
+	public boolean deleteByAdmin(int qnaNoticeNo) {
+		String sql = "delete qnaNotice where qnaNotice_no = ?";
+		Object[] data = {qnaNoticeNo};
+		return jdbcTemplate.update(sql, data)>0;
+	}
+
 	@Override
 	public boolean delete(int qnaNoticeNo) {//삭제
 		String sql = "delete qnaNotice where qnaNotice_no = ?";
