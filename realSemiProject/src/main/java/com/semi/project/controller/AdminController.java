@@ -16,9 +16,7 @@ import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.BlockDetailDto;
 import com.semi.project.dto.BlockListDto;
 import com.semi.project.dto.BoardListDto;
-import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.MemberDto;
-import com.semi.project.dto.ReportDto;
 import com.semi.project.dto.ReportListDto;
 import com.semi.project.vo.PaginationVO;
 
@@ -122,8 +120,8 @@ public class AdminController {
 	}
 	
 	//신고 삭제
-	@RequestMapping("/board/reportDelete")
-	public String deleteBoardReport(@RequestParam List<Integer> reportNoList) {
+	@PostMapping("/board/reportDelete")
+	public String reportDelete(@RequestParam List<Integer> reportNoList) {
 		for(int reportNo : reportNoList) {
 			boardDao.deleteReport(reportNo);
 		}
