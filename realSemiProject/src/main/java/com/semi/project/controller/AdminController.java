@@ -75,7 +75,7 @@ public class AdminController {
 		
 		memberDao.updateMemberInfoByAdmin(inputDto);
 		
-		return "redirect:member/detail?memberId="+memberId;
+		return "redirect:detail?memberId="+memberId;
 	}
 	
 	//회원 통계

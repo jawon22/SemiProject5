@@ -25,6 +25,9 @@ public class BoardListDto {
 	int reportCount;
 	int attachmentNo;
 	
+	int attachmentCount;
+	int firstAttachmentNo;
+	
 	//작성자 출력용 메소드
 	public String getBoardWriterString() {
 		if(boardWriter ==null) return "(탈퇴한사용자)";

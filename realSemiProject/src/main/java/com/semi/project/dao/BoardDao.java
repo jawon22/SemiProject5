@@ -78,6 +78,15 @@ public interface BoardDao {
 	boolean deleteReport(int ReportNo);//신고 삭제
 	int countReportList(PaginationVO vo);//신고 목록 개수 세기
 	List<ReportListDto> selectReportList(PaginationVO vo);//신고 목록
+	
+	   // 첨부 파일 갯수(count) 조회
+	 int getAttachmentCount(int boardNo);
+	
+	 // 첫 번째 첨부 파일 번호(firstAttachmentNo) 조회
+	 int getFirstAttachmentNo(int boardNo);
+	 
+	 //일단 5개만 찍어봄
+	 List<BoardListDto> selectListTop5();
 }
 
 

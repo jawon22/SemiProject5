@@ -19,9 +19,9 @@ $(function(){
            	 $(".mint10").show();
            	 $(".status").text("공지 숨기기");
             }
-		
-		
+
 	});
+
 });
 </script>
 
@@ -48,6 +48,7 @@ $(function(){
 	<label class="status">공지 숨기기</label>
 </div>
 </c:if>
+
 
 <div class="row right" >
 	<a class=" btn link" href="write">글쓰기</a>

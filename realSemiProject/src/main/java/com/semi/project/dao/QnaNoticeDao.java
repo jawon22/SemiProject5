@@ -30,7 +30,8 @@ public interface QnaNoticeDao {
 	List<QnaNoticeDto> selectNoticeListByPage(PaginationVO vo);
 	//qna목록조회
 	List<QnaNoticeDto> selectQnaListByPage(PaginationVO vo);
-	
-
+  
+	//관리자가 삭제
+	boolean deleteByAdmin(int qnaNoticeNo);
 	
 }
