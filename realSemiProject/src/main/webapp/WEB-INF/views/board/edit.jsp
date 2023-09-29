@@ -21,13 +21,12 @@
             placeholder: '내용을 작성하세요',
             tabsize: 2, // 탭을 누르면 이동할 간격
             height: 200, // 에디터 높이
-            minHeight: 200, // 에디터 최소 높이
+            minHeight: 300, // 에디터 최소 높이
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'italic', 'underline']],
                 ['color', ['color']],
                 ['para', ['paragraph']],
-                ['table', ['table']],
                 ['insert', ['link', 'picture']],
                 ],
                 
@@ -204,9 +203,9 @@
 </script>
 <form action="edit" method="post">
 	<input type="hidden" name="boardNo" value="${boardDto.boardNo}">
-        <div class="container w-600" >
+        <div class="container w-800" >
             <div class="row">
-                <h2>게시글 수정</h2>
+                <h2 class="crudTitle">게시글 수정</h2>
             </div>
             
             <c:choose>
@@ -1196,6 +1195,11 @@
                 <textarea type="text" name="boardContent"
                 class="form-input w-100 fixed">${boardDto.boardContent}</textarea>
             </div>
+            
+            <div class="row right">
+        		<span id="byteCount" class="byteCount">0</span>/ 3989byte
+        	</div>
+            
             <div class="row">
                 <button class="btn btn-positive">수정하기</button>
                 <a href="list" class="btn">목록보기</a>

@@ -72,7 +72,6 @@ label {
 
 </style>
 
-
 <script>
 	$(function() {
 
@@ -130,7 +129,7 @@ label {
 
 					if (!isValid) {
 						e.preventDefault();
-						alert("모든 항목을 입력해야 전송 가능합니다!");
+						alert("모든 항목을 입력해야 합니다!");
 					}
 
 				});
@@ -145,19 +144,27 @@ label {
 </div>
 
 <form class="login-form" action="login" method="post" autocomplete="off">
-	<div class="container w-400">
-		<div class="row left">
-			아이디 <input class="form-input w-100" type="text" name="memberId">
-			<div class="fail2-feedback">존재하지 않는 아이디입니다</div>
-		</div>
-		<div class="row left">
-			비밀번호 <input class="form-input w-100" type="password" name="memberPw">
-			<c:if test="${param.error != null}">
-				<span class="red">비밀번호가 일치하지 않습니다</span>
-			</c:if>
-		</div>
+	<div class="container w-300">
 		<div class="row">
-			<button class="btn btn-positive w-100" type="submit">로그인하기</button>
+			<h1>로그인</h1>
+		</div>
+		
+		<div class="row mt-30">
+			<div class="row left mb-20">
+				<label>아이디</label>
+				<input class="form-input w-100 mt-10" type="text" name="memberId">
+				<div class="fail2-feedback">존재하지 않는 아이디입니다</div>
+			</div>
+			<div class="row left mb-20">
+				<label>비밀번호</label>
+				<input class="form-input w-100 mt-10" type="password" name="memberPw">
+				<c:if test="${param.error != null}">
+					<span class="red">비밀번호가 일치하지 않습니다</span>
+				</c:if>
+			</div>
+			<div class="row">
+				<button class="btn btn-positive w-100" type="submit">로그인</button>
+			</div>
 		</div>
 	</div>
 </form>

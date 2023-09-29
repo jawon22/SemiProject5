@@ -21,10 +21,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.semi.project.dao.BoardDao;
 import com.semi.project.dao.MemberDao;
+import com.semi.project.dao.ReplyDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.dto.ReplyDto;
 import com.semi.project.dto.ReportDto;
 import com.semi.project.service.BoardService;
 import com.semi.project.vo.PaginationVO;
@@ -33,10 +35,13 @@ import com.semi.project.vo.PaginationVO;
 @RequestMapping("/board")
 public class BoardController {
 	@Autowired
-	BoardDao boardDao;
+	private BoardDao boardDao;
 	
 	@Autowired
-	MemberDao memberDao;
+	private MemberDao memberDao;
+	
+	@Autowired
+	private ReplyDao replyDao;
 	
 	@Autowired
 	private BoardService boardService;
@@ -50,6 +55,17 @@ public class BoardController {
 		model.addAttribute("list",list);
 		
 		return "/WEB-INF/views/board/all.jsp";
+	}
+	
+	@RequestMapping("/communityAll") //커뮤니티 전체
+	public String communityAll(Model model) {
+		List<BoardListDto> freeList = boardDao.selectFreeTop10();
+		model.addAttribute("freeList",freeList);
+		
+		List<BoardListDto> reviewList = boardDao.selectReviewTop10();
+		model.addAttribute("reviewList",reviewList);
+		
+		return "/WEB-INF/views/board/communityAll.jsp";
 	}
 	
 	
@@ -74,6 +90,33 @@ public class BoardController {
 
 	    return "/WEB-INF/views/board/list.jsp";
 	}
+	
+	@RequestMapping("/reviewList") // 커뮤니티 리스트(후기)
+	public String cmReviewList(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
+		
+		int count = boardDao.countCommunityReviewList(vo);
+		vo.setCount(count);
+		
+		List<BoardListDto> list = boardDao.selectReviewListSearchByPage(vo);
+		model.addAttribute("list",list);
+		
+		return "/WEB-INF/views/board/reviewList.jsp";
+		
+	}
+	
+	@RequestMapping("/freeList") // 커뮤니티 리스트(후기)
+	public String cmFreeList(@ModelAttribute(name="vo") PaginationVO vo, Model model) {
+		
+		int count = boardDao.countCommunityFreeList(vo);
+		vo.setCount(count);
+		
+		List<BoardListDto> list = boardDao.selectFreeListSearchByPage(vo);
+		model.addAttribute("list",list);
+		
+		return "/WEB-INF/views/board/freeList.jsp";
+		
+	}
+	
 	
 	
 	@RequestMapping("/detail")
@@ -137,7 +180,8 @@ public class BoardController {
 	public String write(@ModelAttribute BoardDto boardDto, 
 			HttpSession session
 	/* , MemberDto memberDto */
-			, @RequestParam(required = false) List<Integer> attachmentNo,
+			, @RequestParam(required = false) List<Integer> attachmentNo
+			,
 			RedirectAttributes attr
 			) {
 		
@@ -156,7 +200,7 @@ public class BoardController {
 	    // 글을 등록
 	    //boardDao.insert(boardDto);
 		int boardNo = boardService.write(boardDto, attachmentNo); 
-	    attr.addAttribute("boardNo", boardNo);
+	    //attr.addAttribute("boardNo", boardNo);
 	
 		//포인트 계산 작업
 		//- lastNo가 null이라는 것은 처음 글을 작성했다는 의미
@@ -228,8 +272,9 @@ public class BoardController {
 	
 	//게시글 신고 등록
 	@RequestMapping("/report/board")
-	public String report(@RequestParam("boardNo") int boardNo,
-									@RequestParam("reportReason") String reportReason) {
+	public String reportBoard(@RequestParam("boardNo") int boardNo,
+									@RequestParam("reportReason") String reportReason,
+									HttpSession session) {
 		
 		ReportDto reportDto = new ReportDto();
 		int reportNo = boardDao.reportSequence();
@@ -237,13 +282,14 @@ public class BoardController {
 		reportDto.setReportReason(reportReason);
 		boardDao.insertReport(reportDto);
 		
+		String memberId = (String) session.getAttribute("name");
+		
 		BoardReportDto boardReportDto = new BoardReportDto();
 		boardReportDto.setReportNo(reportNo);
 		boardReportDto.setBoardNo(boardNo);
-		boardReportDto.setBoardWriter(boardReportDto.getBoardWriter());
+		boardReportDto.setMemberId(memberId);
 		boardDao.insertBoardReport(boardReportDto);
 		
 		return "redirect:/board/detail?boardNo=" + boardNo;
 	}
-	
 }

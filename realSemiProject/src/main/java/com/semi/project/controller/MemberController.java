@@ -59,22 +59,21 @@ public class MemberController {
 	}
 	
 	@PostMapping("/searchId")
-	public String searchId(@RequestParam String inputEmail, HttpSession session) {
-		MemberDto memberId = memberDao.selectIdByMemberEmail(inputEmail);
-
+	public String searchId(@RequestParam String memberEmail, Model model) {
+		
+		MemberDto memberDto = memberDao.selectIdByMemberEmail(memberEmail);
+		String memberId = memberDto.getMemberId();
+		
 		if (memberId != null) {
-	        //return "redirect:searchIdFinish?memberId=" + memberId.getMemberId();
-			session.setAttribute("memberId", memberId.getMemberId());
-	    } 
-		return "redirect:searchIdFinish";
+			model.addAttribute("memberId",memberId);
+			return "redirect:searchIdFinish?memberId=" + memberId;
+		}else {
+			return "redirect:searchId?error";
+		}
 	}
 	
 	@RequestMapping("/searchIdFinish")
-	public String searchIdFinish(HttpSession session, Model model) {
-		String memberId = (String) session.getAttribute("memberId");
-		model.addAttribute("memberId", memberId);
-		
-		session.removeAttribute(memberId);
+	public String searchIdFinish(@RequestParam String memberId) {
 		
 		return "/WEB-INF/views/member/searchIdFinish.jsp";
 	}
@@ -100,30 +99,26 @@ public class MemberController {
 			//이메일을 보낸 이력이 있는지 검사
 			CertDto checkCertDto = certDao.selectOne(memberEmail);
 			
-			if(checkCertDto == null) {
-				return "redirect:searchPw?error";
-			}else {
-				//임시 비밀번호 생성
-				String certCode = certCodeRandom.generatePassword();
-				
-				//임시 비밀번호 저장
-				CertDto certDto = new CertDto();
-				certDto.setCertCode(certCode);
-				certDto.setCertEmail(memberEmail);
-				certDao.insert(certDto);
-				
-				//회원 이메일로 임시 비밀번호 전송
-				SimpleMailMessage message = new SimpleMailMessage();
-				message.setTo(memberEmail);
-				message.setSubject("[TRIPEE] 임시 비밀번호");
-				message.setText("임시 비밀번호 : " + certCode);
-				sender.send(message);
-				
-				//회원 비밀번호 변경
-				memberDao.updateMemberPw(findDto.getMemberId(), certCode);
-				
-				return "redirect:searchPwFinish";
-			}
+			//임시 비밀번호 생성
+			String certCode = certCodeRandom.generatePassword();
+			
+			//임시 비밀번호 저장
+			CertDto certDto = new CertDto();
+			certDto.setCertCode(certCode);
+			certDto.setCertEmail(memberEmail);
+			certDao.insert(certDto);
+			
+			//회원 이메일로 임시 비밀번호 전송
+			SimpleMailMessage message = new SimpleMailMessage();
+			message.setTo(memberEmail);
+			message.setSubject("[TRIPEE] 임시 비밀번호");
+			message.setText("임시 비밀번호 : " + certCode);
+			sender.send(message);
+			
+			//회원 비밀번호 변경
+			memberDao.updateMemberPw(findDto.getMemberId(), certCode);
+			
+			return "redirect:searchPwFinish";
 		}else {
 			return "redirect:searchPw?error";
 		}

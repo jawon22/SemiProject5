@@ -127,8 +127,6 @@
 		</form>
 	</div>
 
-
-
 	<div class="row">
 		<form action="noticeList" method="get" autocomplete="off">
 			<select name="type">

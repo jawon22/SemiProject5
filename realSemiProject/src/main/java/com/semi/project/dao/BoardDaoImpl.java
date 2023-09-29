@@ -14,6 +14,7 @@ import com.semi.project.dto.ReportDto;
 import com.semi.project.dto.ReportListDto;
 import com.semi.project.mapper.BoardDetailMapper;
 import com.semi.project.mapper.BoardListMapper;
+import com.semi.project.mapper.BoardTop10Mapper;
 import com.semi.project.mapper.ReportListMapper;
 import com.semi.project.vo.PaginationVO;
 
@@ -31,6 +32,9 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Autowired
 	private ReportListMapper reportListMapper;
+	
+	@Autowired
+	private BoardTop10Mapper boardTop10Mapper;
 	
 	@Override
 	public int sequence() {
@@ -55,12 +59,42 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	@Override
-	public List<BoardListDto> selectList() {//리스트 조회
+	public List<BoardListDto> selectList() {// 정보 리스트 조회
 		String sql = "select * from board_list where board_category between 1 and 40 order by board_no asc";
 		
 		return jdbcTemplate.query(sql, boardListMapper);
 	}
 
+	@Override
+	public List<BoardListDto> selectCommunityList() { // 커뮤니티 리스트 조회
+		String sql = "select * from board_list where board_category between 41 and 42 order by board_no asc";
+		return jdbcTemplate.query(sql, boardListMapper);
+	}
+	
+	@Override
+	public List<BoardListDto> selectFreeTop10() { // 자유 조회수 top10 조회
+		String sql="SELECT * FROM ("
+					+ "SELECT ROWNUM ranking, TMP.* FROM("
+						+ "select * from board_list where board_category=42 order by board_readcount desc"
+					+ ")TMP "
+				+ ")where ranking between 1 and 10";
+		
+		return jdbcTemplate.query(sql, boardTop10Mapper);
+	}
+	
+	@Override
+	public List<BoardListDto> selectReviewTop10() { //후기 조회수 top10 조회
+		String sql="SELECT * FROM ("
+				+ "SELECT ROWNUM ranking, TMP.* FROM("
+					+ "select * from board_list where board_category=41 order by board_readcount desc"
+				+ ")TMP "
+			+ ")where ranking between 1 and 10";
+	
+		return jdbcTemplate.query(sql, boardTop10Mapper);
+	}
+	
+	
+	
 	@Override
 	public boolean delete(int boardNo) {//삭제
 		String sql = "delete board where board_no = ?";
@@ -100,9 +134,6 @@ public class BoardDaoImpl implements BoardDao{
 	//검색을 안하고 계절만 선택했을때
 	@Override
 	public List<BoardListDto> selectListByPageAndWeather(int page, String weather) {
-//		if (weather.equals("전체")) {
-//	        return selectListByPage(page); // 전체인 경우 모든 게시글을 불러옵니다.
-//	    }
 		
 		int start = (page-1)*10 +1;
 		int end = page*10;
@@ -121,9 +152,6 @@ public class BoardDaoImpl implements BoardDao{
 	//검색을 안하고 지역만 선택했을때
 	@Override
 	public List<BoardListDto> selectListByPageAndArea(int page, String area) {
-//		if (area.equals("전체")) {
-//	        return selectListByPage(page); // 전체인 경우 모든 게시글을 불러옵니다.
-//	    }
 		
 		int start = (page-1)*10 +1;
 		int end = page*10;
@@ -445,31 +473,142 @@ public class BoardDaoImpl implements BoardDao{
 	    Object[] data;
 
 	    if (!vo.isSearch()) {
-	    	sql = "select count(*) from board_list";
+	    	sql = "select count(*) from board_list where board_category between 1 and 40";
 	    	data = new Object[0];
 	    } 
 	    else {
 	    	if(vo.getWeather().equals("전체")&& vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
-	    		sql="select count(*) from board_list";
+	    		sql="select count(*) from board_list where board_category between 1 and 40";
 	    		data = new Object[0];
 	    	}
 	    	else if(!vo.getWeather().equals("전체") && vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
-	    		sql="select count(*) from board_list where board_categoryweather =?";
+	    		sql="select count(*) from board_list where board_categoryweather =? and board_category between 1 and 40";
 	    		data = new Object[]{vo.getWeather()};
 	    	}
 	    	else if(vo.getWeather().equals("전체") && !vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
-	    		sql="select count(*) from board_list where board_area =?";
+	    		sql="select count(*) from board_list where board_area =? and board_category between 1 and 40";
 	    		data = new Object[]{vo.getArea()};
 	    	}
 	    	else {
 	    	sql = "select count(*) from board_list where " + vo.getType() + " like ? " +
-	    			"and board_categoryweather = ? and board_area = ?";
+	    			"and board_categoryweather = ? and board_area = ? and board_category between 1 and 40";
 	    	data = new Object[]{"%" + vo.getKeyword() + "%", vo.getWeather(), vo.getArea()};
 	    	}
 	    }
 	    
 	    return jdbcTemplate.queryForObject(sql, int.class, data);
 	}
+	
+	// 커뮤니티 목록 후기 페이지 조회(검색 , 페이지)
+	@Override
+	public List<BoardListDto> selectReviewListByPage(int page) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "SELECT * FROM ("
+						+ "SELECT ROWNUM rn, TMP.* FROM("
+							+ "select * from board_list where board_category =41"
+								+ " order by board_ctime desc"
+							+ ")TMP "
+						+ ")WHERE rn BETWEEN ? AND ?";
+		Object[] data = {start,end};
+		return jdbcTemplate.query(sql, boardListMapper,data);
+		
+	}
+	
+	@Override
+	public List<BoardListDto> selectReviewListSearchByPage(int page, String type, String keyword) {
+		int start = (page-1)*10 +1;
+		int end = page*10;
+		
+		String sql = "SELECT * FROM ("
+						+ "SELECT ROWNUM rn, TMP.* FROM("
+							+ "select * from board_list where instr("+type+",?) >0 and board_category =41"
+								+ " order by board_ctime desc"
+							+ ")TMP "
+						+ ")WHERE rn BETWEEN ? AND ?";
+		Object[] data = {keyword,start,end};
+		return jdbcTemplate.query(sql, boardListMapper,data);
+	}
+	
+	@Override
+	public List<BoardListDto> selectReviewListSearchByPage(PaginationVO vo) {
+		if(vo.isSearch()) {
+			return selectReviewListSearchByPage(vo.getPage(), vo.getType(), vo.getKeyword());
+		}
+		else return selectReviewListByPage(vo.getPage());
+	}
+	
+	// 커뮤니티 목록 자유 페이지 조회(검색 , 페이지)
+		@Override
+		public List<BoardListDto> selectFreeListByPage(int page) {
+			int start = (page-1)*10 +1;
+			int end = page*10;
+			
+			String sql = "SELECT * FROM ("
+							+ "SELECT ROWNUM rn, TMP.* FROM("
+								+ "select * from board_list where board_category =42"
+									+ " order by board_ctime desc"
+								+ ")TMP "
+							+ ")WHERE rn BETWEEN ? AND ?";
+			Object[] data = {start,end};
+			return jdbcTemplate.query(sql, boardListMapper,data);
+			
+		}
+		
+		@Override
+		public List<BoardListDto> selectFreeListSearchByPage(int page, String type, String keyword) {
+			int start = (page-1)*10 +1;
+			int end = page*10;
+			
+			String sql = "SELECT * FROM ("
+							+ "SELECT ROWNUM rn, TMP.* FROM("
+								+ "select * from board_list where instr("+type+",?) >0 and board_category =42"
+									+ " order by board_ctime desc"
+								+ ")TMP "
+							+ ")WHERE rn BETWEEN ? AND ?";
+			Object[] data = {keyword,start,end};
+			return jdbcTemplate.query(sql, boardListMapper,data);
+		}
+		
+		@Override
+		public List<BoardListDto> selectFreeListSearchByPage(PaginationVO vo) {
+			if(vo.isSearch()) {
+				return selectFreeListSearchByPage(vo.getPage(), vo.getType(), vo.getKeyword());
+			}
+			else return selectFreeListByPage(vo.getPage());
+		}
+	
+	
+	
+	
+	//커뮤니티 게시판 페이지네비게이터 갯수 (후기)
+	@Override
+	public int countCommunityReviewList(PaginationVO vo) {
+		if(vo.isSearch()) {
+			String sql = "select count(*) from board_list where instr("+vo.getType()+",?) >0 and board_category =41";
+			Object[] data = {vo.getKeyword()};
+			return jdbcTemplate.queryForObject(sql, int.class,data);
+		}
+		else {
+			String sql ="select count(*) from board_list where board_category =41";
+			return jdbcTemplate.queryForObject(sql, int.class);
+		}
+	}
+	//커뮤니티 게시판 페이지네비게이터 갯수 (자유)
+		@Override
+		public int countCommunityFreeList(PaginationVO vo) {
+			if(vo.isSearch()) {
+				String sql = "select count(*) from board_list where instr("+vo.getType()+",?) >0 and board_category =42";
+				Object[] data = {vo.getKeyword()};
+				return jdbcTemplate.queryForObject(sql, int.class,data);
+			}
+			else {
+				String sql ="select count(*) from board_list where board_category =42";
+				return jdbcTemplate.queryForObject(sql, int.class);
+			}
+		}
+	
 
 	@Override
 	public boolean readcountEdit(long boardReadcount, int boardNo) {
@@ -488,13 +627,14 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 
-
+	//신고 번호(시퀀스)
 	@Override
 	public int reportSequence() {
 		String sql = "select report_seq.nextval from dual";
 		return jdbcTemplate.queryForObject(sql, int.class);
 	}
 	
+	//신고 등록
 	@Override
 	public void insertReport(ReportDto reportDto) {
         String sql = "INSERT INTO report (report_no, report_reason) VALUES (?, ?)";
@@ -502,17 +642,19 @@ public class BoardDaoImpl implements BoardDao{
         jdbcTemplate.update(sql, data);
     }
 	
+	//게시글 신고 등록
 	@Override
 	public void insertBoardReport(BoardReportDto boardReportDto) {
-        String sql = "INSERT INTO board_report (report_no, board_no, board_writer) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO board_report (report_no, board_no, member_id) VALUES (?, ?, ?)";
         Object[] data = {
             boardReportDto.getReportNo(),
             boardReportDto.getBoardNo(),
-            boardReportDto.getBoardWriter()
+            boardReportDto.getMemberId()
         };
-
+        jdbcTemplate.update(sql, data);
     }
 	
+	//신고 삭제
 	@Override
 	public boolean deleteReport(int ReportNo) {
 		String sql = "delete from report where report_no = ?";
@@ -520,6 +662,7 @@ public class BoardDaoImpl implements BoardDao{
 		return jdbcTemplate.update(sql, data) > 0;
 	}
 	
+	//신고 개수
 	@Override
 	public int countReportList(PaginationVO vo) {
 		if(vo.isSearch()) {
@@ -533,6 +676,7 @@ public class BoardDaoImpl implements BoardDao{
 		}
 	}
 	
+	//신고 목록
 	@Override
 	public List<ReportListDto> selectReportList(PaginationVO vo) {
 		if(vo.isSearch()) {

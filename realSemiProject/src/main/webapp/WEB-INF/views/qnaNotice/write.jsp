@@ -17,25 +17,30 @@
 <script src="./custom-link.js"></script><!-- 내가 만든 파일-->
 <script>
     $(function () {
+    	var isExceedingLimit = false; // 글자 수 제한 초과 여부를 나타내는 변수
+    	
         $('[name=qnaNoticeContent]').summernote({
             placeholder: '내용을 작성하세요',
             tabsize: 2, // 탭을 누르면 이동할 간격
             height: 200, // 에디터 높이
-            minHeight: 200, // 에디터 최소 높이
+            minHeight: 300, // 에디터 최소 높이
             // lineHeight: 20, // 기본 줄 간격(px)
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'italic', 'underline']],
                 ['color', ['color']],
                 ['para', ['paragraph']],
-                ['table', ['table']],
                 ['insert', ['link', 'picture']],
             ],
             
             callbacks: {
                 onImageUpload: function(files) {
-                   // upload image to server and create imgNode...
-                   //$summernote.summernote('insertNode', imgNode);
+                	
+                    if (isExceedingLimit) {
+                        alert('용량 제한을 초과하여 이미지를 추가할 수 없습니다.');
+                        return;
+                    }
+                    
                    if(files.length != 1) return;
                    
                    console.log("비동기 파일 업로드 시작")
@@ -61,13 +66,67 @@
                          //var imgNode = $("<img>").attr("src", "/rest/attachment/download?attachmentNo" + response.attachmentNo);
                          $("[name=qnaNoticeContent]").summernote("insertNode", imgNode.get(0));
                       },
-                      error:function(){
-                         window.alert("통신 오류 발생");
+                      error: function() {
+                          alert("통신 오류 발생");
                       }
-                   });
+                  });
+              },
+              onKeydown: function(e) {
+                  var content = $('[name=qnaNoticeContent]').summernote('code');
+                  var byteCount = countBytes(content);
+
+                  if (byteCount > 3988) {
+                      alert('글자 수 제한을 초과하여 텍스트를 추가할 수 없습니다.');
+                      e.preventDefault();
+                  }
+              }
+          }
+      });
+        
+        
+     // 입력 내용이 변경될 때마다 byte 수 업데이트
+        $('[name=qnaNoticeContent]').on('summernote.change', function () {
+            updateByteCount();
+        });
+
+        // 초기 byte 수 업데이트
+        updateByteCount();
+
+        function updateByteCount() {
+            var content = $('[name=qnaNoticeContent]').summernote('code');
+            var byteCount = countBytes(content);
+
+            // byte 수를 버튼 위에 표시
+            $('#byteCount').text(byteCount);
+        }
+
+        // 문자열의 byte 수 계산 함수
+        function countBytes(str) {
+            var byteCount = -11;
+            for (var i = 0; i < str.length; i++) {
+                var charCode = str.charCodeAt(i);
+                if (charCode <= 0x007F) {
+                    byteCount += 1;
+                } else if (charCode <= 0x07FF) {
+                    byteCount += 2;
+                } else if (charCode <= 0xFFFF) {
+                    byteCount += 3;
+                } else {
+                    byteCount += 4;
                 }
-             }
-            });
+            }
+            
+            // byteCount가 초과하면 클래스 추가
+            if (byteCount > 3988) {
+                $('#byteCount').addClass("red");
+                isExceedingLimit = true;
+            } else {
+                $('#byteCount').removeClass("red");
+                isExceedingLimit = false;
+            }
+            
+            return byteCount;
+        }
         
         
         // 게시글 타입 선택 시
@@ -107,7 +166,7 @@
             <input type="hidden" name="qnaNoticeParent" value="${originDto.qnaNoticeNo}">
         </c:if>
     </c:if> 
-    <div class="container w-600">
+    <div class="container w-800">
         <c:choose>
             <c:when test="${sessionScope.level == '관리자'}">
     			<div class="row">
@@ -115,12 +174,12 @@
     			<c:choose>
     				<c:when test="${isReply}">
         				<c:if test="${sessionScope.level == '관리자'}">
-            				<h2>답글 작성</h2>
+            				<h2 class="crudTitle">답글 작성</h2>
             				<input type="hidden" name="qnaNoticeType" value="3">
         				</c:if>
     				</c:when>
     				<c:otherwise>
-        				<h2>게시글 작성</h2>
+        				<h2 class="crudTitle">게시글 작성</h2>
         				<label>유형</label>
                     		<select name="qnaNoticeType">
                         		<option value="1">공지사항</option>
@@ -135,7 +194,7 @@
             
             <c:otherwise>
             	<div class="row">
-            		<h2>Q&A</h2>
+            		<h2 class="crudTitle">Q&A</h2>
             	</div>
                 <input type="hidden" name="qnaNoticeType" value="2">
                 <input type="checkbox" name="qnaNoticeSecret">비밀글
@@ -160,15 +219,20 @@
             </c:choose>
         </div>
     </div>
-    <div class="container w-600">
+    <div class="container w-800">
         <div class="row">
         </div>
         <div class="row left">
             <label>내용</label>
             <textarea name="qnaNoticeContent" class="form-input w-100 fixed"></textarea>
         </div>
+        
+        <div class="row right">
+        	<span id="byteCount" class="byteCount">0</span>/ 3988byte
+        </div>
+        
         <div class="row">
-          
+         
                 <c:choose>
                     <c:when test="${isReply && sessionScope.level == '관리자'}">
                       <button class="btn btn-positive">답글작성</button>

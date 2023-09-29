@@ -13,7 +13,7 @@
 	
 	<!--css 불러오기-->
 	<link rel="stylesheet" type="text/css" href="/css/reset.css">
-	<link rel="stylesheet" type="text/css" href="/css/test.css">
+	<!-- <link rel="stylesheet" type="text/css" href="/css/test.css"> -->
 	<link rel="stylesheet" type="text/css" href="/css/layout.css">
 	<link rel="stylesheet" type="text/css" href="/css/commons.css">
 	
@@ -82,8 +82,8 @@
         <nav>
         	<div style="margin-left:150px;">
         		<a class="link me-10" href="/board/all">여행정보</a>
-        		<a class="link me-10" href="#">커뮤니티</a>
-        		<a class="link me-10" href="#">QnA</a>
+        		<a class="link me-10" href="/board/communityAll">커뮤니티</a>
+        		<a class="link me-10" href="/qnaNotice/list">QnA</a>
         	</div>
        </nav>
 

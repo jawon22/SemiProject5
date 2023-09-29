@@ -9,11 +9,12 @@ import org.springframework.stereotype.Component;
 import com.semi.project.dto.BoardListDto;
 
 @Component
-public class BoardListMapper implements RowMapper<BoardListDto>{
-
+public class BoardTop10Mapper implements RowMapper<BoardListDto>{
+	
 	@Override
 	public BoardListDto mapRow(ResultSet rs, int rowNum) throws SQLException {
 		BoardListDto boardListDto = new BoardListDto();
+		boardListDto.setRanking(rs.getInt("ranking"));
 		boardListDto.setMemberNickname(rs.getString("member_nickname"));
 		boardListDto.setBoardCategory(rs.getInt("board_category"));
 		boardListDto.setBoardCategoryWeather(rs.getString("board_categoryweather"));

@@ -4,7 +4,7 @@
         <hr>
         <footer class="flex-container">
 			<div class="logo" style="margin-left : 150px;">
-				<a class="link" href="/"><img width=14% src="images/logo.png"></a>
+				<a class="link" href="/"><img width=14% src="/images/logo.png"></a>
 				<span class="mb-30">이용약관</span>
 				<span>개인정보처리방침</span>
 			</div>

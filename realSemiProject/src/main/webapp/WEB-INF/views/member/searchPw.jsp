@@ -38,7 +38,7 @@
 </script>
 
 <form action="searchPw" method="post" autocomplete="off">
-	<div class="container w-500">
+	<div class="container w-300">
 	    <div class="row">
 	        <h1>비밀번호 찾기</h1>
 	    </div>
@@ -46,19 +46,15 @@
     	<div class="row mt-30">
 	        <div class="row left mt-30 mb-20">
 	            <label>아이디</label>
-	        </div>
-	        <div class="row mb-30">
-	            <input type="text" class="form-input w-100" name="memberId">
+	            <input type="text" class="form-input w-100 mt-10" name="memberId">
 	        </div>
 	        <div class="row left mb-20">
 	            <label>이메일</label>
-	        </div>
-	        <div class="row mb-10">
-	            <input type="text" class="form-input w-100" name="memberEmail">
+	            <input type="text" class="form-input w-100 mt-10" name="memberEmail">
 	        </div>
 	        <div class="row mb-20">
 	        	<c:if test="${param.error != null}">
-	        		<span style="color:red">존재하지 않는 회원입니다</span>
+	        		<span class="red">존재하지 않는 회원입니다</span>
 	        	</c:if>
 	        </div>
 	        <div class="row mt-30 cert-wrapper">

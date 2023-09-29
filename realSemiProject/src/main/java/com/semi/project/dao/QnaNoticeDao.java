@@ -11,6 +11,8 @@ public interface QnaNoticeDao {
 	void insert(QnaNoticeDto qnaNoticeDto);	
 	QnaNoticeDto selectOne(int qnaNoticeNo);
 	boolean delete(int qnaNoticeNo);
+	boolean edit(QnaNoticeDto qnaNoticeDto);
+	
 	
 	//썸머노트 파일연결
 	void connect(int qnaNoticeNo, int attachmentNo);
@@ -28,9 +30,8 @@ public interface QnaNoticeDao {
 	List<QnaNoticeDto> selectNoticeListByPage(PaginationVO vo);
 	//qna목록조회
 	List<QnaNoticeDto> selectQnaListByPage(PaginationVO vo);
-	
+  
 	//관리자가 삭제
 	boolean deleteByAdmin(int qnaNoticeNo);
-
 	
 }

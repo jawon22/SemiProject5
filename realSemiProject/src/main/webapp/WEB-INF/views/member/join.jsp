@@ -45,13 +45,11 @@
 	        checkPw:false,
 	        nickname:false,
 	        email:false,
-	        contact:false,
 	        birth:false,
-	        post:false,
 	
 	        ok:function(){
 	            return this.id && this.pw && this.checkPw && this.nickname && this.email
-	                        && this.contact && this.birth && this.post;
+	                        && this.birth;
 	        },
 	    };
 	
@@ -123,7 +121,7 @@
 	
 	    $("[name=memberEmail]").blur(function(){
 	        var Regex = /^.*@.*$/;
-	        var isValid = (Regex.test($(this).val())) || ($(this).val().length == 0);
+	        var isValid = (Regex.test($(this).val())) && ($(this).val().length == 0);
 	
 	        $(this).removeClass("success fail");
 	        $(this).addClass(isValid ? "success" : "fail");
@@ -144,15 +142,16 @@
 	    $(".join-form").submit(function(e){
 	        console.table(status);
 	
-	        if(status.ok() != false){
+	        if(status.ok() == false){
 	            e.preventDefault();
+	            alert("모든 항목을 입력해야 합니다!");
 	        }
 	    });
 	});
 </script>
 
 <form class="join-form" action="join" method="post" autocomplete="off">
-	<div class="container w-500">
+	<div class="container w-300">
 		<div class="row">
 			<h1>회원 가입</h1>
 		</div>
