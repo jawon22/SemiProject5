@@ -2,6 +2,7 @@ package com.semi.project.dao;
 
 import java.util.List;
 
+import com.semi.project.dto.AttachmentDto;
 import com.semi.project.dto.BlockDetailDto;
 import com.semi.project.dto.BlockListDto;
 import com.semi.project.dto.BoardListDto;

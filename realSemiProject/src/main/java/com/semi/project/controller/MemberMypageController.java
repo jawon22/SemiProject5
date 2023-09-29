@@ -1,5 +1,7 @@
 package com.semi.project.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.semi.project.dao.BoardDao;
 import com.semi.project.dao.CertDao;
 import com.semi.project.dao.MemberDao;
-import com.semi.project.dao.MemberDaoImpl;
+import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
 import com.semi.project.vo.PaginationVO;
@@ -230,5 +233,5 @@ public class MemberMypageController {
 		session.removeAttribute("level");
 		return "redirect:/";
 	}
-	
+
 }
