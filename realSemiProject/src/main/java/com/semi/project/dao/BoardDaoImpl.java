@@ -559,4 +559,28 @@ public class BoardDaoImpl implements BoardDao{
 		}
 	}
 
+    // 첨부 파일 갯수(count) 조회
+    @Override
+    public int getAttachmentCount(int boardNo) {
+        String sql = "SELECT COUNT(*) FROM board_attachment WHERE board_no = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, boardNo);
+    }
+
+    // 첫 번째 첨부 파일 번호(firstAttachmentNo) 조회
+    @Override
+    public int getFirstAttachmentNo(int boardNo) {
+        String sql = "SELECT MIN(attachment_no) FROM board_attachment WHERE board_no = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, boardNo);
+    }
+	
+    //메인에 5개만 우선 찍어봄
+	@Override
+	public List<BoardListDto> selectListTop5() {
+		String sql = "select * from (select rownum rn, TMP.* from ("
+				+ "select * from board_list "
+				+ "order by board_no desc "
+				+ ")TMP) where rn between 1 and 5";
+		return jdbcTemplate.query(sql, boardListMapper);
+	}
+	
 }
