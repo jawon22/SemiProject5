@@ -672,7 +672,7 @@ a.link:hover
     확장 스타일 - 마우스 반응 테이블
 */
 .table.table-hover > tbody > tr:hover {
-    background-color: #dfe6e9;
+    background-color: #c7ecee;
 }
 
 /*

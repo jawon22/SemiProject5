@@ -21,12 +21,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.semi.project.dao.BoardDao;
 import com.semi.project.dao.MemberDao;
-import com.semi.project.dao.ReplyDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.MemberDto;
-import com.semi.project.dto.ReplyDto;
 import com.semi.project.dto.ReportDto;
 import com.semi.project.service.BoardService;
 import com.semi.project.vo.PaginationVO;
@@ -39,9 +37,6 @@ public class BoardController {
 	
 	@Autowired
 	private MemberDao memberDao;
-	
-	@Autowired
-	private ReplyDao replyDao;
 	
 	@Autowired
 	private BoardService boardService;

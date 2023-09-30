@@ -4,29 +4,32 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <div class="container w-700">
-<table class="table table-slit">
+<table class="table table-hover center">
 <thead>
 	<tr>
 		<th>글제목</th>
 		<th>작성자</th>
 		<th>작성일자</th>
+		<th>조회수</th>
 	</tr>
 </thead>
 
 <tbody>
 	<c:forEach var="boardDto" items="${boardDto}">
 		<tr>
-			<th class="left">
+
+			<td class="left">
 				<a class="link" href="/board/detail?boardNo=${boardDto.boardNo}">
-				${boardDto.boardTitle}	
+				${boardDto.boardTitle} ${boardDto.boardReplycount} 
 				</a>
-			</th>
-			<th>
+			</td>
+			<td>
 				${boardDto.memberNickname}
-			</th>
-			<th>
+			</td>
+			<td>
 				${boardDto.boardCtime}
-			</th>
+			</td>
+			<td>${boardDto.boardReadcount}</td>
 		</tr>		
 	</c:forEach>
 </tbody>

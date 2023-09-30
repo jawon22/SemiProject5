@@ -38,6 +38,35 @@ h1 {
 .custom-checkbox>[type=checkbox]:checked+span {
 	background-image: url("/images/fa-chevron-right.png");
 }
+
+.table-mypage > thead > tr > th, 
+.table-mypage > tbody > tr > th, 
+.table-mypage > tfoot > tr > th 
+{
+    border-right: 2px solid black;
+}
+.table-mypage > thead > tr > th, 
+.table-mypage > thead > tr > td 
+{
+    border-top: 2px solid black;
+    border-bottom: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 0.5em;
+    
+}
+.table-mypage > tbody > tr > th, 
+.table-mypage > tbody > tr > td
+{
+    border-bottom: 1px solid black;
+    padding:0.5em;
+}  
+.table-mypage > tfoot > tr > th,
+.table-mypage > tfoot > tr > td 
+{
+    border-top: 1px solid black;
+    border-bottom: 2px solid black;
+    padding:0.5em;
+}
 </style>
 <script>
 	$(function() {
@@ -101,7 +130,7 @@ h1 {
 	});
 </script>
 
-<div class="container w-800 mt-20">
+<div class="container w-700 mt-20">
 	<div class="flex-container auto-width">
 
 		<div class="mv-10 w-25 inline-flex-container align-center">
@@ -137,11 +166,14 @@ h1 {
 	</div>
 
 	<div class="row">
-		<table class="table table-slit">
+		<table class="table table-mypage">
+			<thead>
 			<tr>
-				<th>아이디</th>
+				<th width="25%">아이디</th>
 				<td>${memberDto.memberId}</td>
 			</tr>
+			</thead>
+			<tbody>
 			<tr>
 				<th>닉네임</th>
 				<td>${memberDto.memberNickname}</td>
@@ -169,18 +201,16 @@ h1 {
 						pattern="y년 M월 d일 E a h시 m분 s초" /></td>
 
 			</tr>
+			</tbody>
+			<tfoot>
 			<tr>
 				<th>마지막 접속일</th>
 				<td><fmt:formatDate value="${memberDto.memberLogin}"
 						pattern="y년 M월 d일 E a h시 m분 s초" /></td>
 			</tr>
+			</tfoot>
 		</table>
 
-		<c:if test="${expiredListDto.isExpired == 'Y'}">
-			<label style="font-size: 40px; color: red;">비밀번호가 변경된지 90일이
-				경과되었습니다. <br> 비밀번호를 변경해 주세요.
-			</label>
-		</c:if>
 
 		<div class="flex-container auto-width">
 

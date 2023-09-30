@@ -200,4 +200,13 @@ public class QnaNoticeController {
 		}
 
 	}
+	
+	//관리자가 글 삭제
+	@RequestMapping("/deleteByAdmin")
+	public String deleteByAdmin(@RequestParam List<Integer> qnaNoticeList) {
+		for(int qnaNoticeNo : qnaNoticeList) {
+			qnaNoticeDao.deleteByAdmin(qnaNoticeNo);			
+		}
+		return "redirect:list";
+	}
 }

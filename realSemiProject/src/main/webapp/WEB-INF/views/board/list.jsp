@@ -185,10 +185,10 @@
 	<c:if test="${sessionScope.name !=null}">
 			<div class="row right">
 				<c:if test="${sessionScope.level == '관리자'}">
-				<button type="submit" class="btn btn-negative delete-btn">
-					<i class="fa-solid fa-trash-can"></i>
-					게시글 일괄삭제
-				</button>
+					<button type="submit" class="btn btn-negative delete-btn">
+						<i class="fa-solid fa-trash-can"></i>
+						게시글 일괄삭제
+					</button>
 				</c:if>
 				
 				<a href="write?boardCategory=1" class="btn">
