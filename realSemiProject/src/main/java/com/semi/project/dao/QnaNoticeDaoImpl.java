@@ -141,37 +141,72 @@ public class QnaNoticeDaoImpl implements QnaNoticeDao {
 		}
 	}
 
-	@Override
-	public int countQnaList(PaginationVO vo) {
-		if(vo.isSearch()) {
-			String sql = "select count(*) from qnanotice_list "
-					+ "where (instr("+vo.getType()+", ?) > 0) "
-					+ "and (qnanotice_type = 2 or qnanotice_type = 3)";
-			Object[] data = {vo.getKeyword()};
-			return jdbcTemplate.queryForObject(sql, int.class, data);
-		}
-		else {
-			String sql = "select count(*) from qnanotice_list "
-					+ "where (qnanotice_type = 2 or qnanotice_type = 3)";
-			return jdbcTemplate.queryForObject(sql, int.class);
-		}
-	}
+//	@Override
+//	public int countQnaList(PaginationVO vo) {
+//		if(vo.isSearch()) {
+//			String sql = "select count(*) from qnanotice_list "
+//					+ "where (instr("+vo.getType()+", ?) > 0) "
+//					+ "and (qnanotice_type = 2 or qnanotice_type = 3)";
+//			Object[] data = {vo.getKeyword()};
+//			return jdbcTemplate.queryForObject(sql, int.class, data);
+//		}
+//		else {
+//			String sql = "select count(*) from qnanotice_list "
+//					+ "where (qnanotice_type = 2 or qnanotice_type = 3)";
+//			return jdbcTemplate.queryForObject(sql, int.class);
+//		}
+//	}
+//	
+//	@Override
+//	public int countNoticeList(PaginationVO vo) {
+//		if(vo.isSearch()) {
+//			String sql = "select count(*) from qnanotice_list "
+//					+ "where instr("+vo.getType()+", ?) > 0 "
+//					+ "and qnanotice_type = 1";
+//			Object[] data = {vo.getKeyword()};
+//			return jdbcTemplate.queryForObject(sql, int.class, data);
+//		}
+//		else {
+//			String sql = "select count(*) from qnanotice_list "
+//					+ "where qnanotice_type = 1 ";
+//			return jdbcTemplate.queryForObject(sql, int.class);
+//		}
+//	}
 	
 	@Override
-	public int countNoticeList(PaginationVO vo) {
+	public int countList(PaginationVO vo, String listType) {
+        String sql = "";
 		if(vo.isSearch()) {
-			String sql = "select count(*) from qnanotice_list "
-					+ "where instr("+vo.getType()+", ?) > 0 "
-					+ "and qnanotice_type = 1";
-			Object[] data = {vo.getKeyword()};
-			return jdbcTemplate.queryForObject(sql, int.class, data);
+			if ("qnalist".equals(listType)) {
+				sql = "select count(*) from qnanotice_list "
+						+ "where (instr("+vo.getType()+", ?) > 0) "
+						+ "and (qnanotice_type = 2 or qnanotice_type = 3)";
+				Object[] data = {vo.getKeyword()};
+				return jdbcTemplate.queryForObject(sql, int.class, data);
+			}
+			else if("noticelist".equals(listType)) {
+				sql = "select count(*) from qnanotice_list "
+						+ "where instr("+vo.getType()+", ?) > 0 "
+						+ "and qnanotice_type = 1";
+				Object[] data = {vo.getKeyword()};
+				return jdbcTemplate.queryForObject(sql, int.class, data);
+			}
 		}
 		else {
-			String sql = "select count(*) from qnanotice_list "
-					+ "where qnanotice_type = 1 ";
-			return jdbcTemplate.queryForObject(sql, int.class);
+			if ("qnalist".equals(listType)) {
+				sql = "select count(*) from qnanotice_list "
+						+ "where (qnanotice_type = 2 or qnanotice_type = 3)";
+				return jdbcTemplate.queryForObject(sql, int.class);
+			}
+			else if("noticelist".equals(listType)) {
+				sql = "select count(*) from qnanotice_list "
+						+ "where qnanotice_type = 1 ";
+				return jdbcTemplate.queryForObject(sql, int.class);
+			}
 		}
+		return 0;
 	}
+	
 	
 	@Override
 	public boolean deleteByAdmin(int qnaNoticeNo) {

@@ -62,7 +62,7 @@
 <div class="container w-800">
 
 	<div class="row">
-		<a href="list"> <img src="/images/notice.png" width="250">
+		<a class="link" href="list"> <span class="crudTitle">공지사항</span>
 		</a>
 	</div>
 
@@ -113,10 +113,29 @@
 								<td><input type="checkbox" class="check-item"
 									name="qnaNoticeList" value="${noticeList.qnaNoticeNo}"></td>
 							</c:if>
-							<td>[공지]</td>
-							<td class="left"><a class="link"
+							<td><c:choose>
+									<c:when test="${noticeList.qnaNoticeType == 1}">
+									[공지]
+								</c:when>
+									<c:when test="${noticeList.qnaNoticeType == 2}">
+									[문의]
+								</c:when>
+									<c:otherwise>
+									[답변]							
+								</c:otherwise>
+								</c:choose></td>
+							<td class="left"><c:forEach var="i" begin="1"
+									end="${noticeList.qnaNoticeDepth}" step="1">
+							&nbsp;&nbsp;
+							</c:forEach> <c:if test="${noticeList.qnaNoticeDepth > 0}">
+									<i class="fa-solid fa-reply fa-rotate-180"
+										style="color: #3dc1d3;"></i>
+								</c:if> <a class="link"
 								href="detail?qnaNoticeNo=${noticeList.qnaNoticeNo}">
-									${noticeList.qnaNoticeTitle} </a></td>
+									${noticeList.qnaNoticeTitle} </a> <c:if
+									test="${noticeList.qnaNoticeSecret == 'Y'}">
+									<i class="fa-solid fa-lock" style="color: #3dc1d3;"></i>
+								</c:if></td>
 							<td>${noticeList.memberNickname}</td>
 							<td>${noticeList.qnaNoticeTime}</td>
 						</tr>
@@ -140,7 +159,11 @@
 
 	<!-- 페이지 네비게이터 출력(목록) -->
 
-	<!-- 이전 버튼 -->
+<c:choose>
+    <c:when test="${vo.listType == 'noticelist'}">
+        <!-- 공지사항 목록인 경우 -->
+        <!-- 페이지 번호 목록 -->
+        <!-- 이전 버튼 -->
 	<div class="row">
 		<c:if test="${!vo.first}">
 			<a href="noticeList?${vo.prevQueryStringForMemberList}">&lt;</a>
@@ -162,9 +185,41 @@
 
 		<!--  다음버튼 -->
 		<c:if test="${!vo.last}">
-			<a href="noticeList?${vo.nextQueryStringForMemberList}">&gt;</a>
+        <a href="noticeList?${vo.nextQueryStringForMemberList}">&gt;</a>
+        </c:if>
+        </div>
+    </c:when>
+    <c:when test="${vo.listType == 'qnalist'}">
+        <!-- Q&A 목록인 경우 -->
+        <!-- 페이지 번호 목록 -->
+         <!-- 이전 버튼 -->
+	<div class="row">
+		<c:if test="${!vo.first}">
+			<a href="qnaList?${vo.prevQueryStringForMemberList}">&lt;</a>
 		</c:if>
-	</div>
+
+		<!-- 숫자 부분 -->
+		<c:forEach var="i" begin="${vo.begin}" end="${vo.end}" step="1">
+
+			<c:choose>
+				<c:when test="${vo.page == i}">
+					<!-- 현재페이지면 -->
+			${i}
+		</c:when>
+				<c:otherwise>
+					<a href="qnaList?${vo.getQueryStringForMemberList(i)}">${i}</a>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+
+		<!--  다음버튼 -->
+		<c:if test="${!vo.last}">
+        <a href="qnaList?${vo.nextQueryStringForMemberList}">&gt;</a>
+        </c:if>
+        </div>
+    </c:when>
+</c:choose>
 </div>
+
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
