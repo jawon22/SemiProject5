@@ -8,6 +8,7 @@ h1 {
 	font-size: 30px;
 	font-weight: bold;
 	color: #26C2BF;
+	margin-bottom:15px;
 }
 
 label {
@@ -23,6 +24,9 @@ label {
 
 .btn {
 	border-radius: 10px;
+}
+.btn.btn-positive:hover {
+	color:white;
 }
 
 .selectbox {
@@ -185,18 +189,18 @@ label {
 					<div class="row mv-20">
 						<img src="/images/lock.png">
 					</div>
-					<div class="row">
+					<div class="row mv-20">
 					<h1>비밀번호를 변경해주세요</h1>
 					<label style="font-size:16px;">회원님께서는 3개월 동안 비밀번호를 변경하지 않았습니다. <p>
 					개인정보를 보호하고 개인정보도용의 피해를 예방하기 위해 <p>
 					3개월마다 주기적으로 비밀번호 변경을 안내하고 있습니다.</label> 
 					</div>
 					<div class="flex-container auto-width">
-					<div class="col-2">			
-					<a class="btn btn-negative link" href="/member/delay">나중에 변경하기</a>
+					<div class="col-2 ">			
+					<a class="btn btn-negative link w-100" href="/member/delay">나중에 변경하기</a>
 					</div>
 					<div class="col-2">
-					<a class="btn btn-positive link" href="/member/pwChange">지금 변경하기</a> 
+					<a class="btn btn-positive link w-100" href="/member/pwChange">지금 변경하기</a> 
 					</div>
 					</div>
 					</form>
