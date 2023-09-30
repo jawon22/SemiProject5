@@ -119,7 +119,7 @@
 	
 	<div class="row">
 		<form action="reportList" method="get" autocomplete="off">
-			<select name="type" class="search-input">
+			<select name="type" class="search-select">
 				<option value="board_no">글 번호</option>
 				<option value="board_writer">작성자</option>
 			</select>	

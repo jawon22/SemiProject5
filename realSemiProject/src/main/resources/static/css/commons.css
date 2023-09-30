@@ -754,15 +754,24 @@ a.link:hover
 	하단 검색창, 페이지네이션
 */
 .search-btn, 
-.search-input {
+.search-input,
+.search-select {
     display: inline-block;
     text-decoration: none;
     vertical-align: bottom;
-    font-size:15px;
+    font-size:16px;
     outline: none; /*outline은 입력 창 선택 시 강조 효과 */
-    border: 1px solid #26C2BF; 
+    border: 2px solid #26C2BF; 
     border-radius: 0.1em;
     line-height: 1.2em;
+    height: 40px;
+}
+.search-input {
+	width: 200px;
+}
+.search-btn {
+	width: 70px;
+	background-color: white;
 }
 
 .prev {
