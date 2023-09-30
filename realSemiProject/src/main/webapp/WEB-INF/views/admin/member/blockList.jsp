@@ -65,16 +65,16 @@
 </div>
 <div class="row">
 <form action="member/blockList" method="get" autocomplete="off">
-	<select name="type">
+	<select name="type" class="search-select">
 		<option value="member_id">아이디</option>
 		<option value="member_nickname">닉네임</option>
 		<option value="member_email">이메일</option>
 		<option value="member_birth">생년월일</option>
 	</select>	
 	<input type="search" name="keyword" 
-		value="${param.keyword}" 
+		value="${param.keyword}" class="search-input"
 		placeholder="검색어 입력" required>
-	<button>검색</button>
+	<button class="search-btn">검색</button>
 </form>
 </div>
 
