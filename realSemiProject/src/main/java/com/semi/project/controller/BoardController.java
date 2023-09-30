@@ -71,7 +71,8 @@ public class BoardController {
 	
 	@RequestMapping("/list") // 정보게시판 리스트
 	public String list(@ModelAttribute(name="vo") PaginationVO vo, Model model,
-	                   @RequestParam(name = "sort", required = false) String sort) {
+	                   @RequestParam(name = "sort", required = false) String sort,
+	 					@RequestParam(name = "keyword", required = false) String keyword) {
 		
 	    int count = boardDao.countList(vo);
 	    vo.setCount(count);
@@ -83,8 +84,9 @@ public class BoardController {
 	    } else if ("likecount".equals(sort)) {
 	        list = boardDao.selectListByLikecount(vo);
 	    } else {
-	        list = boardDao.selectListByPage(vo);
+	        	list = boardDao.selectListByPage(vo);
 	    }
+	    
 	    
 	    model.addAttribute("list", list);
 
