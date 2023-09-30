@@ -28,8 +28,8 @@ $(function(){
 <div class="container w-800">
 
 <div class="row">
-	<a href="list">	
-	<img src="/images/notice.png" width="150">
+	<a class="link" href="list">
+	<span class="crudTitle">공지사항</span>
 	</a>
 </div>
 
