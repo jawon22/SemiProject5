@@ -86,7 +86,8 @@ public interface BoardDao {
 	 int getFirstAttachmentNo(int boardNo);
 	 
 	 //일단 5개만 찍어봄
-	 List<BoardListDto> selectListTop5();
+	 List<BoardListDto> selectListSeasonTop5();
+	 List<BoardListDto> selectListAreaTop5();
 }
 
 

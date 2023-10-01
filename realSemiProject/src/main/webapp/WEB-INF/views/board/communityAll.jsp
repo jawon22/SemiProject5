@@ -3,9 +3,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
     
+<style>
+h1,
+h2 {
+	color: #26C2BF;
+}
+h4{
+	color: gray;
+}
+</style>
+    
+    
+    
     <div class="container w-900">
     	<div class="row">
-			<h2>TRIPEE 인기 게시글</h2>
+			<h1>TRIPEE 인기 게시글</h1>
 			<h4>여행자들이 많이 보고 있는 게시글이에요!</h4>
     	</div>
     	

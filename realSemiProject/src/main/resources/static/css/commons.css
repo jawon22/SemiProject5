@@ -228,6 +228,9 @@ textarea.form-input.fixed {
 .black { color: #1e272e; }
 .white { color: #ffffff; } 
 .tripee {color: #26C2BF;}
+.mint10 {
+	background-color: rgb(190, 234, 239);
+}
 
 .redBackground {
     background-color: red; /* 배경색을 빨간색으로 설정 */
@@ -621,14 +624,18 @@ a.link:hover
     cursor: pointer;
     text-decoration: none;
     /* border:1px solid #2d3436; */
-    box-shadow: 0px 0px 1px 0px #2d3436;
-    color: #2d3436;
+    box-shadow: 0px 0px 1px 0px #26C2BF;
+    color: #26C2BF;
 }
 .page-navigator > a.on,
 .page-navigator > a:hover {
     /* border-color: #0984e3; */
     box-shadow: 0px 0px 2px 0px #26C2BF;
     color: #26C2BF;
+    font-weight: bold;
+}
+.page-navigator > a.on {
+    color: gray;
 }
 
 /*

@@ -18,10 +18,12 @@ public interface QnaNoticeDao {
 	void connect(int qnaNoticeNo, int attachmentNo);
 	
 
+	//카운트
+	int countList(PaginationVO vo, String listType);
 	//qna 게시글을 카운트
-	int countQnaList(PaginationVO vo);
+//	int countQnaList(PaginationVO vo);
 	// 공지글을 카운트
-	int countNoticeList(PaginationVO vo);
+//	int countNoticeList(PaginationVO vo);
 //	//qna+공지글을 카운트
 //	int countQnaNoticeList(PaginationVO vo);
 	//상단에 보여주는 공지 5개

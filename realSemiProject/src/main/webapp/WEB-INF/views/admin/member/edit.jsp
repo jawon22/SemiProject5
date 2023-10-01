@@ -18,16 +18,16 @@ $(function(){
 </script>
 
 
-<div class="container w-500">
+<div class="container w-400">
 <form action="edit" method="post" autocomplete="off">
 	<input type="hidden" name="memberId" value="${memberDto.memberId}">
-	<div class="row">
-	닉네임 <input type="text" name="memberNickname" value="${memberDto.memberNickname}">
+	<div class="row left">
+	닉네임 <input class="form-input w-100" type="text" name="memberNickname" value="${memberDto.memberNickname}">
 	</div>
-	<div class="row">
-	포인트 <input type="number" name="memberPoint" value="${memberDto.memberPoint}">
+	<div class="row left">
+	포인트 <input class="form-input w-100" type="number" name="memberPoint" value="${memberDto.memberPoint}">
 	</div>
-	<div class="row">
+	<div class="row left">
 	등급 
 		<select name="memberLevel" value="${memberDto.memberLevel}">
 		<option value="beginner">beginner</option>
@@ -36,7 +36,7 @@ $(function(){
 	</div>	
 	
 	<div class="row">
-	<button type="submit" class="btn btn-positive"> 수정하기 </button>
+	<button type="submit" class="btn btn-positive w-100"> 수정하기 </button>
 	</div>
 	
 </form>

@@ -28,7 +28,8 @@ h1 {
 .custom-checkbox>span {
 	display: block;
 	width: 1em;
-	height: 1.2em; background-image : url("/images/fa-chevron-right.png");
+	height: 1.2em;
+	background-image: url("/images/fa-chevron-right.png");
 	background-size: 55%;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -39,38 +40,32 @@ h1 {
 	background-image: url("/images/fa-chevron-right.png");
 }
 
-.table-mypage > thead > tr > th, 
-.table-mypage > tbody > tr > th, 
-.table-mypage > tfoot > tr > th 
-{
-    border-right: 2px solid black;
+.table-mypage>thead>tr>th, .table-mypage>tbody>tr>th, .table-mypage>tfoot>tr>th
+	{
+	border-right: 2px solid black;
 }
-.table-mypage > thead > tr > th, 
-.table-mypage > thead > tr > td 
-{
-    border-top: 2px solid black;
-    border-bottom: 1px solid black;
-    border-bottom: 1px solid black;
-    padding: 0.5em;
-    
+
+.table-mypage>thead>tr>th, .table-mypage>thead>tr>td {
+	border-top: 2px solid black;
+	border-bottom: 1px solid black;
+	border-bottom: 1px solid black;
+	padding: 0.5em;
 }
-.table-mypage > tbody > tr > th, 
-.table-mypage > tbody > tr > td
-{
-    border-bottom: 1px solid black;
-    padding:0.5em;
-}  
-.table-mypage > tfoot > tr > th,
-.table-mypage > tfoot > tr > td 
-{
-    border-top: 1px solid black;
-    border-bottom: 2px solid black;
-    padding:0.5em;
+
+.table-mypage>tbody>tr>th, .table-mypage>tbody>tr>td {
+	border-bottom: 1px solid black;
+	padding: 0.5em;
+}
+
+.table-mypage>tfoot>tr>th, .table-mypage>tfoot>tr>td {
+	border-top: 1px solid black;
+	border-bottom: 2px solid black;
+	padding: 0.5em;
 }
 </style>
 <script>
 	$(function() {
-		
+
 		$(".profile-chooser").change(
 				function() {
 
@@ -113,17 +108,15 @@ h1 {
 			});
 		});
 
-		
 		$(".check").change(function() {
 			var check = $(this).prop("checked");
-			
+
 			$(".myList").prop("checed", check);
-			
-			if(check) {
+
+			if (check) {
 				$(".myList").show();
-			}
-			else {
-				$(".myList").hide();				
+			} else {
+				$(".myList").hide();
 			}
 		});
 
@@ -168,163 +161,210 @@ h1 {
 	<div class="row">
 		<table class="table table-mypage">
 			<thead>
-			<tr>
-				<th width="25%">아이디</th>
-				<td>${memberDto.memberId}</td>
-			</tr>
+				<tr>
+					<th width="25%">아이디</th>
+					<td>${memberDto.memberId}</td>
+				</tr>
 			</thead>
 			<tbody>
-			<tr>
-				<th>닉네임</th>
-				<td>${memberDto.memberNickname}</td>
-			</tr>
-			<tr>
-				<th>이메일</th>
-				<td>${memberDto.memberEmail}</td>
-			</tr>
-			<tr>
-				<th>지역</th>
-				<td>${memberDto.memberArea}</td>
-			</tr>
-			<tr>
-				<th>회원등급</th>
-				<td>${memberDto.memberLevel}</td>
-			</tr>
-			<tr>
-				<th>포인트</th>
-				<td>${memberDto.memberPoint} 
-				<label><i class="fa-solid fa-p"></i></label></td>
-			</tr>
-			<tr>
-				<th>가입일</th>
-				<td><fmt:formatDate value="${memberDto.memberJoin}"
-						pattern="y년 M월 d일 E a h시 m분 s초" /></td>
+				<tr>
+					<th>닉네임</th>
+					<td>${memberDto.memberNickname}</td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td>${memberDto.memberEmail}</td>
+				</tr>
+				<tr>
+					<th>지역</th>
+					<td>${memberDto.memberArea}</td>
+				</tr>
+				<tr>
+					<th>회원등급</th>
+					<td>${memberDto.memberLevel}</td>
+				</tr>
+				<tr>
+					<th>포인트</th>
+					<td>${memberDto.memberPoint}<label><i
+							class="fa-solid fa-p"></i></label></td>
+				</tr>
+				<tr>
+					<th>가입일</th>
+					<td><fmt:formatDate value="${memberDto.memberJoin}"
+							pattern="y년 M월 d일 E a h시 m분 s초" /></td>
 
-			</tr>
+				</tr>
 			</tbody>
 			<tfoot>
-			<tr>
-				<th>마지막 접속일</th>
-				<td><fmt:formatDate value="${memberDto.memberLogin}"
-						pattern="y년 M월 d일 E a h시 m분 s초" /></td>
-			</tr>
+				<tr>
+					<th>마지막 접속일</th>
+					<td><fmt:formatDate value="${memberDto.memberLogin}"
+							pattern="y년 M월 d일 E a h시 m분 s초" /></td>
+				</tr>
 			</tfoot>
 		</table>
-
-
-		<div class="flex-container auto-width">
-
-			<div class="row col-2"></div>
-			<div class="row col-2">
-			
-		<div class="flex-container auto-width">
-			<div class="row col-3">
-				<a class="link" href="infoChange">정보수정</a>
-			</div>
-			<div class="row"> | </div>
-			<div class="row col-3">
-				<a class="link" href="pwChange"> 비밀번호변경 </a>
-			</div>
-			<div class="row"> | </div>
-			<div class="row col-3">
-				<a class="link" href="exit">회원탈퇴</a>
-			</div>
-			</div>
-			</div>
-			
-		</div>
-			<div class="row left">
-				<h1>
-					나의 활동내역 보기
-					<label class="custom-checkbox">
-					<input type="checkbox" class="check">
-					<span></span>
-					</label>
-				</h1>
-
-			</div>
-
-		<div class="row myList" style="display:none;">
-			<div class="flex-container auto-width">
-				<!-- flex-container로 단을 나눌것임 -->
-				<div class="flex-container col-2">
-					<a class="link flex-container row" href="myLikeList">내가 좋아요 누른
-						글 보러가기 > </a>
-				</div>
-				<div class="flex-container col-2">
-					<a class="link flex-container row " href="myWriteList">내가 쓴 글
-						보러가기 > </a>
-				</div>
-			</div>
-			<div class="flex-container auto-width">
-				<div class="flex-container col-2">
-					<a class="link flex-container row" href="myReplyList">내가 댓글 단 글
-						보러가기 > </a>
-				</div>
-				<div class="flex-container col-2">
-					<a class="link flex-container row " href="myQnaList">내 문의글 보러가기
-						> </a>
-				</div>
-			</div>
-	
-		<div class="container">
-			<table class="table table-stripe">
-					<thead>
-						<th>제목</th>
-						<th>작성자</th>
-					</thead>
-					<tbody>
-						<c:forEach var="myLikeList" items="${myLikeList}">
-							<tr>
-								<td>${myLikeList.boardTitle}</td>
-								<td>${myLikeList.boardWriter}</td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-		</div>
-		
-		
-		<div class="flex-container auto-width">
-			<!-- flex-container로 단을 나눌것임 -->
-			<div class="flex-container col-2 align-center">
-
-				<table class="table table-stripe" style="width: 350;">
-					<thead>
-						<th>제목</th>
-						<th>작성자</th>
-					</thead>
-					<tbody>
-						<c:forEach var="myLikeList" items="${myLikeList}">
-							<tr>
-								<td>${myLikeList.boardTitle}</td>
-								<td>${myLikeList.boardWriter}</td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-
-
-			</div>
-			<div class="flex-container col-2 align-center">
-
-				<table class="table table-stripe" style="width: 350;">
-					<thead>
-						<th>제목</th>
-						<th>작성자</th>
-					</thead>
-					<tbody>
-						<c:forEach var="myWriteList" items="${myWriteList}">
-							<tr>
-								<td>${myWriteList.boardTitle}</td>
-								<td>${myWriteList.boardWriter}</td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-			</div>
-		</div>
 	</div>
+
+
+	<div class="flex-container auto-width">
+
+		<div class="row col-2"></div>
+		<div class="row col-2">
+
+			<div class="flex-container auto-width">
+				<div class="row col-3">
+					<a class="link" href="infoChange">정보수정</a>
+				</div>
+				<div class="row">|</div>
+				<div class="row col-3">
+					<a class="link" href="pwChange"> 비밀번호변경 </a>
+				</div>
+				<div class="row">|</div>
+				<div class="row col-3">
+					<a class="link" href="exit">회원탈퇴</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="row left">
+		<h1>
+			나의 활동내역 보기 <label class="custom-checkbox"> <input
+				type="checkbox" class="check"> <span></span>
+			</label>
+		</h1>
+
+	</div>
+
+	<div class="row myList" style="display: none;">
+
+
+
+		<div class="container">
+			<div class="row right">
+				<a class="link " href="myWriteList">내가 쓴 글
+					보러가기 > </a>
+			</div>
+			<table class="table table-stripe">
+				<thead>
+				<tr>
+					<th width="50%">제목</th>
+					<th>작성자</th>
+					<th>작성일자</th>
+					<th>조회수</th>
+				</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="myWriteList" items="${myWriteList}" varStatus="loop">
+						<c:if test="${loop.index < 3}">
+							<tr>
+								<td class="left"><a class="link"
+									href="/board/detail?boardNo=${myWriteList.boardNo}">
+										${myWriteList.boardTitle} ${myWriteList.boardReplycount} </a></td>
+								<td class="center">${myWriteList.memberNickname}</td>
+								<td class="center">${myWriteList.boardCtime}</td>
+								<td class="center">${myWriteList.boardReadcount}</td>
+							</tr>
+						</c:if>
+					</c:forEach>
+				</tbody>
+			</table>
+			<hr>
+		</div>
+		
+				<div class="container">
+			<div class="row right">
+				<a class="link" href="myLikeList">내가 좋아요 누른 글 보러가기 > </a>
+			</div>
+			<table class="table table-stripe">
+				<thead>
+				<tr>
+					<th width="50%">제목</th>
+					<th>작성자</th>
+					<th>작성일자</th>
+					<th>조회수</th>
+				</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="myLikeList" items="${myLikeList}" varStatus="loop">
+						<c:if test="${loop.index < 3}">
+							<tr>
+								<td class="left"><a class="link"
+									href="/board/detail?boardNo=${myLikeList.boardNo}">
+								${myLikeList.boardTitle} ${myLikeList.boardReplycount} </a></td>
+								<td class="center">${myLikeList.memberNickname}</td>
+								<td class="center">${myLikeList.boardCtime}</td>
+								<td class="center">${myLikeList.boardReadcount}</td>
+							</tr>
+						</c:if>
+					</c:forEach>
+				</tbody>
+			</table>
+			<hr>
+		</div>
+		
+		<div class="container">
+			<div class="row right">
+				<a class="link" href="myReplyList">내가 댓글 단 글 보러가기 ></a>
+			</div>
+			<table class="table table-stripe">
+				<thead>
+				<tr>
+					<th width="50%">제목</th>
+					<th>작성자</th>
+					<th>작성일자</th>
+					<th>조회수</th>
+				<tr>
+				</thead>
+				<tbody>
+					<c:forEach var="myReplyList" items="${myReplyList}" varStatus="loop">
+						<c:if test="${loop.index < 3}">
+							<tr>
+								<td class="left"><a class="link"
+									href="/board/detail?boardNo=${myReplyList.boardNo}">
+								${myReplyList.boardTitle} ${myReplyList.boardReplycount} </a></td>
+								<td class="center">${myReplyList.memberNickname}</td>
+								<td class="center">${myReplyList.boardCtime}</td>
+								<td class="center">${myReplyList.boardReadcount}</td>
+							</tr>
+						</c:if>
+					</c:forEach>
+				</tbody>
+			</table>
+			<hr>
+		</div>
+		
+				<div class="container">
+			<div class="row right">
+				<a class="link" href="myQnaList">내 문의글 보러가기 ></a>
+			</div>
+			<table class="table table-stripe">
+				<thead>
+				<tr>
+					<th width="50%">제목</th>
+					<th>작성자</th>
+					<th>작성일자</th>
+				</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="myQnaList" items="${myQnaList}" varStatus="loop">
+						<c:if test="${loop.index < 3}">
+							<tr>
+								<td class="left"><a class="link"
+									href="/board/detail?boardNo=${myQnaList.qnaNoticeNo}">
+								${myQnaList.qnaNoticeTitle}</a></td>
+								<td class="center">${myQnaList.memberNickname}</td>
+								<td class="center">${myQnaList.qnaNoticeTime}</td>
+							</tr>
+						</c:if>
+					</c:forEach>
+				</tbody>
+			</table>
+			<hr>
+		</div>
+
+
+
 	</div>
 
 </div>
