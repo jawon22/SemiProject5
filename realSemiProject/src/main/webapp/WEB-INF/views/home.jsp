@@ -7,10 +7,10 @@
 	width: 200px;
 	height: 150px;
 	object-fit: cover;
-	padding-top: none;
-	padding-bottom: none;
-	padding-left: 10px;
-	padding-right: 10px;
+	padding-top: none; 
+ 	padding-bottom: none; 
+ 	padding-left: 10px; 
+ 	padding-right: 10px; 
 }
 
 
@@ -46,6 +46,17 @@
     	margin-top: 0px;
     	margin-bottom: 0px;
     }
+    
+    .column {
+	display: flex;
+	flex-direction: column; /* 요소들을 세로로 나란히 배치 */
+}
+
+.item {
+	margin-bottom: 10px; /* 아이템 사이의 간격 설정 */
+}
+
+
 </style>
 
 <script>
@@ -107,21 +118,8 @@ $(function () {
         </div>
     </div>
 
-<div class="container w-700">
 
-.column {
-	display: flex;
-	flex-direction: column; /* 요소들을 세로로 나란히 배치 */
-}
 
-.item {
-	margin-bottom: 10px; /* 아이템 사이의 간격 설정 */
-}
-
-.thumbnail {
-	height: auto;
-}
-</style>
 
 
 
