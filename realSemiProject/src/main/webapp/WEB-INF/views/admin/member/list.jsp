@@ -79,7 +79,7 @@
 <!-- 페이지 네비게이터 출력(목록) -->
 
 <!-- 이전 버튼 -->
-<div class="row">
+<div class="row page-navigator">
 <c:if test="${!vo.first}">
 	<a href="list?${vo.prevQueryStringForMemberList}">&lt;</a>	
 </c:if>
@@ -89,7 +89,7 @@
 
 	<c:choose>
 		<c:when test="${vo.page == i}"> <!-- 현재페이지면 -->
-			${i}
+			<a href="list?${vo.getQueryStringForMemberList(i)}" class="on">${i}</a>
 		</c:when>
 		<c:otherwise>
 			<a href="list?${vo.getQueryStringForMemberList(i)}">${i}</a>		

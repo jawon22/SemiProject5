@@ -3,6 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<style>
+	.title{
+		font-size: 40px;
+		font-weight: bold;
+		color: #26C2BF;
+	}
+</style>
 
 <script>
 $(function(){
@@ -29,7 +36,7 @@ $(function(){
 
 <div class="row">
 	<a class="link" href="list">
-	<span class="crudTitle">공지사항</span>
+	<h1 class="title">공지사항</h1>
 	</a>
 </div>
 
@@ -154,7 +161,7 @@ $(function(){
 <!-- 페이지 네비게이터 출력(목록) -->
 
 <!-- 이전 버튼 -->
-<div class="row">
+<div class="row page-navigator">
 <c:if test="${!vo.first}">
 	<a href="list?${vo.prevQueryStringForMemberList}" class="prev">&lt;</a>	
 </c:if>
@@ -164,7 +171,7 @@ $(function(){
 
 	<c:choose>
 		<c:when test="${vo.page == i}"> <!-- 현재페이지면 -->
-			${i}
+			<a href="list?${vo.getQueryStringForMemberList(i)}" class="on">${i}</a>
 		</c:when>
 		<c:otherwise>
 			<a href="list?${vo.getQueryStringForMemberList(i)}">${i}</a>		

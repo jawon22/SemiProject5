@@ -32,7 +32,7 @@
 </script>
 
 
-<div class="container w-900">
+<div class="container w-800">
 	<div class="row">
 		<a href="reportList" class="link" ><span class="title">신고현황</span></a>
 	</div>
@@ -66,9 +66,6 @@
 							글 제목
 						</th>
 						<th>
-							글 내용
-						</th>
-						<th>
 							글 작성자
 						</th>
 						<th>
@@ -95,19 +92,16 @@
 							<td align="center">
 								${reportList.boardCategory}
 							</td>
-							<td>
+							<td align="center">
 								${reportList.boardTitle}
 							</td>
-							<td>
-								${reportList.boardContent}
-							</td>
-							<td>
+							<td align="center">
 								${reportList.boardWriter}
 							</td>
-							<td>
+							<td align="center">
 								${reportList.memberId}
 							</td>
-							<td>
+							<td align="center">
 								${reportList.reportReason}
 							</td>
 						</tr>		
@@ -133,7 +127,7 @@
 	<!-- 페이지 네비게이터 출력(목록) -->
 	
 	<!-- 이전 버튼 -->
-	<div class="row">
+	<div class="row page-navigator">
 		<c:if test="${!vo.first}">
 			<a href="reportList?${vo.prevQueryStringForMemberList}" class="prev">&lt;</a>	
 		</c:if>
@@ -143,7 +137,7 @@
 		
 			<c:choose>
 				<c:when test="${vo.page == i}"> <!-- 현재페이지면 -->
-					${i}
+					<a href="list?${vo.getQueryStringForMemberList(i)}" class="on">${i}</a>
 				</c:when>
 				<c:otherwise>
 					<a href="reportList?${vo.getQueryStringForMemberList(i)}">${i}</a>		
