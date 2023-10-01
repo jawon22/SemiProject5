@@ -228,6 +228,9 @@ textarea.form-input.fixed {
 .black { color: #1e272e; }
 .white { color: #ffffff; } 
 .tripee {color: #26C2BF;}
+.mint10 {
+	background-color: rgb(190, 234, 239);
+}
 
 
 /* 영역 가운데 위치시키는 필살 클래스(2번 방법 사용) */

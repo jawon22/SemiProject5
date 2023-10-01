@@ -3,6 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<style>
+h1 {
+	font-size: 30px;
+	font-weight: bold;
+	color: #26C2BF;
+}
+</style>
+
 <!-- 카카오 지도 cdn -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c18c138c3ab7eb5251102708e8a79c47"></script>
 <script>
@@ -492,7 +500,8 @@
 		var options = {
 			center: new kakao.maps.LatLng(36.143912575657915, 127.77675054040399),
 			/*	draggable: false,  */
-			disableDoubleClickZoom: true,
+// 			disableDoubleClickZoom: true,
+			draggable: false,
 			//지도의 배율(zoom level : 1~14) //몇 층에서 보는 느낌
 			level: 14
 		};
@@ -621,7 +630,7 @@
 				<div>
 					<span>
 						<a class="text-position link" href="/board/list?weather=여름&area=전체&type=board_title&keyword=">여름
-							<img style="height:225px; width:225px" src="/images/etc/cry.gif">
+							<img style="height:225px; width:225px" src="/images/weather/summer.jpg">
 						</a>
 					</span>
 				</div>
@@ -630,23 +639,24 @@
 				<div>
 					<span>
 						<a class="text-position link" href="/board/list?weather=가을&area=전체&type=board_title&keyword=">가을
-							<img style="height:225px; width:225px" src="/images/etc/cry.gif">
+							<img style="height:225px; width:225px" src="/images/weather/fall.jpg">
 						</a>
 					</span>
 				</div>
 				<div>
 					<span>
 						<a class="text-position link" href="/board/list?weather=겨울&area=전체&type=board_title&keyword=">겨울
-							<img style="height:225px; width:225px" src="/images/etc/cry.gif">
+							<img style="height:225px; width:225px" src="/images/weather/winter.jpg">
 						</a>
 					</span>
 				</div>
 			</div>
 		</div>
 		
-<!-- 		일단 지도만 띄워놓음 -->
 		<div class="row ms-50" style="width:450px">
-			<h1>지역 게시판</h1>
+			<div class="mb-20">
+				<h1>지역 게시판</h1>
+			</div>
 			<div id="map" style="width:450px;height:450px;"></div>
 		</div>
 
