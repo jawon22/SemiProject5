@@ -102,6 +102,17 @@ public class MemberRestController {
 				.body(resource);
 	}
 	
+	@RequestMapping("checkProfile")
+	public int checkProfile(HttpSession session) {
+		String memberId = (String)session.getAttribute("name");
+		Integer profileNo = memberDao.findProfile(memberId);
+		if(profileNo != null) {
+			return profileNo;
+		}else {
+			return 0;
+		}
+	}
+	
 	
 	@PostMapping("/delete")
 	public void delete(HttpSession session) {

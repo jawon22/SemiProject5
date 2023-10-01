@@ -13,28 +13,15 @@
 
 <script>
 	$(function(){
-		$(".delete-btn").hide();
 		
 		$(".check-all").change(function(){
 			var check = $(this).prop("checked");
 			$(".check-all, .check-item").prop("checked",check);
-			
-			if(check){
-				$(".delete-btn").fadeIn("fast");
-			}else{
-				$(".delete-btn").fadeOut("fast");
-			}
 		});
 		
 		$(".check-item").change(function(){
 			var allCheck = $(".check-item").length == $(".check-item").filter(":checked").length;
 			$(".check-all").prop("checked", allCheck);
-			
-			if($(".check-item").filter(":checked").length > 0){
-				$(".delete-btn").fadeIn("fast");
-			}else{
-				$(".delete-btn").fadeOut("fast");
-			}
 		});
 		
 		$(".delete-form").submit(function(e){
@@ -49,13 +36,16 @@
 	<div class="row">
 		<a href="reportList" class="link" ><span class="title">신고현황</span></a>
 	</div>
-
-		<div class="row right">
-			<button type="submit" class="btn btn-negative delete-btn">
-				<i class="fa-solid fa-trash"></i>삭제
-			</button>
-		</div>
 		
+	<form class="delete-form" action="/admin/board/reportDelete" method="post">
+		<c:if test="${sessionScope.level == '관리자'}">
+			<div class="row right">
+				<button type="submit" class="btn btn-negative delete-btn">
+					<i class="fa-solid fa-trash"></i>삭제
+				</button>
+			</div>
+		</c:if>
+			
 		<div class="row">
 			<table class="table table-slit">
 				<thead>
@@ -96,13 +86,13 @@
 							<td>
 								<input type="checkbox" class="check-item" name="reportNoList" value="${reportList.reportNo}">
 							</td>
-							<td>
+							<td align="center">
 								${reportList.reportNo}
 							</td>
-							<td>
+							<td align="center">
 								<a class="link" href="/board/detail?boardNo=${reportList.boardNo}">${reportList.boardNo}</a>
 							</td>
-							<td>
+							<td align="center">
 								${reportList.boardCategory}
 							</td>
 							<td>
@@ -125,10 +115,11 @@
 				</tbody>
 			</table>
 		</div>
+	</form>
 	
 	<div class="row">
 		<form action="reportList" method="get" autocomplete="off">
-			<select name="type" class="search-input">
+			<select name="type" class="search-select">
 				<option value="board_no">글 번호</option>
 				<option value="board_writer">작성자</option>
 			</select>	

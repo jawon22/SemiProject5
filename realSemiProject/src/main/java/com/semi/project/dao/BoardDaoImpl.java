@@ -61,7 +61,6 @@ public class BoardDaoImpl implements BoardDao{
 	@Override
 	public List<BoardListDto> selectList() {// 정보 리스트 조회
 		String sql = "select * from board_list where board_category between 1 and 40 order by board_no asc";
-		
 		return jdbcTemplate.query(sql, boardListMapper);
 	}
 
@@ -241,7 +240,6 @@ public class BoardDaoImpl implements BoardDao{
 			}
 		}
 	}
-	
 	
 	//조회수순 정렬
 	
@@ -657,7 +655,7 @@ public class BoardDaoImpl implements BoardDao{
 	//신고 삭제
 	@Override
 	public boolean deleteReport(int ReportNo) {
-		String sql = "delete from report where report_no = ?";
+		String sql = "delete report where report_no = ?";
 		Object[] data = {ReportNo};
 		return jdbcTemplate.update(sql, data) > 0;
 	}

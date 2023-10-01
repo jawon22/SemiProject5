@@ -21,12 +21,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.semi.project.dao.BoardDao;
 import com.semi.project.dao.MemberDao;
-import com.semi.project.dao.ReplyDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.MemberDto;
-import com.semi.project.dto.ReplyDto;
 import com.semi.project.dto.ReportDto;
 import com.semi.project.service.BoardService;
 import com.semi.project.vo.PaginationVO;
@@ -39,9 +37,6 @@ public class BoardController {
 	
 	@Autowired
 	private MemberDao memberDao;
-	
-	@Autowired
-	private ReplyDao replyDao;
 	
 	@Autowired
 	private BoardService boardService;
@@ -71,7 +66,8 @@ public class BoardController {
 	
 	@RequestMapping("/list") // 정보게시판 리스트
 	public String list(@ModelAttribute(name="vo") PaginationVO vo, Model model,
-	                   @RequestParam(name = "sort", required = false) String sort) {
+	                   @RequestParam(name = "sort", required = false) String sort,
+	 					@RequestParam(name = "keyword", required = false) String keyword) {
 		
 	    int count = boardDao.countList(vo);
 	    vo.setCount(count);
@@ -83,8 +79,9 @@ public class BoardController {
 	    } else if ("likecount".equals(sort)) {
 	        list = boardDao.selectListByLikecount(vo);
 	    } else {
-	        list = boardDao.selectListByPage(vo);
+	        	list = boardDao.selectListByPage(vo);
 	    }
+	    
 	    
 	    model.addAttribute("list", list);
 

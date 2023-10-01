@@ -13,9 +13,15 @@
 	
 	<!--css 불러오기-->
 	<link rel="stylesheet" type="text/css" href="/css/reset.css">
-<!-- 	<link rel="stylesheet" type="text/css" href="/css/test.css"> -->
+
+	<link rel="stylesheet" type="text/css" href="/css/test.css">
+
 	<link rel="stylesheet" type="text/css" href="/css/layout.css">
 	<link rel="stylesheet" type="text/css" href="/css/commons.css">
+	
+	<!-- swiper cdn -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 	
 	<!-- 	jQuary 불러오기 -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -41,6 +47,28 @@
 		
 	
 	</style>
+	
+	<script>
+		$(function(){
+			
+			$.ajax({
+				url: "http://localhost:8080/rest/member/checkProfile",
+				method: "post",
+				success: function(response){
+					if(response != 0){
+						$(".header-image").attr("src", "/rest/member/download?attachNo=" + response);
+					}else{
+						$(".header-image").attr("src", "/images/user.png");
+					}
+				},
+				error: function(){
+	                $(".header-image").attr("src", "/images/user.png");
+	            }
+			});
+		});
+	</script>
+	
+	
 </head>
 	<body>
 		<main>
@@ -58,9 +86,27 @@
 						<c:otherwise>
 							<c:choose>
 								<c:when test="${sessionScope.level == '관리자'}">
-									<a class="link me-10" href="/member/logout">로그아웃</a>
+									<a class="link me-20" href="/member/logout">로그아웃</a>
 									<li class="adminMenu">
-									    <a class="link" href="/member/mypage">회원이미지</a>
+									    <a class="link mb-20" href="/member/mypage">
+									    	<div class="flex-container">
+									    		<div style="padding: 5px 5px;">
+									    			<c:choose>
+											    		<c:when test="${profile != null}">
+											    			<img src="/rest/member/download?profile=${profileNo}" width="30" height="30"
+																	class="image image-circle image-border header-image">
+														</c:when>
+														<c:otherwise>
+															<img src="/images/user.png" width="30" height="30"
+																	class="image image-circle image-border header-image">
+														</c:otherwise>
+									    			</c:choose>
+									    		</div>
+									    		<div style="margin-top: 10px; margin-start: 10px;">
+									    			<span style="margin-top: 10px">${sessionScope.name}</span>
+									    		</div>
+									    	</div>
+										</a>	
 									    <ul style="width:300px">
 									    	<li><a class="link" href="/admin/member/list">회원목록</a></li>
 									    	<li><a class="link" href="/admin/member/blockList">차단회원</a></li>
@@ -71,7 +117,25 @@
 								</c:when>
 								<c:otherwise>
 					                <a class="link me-10" href="/member/logout">로그아웃</a>
-								    <a class="link" href="/member/mypage">회원이미지</a>
+								    <a class="link" href="/member/mypage">
+								    	<div class="flex-container">
+								    		<div style="padding: 5px 5px;">
+								    			<c:choose>
+										    		<c:when test="${profile != null}">
+										    			<img src="/rest/member/download?attachNo=${profile}" width="30" height="30"
+																class="image image-circle image-border header-image">
+													</c:when>
+													<c:otherwise>
+														<img src="/images/user.png" width="30" height="30"
+																class="image image-circle image-border header-image">
+													</c:otherwise>
+								    			</c:choose>
+								    		</div>
+								    		<div style="margin-top: 10px; margin-start: 10px;">
+								    			<span style="margin-top: 10px">${sessionScope.name}</span>
+								    		</div>
+								    	</div>
+								    </a>
 								</c:otherwise>
 							</c:choose>
 						</c:otherwise>

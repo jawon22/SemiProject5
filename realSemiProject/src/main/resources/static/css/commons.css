@@ -228,6 +228,9 @@ textarea.form-input.fixed {
 .black { color: #1e272e; }
 .white { color: #ffffff; } 
 .tripee {color: #26C2BF;}
+.mint10 {
+	background-color: rgb(190, 234, 239);
+}
 
 
 /* 영역 가운데 위치시키는 필살 클래스(2번 방법 사용) */
@@ -754,15 +757,24 @@ a.link:hover
 	하단 검색창, 페이지네이션
 */
 .search-btn, 
-.search-input {
+.search-input,
+.search-select {
     display: inline-block;
     text-decoration: none;
     vertical-align: bottom;
-    font-size:15px;
+    font-size:16px;
     outline: none; /*outline은 입력 창 선택 시 강조 효과 */
-    border: 1px solid #26C2BF; 
+    border: 2px solid #26C2BF; 
     border-radius: 0.1em;
     line-height: 1.2em;
+    height: 40px;
+}
+.search-input {
+	width: 200px;
+}
+.search-btn {
+	width: 70px;
+	background-color: white;
 }
 
 .prev {
