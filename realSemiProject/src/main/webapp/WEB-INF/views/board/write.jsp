@@ -292,7 +292,17 @@
         
         <div class="row">
             <button class="btn btn-positive">등록하기</button>
-            <a href="list" class="btn">목록보기</a> 
+            <c:choose>
+    			<c:when test="${boardDto.boardCategory == 41}"><!-- 후기게시판이면 -->
+        			<a href="http://localhost:8080/board/reviewList" class="btn">목록보기</a> 
+    			</c:when>
+    			<c:when test="${boardDto.boardCategory == 42}"><!-- 자유게시판이면 -->
+					<a href="http://localhost:8080/board/freeList" class="btn">목록보기</a> 
+    			</c:when>
+    			<c:otherwise>
+            		<a href="list" class="btn">목록보기</a> 
+    			</c:otherwise>
+            </c:choose>
         </div>
     </div>
 </form>
