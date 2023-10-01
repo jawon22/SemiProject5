@@ -715,14 +715,28 @@ public class BoardDaoImpl implements BoardDao{
         return jdbcTemplate.queryForObject(sql, Integer.class, boardNo);
     }
 	
-    //메인에 5개만 우선 찍어봄
+    //메인에 5개만 우선 찍어봄(계절별 인기글)
 	@Override
-	public List<BoardListDto> selectListTop5() {
-		String sql = "select * from (select rownum rn, TMP.* from ("
-				+ "select * from board_list "
-				+ "order by board_no desc "
-				+ ")TMP) where rn between 1 and 5";
+	public List<BoardListDto> selectListSeasonTop5() {
+		String sql = "select * from (select rownum rnum, TMP.* from ( "
+				+ "select * from ( select bl.*, row_number() "
+				+ "over (partition by bl.board_no "
+				+ "order by bl.attachment_no desc) as rn "
+				+ "from board_list bl where board_category between 9 and 40 "
+				+ "order by board_readcount desc "
+				+ ") ranked where rn = 1 )tmp) where rnum between 1 and 5";
 		return jdbcTemplate.query(sql, boardListMapper);
 	}
 	
+	@Override
+	public List<BoardListDto> selectListAreaTop5() {
+		String sql = "select * from (select rownum rnum, TMP.* from ( "
+				+ "select * from ( select bl.*, row_number() "
+				+ "over (partition by bl.board_no "
+				+ "order by bl.attachment_no desc) as rn "
+				+ "from board_list bl where board_category between 2 and 8 "
+				+ "order by board_readcount desc "
+				+ ") ranked where rn = 1 )tmp) where rnum between 1 and 5";
+		return jdbcTemplate.query(sql, boardListMapper);
+	}
 }

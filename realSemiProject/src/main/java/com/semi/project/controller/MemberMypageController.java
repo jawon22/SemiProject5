@@ -82,13 +82,15 @@ public class MemberMypageController {
 		MemberDto memberDto = memberDao.selectOne(memberId);
 		ExpiredListDto expiredListDto =  memberDao.findMemberExpiredList(memberId);
 		
-		model.addAttribute("expiredListDto", expiredListDto);
+//		model.addAttribute("expiredListDto", expiredListDto);
 		model.addAttribute("memberDto", memberDto);
 		model.addAttribute("profile", memberDao.findProfile(memberId));
 		
 		//내가쓴글
 		model.addAttribute("myWriteList", memberDao.findWriteListByMemberId(vo, memberId));
 		model.addAttribute("myLikeList", memberDao.findLikeListByMemberId(vo, memberId));
+		model.addAttribute("myReplyList", memberDao.findReplyListByMemberId(vo, memberId));
+		model.addAttribute("myQnaList", memberDao.findQnaListByMemberId(vo, memberId));
 		
 		
 		return "/WEB-INF/views/member/mypage.jsp";
@@ -176,10 +178,10 @@ public class MemberMypageController {
 		
 		String memberId = (String) session.getAttribute("name");
 
-		int count = memberDao.countListMyWriteList(vo, memberId);
+		vo.setListType("mywritelist");
+		int count = memberDao.countMyList(vo, memberId, vo.getListType());
 		vo.setCount(count);
-		
-//		log.debug("count = {}", count);
+
 		model.addAttribute("boardDto", memberDao.findWriteListByMemberId(vo, memberId));
 		
 		return "/WEB-INF/views/member/myWriteList.jsp";				
@@ -191,11 +193,13 @@ public class MemberMypageController {
 		
 		String memberId = (String) session.getAttribute("name");
 		
-		int count = memberDao.countListMyLikeList(vo, memberId);
+		vo.setListType("mylikelist");
+		int count = memberDao.countMyList(vo, memberId, vo.getListType());
 		vo.setCount(count);
+		
 		model.addAttribute("boardDto", memberDao.findLikeListByMemberId(vo, memberId));
 		
-		return "/WEB-INF/views/member/myLikeList.jsp";
+		return "/WEB-INF/views/member/myWriteList.jsp";
 	}
 	
 	@RequestMapping("/myReplyList")
@@ -204,12 +208,14 @@ public class MemberMypageController {
 		
 		String memberId = (String) session.getAttribute("name");
 		
-		int count = memberDao.countListMyReplyList(vo, memberId);
+		vo.setListType("myreplylist");
+		int count = memberDao.countMyList(vo, memberId, vo.getListType());
 		vo.setCount(count);
+	
 		model.addAttribute("boardDto", memberDao.findReplyListByMemberId(vo, memberId));
 
 		
-		return "/WEB-INF/views/member/myReplyList.jsp";
+		return "/WEB-INF/views/member/myWriteList.jsp";
 	}
 	
 	@RequestMapping("/myQnaList")
