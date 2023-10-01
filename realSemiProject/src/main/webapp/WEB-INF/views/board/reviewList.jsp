@@ -169,7 +169,7 @@
 	
 				<!-- 페이지 네비게이터 -->
 	<!-- 이전 버튼 -->
-	<div class="row mv-30">
+	<div class="row mv-30 page-navigator">
 		<c:if test="${!vo.first}">
 			<a href="reviewList?${vo.prevQueryStringForMemberList}">
 				<i class="fa-solid fa-angle-left"></i>
@@ -179,7 +179,7 @@
 		<c:forEach var="i" begin="${vo.begin}" end="${vo.end}" step="1">
 			<c:choose>
 				<c:when test="${vo.page ==i}">  <!-- 현재 페이지면 --> 
-					${i}			
+					<a href="list?${vo.getQueryStringForMemberList(i)}" class="on">${i}</a>			
 				</c:when>
 				<c:otherwise>
 					<%-- 링크는 검색과 목록을 따로 구현 --%>

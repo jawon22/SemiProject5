@@ -4,11 +4,25 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
-	.title{
-		font-size: 30px;
-		font-weight: bold;
-		color: #26C2BF;
-	}
+.title{
+	font-size: 30px;
+	font-weight: bold;
+	color: #26C2BF;
+}
+/* .pagination-move, */
+/* .pagination-select { */
+/*    display: inline-block; */
+/* } */
+/* .pagination { */
+/* 	color: white; */
+/* 	text-decoration: none; */
+/* 	transition: background-color .5s; */
+/* 	border: 1px solid #DDD; */
+/* 	margin: 0 4px; */
+/* 	font-size: 20px */
+/* } */
+
+	
 </style>
 
 
@@ -81,7 +95,7 @@
 <!-- 페이지 네비게이터 출력(목록) -->
 
 <!-- 이전 버튼 -->
-<div class="row">
+<div class="row page-navigator">
 <c:if test="${!vo.first}">
 	<a href="list?${vo.prevQueryStringForMemberList}">&lt;</a>	
 </c:if>
@@ -91,7 +105,7 @@
 
 	<c:choose>
 		<c:when test="${vo.page == i}"> <!-- 현재페이지면 -->
-			${i}
+			<a href="list?${vo.getQueryStringForMemberList(i)}" class="on">${i}</a>
 		</c:when>
 		<c:otherwise>
 			<a href="list?${vo.getQueryStringForMemberList(i)}">${i}</a>		
@@ -101,7 +115,7 @@
 
 <!--  다음버튼 -->
 <c:if test="${!vo.last}">
-	<a href="list?${vo.nextQueryStringForMemberList}">&gt;</a>		
+	<a href="list?${vo.nextQueryStringForMemberList}" class="pagination-move">&gt;</a>		
 </c:if>
 </div>
 
