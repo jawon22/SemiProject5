@@ -4,13 +4,17 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
 .thumbnail {
-	width: 200px;
-	height: 150px;
+	width: 190px;
+	height: 190px;
 	object-fit: cover;
-	padding-top: none; 
- 	padding-bottom: none; 
- 	padding-left: 10px; 
- 	padding-right: 10px; 
+/* 	padding-top: none;  */
+/*  	padding-bottom: none;  */
+/*  	padding-left: 10px;  */
+/*  	padding-right: 10px;  */
+	margin-left:2px;
+	margin-right:2px;
+ 	border-radius:1em;
+ 	box-shadow: 0 0 0 1px gray;
 }
 
 
@@ -18,7 +22,7 @@
 	object-fit: none;
 }
 
-<style>
+
     .form-input {
         position: relative;
         display: inline-block;
@@ -150,10 +154,15 @@ $(function () {
 
 
 <div class="container w-1000">
-  <div class="left">
+  <div class="flex-container auto-width">
+  <div class="flex-container col-2 left">
     <h1>
       <label><i class="fa-solid fa-fire" style="color: #78bdcf;"></i>지역별 인기 여행지</label>
     </h1>
+    </div>
+  <div class="flex-container col-2 right">
+  	<label>더보기</label>
+  </div>
   </div>
   <div class="flex-container auto-width">
     <c:forEach var="areaList" items="${areaList}">
@@ -165,7 +174,7 @@ $(function () {
 							src="https://dummyimage.com/200x150/000/fff&text=image">
 					</c:when>
 					<c:otherwise>
-						<img class="thumbnail"
+						<img class="thumbnail" style="border-radius:15px; overflow: hidden;"
 							src="/rest/attachment/download/${areaList.attachmentNo}">
 					</c:otherwise>
 				</c:choose> <span style="margin-left: 10px;">${areaList.boardTitle}</span>
