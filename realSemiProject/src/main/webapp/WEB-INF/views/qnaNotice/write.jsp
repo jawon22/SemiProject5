@@ -9,6 +9,22 @@
     }
 </style>
 
+<style>
+  .btn-positive[disabled]:hover::before {
+    content: '글자 수 제한 초과, 제목 및 내용 미작성등의 이유로 글 작성이 불가능합니다';
+    position: absolute;
+    background-color: red;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: -30px;
+    margin-left: -10px;
+    width: auto; /* 팝업의 너비를 자동으로 설정합니다. */
+    white-space: nowrap; /* 텍스트가 넘칠 경우 줄 바꿈을 방지합니다. */
+  }
+  
+</style>
 <!-- summernote 게시글 작성 cdn-->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
@@ -75,10 +91,10 @@
                   var content = $('[name=qnaNoticeContent]').summernote('code');
                   var byteCount = countBytes(content);
 
-                  if (byteCount > 3988) {
+/*                   if (byteCount > 3988) {
                       alert('글자 수 제한을 초과하여 텍스트를 추가할 수 없습니다.');
                       e.preventDefault();
-                  }
+                  } */
               }
           }
       });
@@ -93,11 +109,20 @@
         updateByteCount();
 
         function updateByteCount() {
-            var content = $('[name=qnaNoticeContent]').summernote('code');
+            var content = $('#qnaNoticeContent').summernote('code');
             var byteCount = countBytes(content);
 
             // byte 수를 버튼 위에 표시
             $('#byteCount').text(byteCount);
+
+            // 조건 어길시 추가 글 작성 버튼을 비활성화
+            if (byteCount > 3988 || $('input[name="qnaNoticeTitle"]').val().length === 0) {
+                $('#addButton').prop('disabled', true);
+                isExceedingLimit = true;
+            } else {
+                $('#addButton').prop('disabled', false);
+                isExceedingLimit = false;
+            }
         }
 
         // 문자열의 byte 수 계산 함수
@@ -119,6 +144,7 @@
             // byteCount가 초과하면 클래스 추가
             if (byteCount > 3988) {
                 $('#byteCount').addClass("red");
+                $('#addButton').addClass("redBackground"); // 배경색을 빨간색으로 변경
                 isExceedingLimit = true;
             } else {
                 $('#byteCount').removeClass("red");
@@ -137,6 +163,18 @@
     });
     
     $(document).ready(function() {
+    	
+        // 추가 글 작성 버튼 클릭 시 글자 수 및 용량 제한 확인
+        $('#addButton').click(function () {
+            var content = $('#qnaNoticeContent').summernote('code');
+            var byteCount = countBytes(content);
+
+            if (byteCount > 3988) {
+                alert('글자 수 제한을 초과하여 추가 글 작성이 불가능합니다.');
+                return false; // 추가 글 작성 막음
+            }
+        });
+        
         // 비밀글 체크박스 상태가 변경될 때 호출되는 함수
         $('input[name="qnaNoticeSecret"]').change(function() {
             if ($(this).is(':checked')) {
@@ -224,7 +262,7 @@
         </div>
         <div class="row left">
             <label>내용</label>
-            <textarea name="qnaNoticeContent" class="form-input w-100 fixed"></textarea>
+            <textarea id="qnaNoticeContent" name="qnaNoticeContent" class="form-input w-100 fixed"></textarea>
         </div>
         
         <div class="row right">
@@ -235,10 +273,10 @@
          
                 <c:choose>
                     <c:when test="${isReply && sessionScope.level == '관리자'}">
-                      <button class="btn btn-positive">답글작성</button>
+                      <button class="btn btn-positive" id="addButton">답글작성</button>
                     </c:when>
                     <c:otherwise>
-                  		<button class="btn btn-positive">등록하기</button>
+                  		<button class="btn btn-positive" id="addButton">등록하기</button>
                     </c:otherwise>
                 </c:choose>
 
