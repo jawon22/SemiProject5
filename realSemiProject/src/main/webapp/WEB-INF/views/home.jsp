@@ -18,7 +18,6 @@
 	object-fit: none;
 }
 
-<style>
     .form-input {
         position: relative;
         display: inline-block;
