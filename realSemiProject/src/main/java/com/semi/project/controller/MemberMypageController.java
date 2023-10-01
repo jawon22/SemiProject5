@@ -82,13 +82,15 @@ public class MemberMypageController {
 		MemberDto memberDto = memberDao.selectOne(memberId);
 		ExpiredListDto expiredListDto =  memberDao.findMemberExpiredList(memberId);
 		
-		model.addAttribute("expiredListDto", expiredListDto);
+//		model.addAttribute("expiredListDto", expiredListDto);
 		model.addAttribute("memberDto", memberDto);
 		model.addAttribute("profile", memberDao.findProfile(memberId));
 		
 		//내가쓴글
 		model.addAttribute("myWriteList", memberDao.findWriteListByMemberId(vo, memberId));
 		model.addAttribute("myLikeList", memberDao.findLikeListByMemberId(vo, memberId));
+		model.addAttribute("myReplyList", memberDao.findReplyListByMemberId(vo, memberId));
+		model.addAttribute("myQnaList", memberDao.findQnaListByMemberId(vo, memberId));
 		
 		
 		return "/WEB-INF/views/member/mypage.jsp";

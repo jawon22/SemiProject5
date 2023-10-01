@@ -147,7 +147,9 @@
 	</div>
 
 	<div class="row">
-		<form action="noticeList" method="get" autocomplete="off">
+		<form
+			action="${vo.listType == 'noticelist' ? 'noticeList' : 'qnaList'}"
+			method="get" autocomplete="off">
 			<select name="type">
 				<option value="qnanotice_title">제목</option>
 			</select> <input type="search" name="keyword" value="${param.keyword}"
@@ -159,66 +161,105 @@
 
 	<!-- 페이지 네비게이터 출력(목록) -->
 
+<%-- 	<c:choose> --%>
+<%-- 		<c:when test="${vo.listType == 'noticelist'}"> --%>
+<!-- 			<!-- 공지사항 목록인 경우 --> 
+<!-- 			<!-- 페이지 번호 목록 --> 
+<!-- 			<!-- 이전 버튼 --> 
+<!-- 			<div class="row"> -->
+<%-- 				<c:if test="${!vo.first}"> --%>
+<%-- 					<a href="noticeList?${vo.prevQueryStringForMemberList}">&lt;</a> --%>
+<%-- 				</c:if> --%>
+
+<!-- 				숫자 부분 -->
+<%-- 				<c:forEach var="i" begin="${vo.begin}" end="${vo.end}" step="1"> --%>
+
+<%-- 					<c:choose> --%>
+<%-- 						<c:when test="${vo.page == i}"> --%>
+<!-- 							현재페이지면 -->
+<%-- 			${i} --%>
+<%-- 		</c:when> --%>
+<%-- 						<c:otherwise> --%>
+<%-- 							<a href="noticeList?${vo.getQueryStringForMemberList(i)}">${i}</a> --%>
+<%-- 						</c:otherwise> --%>
+<%-- 					</c:choose> --%>
+<%-- 				</c:forEach> --%>
+
+<!-- 				 다음버튼 -->
+<%-- 				<c:if test="${!vo.last}"> --%>
+<%-- 					<a href="noticeList?${vo.nextQueryStringForMemberList}">&gt;</a> --%>
+<%-- 				</c:if> --%>
+<!-- 			</div> -->
+<%-- 		</c:when> --%>
+<%-- 		<c:when test="${vo.listType == 'qnalist'}"> --%>
+<!-- 			<!-- Q&A 목록인 경우 --> 
+<!-- 			<!-- 페이지 번호 목록 --> 
+<!-- 			<!-- 이전 버튼 --> 
+<!-- 			<div class="row"> -->
+<%-- 				<c:if test="${!vo.first}"> --%>
+<%-- 					<a href="qnaList?${vo.prevQueryStringForMemberList}">&lt;</a> --%>
+<%-- 				</c:if> --%>
+
+<!-- 				숫자 부분 -->
+<%-- 				<c:forEach var="i" begin="${vo.begin}" end="${vo.end}" step="1"> --%>
+
+<%-- 					<c:choose> --%>
+<%-- 						<c:when test="${vo.page == i}"> --%>
+<!-- 							현재페이지면 -->
+<%-- 			${i} --%>
+<%-- 		</c:when> --%>
+<%-- 						<c:otherwise> --%>
+<%-- 							<a href="qnaList?${vo.getQueryStringForMemberList(i)}">${i}</a> --%>
+<%-- 						</c:otherwise> --%>
+<%-- 					</c:choose> --%>
+<%-- 				</c:forEach> --%>
+
+<!-- 				 다음버튼 -->
+<%-- 				<c:if test="${!vo.last}"> --%>
+<%-- 					<a href="qnaList?${vo.nextQueryStringForMemberList}">&gt;</a> --%>
+<%-- 				</c:if> --%>
+<!-- 			</div> -->
+<%-- 		</c:when> --%>
+<%-- 	</c:choose> --%>
 <c:choose>
     <c:when test="${vo.listType == 'noticelist'}">
         <!-- 공지사항 목록인 경우 -->
-        <!-- 페이지 번호 목록 -->
-        <!-- 이전 버튼 -->
-	<div class="row">
-		<c:if test="${!vo.first}">
-			<a href="noticeList?${vo.prevQueryStringForMemberList}">&lt;</a>
-		</c:if>
-
-		<!-- 숫자 부분 -->
-		<c:forEach var="i" begin="${vo.begin}" end="${vo.end}" step="1">
-
-			<c:choose>
-				<c:when test="${vo.page == i}">
-					<!-- 현재페이지면 -->
-			${i}
-		</c:when>
-				<c:otherwise>
-					<a href="noticeList?${vo.getQueryStringForMemberList(i)}">${i}</a>
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>
-
-		<!--  다음버튼 -->
-		<c:if test="${!vo.last}">
-        <a href="noticeList?${vo.nextQueryStringForMemberList}">&gt;</a>
-        </c:if>
-        </div>
+        <c:set var="listType" value="noticeList" />
     </c:when>
     <c:when test="${vo.listType == 'qnalist'}">
         <!-- Q&A 목록인 경우 -->
-        <!-- 페이지 번호 목록 -->
-         <!-- 이전 버튼 -->
-	<div class="row">
-		<c:if test="${!vo.first}">
-			<a href="qnaList?${vo.prevQueryStringForMemberList}">&lt;</a>
-		</c:if>
-
-		<!-- 숫자 부분 -->
-		<c:forEach var="i" begin="${vo.begin}" end="${vo.end}" step="1">
-
-			<c:choose>
-				<c:when test="${vo.page == i}">
-					<!-- 현재페이지면 -->
-			${i}
-		</c:when>
-				<c:otherwise>
-					<a href="qnaList?${vo.getQueryStringForMemberList(i)}">${i}</a>
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>
-
-		<!--  다음버튼 -->
-		<c:if test="${!vo.last}">
-        <a href="qnaList?${vo.nextQueryStringForMemberList}">&gt;</a>
-        </c:if>
-        </div>
+        <c:set var="listType" value="qnaList" />
     </c:when>
 </c:choose>
+
+<!-- 페이지 번호 목록 -->
+<!-- 이전 버튼 -->
+<div class="row">
+    <c:if test="${!vo.first}">
+        <a href="${listType}?${vo.prevQueryStringForMemberList}">&lt;</a>
+    </c:if>
+
+    <!-- 숫자 부분 -->
+    <c:forEach var="i" begin="${vo.begin}" end="${vo.end}" step="1">
+        <c:choose>
+            <c:when test="${vo.page == i}">
+                <!-- 현재페이지면 -->
+                ${i}
+            </c:when>
+            <c:otherwise>
+                <a href="${listType}?${vo.getQueryStringForMemberList(i)}">${i}</a>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+
+    <!--  다음버튼 -->
+    <c:if test="${!vo.last}">
+        <a href="${listType}?${vo.nextQueryStringForMemberList}">&gt;</a>
+    </c:if>
+</div>
+
+
+
 </div>
 
 
