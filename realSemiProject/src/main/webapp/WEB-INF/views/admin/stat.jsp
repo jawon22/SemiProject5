@@ -9,9 +9,6 @@
 		font-weight: bold;
 		color: #26C2BF;
 	}
-	.flex-container {
-        justify-content: space-between;
-    }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -225,7 +222,7 @@
     });
 </script>
 
-<div class="container w-600">
+<div class="container w-700">
 
 	<div class="row">
 		<a href="stat" class="link" ><span class="title">회원통계</span></a>
@@ -237,7 +234,7 @@
         			<canvas id="birthChart"></canvas>
     			</div>
             </div>
-            <div class="inline-flex-container align-center card">
+            <div class="inline-flex-container align-center card" style="margin-left:100px">
                 <div class="center">
         			<canvas id="areaChart"></canvas>
     			</div>
@@ -252,7 +249,7 @@
         			<canvas id="joinChart"></canvas>
     			</div>
             </div>
-            <div class="inline-flex-container align-center card">
+            <div class="inline-flex-container align-center card"  style="margin-left:100px">
                 <div class="center">
         			<canvas id="levelChart"></canvas>
     			</div>

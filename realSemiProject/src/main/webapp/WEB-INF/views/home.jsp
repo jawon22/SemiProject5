@@ -22,7 +22,6 @@
 	object-fit: none;
 }
 
-
     .form-input {
         position: relative;
         display: inline-block;

@@ -23,16 +23,17 @@ public class TripperLevelInterceptor implements HandlerInterceptor{
 		String memberLevel = (String) session.getAttribute("level");
 		
 		// 카테고리 번호 가져오기
-		int categoryNo = Integer.parseInt(request.getParameter("boardCategory"));
+		Integer categoryNo = Integer.parseInt(request.getParameter("boardCategory"));
 		
 		// 등급이 null아니고 관리자 또는 tripper 회원일 경우에만 정보게시판 들어오는 조건
 		boolean isPass= (memberLevel.equals("관리자")|| memberLevel.equals("tripper"))
-				&& memberLevel !=null && categoryNo==1;
+				&& (categoryNo.equals(42)|| categoryNo.equals(41) || categoryNo.equals(1))
+				|| (memberLevel.equals("beginner") && (categoryNo.equals(42) || categoryNo.equals(41)));
 		
-		if(isPass) {
+		if(memberLevel !=null && isPass) {
 			return true;
 		}
-		else throw new AuthorityException("관리자또는 우수회원이 아닙니다");
+		else throw new AuthorityException("관리자 또는 우수회원이 아닙니다");
 		
 	}
 	

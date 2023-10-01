@@ -76,7 +76,7 @@ pageEncoding="UTF-8"%>
 
 
 
-<div class="row">
+<div class="row page-navigator">
 	<c:if test="${!vo.first}">
 		<a href="qnaList?${vo.prevQueryStringForMemberList}" class="prev">&lt;</a>
 	</c:if>
@@ -86,8 +86,7 @@ pageEncoding="UTF-8"%>
 
 		<c:choose>
 			<c:when test="${vo.page == i}">
-
-			${i}
+				<a href="list?${vo.getQueryStringForMemberList(i)}" class="on">${i}</a>
 		</c:when>
 			<c:otherwise>
 				<a href="qnaList?${vo.getQueryStringForMemberList(i)}">${i}</a>
