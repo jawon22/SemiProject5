@@ -126,9 +126,8 @@
             
             return byteCount;
         }
-        
-        
-        });
+	});
+    
     $(document).ready(function() {
         // 비밀글 체크박스 상태가 변경될 때 호출되는 함수
         $('input[name="qnaNoticeSecret"]').change(function() {
@@ -146,7 +145,7 @@
         
         
      // 입력 내용이 변경될 때마다 byte 수 업데이트
-        $('[name=qnaNoticeContent], [name=qnaNoticeTitle]').on('summernote.change input', function () {
+        $('[name=qnaNoticeContent], [name=qnaNoticeTitle]').on('summernote.change', function () {
             updateByteCount();
         });
 
@@ -160,12 +159,20 @@
             // byte 수를 버튼 위에 표시
             $('#byteCount').text(byteCount);
 
-            // 일정 용량(예: 3989바이트)을 초과하면 수정하기 버튼을 비활성화
-            if (byteCount > 3989|| $('[name=qnaNoticeTitle]').val().trim() === '' || content.trim() === '') {
+            
+            // 용량 초과 시에만 스타일 변경
+            if (byteCount > 3989) {
                 $('#byteCount').addClass("red");
-                $('.btn-positive').prop('disabled', true);
             } else {
                 $('#byteCount').removeClass("red");
+            }
+
+            // 용량 초과, 제목 또는 내용 미작성시 버튼 비활성화
+            var title = $('[name=qnaNoticeTitle]').val().trim();
+            var content = $('[name=qnaNoticeContent]').summernote('code').trim();
+            if (byteCount > 3989 || title === '' || content === '') {
+                $('.btn-positive').prop('disabled', true);
+            } else {
                 $('.btn-positive').prop('disabled', false);
             }
         }
