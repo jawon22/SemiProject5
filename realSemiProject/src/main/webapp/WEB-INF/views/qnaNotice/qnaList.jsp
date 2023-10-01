@@ -86,7 +86,7 @@ pageEncoding="UTF-8"%>
 
 		<c:choose>
 			<c:when test="${vo.page == i}">
-				<a href="list?${vo.getQueryStringForMemberList(i)}" class="on">${i}</a>
+				<a style="background-color:rgb(215,241,242)">${i}</a>
 		</c:when>
 			<c:otherwise>
 				<a href="qnaList?${vo.getQueryStringForMemberList(i)}">${i}</a>

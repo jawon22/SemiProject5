@@ -179,7 +179,7 @@
 		<c:forEach var="i" begin="${vo.begin}" end="${vo.end}" step="1">
 			<c:choose>
 				<c:when test="${vo.page ==i}">  <!-- 현재 페이지면 --> 
-					<a href="list?${vo.getQueryStringForMemberList(i)}" class="on">${i}</a>			
+					<a style="background-color:rgb(215,241,242)">${i}</a>		
 				</c:when>
 				<c:otherwise>
 					<%-- 링크는 검색과 목록을 따로 구현 --%>
