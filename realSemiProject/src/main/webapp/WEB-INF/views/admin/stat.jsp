@@ -225,7 +225,7 @@
     });
 </script>
 
-<div class="container w-700">
+<div class="container w-600">
 
 	<div class="row">
 		<a href="stat" class="link" ><span class="title">회원통계</span></a>
