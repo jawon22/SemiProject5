@@ -51,7 +51,7 @@
 
 <div class="container w-800">
 	<div class="row">
-		<h2><a class="link" href="freeList">자유게시판</a></h2>
+		<a class="link" href="freeList"><h2 class="crudTitle">자유게시판</h2></a>
 	</div>
 	
 	<c:if test="${vo.search}">
@@ -61,7 +61,7 @@
 	<!--  검색창 -->
 	<form action="freeList" method="get">
 		<div class="row">
-			<select name="type" required class="form-input">
+			<select style="height:35px;" name="type" required class="form-input">
 				<option value="board_title" ${param.type =='board_title' ? 'selected' :''}>제목</option>
 				<option value="board_writer" ${param.type =='board_writer' ? 'selected' :''}>작성자</option>
 			</select>
