@@ -7,3 +7,11 @@
 - Spring Tool Suite 4, Visual Studio Code, Dbeaver
 - Java 17, JavaScript, HTML5, CSS3, Oracle
 - jQuery3.7.1, swiper8, font-awesome6.4.2, summernote 0.8, Kakao Maps api
+
+### 역활 및 담당
+- 최자원
+  - 
+- 김효리
+- 박소은
+- 박현호
+- 오태석
