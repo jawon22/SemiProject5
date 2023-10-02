@@ -768,6 +768,16 @@ public class BoardDaoImpl implements BoardDao{
 				+ ") ranked where rn = 1 )tmp) where rnum between 1 and 5";
 		return jdbcTemplate.query(sql, boardListMapper);
 	}
+
+	@Override
+	public boolean updateBoardReplyCount(int boardNo) {
+			String sql = "update board set board_replycount = ("
+					+ "select count(*) from reply where reply_origin = ?"
+					+ ") "
+					+ "where board_no=?";
+			Object[] data = {boardNo, boardNo};
+			return jdbcTemplate.update(sql, data)>0;
+	}
 	
 	@Override
 	public List<BoardListDto> selectListAreaTop5() {
