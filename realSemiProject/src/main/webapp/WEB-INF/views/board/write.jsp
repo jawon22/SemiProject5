@@ -300,7 +300,7 @@
 <div class="row">
 <h2 class="crudTitle">
     <c:choose>
-        <c:when test="${boardDto.boardCategory == 1}">계절 지역 게시글 작성</c:when>
+        <c:when test="${boardDto.boardCategory == 1}">여행정보 게시글 작성</c:when>
         <c:when test="${boardDto.boardCategory == 41}"> 후기 게시글 작성</c:when>
         <c:when test="${boardDto.boardCategory == 42}"> 자유 게시글 작성</c:when>
     </c:choose>
