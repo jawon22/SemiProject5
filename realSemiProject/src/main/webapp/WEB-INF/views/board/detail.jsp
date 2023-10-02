@@ -56,6 +56,11 @@
    box-shadow: none;
    border: none;
   }
+  .append{
+  display: absolute;
+  top:0;
+  left:200%;
+  }
  </style>
  <script>
  $(function(){
@@ -129,14 +134,16 @@
 				data:{replyOrigin : no},
 				success:function(response){
 					$(".reply-list").empty();
+					console.log("성공 값"+response.attano);
 					for(var i=0; i < response.list.length; i++) {
 						var reply = response.list[i];
 						var attach = response.attachNo[i];
+// 						var nickname = response.MemberNickname[i];
 						console.log(reply);
 						var template = $("#reply-template").html();
 						var htmlTemplate = $.parseHTML(template);
 						
-						$(htmlTemplate).find(".replyWriter").text(reply.replyWriter || "탈퇴한 사용자");
+						$(htmlTemplate).find(".replyWriter").text(reply.replyWriter|| "탈퇴한 사용자");
 						$(htmlTemplate).find(".replyContent").text(reply.replyContent);
 						$(htmlTemplate).find(".replyTime").text(reply.replyTime);
 // 						console.log(attach);
@@ -310,12 +317,13 @@
 		    	</div>
 				<div class="right btn-wrap" style="width: 10%">
 					<button class="btn btn-create w-100 h-100"><i class="fa-solid fa-ellipsis"></i></button>
-						<button class="btn btn-hide btn-edit w-100 h-33">수정</button>
-						<button class="btn btn-hide btn-delete w-100 h-33">삭제</button>
 				</div>
+					<div class="append">
+						<button class="btn btn-positive btn-hide btn-edit w-100 h-33">수정</button>
+						<button class="btn btn-positive btn-hide btn-delete w-100 h-33">삭제</button>
+					</div>
 	</div>
-		
-	</div>
+</div>
 </script>
 
 

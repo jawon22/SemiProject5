@@ -23,6 +23,7 @@ public interface MemberDao {
 	void updateMemberLevel(); //멤버등업
 	ExpiredListDto findMemberExpiredList(String memberId); //비밀번호 변경 90일 경과 멤버조회
 	boolean updateMemberPwDelay(String memberId); //비밀번호 변경일 90일 미루기
+	List<MemberDto> selectListByMemberNick(int boardNo);//댓글 닉네임 표기 리스트
 	
 	
 	int countMyList(PaginationVO vo, String memberId, String listType);

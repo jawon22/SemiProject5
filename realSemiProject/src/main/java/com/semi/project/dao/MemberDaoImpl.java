@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.semi.project.dto.AttachmentDto;
 import com.semi.project.dto.BlockDetailDto;
 import com.semi.project.dto.BlockListDto;
+import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
@@ -637,6 +638,17 @@ public class MemberDaoImpl implements MemberDao {
 		Object[] data= {replyWriter};
 		
 		return jdbcTemplate.query(sql, profileMapper, data);
+	}
+
+	@Override
+	public List<MemberDto> selectListByMemberNick(int boardNo) {
+		 String sql = "SELECT m.member_nickname " 
+		                 +"FROM member m "
+		                 +"INNER JOIN reply r ON m.member_id = r.reply_writer "
+		                 +"where r.reply_origin= ? "
+		                 +"ORDER BY r.reply_no";
+		 Object[] data = {boardNo};
+		return jdbcTemplate.query(sql, memberMapper, data);
 	}
 
 }

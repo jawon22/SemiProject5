@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.semi.project.dao.BoardDao;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dao.ReplyDao;
+import com.semi.project.dto.MemberDto;
 import com.semi.project.dto.ReplyDto;
 import com.semi.project.vo.ReplyProfileVo;
 
@@ -42,11 +43,16 @@ public class ReplyRestController {
 	public ReplyProfileVo list(@RequestParam int replyOrigin, HttpSession session) {
 		ReplyProfileVo profileVo  =  new ReplyProfileVo();
 		String memberId = (String) session.getAttribute("name");
+		
 		ReplyDto replyDto = replyDao.selectOneByRlplyOrigin(replyOrigin);
 		String replyWriter = replyDto.getReplyWriter();
-		List<ReplyDto> list = replyDao.selectList(replyOrigin);
+		
+//		List<MemberDto> nicknameList = memberDao.selectListByMemberNick(replyOrigin);
+		
+		List<ReplyDto> replyList = replyDao.selectList(replyOrigin);
 		profileVo.setAttachNo(memberDao.findProfileList(memberId, replyWriter));
-		profileVo.setList(list);
+		profileVo.setList(replyList);
+//		profileVo.setMemberNickname(nicknameList);
 		return profileVo;
 	}
 	
