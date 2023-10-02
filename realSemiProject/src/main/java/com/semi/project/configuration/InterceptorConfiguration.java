@@ -47,10 +47,11 @@ public class InterceptorConfiguration implements WebMvcConfigurer{
 		
 		//[2] 회원 전용 페이지 (인터셉터 등록)(모든회원)
 		registry.addInterceptor(memberInterceptor)
-				.addPathPatterns("/member/**","/board/**") //회원만 들어오기
+				.addPathPatterns("/member/**","/board/**","/qnaNotice/**") //회원만 들어오기
 				.excludePathPatterns("/member/join*","/member/login","/member/exitFinish",
-				"/member/search","/board/list","/board/freeList","/board/reviewList",
-				"/board/all","/board/communityAll","/board/detail","/rest/reply/**"); //비회원도 접속가능
+				"/member/search*","/board/list","/board/freeList","/board/reviewList",
+				"/board/all","/board/communityAll","/board/detail","/qnaNotice/list",
+				"/qnaNotice/noticeList","/qnaNotice/qnaList","/rest/reply/**"); //비회원도 접속가능
 		
 		//[3] 게시글 소유자 외 접근 차단
 //		registry.addInterceptor(boardOwnerInterceptor)
