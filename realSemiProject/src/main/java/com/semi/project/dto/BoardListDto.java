@@ -11,18 +11,22 @@ import lombok.Data;
 
 @Data
 public class BoardListDto {
+	private int ranking;
 	private String memberNickname;
 	private int boardCategory;
 	private String boardCategoryWeather;
 	private String boardArea;
 	private int boardNo;
-	private String boardWriter, boardTitle, boardContent;
+	private String boardWriter, boardTitle;
 	long boardReadcount;
 	long boardReplycount;
 	long boardLikecount;
 	Date boardCtime;
 	int reportCount;
 	int attachmentNo;
+	
+	int attachmentCount;
+	int firstAttachmentNo;
 	
 	//작성자 출력용 메소드
 	public String getBoardWriterString() {

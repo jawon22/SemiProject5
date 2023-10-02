@@ -1,5 +1,7 @@
 package com.semi.project.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.semi.project.dao.BoardDao;
 import com.semi.project.dao.CertDao;
 import com.semi.project.dao.MemberDao;
+import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.vo.PaginationVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,8 +55,9 @@ public class MemberMypageController {
 			memberDao.updateMemberLogin(findDto.getMemberId());
 			ExpiredListDto expiredListDto =  memberDao.findMemberExpiredList(findDto.getMemberId());
 			
+			//비밀번호 변경 90일 경과한 회원
 			if(expiredListDto.getIsExpired().equals("Y")) {
-				return "redirect:mypage";
+				return "redirect:login?expire";
 			}
 			
 			return "redirect:/";
@@ -61,9 +67,16 @@ public class MemberMypageController {
 		}
 	}
 	
+	@RequestMapping("/delay")
+	public String delay(HttpSession session) {
+		String memberId = (String)session.getAttribute("name");
+		memberDao.updateMemberPwDelay(memberId);
+		return "redirect:/";
+	}
 	
 	@RequestMapping("/mypage") //마이페이지
-	public String mypage(Model model, HttpSession session) {
+	public String mypage(Model model, HttpSession session, 
+			@ModelAttribute(name="vo") PaginationVO vo) {
 		
 		String memberId = (String)session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);
@@ -74,8 +87,8 @@ public class MemberMypageController {
 		model.addAttribute("profile", memberDao.findProfile(memberId));
 		
 		//내가쓴글
-		model.addAttribute("myWriteList", memberDao.findWriteListByMemberId(memberId));
-		model.addAttribute("myLikeList", memberDao.findLikeListByMemberId(memberId));
+		model.addAttribute("myWriteList", memberDao.findWriteListByMemberId(vo, memberId));
+		model.addAttribute("myLikeList", memberDao.findLikeListByMemberId(vo, memberId));
 		
 		
 		return "/WEB-INF/views/member/mypage.jsp";
@@ -158,40 +171,56 @@ public class MemberMypageController {
 	}
 	
 	@RequestMapping("/myWriteList")
-	public String myWriteList(HttpSession session, Model model) {
+	public String myWriteList(HttpSession session, Model model, 
+			@ModelAttribute(name="vo") PaginationVO vo) {
 		
 		String memberId = (String) session.getAttribute("name");
-		model.addAttribute("boardDto", memberDao.findWriteListByMemberId(memberId));
-		model.addAttribute("memberDto", memberDao.selectOne(memberId));
+
+		int count = memberDao.countListMyWriteList(vo, memberId);
+		vo.setCount(count);
+		
+//		log.debug("count = {}", count);
+		model.addAttribute("boardDto", memberDao.findWriteListByMemberId(vo, memberId));
 		
 		return "/WEB-INF/views/member/myWriteList.jsp";				
 	}
 	
 	@RequestMapping("/myLikeList")
-	public String myLikeList(HttpSession session, Model model) {
+	public String myLikeList(HttpSession session, Model model, 
+			@ModelAttribute(name="vo") PaginationVO vo) {
 		
 		String memberId = (String) session.getAttribute("name");
-		model.addAttribute("boardDto", memberDao.findLikeListByMemberId(memberId));
-		model.addAttribute("memberDto", memberDao.selectOne(memberId));
 		
-		return "/WEB-INF/views/member/myWriteList.jsp";
+		int count = memberDao.countListMyLikeList(vo, memberId);
+		vo.setCount(count);
+		model.addAttribute("boardDto", memberDao.findLikeListByMemberId(vo, memberId));
+		
+		return "/WEB-INF/views/member/myLikeList.jsp";
 	}
 	
 	@RequestMapping("/myReplyList")
-	public String myReplyList(HttpSession session, Model model) {
+	public String myReplyList(HttpSession session, Model model, 
+			@ModelAttribute(name="vo") PaginationVO vo) {
 		
 		String memberId = (String) session.getAttribute("name");
-		model.addAttribute("boardDto", memberDao.findReplyListByMemberId(memberId));
-		model.addAttribute("memberDto", memberDao.selectOne(memberId));
 		
-		return "/WEB-INF/views/member/myWriteList.jsp";
+		int count = memberDao.countListMyReplyList(vo, memberId);
+		vo.setCount(count);
+		model.addAttribute("boardDto", memberDao.findReplyListByMemberId(vo, memberId));
+
+		
+		return "/WEB-INF/views/member/myReplyList.jsp";
 	}
 	
 	@RequestMapping("/myQnaList")
-	public String myQnaList(HttpSession session, Model model) {
+	public String myQnaList(HttpSession session, Model model, 
+			@ModelAttribute(name="vo") PaginationVO vo) {
 		
 		String memberId = (String) session.getAttribute("name");
-		model.addAttribute("qnaNoticeDto", memberDao.findQnaListByMemberId(memberId));
+		
+		int count = memberDao.countListMyQnaList(vo, memberId);
+		vo.setCount(count);
+		model.addAttribute("qnaNoticeDto", memberDao.findQnaListByMemberId(vo, memberId));
 		model.addAttribute("memberDto", memberDao.selectOne(memberId));
 		
 		return "/WEB-INF/views/member/myQnaList.jsp";
@@ -204,5 +233,5 @@ public class MemberMypageController {
 		session.removeAttribute("level");
 		return "redirect:/";
 	}
-	
+
 }

@@ -16,9 +16,7 @@ import com.semi.project.dao.MemberDao;
 import com.semi.project.dto.BlockDetailDto;
 import com.semi.project.dto.BlockListDto;
 import com.semi.project.dto.BoardListDto;
-import com.semi.project.dto.BoardReportDto;
 import com.semi.project.dto.MemberDto;
-import com.semi.project.dto.ReportDto;
 import com.semi.project.dto.ReportListDto;
 import com.semi.project.vo.PaginationVO;
 
@@ -45,7 +43,7 @@ public class AdminController {
 	
 	@RequestMapping("/member/detail")
 	public String memberDetail(Model model, 
-					@RequestParam String memberId) {
+					@RequestParam String memberId, PaginationVO vo) {
 		MemberDto memberDto = memberDao.selectOne(memberId);
 		model.addAttribute("memberDto", memberDto);
 		
@@ -54,7 +52,7 @@ public class AdminController {
 		model.addAttribute("attachNo", attachNo);
 		
 		//멤버 활동내역 보기(멤버가 쓴 글 리스트 불러오기)
-		List<BoardListDto> boardList = memberDao.findWriteListByMemberId(memberId);
+		List<BoardListDto> boardList = memberDao.findWriteListByMemberId(vo, memberId);
 		model.addAttribute("boardList", boardList);
 		
 		List<BlockDetailDto> blockDetailList = memberDao.findBlock(memberId);
@@ -75,7 +73,7 @@ public class AdminController {
 		
 		memberDao.updateMemberInfoByAdmin(inputDto);
 		
-		return "redirect:member/detail?memberId="+memberId;
+		return "redirect:detail?memberId="+memberId;
 	}
 	
 	//회원 통계
@@ -122,8 +120,8 @@ public class AdminController {
 	}
 	
 	//신고 삭제
-	@RequestMapping("/board/reportDelete")
-	public String deleteBoardReport(@RequestParam List<Integer> reportNoList) {
+	@PostMapping("/board/reportDelete")
+	public String reportDelete(@RequestParam List<Integer> reportNoList) {
 		for(int reportNo : reportNoList) {
 			boardDao.deleteReport(reportNo);
 		}

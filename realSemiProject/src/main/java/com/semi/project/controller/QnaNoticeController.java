@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import com.semi.project.dao.QnaNoticeDao;
+import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.QnaNoticeDto;
 import com.semi.project.service.QnaService;
 import com.semi.project.vo.PaginationVO;
@@ -107,6 +108,28 @@ public class QnaNoticeController {
 	}
 
 
+	//수정
+	@GetMapping("/edit")
+	public String edit(@RequestParam int qnaNoticeNo, Model model) {
+		QnaNoticeDto qnaNoticeDto = qnaNoticeDao.selectOne(qnaNoticeNo);
+		model.addAttribute("qnaNoticeDto", qnaNoticeDto);
+		return "/WEB-INF/views/qnaNotice/edit.jsp";
+	}
+	
+	@PostMapping("/edit")
+	public String edit(@ModelAttribute QnaNoticeDto qnaNoticeDto) {
+		boolean result = qnaNoticeDao.edit(qnaNoticeDto);
+		if(result) {
+			return "redirect:detail?qnaNoticeNo=" + qnaNoticeDto.getQnaNoticeNo();
+		}
+		else {
+			return "redirect:에러페이지";
+			//throw new NoTargetException("존재하지 않는 글번호");
+		}
+	}
+	
+	
+	
 	 
 
 	@RequestMapping("/detail")
@@ -176,5 +199,14 @@ public class QnaNoticeController {
 			// throw new NoTargetException("없는 게시글 번호");
 		}
 
+	}
+	
+	//관리자가 글 삭제
+	@RequestMapping("/deleteByAdmin")
+	public String deleteByAdmin(@RequestParam List<Integer> qnaNoticeList) {
+		for(int qnaNoticeNo : qnaNoticeList) {
+			qnaNoticeDao.deleteByAdmin(qnaNoticeNo);			
+		}
+		return "redirect:list";
 	}
 }

@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.semi.project.dto.AttachmentDto;
+import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.QnaNoticeDto;
 import com.semi.project.mapper.AttachmentMapper;
 import com.semi.project.mapper.QnaNoticeListMapper;
@@ -171,8 +172,14 @@ public class QnaNoticeDaoImpl implements QnaNoticeDao {
 			return jdbcTemplate.queryForObject(sql, int.class);
 		}
 	}
-
 	
+	@Override
+	public boolean deleteByAdmin(int qnaNoticeNo) {
+		String sql = "delete qnaNotice where qnaNotice_no = ?";
+		Object[] data = {qnaNoticeNo};
+		return jdbcTemplate.update(sql, data)>0;
+	}
+
 	@Override
 	public boolean delete(int qnaNoticeNo) {//삭제
 		String sql = "delete qnaNotice where qnaNotice_no = ?";
@@ -180,6 +187,19 @@ public class QnaNoticeDaoImpl implements QnaNoticeDao {
 		return jdbcTemplate.update(sql, data)>0;
 	}
 
+	@Override
+	public boolean edit(QnaNoticeDto qnaNoticeDto) {//수정
+		String sql = "update qnaNotice set qnaNotice_secret=?, qnaNotice_title=?, qnaNotice_content=? "
+				+ "where qnaNotice_no=?";
+		Object[] data = {qnaNoticeDto.getQnaNoticeSecret(), qnaNoticeDto.getQnaNoticeTitle(), 
+				qnaNoticeDto.getQnaNoticeContent(), qnaNoticeDto.getQnaNoticeNo()};
+		return jdbcTemplate.update(sql, data)>0;
+	}
+//	public boolean edit(BoardDto boardDto) {//수정
+//	String sql = "update board set board_category=?, board_title=?, board_content=? where board_no=?";
+//	Object[] data= {boardDto.getBoardCategory(), boardDto.getBoardTitle(), boardDto.getBoardContent(), boardDto.getBoardNo()};
+//	return jdbcTemplate.update(sql, data)>0;
+//}
 
 
 }

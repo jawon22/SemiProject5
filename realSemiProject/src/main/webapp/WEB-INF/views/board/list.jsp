@@ -147,8 +147,8 @@
 
 		</div>
 
-		<div class="row">
 			<!-- 검색창 -->
+		<div class="row">
 			<c:choose>
 				<c:when test="${param.type == 'board_writer'}">
 					<select name="type" class="form-input" required>
@@ -181,15 +181,14 @@
 
 </div>
 
-		<!-- action을 아직 지정안했음 -->
 <form class="delete-form" action="deleteByAdmin" method="post">
 	<c:if test="${sessionScope.name !=null}">
 			<div class="row right">
 				<c:if test="${sessionScope.level == '관리자'}">
-				<button type="submit" class="btn btn-negative delete-btn">
-					<i class="fa-solid fa-trash-can"></i>
-					게시글 일괄삭제
-				</button>
+					<button type="submit" class="btn btn-negative delete-btn">
+						<i class="fa-solid fa-trash-can"></i>
+						게시글 일괄삭제
+					</button>
 				</c:if>
 				
 				<a href="write?boardCategory=1" class="btn">

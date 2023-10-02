@@ -3,7 +3,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
-<div class="container w-700">
+<style>
+	.title{
+		font-size: 30px;
+		font-weight: bold;
+		color: #26C2BF;
+	}
+</style>
+
+<div class="container w-800">
+	<div class="row">
+		<a href="list" class="link" ><span class="title">회원목록</span></a>
+	</div>
+
 <table class="table table-slit center">
 <thead>
 	<tr>
@@ -51,16 +63,16 @@
 </div>
 <div class="row">
 <form action="list" method="get" autocomplete="off">
-	<select name="type">
+	<select name="type" class="search-select">
 		<option value="member_id">아이디</option>
 		<option value="member_nickname">닉네임</option>
 		<option value="member_email">이메일</option>
 		<option value="member_birth">생년월일</option>
 	</select>	
 	<input type="search" name="keyword" 
-		value="${param.keyword}" 
+		value="${param.keyword}" class="search-input"
 		placeholder="검색어 입력" required>
-	<button>검색</button>
+	<button class="search-btn">검색</button>
 </form>
 </div>
 
