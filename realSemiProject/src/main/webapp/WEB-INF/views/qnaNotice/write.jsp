@@ -87,24 +87,36 @@
              
 
 
-        // 입력 내용이 변경될 때마다 byte 수 업데이트
+/*         // 입력 내용이 변경될 때마다 byte 수 업데이트
         $('[name=qnaNoticeTitle], [name=qnaNoticeContent]').on('summernote.change', function () {
             updateByteCount();
+        }); */
+        
+     // 입력 내용이 변경될 때마다 byte 수 업데이트
+        $('[name=qnaNoticeContent]').on('summernote.change', function () {
+            updateButtonState();
+        });
+
+        $('[name=qnaNoticeTitle]').on('input', function () {
+            updateButtonState();
         });
 
         // 초기 로드 시에도 버튼 상태를 설정
-        updateByteCount();
+        //updateByteCount();
+        updateButtonState();
 
-        function updateByteCount() {
+        function updateButtonState() {
             var title = $('[name=qnaNoticeTitle]').val().trim(); // 제목 값 가져오기
-            var content = $('[name=qnaNoticeContent]').summernote('code').trim();
+            var contentHtml = $('[name=qnaNoticeContent]').summernote('code').trim();
+            
+            var content = $(contentHtml).text(); // HTML 태그를 제외한 텍스트만
             var byteCount = countBytes(content);
 
 
 
             // 문자열의 byte 수 계산 함수
             function countBytes(str) {
-                var byteCount = -11;
+                var byteCount = 0;
                 for (var i = 0; i < str.length; i++) {
                     var charCode = str.charCodeAt(i);
                     if (charCode <= 0x007F) {
@@ -130,6 +142,7 @@
 
                 console.log(title.trim() !== '');
                 console.log(content.trim() !== '');
+                console.log(content);
                 console.log(byteCount <= 3989);
                 console.log(byteCount);
              // 버튼을 비활성화
