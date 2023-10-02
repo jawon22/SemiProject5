@@ -5,14 +5,12 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <div class="container w-700">
-<div class="row right">
-	<a class="link" href="#">일괄삭제</a>
-</div>
+
 	<table class="table table-slit">
 		<thead>
 			<tr>
-				<th>체크박스</th>
-				<th width="45%">글제목</th>
+
+				<th width="50%">글제목</th>
 				<th>작성자</th>
 				<th>작성일자</th>
 			</tr>
@@ -21,12 +19,12 @@
 		<tbody>
 			<c:forEach var="qnaNoticeDto" items="${qnaNoticeDto}">
 				<tr>
-					<th>체크박스</th>
-					<th class="left"><a class="link"
+
+					<td class="left"><a class="link"
 						href="/qnaNotice/detail?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}">
-							${qnaNoticeDto.qnaNoticeTitle} </a></th>
-					<th>${memberDto.memberNickname}</th>
-					<th>${qnaNoticeDto.qnaNoticeTime}</th>
+							${qnaNoticeDto.qnaNoticeTitle} </a></td>
+					<td class="center">${memberDto.memberNickname}</td>
+					<td class="center">${qnaNoticeDto.qnaNoticeTime}</td>
 				</tr>
 			</c:forEach>
 		</tbody>

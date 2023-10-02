@@ -9,6 +9,22 @@
     }
 </style>
 
+<style>
+  .btn-positive[disabled]:hover::before {
+    content: '글자 수 제한 초과, 제목 및 내용 미작성등의 이유로 글 작성이 불가능합니다';
+    position: absolute;
+    background-color: red;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: -30px;
+    margin-left: -10px;
+    width: auto; /* 팝업의 너비를 자동으로 설정합니다. */
+    white-space: nowrap; /* 텍스트가 넘칠 경우 줄 바꿈을 방지합니다. */
+  }
+  
+</style>
 <!-- summernote 게시글 작성 cdn-->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
@@ -55,11 +71,6 @@
                        processData:false,
                        contentType:false,
                        success:function(response){
-                         //서버로 전송할 이미지 번호 정보 생성
-//                          var input = $("<input>").attr("type", "hidden")
-//                                            .attr("name", "attachmentNo")
-//                                            .val(response.attachmentNo);
-//                          $("form").prepend(input);
                          
                          //에디터에 추가할 이미지 생성
                          var imgNode = $("<img>").attr("src", "${pageContext.request.contextPath}/rest/attachment/download/" + response.attachmentNo);
@@ -70,73 +81,76 @@
                           alert("통신 오류 발생");
                       }
                   });
-              },
-              onKeydown: function(e) {
-                  var content = $('[name=qnaNoticeContent]').summernote('code');
-                  var byteCount = countBytes(content);
-
-                  if (byteCount > 3988) {
-                      alert('글자 수 제한을 초과하여 텍스트를 추가할 수 없습니다.');
-                      e.preventDefault();
-                  }
               }
           }
       });
-        
-        
-     // 입력 내용이 변경될 때마다 byte 수 업데이트
-        $('[name=qnaNoticeContent]').on('summernote.change', function () {
+             
+
+
+        // 입력 내용이 변경될 때마다 byte 수 업데이트
+        $('[name=qnaNoticeTitle], [name=qnaNoticeContent]').on('summernote.change', function () {
             updateByteCount();
         });
 
-        // 초기 byte 수 업데이트
+        // 초기 로드 시에도 버튼 상태를 설정
         updateByteCount();
 
         function updateByteCount() {
-            var content = $('[name=qnaNoticeContent]').summernote('code');
+            var title = $('[name=qnaNoticeTitle]').val().trim(); // 제목 값 가져오기
+            var content = $('[name=qnaNoticeContent]').summernote('code').trim();
             var byteCount = countBytes(content);
 
-            // byte 수를 버튼 위에 표시
-            $('#byteCount').text(byteCount);
-        }
 
-        // 문자열의 byte 수 계산 함수
-        function countBytes(str) {
-            var byteCount = -11;
-            for (var i = 0; i < str.length; i++) {
-                var charCode = str.charCodeAt(i);
-                if (charCode <= 0x007F) {
-                    byteCount += 1;
-                } else if (charCode <= 0x07FF) {
-                    byteCount += 2;
-                } else if (charCode <= 0xFFFF) {
-                    byteCount += 3;
+
+            // 문자열의 byte 수 계산 함수
+            function countBytes(str) {
+                var byteCount = -11;
+                for (var i = 0; i < str.length; i++) {
+                    var charCode = str.charCodeAt(i);
+                    if (charCode <= 0x007F) {
+                        byteCount += 1;
+                    } else if (charCode <= 0x07FF) {
+                        byteCount += 2;
+                    } else if (charCode <= 0xFFFF) {
+                        byteCount += 3;
+                    } else {
+                        byteCount += 4;
+                    }
+                }
+
+                // byte 수를 버튼 위에 표시
+                $('#byteCount').text(byteCount);
+                
+                // byteCount가 초과하면 클래스 추가
+                if (byteCount > 3989) {
+                    $('#byteCount').addClass("red");
                 } else {
-                    byteCount += 4;
+                    $('#byteCount').removeClass("red");
+                }
+
+                console.log(title.trim() !== '');
+                console.log(content.trim() !== '');
+                console.log(byteCount <= 3989);
+                console.log(byteCount);
+             // 버튼을 비활성화
+                if (content.trim() !== '' && title.trim() !== '' && byteCount <= 3989) {
+                    $('.btn-positive').prop('disabled', false);
+                } else {
+                    $('.btn-positive').prop('disabled', true);
                 }
             }
-            
-            // byteCount가 초과하면 클래스 추가
-            if (byteCount > 3988) {
-                $('#byteCount').addClass("red");
-                isExceedingLimit = true;
-            } else {
-                $('#byteCount').removeClass("red");
-                isExceedingLimit = false;
-            }
-            
-            return byteCount;
         }
-        
-        
+               
         // 게시글 타입 선택 시
         $('select[name="qnaNotice_type"]').change(function () {
             var selectedType = $(this).val();
             $('#selectedType').val(selectedType);
         });
+        
     });
     
-    $(document).ready(function() {
+    $(document).ready(function() { 	
+        
         // 비밀글 체크박스 상태가 변경될 때 호출되는 함수
         $('input[name="qnaNoticeSecret"]').change(function() {
             if ($(this).is(':checked')) {
@@ -201,11 +215,6 @@
             </c:otherwise>            
 		</c:choose>
 
-<!--         <div class="row left">
-        <label>
-       		<input type="file" name="attach" accept="image/*" multiple>
-        </label>
-        </div> -->
     	
         <div class="row left">
             <label>제목</label>

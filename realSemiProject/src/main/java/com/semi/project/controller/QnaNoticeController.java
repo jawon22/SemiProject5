@@ -143,7 +143,8 @@ public class QnaNoticeController {
 	public String list(@ModelAttribute(name="vo") PaginationVO vo,
 			Model model) {
 		
-	    int count = qnaNoticeDao.countQnaList(vo);
+		String listType = "qnalist";
+	    int count = qnaNoticeDao.countList(vo, listType);
 	    vo.setCount(count);
 
 
@@ -163,9 +164,14 @@ public class QnaNoticeController {
 	@RequestMapping("/noticeList")
 	public String noticeList(@ModelAttribute(name="vo") PaginationVO vo,
 			Model model) {
-	
-	    int count = qnaNoticeDao.countNoticeList(vo);
+		
+	    vo.setListType("noticelist"); // 공지사항 목록
+	    int count = qnaNoticeDao.countList(vo, vo.getListType());
 	    vo.setCount(count);
+	    
+//		String listType = "noticelist";
+//	    int count = qnaNoticeDao.countList(vo, listType);
+//	    vo.setCount(count);
 		
 
 		List<QnaNoticeDto> noticeList = qnaNoticeDao.selectNoticeListByPage(vo);
@@ -179,13 +185,20 @@ public class QnaNoticeController {
 	public String qnaList(@ModelAttribute(name="vo") PaginationVO vo,
 			Model model) {
 		
-	    int count = qnaNoticeDao.countQnaList(vo);
+	    vo.setListType("qnalist"); // 공지사항 목록
+	    int count = qnaNoticeDao.countList(vo, vo.getListType());
 	    vo.setCount(count);
 		
-		List<QnaNoticeDto> qnaList = qnaNoticeDao.selectQnaListByPage(vo);
-		model.addAttribute("qnaList", qnaList);
 		
-		return "/WEB-INF/views/qnaNotice/qnaList.jsp";
+		
+//		String listType = "qnalist";
+//	    int count = qnaNoticeDao.countList(vo, listType);
+//	    vo.setCount(count);
+		
+		List<QnaNoticeDto> noticeList = qnaNoticeDao.selectQnaListByPage(vo);
+		model.addAttribute("noticeList", noticeList);
+		
+		return "/WEB-INF/views/qnaNotice/noticeList.jsp";
 	}
 	
 

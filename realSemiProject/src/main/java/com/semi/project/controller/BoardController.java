@@ -29,6 +29,9 @@ import com.semi.project.dto.ReportDto;
 import com.semi.project.service.BoardService;
 import com.semi.project.vo.PaginationVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -71,7 +74,8 @@ public class BoardController {
 		
 	    int count = boardDao.countList(vo);
 	    vo.setCount(count);
-
+	    log.debug("count= "+count);
+	    
 	    List<BoardListDto> list;
 
 	    if ("readcount".equals(sort)) {

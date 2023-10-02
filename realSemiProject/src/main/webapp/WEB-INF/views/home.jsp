@@ -1,10 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
-
-
 <style>
+.thumbnail {
+	width: 190px;
+	height: 190px;
+	object-fit: cover;
+/* 	padding-top: none;  */
+/*  	padding-bottom: none;  */
+/*  	padding-left: 10px;  */
+/*  	padding-right: 10px;  */
+	margin-left:2px;
+	margin-right:2px;
+ 	border-radius:1em;
+ 	box-shadow: 0 0 0 1px gray;
+}
+
+
+.thumbnail:hover {
+	object-fit: none;
+}
+
     .form-input {
         position: relative;
         display: inline-block;
@@ -32,6 +49,17 @@
     	margin-top: 0px;
     	margin-bottom: 0px;
     }
+    
+    .column {
+	display: flex;
+	flex-direction: column; /* 요소들을 세로로 나란히 배치 */
+}
+
+.item {
+	margin-bottom: 10px; /* 아이템 사이의 간격 설정 */
+}
+
+
 </style>
 
 <script>
@@ -93,27 +121,68 @@ $(function () {
         </div>
     </div>
 
-<div class="container w-700">
 
-	<div class="flex-container auto-width">
-		<c:forEach var="list" items="${list}">
-			<div class="flex-container auto-width mv-20">
-			<a
-					href="http://localhost:8080/board/detail?boardNo=${list.boardNo}">
+
+
+
+
+<div class="container w-1000">
+  <div class="left">
+    <h1>
+      <label><i class="fa-solid fa-fire" style="color: #78bdcf;"></i>계절별 인기 여행지</label>
+    </h1>
+  </div>
+  <div class="flex-container auto-width">
+    <c:forEach var="seasonList" items="${seasonList}">
+     			<a class="link"
+				href="http://localhost:8080/board/detail?boardNo=${seasonList.boardNo}">
 				<c:choose>
-					<c:when test="${list.attachmentCount >= 1}">
-						<img src="/rest/attachment/download/${list.firstAttachmentNo}"
-							width="120" height="200">
+					<c:when test="${seasonList.attachmentNo == null}">
+						<img class="thumbnail"
+							src="https://dummyimage.com/200x150/000/fff&text=image">
 					</c:when>
 					<c:otherwise>
-						<img src="https://dummyimage.com/100x200/000/fff&text=image" width="120" height="200">
+						<img class="thumbnail"
+							src="/rest/attachment/download/${seasonList.attachmentNo}">
 					</c:otherwise>
-				</c:choose>
-				</a>
-			</div>
-		</c:forEach>
-	</div>
+				</c:choose> <span style="margin-left: 10px;">${seasonList.boardTitle}</span>
+			</a>
+    </c:forEach>
+  </div>
 </div>
+
+
+<div class="container w-1000">
+  <div class="flex-container auto-width">
+  <div class="flex-container col-2 left">
+    <h1>
+      <label><i class="fa-solid fa-fire" style="color: #78bdcf;"></i>지역별 인기 여행지</label>
+    </h1>
+    </div>
+  <div class="flex-container col-2 right">
+  	<label>더보기</label>
+  </div>
+  </div>
+  <div class="flex-container auto-width">
+    <c:forEach var="areaList" items="${areaList}">
+          			<a class="link"
+				href="http://localhost:8080/board/detail?boardNo=${areaList.boardNo}">
+				<c:choose>
+					<c:when test="${areaList.attachmentNo == null}">
+						<img class="thumbnail"
+							src="https://dummyimage.com/200x150/000/fff&text=image">
+					</c:when>
+					<c:otherwise>
+						<img class="thumbnail" style="border-radius:15px; overflow: hidden;"
+							src="/rest/attachment/download/${areaList.attachmentNo}">
+					</c:otherwise>
+				</c:choose> <span style="margin-left: 10px;">${areaList.boardTitle}</span>
+			</a>
+    </c:forEach>
+  </div>
+</div>
+
+
 
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

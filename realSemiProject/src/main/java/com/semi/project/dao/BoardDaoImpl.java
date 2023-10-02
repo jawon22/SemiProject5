@@ -190,12 +190,23 @@ public class BoardDaoImpl implements BoardDao{
 	//정보게시판 목록 페이지 검색 및 페이지 조회
 	@Override
 	public List<BoardListDto> selectListByPage(String type, String keyword, String weather, String area, int page) {
-//		if (!StringUtils.hasText(keyword)) {
-//	        return selectListByPageAndCategory(page, weather, area);
-//	    }
 		
 		int start = (page-1)*10 +1;
 		int end = page*10;
+
+		if(weather.equals("전체") && area.equals("전체") && !keyword.equals("")) {
+			
+			String sql = "SELECT * FROM ("
+					+ "SELECT ROWNUM rn, TMP.* FROM("
+						+ "select * from board_list where instr("+type+",?) >0 and "
+									+ "board_category between 1 and 40"
+							+ " order by board_ctime desc"
+						+ ")TMP "
+					+ ")WHERE rn BETWEEN ? AND ?";
+			Object[] data = {keyword,start,end};
+			return jdbcTemplate.query(sql, boardListMapper,data);
+			
+		}
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -310,6 +321,22 @@ public class BoardDaoImpl implements BoardDao{
 		int start = (page-1)*10 +1;
 		int end = page*10;
 		
+		if(weather.equals("전체") && area.equals("전체") && !keyword.equals("")) {
+					
+			String sql = "SELECT * FROM ("
+							+ "SELECT ROWNUM rn, TMP.* FROM("
+								+ "select * from board_list where instr("+type+",?) >0 and "
+											+ "board_category between 1 and 40"
+									+ " order by board_readcount desc"
+								+ ")TMP "
+							+ ")WHERE rn BETWEEN ? AND ?";
+			Object[] data = {keyword,start,end};
+			return jdbcTemplate.query(sql, boardListMapper,data);
+			
+		}
+		
+		
+		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
 							+ "select * from board_list where instr("+type+",?) >0 and "
@@ -420,6 +447,20 @@ public class BoardDaoImpl implements BoardDao{
 	public List<BoardListDto> selectListByLikecount(String type, String keyword, String weather, String area, int page) {
 		int start = (page-1)*10 +1;
 		int end = page*10;
+		
+		if(weather.equals("전체") && area.equals("전체") && !keyword.equals("")) {
+			
+			String sql = "SELECT * FROM ("
+							+ "SELECT ROWNUM rn, TMP.* FROM("
+								+ "select * from board_list where instr("+type+",?) >0 and "
+											+ "board_category between 1 and 40"
+									+ " order by board_likecount desc"
+								+ ")TMP "
+							+ ")WHERE rn BETWEEN ? AND ?";
+			Object[] data = {keyword,start,end};
+			return jdbcTemplate.query(sql, boardListMapper,data);
+			
+		}
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -715,13 +756,16 @@ public class BoardDaoImpl implements BoardDao{
         return jdbcTemplate.queryForObject(sql, Integer.class, boardNo);
     }
 	
-    //메인에 5개만 우선 찍어봄
+    //메인에 5개만 우선 찍어봄(계절별 인기글)
 	@Override
-	public List<BoardListDto> selectListTop5() {
-		String sql = "select * from (select rownum rn, TMP.* from ("
-				+ "select * from board_list "
-				+ "order by board_no desc "
-				+ ")TMP) where rn between 1 and 5";
+	public List<BoardListDto> selectListSeasonTop5() {
+		String sql = "select * from (select rownum rnum, TMP.* from ( "
+				+ "select * from ( select bl.*, row_number() "
+				+ "over (partition by bl.board_no "
+				+ "order by bl.attachment_no desc) as rn "
+				+ "from board_list bl where board_category between 9 and 40 "
+				+ "order by board_readcount desc "
+				+ ") ranked where rn = 1 )tmp) where rnum between 1 and 5";
 		return jdbcTemplate.query(sql, boardListMapper);
 	}
 
@@ -735,4 +779,15 @@ public class BoardDaoImpl implements BoardDao{
 			return jdbcTemplate.update(sql, data)>0;
 	}
 	
+	@Override
+	public List<BoardListDto> selectListAreaTop5() {
+		String sql = "select * from (select rownum rnum, TMP.* from ( "
+				+ "select * from ( select bl.*, row_number() "
+				+ "over (partition by bl.board_no "
+				+ "order by bl.attachment_no desc) as rn "
+				+ "from board_list bl where board_category between 2 and 8 "
+				+ "order by board_readcount desc "
+				+ ") ranked where rn = 1 )tmp) where rnum between 1 and 5";
+		return jdbcTemplate.query(sql, boardListMapper);
+	}
 }

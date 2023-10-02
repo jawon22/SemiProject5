@@ -10,6 +10,23 @@
         }
     </style>
     
+    <style>
+  .btn-positive[disabled]:hover::before {
+    content: '글자 수 제한 초과, 제목 및 내용 미작성등의 이유로 글 작성이 불가능합니다';
+    position: absolute;
+    background-color: red;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: -30px;
+    margin-left: -10px;
+    width: auto; /* 팝업의 너비를 자동으로 설정합니다. */
+    white-space: nowrap; /* 텍스트가 넘칠 경우 줄 바꿈을 방지합니다. */
+  }
+  
+</style>
+
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <!-- javascript 작성 공간 -->
@@ -109,9 +126,8 @@
             
             return byteCount;
         }
-        
-        
-        });
+	});
+    
     $(document).ready(function() {
         // 비밀글 체크박스 상태가 변경될 때 호출되는 함수
         $('input[name="qnaNoticeSecret"]').change(function() {
@@ -125,7 +141,60 @@
                 $('[name="qnaNoticeSecret"]').val('N');
             }
         });      
-    });    
+        
+        
+        
+     // 입력 내용이 변경될 때마다 byte 수 업데이트
+        $('[name=qnaNoticeContent], [name=qnaNoticeTitle]').on('summernote.change', function () {
+            updateByteCount();
+        });
+
+        // 초기 byte 수 업데이트
+        updateByteCount();
+
+        function updateByteCount() {
+            var content = $('[name=qnaNoticeContent]').summernote('code');
+            var byteCount = countBytes(content);
+
+            // byte 수를 버튼 위에 표시
+            $('#byteCount').text(byteCount);
+
+            
+            // 용량 초과 시에만 스타일 변경
+            if (byteCount > 3989) {
+                $('#byteCount').addClass("red");
+            } else {
+                $('#byteCount').removeClass("red");
+            }
+
+            // 용량 초과, 제목 또는 내용 미작성시 버튼 비활성화
+            var title = $('[name=qnaNoticeTitle]').val().trim();
+            var content = $('[name=qnaNoticeContent]').summernote('code').trim();
+            if (byteCount > 3989 || title === '' || content === '') {
+                $('.btn-positive').prop('disabled', true);
+            } else {
+                $('.btn-positive').prop('disabled', false);
+            }
+        }
+
+        // 문자열의 byte 수 계산 함수
+        function countBytes(str) {
+            var byteCount = -11;
+            for (var i = 0; i < str.length; i++) {
+                var charCode = str.charCodeAt(i);
+                if (charCode <= 0x007F) {
+                    byteCount += 1;
+                } else if (charCode <= 0x07FF) {
+                    byteCount += 2;
+                } else if (charCode <= 0xFFFF) {
+                    byteCount += 3;
+                } else {
+                    byteCount += 4;
+                }
+            }
+            return byteCount;
+        }
+    });   
     
 </script>
 <form action="edit" method="post">
