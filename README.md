@@ -5,4 +5,5 @@
 ### 개발 환경
 - Windows 10
 - Spring Tool Suite 4, Visual Studio Code, Dbeaver
-- 
+- Java 17, JavaScript, HTML5, CSS3, Oracle
+- jQuery3.7.1, swiper8, font-awesome6.4.2, summernote 0.8, Kakao Maps api
