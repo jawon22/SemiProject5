@@ -2,7 +2,6 @@ package com.semi.project.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -10,6 +9,7 @@ import com.semi.project.interceptor.AdminInterceptor;
 import com.semi.project.interceptor.BoardDetailDeleteInterceptor;
 import com.semi.project.interceptor.BoardOwnerInterceptor;
 import com.semi.project.interceptor.MemberInterceptor;
+import com.semi.project.interceptor.QnASecretInterceptor;
 import com.semi.project.interceptor.TripperLevelInterceptor;
 
 @Configuration
@@ -29,6 +29,9 @@ public class InterceptorConfiguration implements WebMvcConfigurer{
 	
 	@Autowired
 	private TripperLevelInterceptor tripperLevelInterceptor;
+	
+	@Autowired
+	private QnASecretInterceptor qnaSecretInterceptor;
 	
 	//인터셉터를 추가할 수 있는 설정 메소드(registry 저장소에 설정)
 	//등록시 주소의 패턴 설정 방법
@@ -60,6 +63,10 @@ public class InterceptorConfiguration implements WebMvcConfigurer{
 		//[5] 정보게시판 작성가능 (관리자 , tripper) 외 차단
 //		registry.addInterceptor(tripperLevelInterceptor)
 //				.addPathPatterns("/board/write*");
+		
+		//[6] QnA게시판 비밀글열람 (관리자 , 작성자) 외 차단
+//		registry.addInterceptor(qnaSecretInterceptor)
+//				.addPathPatterns("/qnaNotice/detail");
 		
 	}
 
