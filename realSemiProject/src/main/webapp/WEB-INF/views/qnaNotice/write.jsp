@@ -211,51 +211,58 @@
 
 
 <form action="write" method="post" enctype="multipart/form-data">
-
     <%-- 답글일 때만 추가 정보를 전송--%>
-     <c:if test="${isReply}">
+    <c:if test="${isReply}">
         <c:if test="${sessionScope.level == '관리자'}">
             <input type="hidden" name="qnaNoticeParent" value="${originDto.qnaNoticeNo}">
         </c:if>
     </c:if> 
+
     <div class="container w-800">
         <c:choose>
             <c:when test="${sessionScope.level == '관리자'}">
-    			<div class="row">
-    			
-    			<c:choose>
-    				<c:when test="${isReply}">
-        				<c:if test="${sessionScope.level == '관리자'}">
-            				<h2 class="crudTitle">답글 작성</h2>
-            				<input type="hidden" name="qnaNoticeType" value="3">
-        				</c:if>
-    				</c:when>
-    				<c:otherwise>
-        				<h2 class="crudTitle">게시글 작성</h2>
-        				<label>유형</label>
-                    		<select name="qnaNoticeType">
-                        		<option value="2">QnA</option>
-                        		<option value="1">공지사항</option>
-                    		</select> 
-                    		<input type="checkbox" name="qnaNoticeSecret" >비밀글
-    				</c:otherwise>
-				</c:choose>   	
-   	 			</div>
-   	 			
+                <div class="row">
+                    <c:choose>
+                        <c:when test="${isReply}">
+                            <c:if test="${sessionScope.level == '관리자'}">
+                                <h2 class="crudTitle">답글 작성</h2>
+                                <input type="hidden" name="qnaNoticeType" value="3">
+                            </c:if>
+                        </c:when>
+                        <c:otherwise>
+                            <h2 class="crudTitle">게시글 작성</h2>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
             </c:when>
-            
             <c:otherwise>
-            	<div class="row">
-            		<h2 class="crudTitle">Q&A</h2>
-            	</div>
-                <input type="hidden" name="qnaNoticeType" value="2">
-                <input type="checkbox" name="qnaNoticeSecret">비밀글
-            </c:otherwise>            
-		</c:choose>
+                <div class="row">
+                    <h2 class="crudTitle">Q&A</h2>
+                </div>
+            </c:otherwise>
+        </c:choose>
 
-    	
-        <div class="row left">
-            <label>제목</label>
+        <div class="row left" style="display: flex; align-items: center;">
+            
+                	<c:choose>
+        				<c:when test="${isReply}">
+            				<input type="hidden" name="qnaNoticeType" value="3"> <!-- 답글인 경우 기본값 설정 -->
+        				</c:when>
+    					<c:otherwise>
+        					<c:if test="${sessionScope.level == '관리자'}">
+            					<label style="width: 50px;">유형</label>
+            					<select name="qnaNoticeType" style="flex: 1; margin-right: 10px;">
+                					<option value="2">QnA</option>
+                					<option value="1">공지사항</option>
+            					</select>
+        					</c:if>
+        					<c:if test="${sessionScope.level != '관리자'}">
+            					<input type="hidden" name="qnaNoticeType" value="2"> <!-- 일반 사용자인 경우 기본값 설정 -->
+        					</c:if>
+    					</c:otherwise>
+    				</c:choose>
+    
+            <label style="margin-right: 10px; width: 50px;" >제목</label>
             <c:choose>
                 <c:when test="${isReply}">
                     <input type="text" name="qnaNoticeTitle" class="form-input w-100" value="RE: ${originDto.qnaNoticeTitle}" required>
@@ -266,6 +273,7 @@
             </c:choose>
         </div>
     </div>
+
     <div class="container w-800">
         <div class="row">
         </div>
@@ -274,9 +282,18 @@
             <textarea name="qnaNoticeContent" class="form-input w-100 fixed"></textarea>
         </div>
         
-        <div class="row right">
-        	<span id="byteCount" class="byteCount">0</span>/ 3988byte
+<c:choose>
+    <c:when test="${!isReply}">
+        <div class="row" style="display: flex; justify-content: space-between;">
+            <div>
+                <input type="checkbox" name="qnaNoticeSecret"> 비밀글
+            </div>
+            <div>
+                <span id="byteCount" class="byteCount">0</span>/ 3988byte
+            </div>
         </div>
+    </c:when>
+</c:choose>
         
         <div class="row">
          

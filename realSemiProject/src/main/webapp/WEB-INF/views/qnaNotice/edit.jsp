@@ -226,20 +226,7 @@
                 class="form-input w-100" value="${qnaNoticeDto.qnaNoticeTitle}" >
             </div>
             
-<!-- 수정글이 공지사항인 경우에만 비밀글 체크박스를 표시하지 않음 -->
-<c:if test="${qnaNoticeDto.qnaNoticeType != 1}">
-    <div class="row left">
-        <label>비밀글</label>
-        <c:choose>
-            <c:when test="${qnaNoticeDto.qnaNoticeSecret == 'Y'}">
-                <input type="checkbox" name="qnaNoticeSecret" value="Y" checked>
-            </c:when>
-            <c:otherwise>
-                <input type="checkbox" name="qnaNoticeSecret" value="N">
-            </c:otherwise>
-        </c:choose>
-    </div>
-</c:if>
+
         	
         	
             <div class="row left">
@@ -248,9 +235,26 @@
                 class="form-input w-100 fixed">${qnaNoticeDto.qnaNoticeContent}</textarea>
             </div>
             
-           	<div class="row right">
-        		<span id="byteCount" class="byteCount">0</span>/ 3989byte
-        	</div>
+            
+<div class="row" style="display: flex; justify-content: space-between;">
+    <div class="left">
+        <!-- 수정글이 공지사항인 경우에만 비밀글 체크박스를 표시하지 않음 -->
+        <c:if test="${qnaNoticeDto.qnaNoticeType != 1}">
+            <label>비밀글</label>
+            <c:choose>
+                <c:when test="${qnaNoticeDto.qnaNoticeSecret == 'Y'}">
+                    <input type="checkbox" name="qnaNoticeSecret" value="Y" checked>
+                </c:when>
+                <c:otherwise>
+                    <input type="checkbox" name="qnaNoticeSecret" value="N">
+                </c:otherwise>
+            </c:choose>
+        </c:if>
+    </div>
+    <div class="right">
+        <span id="byteCount" class="byteCount">0</span>/ 3989byte
+    </div>
+</div>
             
             <div class="row">
                 <button class="btn btn-positive">수정하기</button>
