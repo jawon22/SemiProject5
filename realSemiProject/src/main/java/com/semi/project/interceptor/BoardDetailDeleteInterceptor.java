@@ -30,8 +30,8 @@ public class BoardDetailDeleteInterceptor implements HandlerInterceptor{
 		String memberId = (String) session.getAttribute("name");
 		
 		//글 번호 가져오기
-//		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
-//		BoardDto boardDto = boardDao.selectOne(boardNo);
+		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+		BoardDto boardDto = boardDao.selectOne(boardNo);
 		
 		boolean isCorrect = boardDto.getBoardWriter().equals(memberId) || 
 								(memberLevel.equals("관리자") && memberLevel !=null);

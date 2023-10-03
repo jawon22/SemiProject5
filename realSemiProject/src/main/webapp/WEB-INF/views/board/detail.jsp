@@ -8,6 +8,14 @@
  }
  .btn-hide{
  display: none;
+ border: none;
+ border-radius: 0.2em;
+ border-color: #26C2BF;
+ background-color: #26C2BF;
+ color: black;
+ font-weight: bold; 
+ font-size:12px;
+ box-shadow: none;
  }
  .h-100{
  height: 100%;
@@ -28,19 +36,20 @@
     font-size:15px;
     padding: 0.5em 1em;
     outline: none; /*outline은 입력 창 선택 시 강조 효과 */
-    border: 1px solid #26C2BF; 
+    border: 1px solid #26C2BF;
     border-radius: 0.1em;
+    border-right: none;
   }
   .btn-block{
   display: inline-block;
     text-decoration: none;
     vertical-align: bottom;
-    font-size:15px;
     padding: 0.5em 1em;
     outline: none; /*outline은 입력 창 선택 시 강조 효과 */
-    border: 1px solid #26C2BF; 
+    border: none; 
     border-radius: 0.1em;
     line-height: 1.2em;
+    background-color: inherit;
   }
   .count-font{
   font-size:15px;
@@ -60,6 +69,23 @@
   display: absolute;
   top:0;
   left:200%;
+  }
+  .btn-create{
+   background-color: inherit;
+    color:none;
+    cursor: pointer;
+    border: none;
+  }
+  .view-container{
+  border: 1px solid #26C2BF; 
+  border-radius: 0.2em;
+  }
+  .replyWriter{
+  font-weight: bold;
+  }
+  .content{
+  padding-left:10px; 
+  padding-top:10px; 
   }
  </style>
  <script>
@@ -103,7 +129,6 @@
 		
 		
 	 $(".reply-insert-form").submit(function(e){
-// 		 console.log("성공");
 		 e.preventDefault();
 		 $.ajax({
 			 url:"/rest/reply/insert",
@@ -134,47 +159,33 @@
 				data:{replyOrigin : no},
 				success:function(response){
 					$(".reply-list").empty();
-					console.log("성공 값"+response.attano);
+					console.log(response);
 					for(var i=0; i < response.list.length; i++) {
 						var reply = response.list[i];
-						var attach = response.attachNo[i];
-// 						var nickname = response.MemberNickname[i];
+						var nickname = response.memberNickname[i];
 						console.log(reply);
 						var template = $("#reply-template").html();
 						var htmlTemplate = $.parseHTML(template);
 						
-						$(htmlTemplate).find(".replyWriter").text(reply.replyWriter|| "탈퇴한 사용자");
+						$(htmlTemplate).find(".replyWriter").text(nickname|| "탈퇴한 사용자");
 						$(htmlTemplate).find(".replyContent").text(reply.replyContent);
 						$(htmlTemplate).find(".replyTime").text(reply.replyTime);
-// 						console.log(attach);
 						
-						//이미지 소스 보내기
-						if(attach	 == null){
-							$(htmlTemplate).find(".reply-profile").prop("src","https://dummyimage.com/80x80/000/fff");
-							}
-						else{
-							$(htmlTemplate).find(".reply-profile").prop("src", "/rest/member/download?attachNo="+attach);
-						}
-						
-						if(memberId.length == 0 || memberId != reply.replyWriter) {
-							$(htmlTemplate).find(".btn-wrap").remove();	
-						}
-						
-							
 						//버튼 생성 버튼
 						$(htmlTemplate).find(".btn-create").click(function (e) {
 							var displayValue = $(this).parents(".view-container").find(".btn-hide").css("display");
 								if(displayValue=="none"){
-// 									console.log("나타남");
-									$(this).removeClass("h-100").addClass("h-33")
 									$(this).parents(".view-container").find(".btn-hide").css("display", "inline-block");
+									$(this).parents(".view-container").find(".btn-hide").css({"position": "relative",
+																													                "left": "50px",
+																													                "bottom": "60px"});
 								}
 								else{
-// 									console.log("사라짐	");
-									$(this).removeClass("h-33").addClass("h-100")
+									$(this).show();
 									$(this).parents(".view-container").find(".btn-hide").css("display", "none");				
 								}
 						});
+						
 						
 						//삭제버튼
 						$(htmlTemplate).find(".btn-delete")
@@ -222,18 +233,10 @@
 									method:"post",
 									data : $(e.target).serialize(),
 									success:function(response){
-// 								console.log("성공");
 										loadList();
 									}
 								});
 							});
-							
-							//대댓글 버튼
-							//replyGroup, replyParent, replyDepth 정보 필요
-// 							$(htmlTemplate).find(".block-form")
-// 												.attr("data-reply-no", reply.replyNo)
-// 												.attr("data-reply-content", reply.replyContent)
-// 												.click(function(){});
 							
 							//화면 배치
 							$(this).parents(".view-container")
@@ -281,13 +284,12 @@
 				$(".block-container").remove();
 				},
 			});
-		
 		});
 		
 		
 			$(this).hide().after(blockHtmlTemplate);
 		});
-	//조회수 불러오기
+	//댓글 불러오기
 	$.ajax({
 		url:"/rest/board/boardReplyCount",
 		data:{boardNo : no},
@@ -307,21 +309,17 @@
 	    	<div class="w-100">
 		    	<div class="flex-container">
 					<div class="row left">
-						<img src="" class="reply-profile image image-circle image-border profile-image" width="32" height="32">
-					</div>
-					<div class="row right">
-						<pre class="replyWriter mt-10">작성자</pre>
+						<img src="/images/user	.png"  width="35" height="24">
+						<span class="replyWriter">작성자</span>
 					</div>
 			    </div>
-						<pre class="replyContent not-outline w-100 left" style="height: 52px"></pre>
+					<pre class="replyContent not-outline w-100 left" style="height: 42px; padding-left: 10px;"></pre>
 		    	</div>
 				<div class="right btn-wrap" style="width: 10%">
-					<button class="btn btn-create w-100 h-100"><i class="fa-solid fa-ellipsis"></i></button>
+					<button class="btn-create w-100 h-100"><i class="fa-solid fa-ellipsis"></i></button>
+					<button class="btn-hide btn-edit w-100 h-50">수정</button>
+					<button class="btn-hide btn-delete w-100 h-50">삭제</button>
 				</div>
-					<div class="append">
-						<button class="btn btn-positive btn-hide btn-edit w-100 h-33">수정</button>
-						<button class="btn btn-positive btn-hide btn-delete w-100 h-33">삭제</button>
-					</div>
 	</div>
 </div>
 </script>
@@ -334,7 +332,7 @@
 			<input type="hidden" name="replyNo" value="?">	        
 	        <div class="row flex-container">
 				<div class="left w-80">
-					<textarea name="replyContent" class="w-100 h-100"></textarea>
+					<textarea name="replyContent" class="form-input w-100 h-100"></textarea>
 				</div>
 				<div class="flex-container w-20">
 					<button type="submit" class="btn btn-positve w-50 h-100"><i class="fa-regular fa-paper-plane fa-2x rotate-icon"></i></button>
@@ -364,7 +362,7 @@
         	<div class="row w-50 left">
         		<h2>${boardDto.boardTitle}</h2>
         	</div>
-		        <div class="row me-10 mt-10 w-50 right">
+		        <div class="row me-10 mt-20 w-50 right" style="font-size: 20px;">
 		            <span>${boardDto.boardCtime}</span>
 		        </div>
 		</div>
@@ -382,8 +380,8 @@
 			</c:choose>
             <label style="font-size: 20px">${writerDto.memberNickname}</label>
         </div>
-        <div class="row right mt-50 w-50">
-          <i class="fa-solid fa-heart red"></i> 좋아요 <label>0</label>|조회수<label class="readCount">${boardDto.boardReadcount}</label>
+        <div class="row right mt-50 w-50" style="font-size: 18px;">
+          <i class="fa-solid fa-heart red"></i> 좋아요 <label>0</label> | 조회수<label class="">${boardDto.boardReadcount}</label>
         </div>
 		</div>
         
@@ -395,7 +393,7 @@
         <div class="row flex-container">
             <div class="col-2">
                 <div class="left">
-                    <button class = "btn-block"><img src="/images/Union.png"  width="35" height="19"></button>
+                    <button class = "btn-block"><img src="/images/Union.png"  width="35" height="14"></button>
                  </div>
             </div>
             <div class="col-2">
@@ -426,8 +424,8 @@
 		<form class="reply-insert-form">
 		<input type="hidden" name="replyOrigin" value="${boardDto.boardNo}">
 		<div class="row flex-container mt-10" style="height: 55px;">
-				<input class="w-100 	reply-input" name="replyContent"></input>
-				<button class="btn center"><i class="fa-regular fa-paper-plane fa-2x rotate-icon"></i></button>
+				<input class="w-100 reply-input" name="replyContent"></input>
+				<button class="btn center" style="border-left: none;"><i class="fa-regular fa-paper-plane fa-2x rotate-icon"></i></button>
 			</div>
 			<input type="hidden" name="replyParent" value="${reply.replyNo}">
 		<c:if test="${reply.replyParent!=null}">

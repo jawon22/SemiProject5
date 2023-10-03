@@ -641,14 +641,14 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public List<MemberDto> selectListByMemberNick(int boardNo) {
+	public List<String> selectListByMemberNick(int boardNo) {
 		 String sql = "SELECT m.member_nickname " 
 		                 +"FROM member m "
 		                 +"INNER JOIN reply r ON m.member_id = r.reply_writer "
 		                 +"where r.reply_origin= ? "
 		                 +"ORDER BY r.reply_no";
 		 Object[] data = {boardNo};
-		return jdbcTemplate.query(sql, memberMapper, data);
+		return jdbcTemplate.queryForList(sql, String.class, data);
 	}
 
 }
