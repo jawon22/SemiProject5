@@ -55,7 +55,7 @@ h4{
 										<c:if test="${boardListDto.boardReplycount >0}">
 											&nbsp;&nbsp;
 											<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
-											<label>${boardListDto.boardReplycount}</label>
+											<%-- <label>${boardListDto.boardReplycount}</label> --%>
 										</c:if>
 										<c:if test="${boardListDto.attachmentNo !=0}">
 											<i class="fa-regular fa-image"></i>
@@ -104,7 +104,7 @@ h4{
 										<c:if test="${boardListDto.boardReplycount >0}">
 											&nbsp;&nbsp;
 											<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
-											<label>${boardListDto.boardReplycount}</label>
+											<%-- <label>${boardListDto.boardReplycount}</label> --%>
 										</c:if>
 										<c:if test="${boardListDto.attachmentNo !=0}">
 											<i class="fa-regular fa-image"></i>
