@@ -120,8 +120,8 @@
 	    });
 	
 	    $("[name=memberEmail]").blur(function(){
-	        var Regex = /^.*@.*$/;
-	        var isValid = (Regex.test($(this).val())) && ($(this).val().length == 0);
+	        var Regex = /^(.*?)@(.*?)$/;
+	        var isValid = Regex.test($(this).val()) && $(this).val().length != 0;
 	
 	        $(this).removeClass("success fail");
 	        $(this).addClass(isValid ? "success" : "fail");
