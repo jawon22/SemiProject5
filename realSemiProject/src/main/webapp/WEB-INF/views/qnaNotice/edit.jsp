@@ -87,14 +87,21 @@
         
         // 입력 내용이 변경될 때마다 byte 수 업데이트
         $('[name=qnaNoticeContent]').on('summernote.change', function () {
-            updateByteCount();
+            updateButtonState();
+        });
+
+        $('[name=qnaNoticeTitle]').on('input', function () {
+            updateButtonState();
         });
 
         // 초기 byte 수 업데이트
-        updateByteCount();
+        updateButtonState();
 
-        function updateByteCount() {
-            var content = $('[name=qnaNoticeContent]').summernote('code');
+        function updateButtonState() {
+            var title = $('[name=qnaNoticeTitle]').val().trim(); // 제목 값 가져오기
+            var contentHtml = $('[name=qnaNoticeContent]').summernote('code').trim();
+            
+            var content = $(contentHtml).text(); // HTML 태그를 제외한 텍스트만
             var byteCount = countBytes(content);
 
             // byte 수를 버튼 위에 표시
@@ -103,7 +110,7 @@
 
         // 문자열의 byte 수 계산 함수
         function countBytes(str) {
-            var byteCount = -11;
+            var byteCount = 0;
             for (var i = 0; i < str.length; i++) {
                 var charCode = str.charCodeAt(i);
                 if (charCode <= 0x007F) {
@@ -144,20 +151,24 @@
         
         
         
-     // 입력 내용이 변경될 때마다 byte 수 업데이트
-        $('[name=qnaNoticeContent], [name=qnaNoticeTitle]').on('summernote.change', function () {
-            updateByteCount();
+        // 입력 내용이 변경될 때마다 byte 수 업데이트
+        $('[name=qnaNoticeContent]').on('summernote.change', function () {
+            updateButtonState();
+        });
+
+        $('[name=qnaNoticeTitle]').on('input', function () {
+            updateButtonState();
         });
 
         // 초기 byte 수 업데이트
-        updateByteCount();
+        updateButtonState();
 
-        function updateByteCount() {
-            var content = $('[name=qnaNoticeContent]').summernote('code');
+        function updateButtonState() {
+            var title = $('[name=qnaNoticeTitle]').val().trim(); // 제목 값 가져오기
+            var contentHtml = $('[name=qnaNoticeContent]').summernote('code').trim();
+            
+            var content = $(contentHtml).text(); // HTML 태그를 제외한 텍스트만
             var byteCount = countBytes(content);
-
-            // byte 수를 버튼 위에 표시
-            $('#byteCount').text(byteCount);
 
             
             // 용량 초과 시에만 스타일 변경
@@ -179,7 +190,7 @@
 
         // 문자열의 byte 수 계산 함수
         function countBytes(str) {
-            var byteCount = -11;
+            var byteCount = 0;
             for (var i = 0; i < str.length; i++) {
                 var charCode = str.charCodeAt(i);
                 if (charCode <= 0x007F) {
@@ -211,18 +222,21 @@
                 class="form-input w-100" value="${qnaNoticeDto.qnaNoticeTitle}" >
             </div>
             
-            <!-- 비밀글 여부를 원본 글을 따라가도록 설정 -->
-			<div class="row left">
-    			<label>비밀글</label>
-    			<c:choose>
-        			<c:when test="${qnaNoticeDto.qnaNoticeSecret == 'Y'}">
-            			<input type="checkbox" name="qnaNoticeSecret" value="Y" checked>
-        			</c:when>
-        			<c:otherwise>
-            			<input type="checkbox" name="qnaNoticeSecret" value="N">
-        			</c:otherwise>
-    			</c:choose>
-			</div>
+<!-- 수정글이 공지사항인 경우에만 비밀글 체크박스를 표시하지 않음 -->
+<c:if test="${qnaNoticeDto.qnaNoticeType != 1}">
+    <div class="row left">
+        <label>비밀글</label>
+        <c:choose>
+            <c:when test="${qnaNoticeDto.qnaNoticeSecret == 'Y'}">
+                <input type="checkbox" name="qnaNoticeSecret" value="Y" checked>
+            </c:when>
+            <c:otherwise>
+                <input type="checkbox" name="qnaNoticeSecret" value="N">
+            </c:otherwise>
+        </c:choose>
+    </div>
+</c:if>
+        	
         	
             <div class="row left">
                 <label>내용</label>

@@ -177,6 +177,20 @@
             }
         });
         
+        
+        // 게시글 유형 선택 시
+        $('select[name="qnaNoticeType"]').change(function () {
+            var selectedType = $(this).val();
+            if (selectedType === "1") {
+                // 게시글 유형이 공지사항인 경우 비밀글 체크박스 비활성화
+                $('input[name="qnaNoticeSecret"]').prop('disabled', true);
+                $('input[name="qnaNoticeSecret"]').prop('checked', false);
+            } else {
+                // 게시글 유형이 다른 경우 비밀글 체크박스 활성화
+                $('input[name="qnaNoticeSecret"]').prop('disabled', false);
+            }
+        });
+        
     });
 </script>
 
@@ -209,8 +223,8 @@
         				<h2 class="crudTitle">게시글 작성</h2>
         				<label>유형</label>
                     		<select name="qnaNoticeType">
-                        		<option value="1">공지사항</option>
                         		<option value="2">QnA</option>
+                        		<option value="1">공지사항</option>
                     		</select> 
                     		<input type="checkbox" name="qnaNoticeSecret" >비밀글
     				</c:otherwise>
