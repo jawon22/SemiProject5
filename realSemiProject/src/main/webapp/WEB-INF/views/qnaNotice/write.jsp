@@ -34,6 +34,7 @@
 <script>
     $(function () {
     	var isExceedingLimit = false; // 글자 수 제한 초과 여부를 나타내는 변수
+    	var byteCount = 0; // byteCount를 0으로 초기화
     	
         $('[name=qnaNoticeContent]').summernote({
             placeholder: '내용을 작성하세요',
@@ -51,38 +52,41 @@
             
             callbacks: {
                 onImageUpload: function(files) {
-                	
                     if (isExceedingLimit) {
                         alert('용량 제한을 초과하여 이미지를 추가할 수 없습니다.');
                         return;
                     }
-                    
-                   if(files.length != 1) return;
-                   
-                   console.log("비동기 파일 업로드 시작")
-                   //1. FormData 2. processdata 3.contentType
-                   var fd = new FormData();
-                   fd.append("attach", files[0]);
-                   
-                   $.ajax({
-                       url:"${pageContext.request.contextPath}/rest/attachment/upload",
-                       method:"post",
-                       data:fd,
-                       processData:false,
-                       contentType:false,
-                       success:function(response){
-                         
-                         //에디터에 추가할 이미지 생성
-                         var imgNode = $("<img>").attr("src", "${pageContext.request.contextPath}/rest/attachment/download/" + response.attachmentNo);
-                         //var imgNode = $("<img>").attr("src", "/rest/attachment/download?attachmentNo" + response.attachmentNo);
-                         $("[name=qnaNoticeContent]").summernote("insertNode", imgNode.get(0));
-                      },
-                      error: function() {
-                          alert("통신 오류 발생");
-                      }
-                  });
-              }
-          }
+
+                    if (files.length != 1) return;
+
+                    console.log("비동기 파일 업로드 시작");
+                    // 1. FormData 2. processdata 3.contentType
+                    var fd = new FormData();
+                    fd.append("attach", files[0]);
+
+                    $.ajax({
+                        url: "${pageContext.request.contextPath}/rest/attachment/upload",
+                        method: "post",
+                        data: fd,
+                        processData: false,
+                        contentType: false,
+                        success: function(response) {
+                            // 에디터에 추가할 이미지 생성
+                            var imgNode = $("<img>").attr("src", "${pageContext.request.contextPath}/rest/attachment/download/" + response.attachmentNo);
+                            // var imgNode = $("<img>").attr("src", "/rest/attachment/download?attachmentNo" + response.attachmentNo);
+                            $("[name=qnaNoticeContent]").summernote("insertNode", imgNode.get(0));
+                            
+
+                            // 버튼 상태 업데이트
+                            //updateButtonState();
+                            
+                        },
+                        error: function() {
+                            alert("통신 오류 발생");
+                        }
+                    });
+                }
+            }
       });
              
 
@@ -111,9 +115,13 @@
             
             var content = $(contentHtml).text(); // HTML 태그를 제외한 텍스트만
             var byteCount = countBytes(content);
+			
+            //이미지 자리추가
+            byteCount += countBytes(contentHtml);
+            
 
-
-
+            
+	
             // 문자열의 byte 수 계산 함수
             function countBytes(str) {
                 var byteCount = 0;
@@ -130,6 +138,8 @@
                     }
                 }
 
+
+                
                 // byte 수를 버튼 위에 표시
                 $('#byteCount').text(byteCount);
                 
@@ -140,11 +150,12 @@
                     $('#byteCount').removeClass("red");
                 }
 
-                console.log(title.trim() !== '');
+/*                 console.log(title.trim() !== '');
                 console.log(content.trim() !== '');
                 console.log(content);
                 console.log(byteCount <= 3989);
-                console.log(byteCount);
+                console.log(byteCount); */
+                
              // 버튼을 비활성화
                 if (content.trim() !== '' && title.trim() !== '' && byteCount <= 3989) {
                     $('.btn-positive').prop('disabled', false);

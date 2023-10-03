@@ -233,6 +233,9 @@
             var content = $(contentHtml).text(); // HTML 태그를 제외한 텍스트만
             var byteCount = countBytes(content);
 
+            //이미지 자리추가
+            byteCount += countBytes(contentHtml);
+            
                // byte 수를 버튼 위에 표시
                $('#byteCount').text(byteCount);
 
