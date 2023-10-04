@@ -15,8 +15,8 @@ pageEncoding="UTF-8"%>
 
 	<div class="row">
 
-		<a class="link" href="noticeList"><span class="btn">공지사항</span></a> 
-		<a class="link" href="qnaList"><span class="btn">Q&A</span></a>
+		<a class="link" href="/noticeList"><button class="btn">공지사항</button></a>
+		<a class="link" href="/qnaList"><button class="btn">Q&A</button></a>
 
 	</div>
 
