@@ -146,15 +146,17 @@
                 // byteCount가 초과하면 클래스 추가
                 if (byteCount > 3989) {
                     $('#byteCount').addClass("red");
+                    $('.btn-positive').addClass("red")
                 } else {
                     $('#byteCount').removeClass("red");
                 }
 
-/*                 console.log(title.trim() !== '');
+ 				console.log(title.trim() !== '');
                 console.log(content.trim() !== '');
-                console.log(content);
                 console.log(byteCount <= 3989);
-                console.log(byteCount); */
+                console.log(content);
+                
+                /*console.log(byteCount); */
                 
              // 버튼을 비활성화
                 if (content.trim() !== '' && title.trim() !== '' && byteCount <= 3989) {
