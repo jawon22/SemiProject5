@@ -45,6 +45,22 @@
 	    	return confirm("정말 삭제하시겠습니까?");
 	    });
 	
+	    $(".title").each(function() {
+			var originalString = $(this).text();
+			var maxLength = 8;
+
+			if (originalString.length >= maxLength) {
+				// 제한된 길이보다 긴 경우 말줄임표 추가
+				var limitedString = originalString.slice(0,
+						maxLength)
+						+ '<i class="fa-solid fa-ellipsis" style="color: #778192;"></i>';
+			} 
+			else {
+				var limitedString = originalString;
+			}
+			$(this).html(limitedString);
+		});
+	    
 	});
 
 </script>
@@ -130,7 +146,7 @@
 								
 								<c:otherwise>
 									<a class="link" href="detail?boardNo=${boardListDto.boardNo}">
-									${boardListDto.boardTitle}</a>
+									<span class="title">${boardListDto.boardTitle}</span></a>
 								
 								<!--  댓글이 있다면 개수를 표시 -->
 									<c:if test="${boardListDto.boardReplycount >0}">
