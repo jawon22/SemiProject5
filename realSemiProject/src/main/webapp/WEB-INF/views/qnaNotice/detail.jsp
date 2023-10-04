@@ -44,7 +44,11 @@
 <%-- 			</c:if> --%>
 <!-- 		</h3> -->
 <!-- 	</div> -->
-	<div class="flex-container">
+	<div class="row mb-50">
+		<img class="center" src="/images/Q&A.png" width="140" height="80">
+	</div>
+	<div class="flex-container mb-20">
+	
 		<div class="left mint w-50" >
 			<h2>${qnaNoticeDto.qnaNoticeTitle}</h2>
 		</div>
@@ -58,7 +62,7 @@
 		<div class="left">
 		<c:choose>
 				<c:when test="${attachNo == null}">
-					<img src="https://dummyimage.com/50x50/000/fff" width="50" height="50"
+					<img src="/images/user.png" width="50" height="50"
 						class="image image-circle image-border profile-image">
 				</c:when>
 				<c:otherwise>
