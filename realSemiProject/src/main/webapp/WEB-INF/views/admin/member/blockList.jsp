@@ -97,7 +97,7 @@
 <!-- 이전 버튼 -->
 <div class="row page-navigator">
 <c:if test="${!vo.first}">
-	<a href="list?${vo.prevQueryStringForMemberList}">&lt;</a>	
+	<a href="blockList?${vo.prevQueryStringForMemberList}">&lt;</a>	
 </c:if>
 
 <!-- 숫자 부분 -->
@@ -108,14 +108,14 @@
 			<a style="background-color:rgb(215,241,242)">${i}</a>
 		</c:when>
 		<c:otherwise>
-			<a href="list?${vo.getQueryStringForMemberList(i)}">${i}</a>		
+			<a href="blockList?${vo.getQueryStringForMemberList(i)}">${i}</a>		
 		</c:otherwise>
 	</c:choose>
 </c:forEach>
 
 <!--  다음버튼 -->
 <c:if test="${!vo.last}">
-	<a href="list?${vo.nextQueryStringForMemberList}" class="pagination-move">&gt;</a>		
+	<a href="blockList?${vo.nextQueryStringForMemberList}" class="pagination-move">&gt;</a>		
 </c:if>
 </div>
 
