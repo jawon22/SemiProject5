@@ -18,23 +18,31 @@ $(function(){
 </script>
 
 
-<div class="container w-400">
+<div class="container w-300">
 <form action="edit" method="post" autocomplete="off">
 	<input type="hidden" name="memberId" value="${memberDto.memberId}">
 	<div class="row left">
-	닉네임 <input class="form-input w-100" type="text" name="memberNickname" value="${memberDto.memberNickname}">
+	닉네임 
+	</div>
+	<div class="row left">	
+	<input class="form-input w-100" type="text" name="memberNickname" value="${memberDto.memberNickname}">
 	</div>
 	<div class="row left">
-	포인트 <input class="form-input w-100" type="number" name="memberPoint" value="${memberDto.memberPoint}">
+	포인트 
+	</div>
+	<div class="row left">
+	<input class="form-input w-100" type="number" name="memberPoint" value="${memberDto.memberPoint}">
 	</div>
 	<div class="row left">
 	등급 
-		<select name="memberLevel" value="${memberDto.memberLevel}">
+	</div>	
+	<div class="row">
+		<select class="form-input w-100" name="memberLevel" value="${memberDto.memberLevel}">
 		<option value="beginner" ${memberDto.memberLevel == 'beginner' ? 'selected' : ''}>beginner</option>
 		<option value="tripper" ${memberDto.memberLevel == 'tripper' ? 'selected' : ''}>tripper</option>
 		<option value="관리자" ${memberDto.memberLevel == '관리자' ? 'selected' : ''}>관리자</option>
 		</select>
-	</div>	
+	</div>
 	
 	<div class="row">
 	<button type="submit" class="btn btn-positive w-100"> 수정하기 </button>

@@ -120,6 +120,11 @@ public class MemberRestController {
 		memberDao.deleteProfile(memberId);
 	}
 	
+	@PostMapping("/deleteByAdmin")
+	public void deleteByAdmin(@RequestParam String memberId) {
+		memberDao.deleteProfile(memberId);
+	}
+	
 	//회원 통계 - 나이
 	@PostMapping("/stat/birth")
 	public List<StatDto> statBirthCount(){
