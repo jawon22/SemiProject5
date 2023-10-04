@@ -75,12 +75,8 @@
 	</div>
 
 	<div class="row">
-		<div class="btn">
-			<a class="link" href="noticeList"><label>공지사항</label></a>
-		</div>
-		<div class="btn">
-			<a class="link" href="qnaList"><label>Q&A</label></a>
-		</div>
+		<a class="link" href="noticeList"><button class="btn">공지사항</button></a>
+		<a class="link" href="qnaList"><button class="btn">Q&A</button></a>
 	</div>
 
 	<c:if test="${vo.page == 1}">
@@ -177,7 +173,7 @@
 		<c:choose>
 			<c:when test="${vo.page == i}">
 				<!-- 현재페이지면 -->
-				<a href="list?${vo.getQueryStringForMemberList(i)}" class="on">${i}</a>
+				<a style="background-color:rgb(215,241,242)">${i}</a>
 			</c:when>
 			<c:otherwise>
 				<a href="list?${vo.getQueryStringForMemberList(i)}">${i}</a>

@@ -53,7 +53,7 @@
 						class="image image-circle image-border profile-image">
 				</c:when>
 				<c:otherwise>
-				<img src="/rest/member/download?attachNo=${attachDto.attachNo}" width="80" height="80"
+				<img src="/rest/member/download?attachNo=${attachNo}" width="80" height="80"
 				class="image image-circle image-border profile-image">
 				</c:otherwise>
 			</c:choose>	

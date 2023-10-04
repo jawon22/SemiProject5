@@ -32,7 +32,7 @@
 </script>
 
 
-<div class="container w-800">
+<div class="container w-900">
 	<div class="row">
 		<a href="reportList" class="link" ><span class="title">신고현황</span></a>
 	</div>
@@ -47,7 +47,7 @@
 		</c:if>
 			
 		<div class="row">
-			<table class="table table-slit">
+			<table class="table table-regular center">
 				<thead>
 					<tr>
 						<th>
@@ -60,7 +60,7 @@
 							글 번호
 						</th>
 						<th>
-							글 종류
+							게시판 종류
 						</th>
 						<th>
 							글 제목
@@ -90,10 +90,17 @@
 								<a class="link" href="/board/detail?boardNo=${reportList.boardNo}">${reportList.boardNo}</a>
 							</td>
 							<td align="center">
-								${reportList.boardCategory}
+								<c:choose>
+									<c:when test="${reportList.boardCategory >= 1 && reportList.boardCategory <= 8}">
+										지역
+									</c:when>
+									<c:otherwise>
+										계절
+									</c:otherwise>
+								</c:choose>
 							</td>
 							<td align="center">
-								${reportList.boardTitle}
+								<a class="link" href="/board/detail?boardNo=${reportList.boardNo}">${reportList.boardTitle}</a>
 							</td>
 							<td align="center">
 								${reportList.boardWriter}
@@ -129,7 +136,7 @@
 	<!-- 이전 버튼 -->
 	<div class="row page-navigator">
 		<c:if test="${!vo.first}">
-			<a href="reportList?${vo.prevQueryStringForMemberList}" class="prev">&lt;</a>	
+			<a href="reportList?${vo.prevQueryStringForMemberList}">&lt;</a>	
 		</c:if>
 
 		<!-- 숫자 부분 -->
@@ -147,7 +154,7 @@
 
 		<!--  다음버튼 -->
 		<c:if test="${!vo.last}">
-			<a href="reportList?${vo.nextQueryStringForMemberList}" class="next">&gt;</a>		
+			<a href="reportList?${vo.nextQueryStringForMemberList}">&gt;</a>		
 		</c:if>
 	</div>
 </div>

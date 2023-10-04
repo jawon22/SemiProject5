@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+import com.semi.project.dao.MemberDao;
 import com.semi.project.dao.QnaNoticeDao;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.QnaNoticeDto;
@@ -40,6 +40,9 @@ public class QnaNoticeController {
 
 	@Autowired
 	private QnaService qnaService;
+	
+	@Autowired
+	MemberDao memberDao;
 
 	// 등록 답글
 	@GetMapping("/write")
@@ -135,7 +138,10 @@ public class QnaNoticeController {
 	@RequestMapping("/detail")
 	public String detail(@RequestParam int qnaNoticeNo, Model model) {
 		QnaNoticeDto qnaNoticeDto = qnaNoticeDao.selectOne(qnaNoticeNo);
+		Integer attachNo = memberDao.findProfile(qnaNoticeDto.getQnaNoticeWriterString());
 		model.addAttribute("qnaNoticeDto", qnaNoticeDto);
+		model.addAttribute("attachNo", attachNo);
+		log.debug("attach{}"+attachNo);
 		return "/WEB-INF/views/qnaNotice/detail.jsp";
 	}
 
