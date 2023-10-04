@@ -399,7 +399,7 @@ height: auto;
         <div class="row left w-50">
         <c:choose>
 				<c:when test="${attachNo == null}">
-					<img src="https://dummyimage.com/50x50/000/fff" width="50" height="50"
+					<img src="/images/user.png" width="50" height="50"
 						class="image image-circle image-border profile-image">
 				</c:when>
 				<c:otherwise>

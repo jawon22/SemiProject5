@@ -6,6 +6,7 @@
 <!-- 댓글과 관련된 처리를 할 수 있도록 jQuery 코드 구현 -->
 <style>
 	.note-viewer {
+		border:1px solid black;
 	    line-height: 5 !important;
 	}
 	/* 가운데 정렬 스타일 */
@@ -21,6 +22,13 @@
      .centered-element {
          /* 원하는 스타일을 여기에 추가 */
      }
+     .content{
+  padding:10px; 
+	/*   overflow:auto; */
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	height: auto;
+  }
 </style>
 
 <div class="container w-800">
@@ -36,13 +44,14 @@
 <%-- 			</c:if> --%>
 <!-- 		</h3> -->
 <!-- 	</div> -->
+	<div class="flex-container">
+		<div class="left mint w-50" >
+			<h2>${qnaNoticeDto.qnaNoticeTitle}</h2>
+		</div>
 	
-	<div class="row right">
-		<fmt:formatDate value="${qnaNoticeDto.qnaNoticeTime}" pattern="y년 M월 d일 E a h시 m분 s초"/>
-	</div>
-	
-	<div class="row left mint" >
-		<h2>${qnaNoticeDto.qnaNoticeTitle}</h2>
+		<div class="right w-50">
+			<fmt:formatDate value="${qnaNoticeDto.qnaNoticeTime}" pattern="y년 M월 d일 E a h시 m분 s초"/>
+		</div>
 	</div>
 	<div class="row left" >
 		<div class="flex-container">
@@ -53,7 +62,7 @@
 						class="image image-circle image-border profile-image">
 				</c:when>
 				<c:otherwise>
-				<img src="/rest/member/download?attachNo=${attachNo}" width="80" height="80"
+				<img src="/rest/member/download?attachNo=${attachNo}" width="50" height="50"
 				class="image image-circle image-border profile-image">
 				</c:otherwise>
 			</c:choose>	
@@ -74,24 +83,25 @@
 	
 	<%-- 게시글 내용(본문) --%>
 	<div class="row left note-viewer" style="min-height:250px">
-		<pre>${qnaNoticeDto.qnaNoticeContent}</pre>	
+		<pre class="content">${qnaNoticeDto.qnaNoticeContent}</pre>	
 	</div>
 
-		 
+<div class="right"> 
 <!-- 글 수정 및 삭제 버튼은 로그인 상태에서만 표시 -->
 <c:if test="${sessionScope.name != null}">
     <!-- 글 수정 및 삭제는 소유자일 경우에만 나와야 한다 -->
     <c:if test="${sessionScope.name == qnaNoticeDto.memberId}">
-        <a href="edit?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}">글 수정</a>        
-        <a href="delete?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}">글 삭제</a>
+        <a href="edit?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}"><button class="btn">수정</button></a>        
+        <a href="delete?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}"><button class="btn">삭제</button></a>
     </c:if>
     
     <!-- 답글 버튼은 관리자일 경우에만 표시 -->
     <c:if test="${sessionScope.level == '관리자'}">
-        <a href="write?qnaNoticeParent=${qnaNoticeDto.qnaNoticeNo}">답글</a>
+        <a href="write?qnaNoticeParent=${qnaNoticeDto.qnaNoticeNo}"><button class="btn">답글</button></a>
     </c:if>
 </c:if>
-			<a href="list">목록으로</a>
+			<a href="list"><button  class="btn">목록</button></a>
+</div>
 </div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
