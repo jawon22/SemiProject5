@@ -98,14 +98,14 @@ public class AdminController {
 	@RequestMapping("/member/block")
 	public String memberBlock(@RequestParam String memberId) {
 		memberDao.insertBlock(memberId);
-		return "redirect:list";
+		return "redirect:detail?memberId=" + memberId;
 	}
 	
 	//회원 차단 해제
 	@RequestMapping("/member/cancel")
 	public String memberCancel(@RequestParam String memberId) {
 		memberDao.deleteBlock(memberId);
-		return "redirect:list";
+		return "redirect:detail?memberId=" + memberId;
 	}
 	
 	//신고 목록

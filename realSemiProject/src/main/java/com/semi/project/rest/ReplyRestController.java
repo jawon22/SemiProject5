@@ -1,6 +1,5 @@
 package com.semi.project.rest;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,7 +7,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.semi.project.dao.BoardDao;
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dao.ReplyDao;
-import com.semi.project.dto.MemberDto;
 import com.semi.project.dto.ReplyDto;
 import com.semi.project.vo.ReplyDataVo;
 

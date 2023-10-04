@@ -33,10 +33,10 @@ h4{
     			</div>
     			
     			<div class="left">
-    				<table class="table table-slit">
+    				<table class="table table-slit table-regular">
     					<thead>
 							<tr>
-								<th width="10%">순위</th>
+								<th width="15%">순위</th>
 								<th width="50%" align="left">제목</th>
 								<th align="center">작성자</th>
 							</tr>
@@ -48,18 +48,22 @@ h4{
 									<td align="center">${boardListDto.ranking}</td>
 									<td align="left">
 											<!--  제목을 누르면 상세페이지로 이동 -->
-										<a class="link" href="/board/detail?boardNo=${boardListDto.boardNo}">
-										${boardListDto.boardTitle}</a>
-									
-											<!--  댓글이 있다면 개수를 표시 -->
-										<c:if test="${boardListDto.boardReplycount >0}">
-											&nbsp;&nbsp;
-											<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
-											<%-- <label>${boardListDto.boardReplycount}</label> --%>
-										</c:if>
-										<%-- <c:if test="${boardListDto.attachmentNo !=0}">
-											<i class="fa-regular fa-image"></i>
-										</c:if> --%>
+										<c:choose>
+											<c:when test="${boardListDto.reportCount >= 5}">
+												<span style="color:gray;">블라인드 처리된 글입니다</span>
+										</c:when>
+											<c:otherwise>
+												<a class="link" href="/board/detail?boardNo=${boardListDto.boardNo}">
+												${boardListDto.boardTitle}</a>
+											
+													<!--  댓글이 있다면 개수를 표시 -->
+												<c:if test="${boardListDto.boardReplycount >0}">
+													&nbsp;&nbsp;
+													<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
+													<%-- <label>${boardListDto.boardReplycount}</label> --%>
+												</c:if>
+											</c:otherwise>
+										</c:choose>
 									</td>
 									
 									<!-- 작성자 -->
@@ -82,10 +86,10 @@ h4{
     				</a>
     			</div>
     			<div class="left">
-    				<table class="table table-slit">
+    				<table class="table table-slit table-regular">
     					<thead>
 							<tr>
-								<th width="10%">순위</th>
+								<th width="15%">순위</th>
 								<th width="50%" align="left">제목</th>
 								<th align="center">작성자</th>
 							</tr>
@@ -97,18 +101,22 @@ h4{
 									<td align="center">${boardListDto.ranking}</td>
 									<td align="left">
 											<!--  제목을 누르면 상세페이지로 이동 -->
-										<a class="link" href="/board/detail?boardNo=${boardListDto.boardNo}">
-										${boardListDto.boardTitle}</a>
-									
-											<!--  댓글이 있다면 개수를 표시 -->
-										<c:if test="${boardListDto.boardReplycount >0}">
-											&nbsp;&nbsp;
-											<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
-											<%-- <label>${boardListDto.boardReplycount}</label> --%>
-										</c:if>
-										<%-- <c:if test="${boardListDto.attachmentNo !=0}">
-											<i class="fa-regular fa-image"></i>
-										</c:if> --%>
+										<c:choose>
+											<c:when test="${boardListDto.reportCount >= 5}">
+												<span style="color:gray;">블라인드 처리된 글입니다</span>
+											</c:when>
+											<c:otherwise>
+												<a class="link" href="/board/detail?boardNo=${boardListDto.boardNo}">
+												${boardListDto.boardTitle}</a>
+											
+													<!--  댓글이 있다면 개수를 표시 -->
+												<c:if test="${boardListDto.boardReplycount >0}">
+													&nbsp;&nbsp;
+													<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
+													<%-- <label>${boardListDto.boardReplycount}</label> --%>
+												</c:if>
+											</c:otherwise>
+										</c:choose>
 									</td>
 									
 									<!-- 작성자 -->

@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-//import org.springframework.util.StringUtils;
 
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
@@ -172,9 +171,6 @@ public class BoardDaoImpl implements BoardDao{
 	//검색을 안하고 계절과 지역을 선택했을때
 	@Override
 	public List<BoardListDto> selectListByPageAndCategory(int page, String weather, String area) {
-//		if (weather.equals("전체") && area.equals("전체")) {
-//	        return selectListByPage(page); // 계절과 지역이 모두 전체인 경우 모든 게시글을 불러옵니다.
-//	    }
 		
 		int start = (page-1)*15 +1;
 		int end = page*15;
@@ -210,7 +206,30 @@ public class BoardDaoImpl implements BoardDao{
 			return jdbcTemplate.query(sql, boardListMapper,data);
 			
 		}
+		else if(!weather.equals("전체") && area.equals("전체") && !keyword.equals("")) {
+			String sql = "SELECT * FROM ("
+					+ "SELECT ROWNUM rn, TMP.* FROM("
+						+ "select * from board_list where instr("+type+",?) >0 and "
+									+ "board_category between 1 and 40 and board_categoryweather = ?"
+							+ " order by board_ctime desc"
+						+ ")TMP "
+					+ ")WHERE rn BETWEEN ? AND ?";
+			Object[] data = {keyword,weather,start,end};
+			return jdbcTemplate.query(sql, boardListMapper,data);
+		}
+		else if(weather.equals("전체") && !area.equals("전체") && !keyword.equals("")) {
+			String sql = "SELECT * FROM ("
+					+ "SELECT ROWNUM rn, TMP.* FROM("
+						+ "select * from board_list where instr("+type+",?) >0 and "
+									+ "board_category between 1 and 40 and board_area = ?"
+							+ " order by board_ctime desc"
+						+ ")TMP "
+					+ ")WHERE rn BETWEEN ? AND ?";
+			Object[] data = {keyword,area,start,end};
+			return jdbcTemplate.query(sql, boardListMapper,data);
+		}
 		
+		else {
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
 							+ "select * from board_list where instr("+type+",?) >0 and "
@@ -221,7 +240,7 @@ public class BoardDaoImpl implements BoardDao{
 						+ ")WHERE rn BETWEEN ? AND ?";
 		Object[] data = {keyword,weather,area,start,end};
 		return jdbcTemplate.query(sql, boardListMapper,data);
-		
+		}
 	}
 	
 	
@@ -337,7 +356,29 @@ public class BoardDaoImpl implements BoardDao{
 			return jdbcTemplate.query(sql, boardListMapper,data);
 			
 		}
-		
+		else if(!weather.equals("전체") && area.equals("전체") && !keyword.equals("")) {
+			String sql = "SELECT * FROM ("
+					+ "SELECT ROWNUM rn, TMP.* FROM("
+						+ "select * from board_list where instr("+type+",?) >0 and "
+									+ "board_category between 1 and 40 and board_categoryweather = ?"
+							+ " order by board_readcount desc"
+						+ ")TMP "
+					+ ")WHERE rn BETWEEN ? AND ?";
+			Object[] data = {keyword,weather,start,end};
+			return jdbcTemplate.query(sql, boardListMapper,data);
+		}
+		else if(weather.equals("전체") && !area.equals("전체") && !keyword.equals("")) {
+			String sql = "SELECT * FROM ("
+					+ "SELECT ROWNUM rn, TMP.* FROM("
+						+ "select * from board_list where instr("+type+",?) >0 and "
+									+ "board_category between 1 and 40 and board_area = ?"
+							+ " order by board_readcount desc"
+						+ ")TMP "
+					+ ")WHERE rn BETWEEN ? AND ?";
+			Object[] data = {keyword,area,start,end};
+			return jdbcTemplate.query(sql, boardListMapper,data);
+		}
+		else {
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
 							+ "select * from board_list where instr("+type+",?) >0 and "
@@ -348,7 +389,7 @@ public class BoardDaoImpl implements BoardDao{
 						+ ")WHERE rn BETWEEN ? AND ?";
 		Object[] data = {keyword,weather,area,start,end};
 		return jdbcTemplate.query(sql, boardListMapper,data);
-		
+		}
 	}
 	
 	@Override
@@ -462,7 +503,30 @@ public class BoardDaoImpl implements BoardDao{
 			return jdbcTemplate.query(sql, boardListMapper,data);
 			
 		}
+		else if(!weather.equals("전체") && area.equals("전체") && !keyword.equals("")) {
+			String sql = "SELECT * FROM ("
+					+ "SELECT ROWNUM rn, TMP.* FROM("
+						+ "select * from board_list where instr("+type+",?) >0 and "
+									+ "board_category between 1 and 40 and board_categoryweather = ?"
+							+ " order by board_likecount desc"
+						+ ")TMP "
+					+ ")WHERE rn BETWEEN ? AND ?";
+			Object[] data = {keyword,weather,start,end};
+			return jdbcTemplate.query(sql, boardListMapper,data);
+		}
+		else if(weather.equals("전체") && !area.equals("전체") && !keyword.equals("")) {
+			String sql = "SELECT * FROM ("
+					+ "SELECT ROWNUM rn, TMP.* FROM("
+						+ "select * from board_list where instr("+type+",?) >0 and "
+									+ "board_category between 1 and 40 and board_area = ?"
+							+ " order by board_likecount desc"
+						+ ")TMP "
+					+ ")WHERE rn BETWEEN ? AND ?";
+			Object[] data = {keyword,area,start,end};
+			return jdbcTemplate.query(sql, boardListMapper,data);
+		}
 		
+		else {
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
 							+ "select * from board_list where instr("+type+",?) >0 and "
@@ -473,7 +537,7 @@ public class BoardDaoImpl implements BoardDao{
 						+ ")WHERE rn BETWEEN ? AND ?";
 		Object[] data = {keyword,weather,area,start,end};
 		return jdbcTemplate.query(sql, boardListMapper,data);
-		
+		}
 	}
 	
 	@Override
@@ -521,30 +585,30 @@ public class BoardDaoImpl implements BoardDao{
 	    		sql="select count(*) from board_list where board_category between 1 and 40";
 	    		data = new Object[0];
 	    	}
-	    	else if(vo.getWeather().equals("전체")&& vo.getArea().equals("전체") && !vo.getKeyword().equals("")) {
-	    		sql="select count(*) from board_list where " + vo.getType() + " like ? " +
-	    				"and board_category between 1 and 40";
-	    		data = new Object[]{"%" + vo.getKeyword() + "%",0};
-	    	}
+//	    	else if(vo.getWeather().equals("전체")&& vo.getArea().equals("전체") && !vo.getKeyword().equals("")) {
+//	    		sql="select count(*) from board_list where " + vo.getType() + " like ? " +
+//	    				"and board_category between 1 and 40";
+//	    		data = new Object[]{"%" + vo.getKeyword() + "%",0};
+//	    	}
 	    	
 	    	else if(!vo.getWeather().equals("전체") && vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
 	    		sql="select count(*) from board_list where board_categoryweather =? and board_category between 1 and 40";
 	    		data = new Object[]{vo.getWeather()};
 	    	}
-	    	else if(!vo.getWeather().equals("전체") && vo.getArea().equals("전체") && !vo.getKeyword().equals("")) {
-	    		sql="select count(*) from board_list where " + vo.getType() + " like ? " +
-	    				"and board_categoryweather =? and board_category between 1 and 40";
-	    		data = new Object[]{"%" + vo.getKeyword() + "%",vo.getWeather()};
-	    	}
+//	    	else if(!vo.getWeather().equals("전체") && vo.getArea().equals("전체") && !vo.getKeyword().equals("")) {
+//	    		sql="select count(*) from board_list where " + vo.getType() + " like ? " +
+//	    				"and board_categoryweather =? and board_category between 1 and 40";
+//	    		data = new Object[]{"%" + vo.getKeyword() + "%",vo.getWeather()};
+//	    	}
 	    	else if(vo.getWeather().equals("전체") && !vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
 	    		sql="select count(*) from board_list where board_area =? and board_category between 1 and 40";
 	    		data = new Object[]{vo.getArea()};
 	    	}
-	    	else if(vo.getWeather().equals("전체") && !vo.getArea().equals("전체") && !vo.getKeyword().equals("")) {
-	    		sql="select count(*) from board_list where " + vo.getType() + " like ? " +
-	    				"and board_area =? and board_category between 1 and 40";
-	    		data = new Object[]{"%" + vo.getKeyword() + "%",vo.getArea()};
-	    	}
+//	    	else if(vo.getWeather().equals("전체") && !vo.getArea().equals("전체") && !vo.getKeyword().equals("")) {
+//	    		sql="select count(*) from board_list where " + vo.getType() + " like ? " +
+//	    				"and board_area =? and board_category between 1 and 40";
+//	    		data = new Object[]{"%" + vo.getKeyword() + "%",vo.getArea()};
+//	    	}
 	    	else {
 	    	sql = "select count(*) from board_list where " + vo.getType() + " like ? " +
 	    			"and board_categoryweather = ? and board_area = ? and board_category between 1 and 40";

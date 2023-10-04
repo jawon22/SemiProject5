@@ -39,16 +39,23 @@
 
 		$(".profile-delete").click(
 				function() {
+					var memberId = "${memberDto.memberId}"; // 회원 아이디 가져오기
+					var form = new FormData();
+					form.append("memberId", memberId);
 
+					
 					var choice = window.confirm("정말 프로필을 지우시겠습니까?");
 					if (choice == false)
 						return;
 					$.ajax({
-						url : "http://localhost:8080/rest/member/delete",
+						url : "http://localhost:8080/rest/member/deleteByAdmin",
 						method : "post",
+						data : form,
+						contentType: false, 
+						processData: false, 
 						success : function(response) {
 							$(".profile-image").attr("src",
-									"https://dummyimage.com/130x130/000/fff");
+									"/images/user.png");
 						},
 					});
 				});
@@ -181,14 +188,22 @@
 
 		<div class="row left">
 			<h1>활동내역</h1>
-			<table class="table table-regular">
+			<table class="table table-regular center">
+	<thead>
+				<tr>
+					<th width="50%">제목</th>
+					<th>작성자</th>
+					<th>작성일자</th>
+				</tr>
+				</thead>
 				<tbody>
 					<c:forEach var="boardDto" items="${boardList}">
 						<tr>
-							<th><a class="link"
+							<td  class="left" ><a class="link"
 								href="/board/detail?boardNo=${boardDto.boardNo}">
-									${boardDto.boardTitle}</a></th>
-							<th>${boardDto.boardWriter}</th>
+									${boardDto.boardTitle}</a></td>
+							<td>${boardDto.memberNickname}</td>
+							<td>${boardDto.boardCtime}</td>
 						</tr>
 					</c:forEach>
 				</tbody>

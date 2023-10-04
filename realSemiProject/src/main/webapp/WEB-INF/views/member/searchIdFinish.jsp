@@ -29,7 +29,7 @@
 	</div>
 	
 	<div class="row center mt-40">
-		<a href="login" class="link ms-10">로그인 하기</a>
+		<a href="login" class="link ms-10 form-input">로그인 하기</a>
 	</div>
 	
 </div>

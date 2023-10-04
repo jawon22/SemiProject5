@@ -35,11 +35,21 @@ public class QnASecretInterceptor implements HandlerInterceptor{
 		int qnaNo = Integer.parseInt(request.getParameter("qnaNoticeNo"));
 		QnaNoticeDto qnaNoticeDto = qnaNoticeDao.selectOne(qnaNo);
 		
+		//답글일 경우에 (parent가 null이 아닐 때) 해당 글의 group번호가 qnaNoticeNo인 글의 작성자를 찾아서 작성자는 볼 수 있도록!
+		if(qnaNoticeDto.getQnaNoticeParent() != null) {
+			QnaNoticeDto findDto = qnaNoticeDao.selectOne(qnaNoticeDto.getQnaNoticeGroup());
+			String originId = findDto.getMemberId(); //얘가 작성자니까 얘는 볼 수 있음
+			if(memberId.equals(originId)) {
+				return true;		
+			}
+		}
+
 		//비밀글이면 관리자랑 작성자만 들어가야함
 		// 비밀글이면서 작성자와 세션아이디가 같거나 비밀글이면서 관리자이면 통과
 		boolean isPass = (qnaNoticeDto.getQnaNoticeSecret().equals("Y") &&
 				(qnaNoticeDto.getMemberId().equals(memberId)) || (memberLevel.equals("관리자") && memberLevel != null))
 				|| qnaNoticeDto.getQnaNoticeSecret().equals("N");
+		
 		
 		if(isPass) return true;
 		else throw new AuthorityException("글 작성자 또는 관리자가 아닙니다");
