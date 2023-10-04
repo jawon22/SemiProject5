@@ -70,7 +70,7 @@
 		// 정렬 방식에 따라 새로운 주소로 이동하는 함수
 		function navigateToSort(sortType) {
 		  var currentURL = window.location.href;
-		  var newURL = '<%= request.getContextPath() %>/board/list?sort=' + sortType; // 새로운 주소
+		  var newURL = '/board/list?sort=' + sortType; // 새로운 주소
 		
 		  // 현재 URL에서 정렬 방식 파라미터 제거 -> 주소 뒤에 붙는거 삭제
 		  currentURL = removeURLParameter(currentURL, 'sort');
@@ -101,7 +101,8 @@
 		    // 제거된 파라미터를 합쳐서 새로운 URL 생성
 		    url = urlparts[0] + (params.length > 0 ? '?' + params.join('&') : '');
 		    return url;
-		  } else {
+		  } 
+		  else {
 		    return url;
 		  }
 		}
@@ -121,7 +122,6 @@
 	<form id="listForm" action="list" method="get">
 		<div class="row">
 			<!-- 계절 선택창 -->
-<%--  			<c:if test="${param.weather != null}"> 			--%>
 				<select name="weather" class="form-input">
 					<option value="전체" selected>전체</option>
 				    <option value="봄" ${param.weather =='봄' ? 'selected' :''}>봄</option>
@@ -129,10 +129,8 @@
 				    <option value="가을" ${param.weather =='가을' ? 'selected' :''}>가을</option>
 				    <option value="겨울" ${param.weather =='겨울' ? 'selected' :''}>겨울</option>
 				</select>
-<%--  			</c:if> --%> 
 				
 			<!-- 지역 선택창 -->
-	<%-- 		<c:if test="${param.area != null}"> --%> 
 				<select name="area" class="form-input">
 					<option value="전체" selected>전체</option>
 				    <option value="서울" ${param.area =='서울' ? 'selected' :''}>서울</option>
@@ -143,7 +141,6 @@
 				    <option value="전라" ${param.area =='전라' ? 'selected' :''}>전라</option>
 				    <option value="제주" ${param.area =='제주' ? 'selected' :''}>제주</option>
 				</select>
-<%-- 		</c:if> --%>
 
 		</div>
 
@@ -175,9 +172,9 @@
 
 <div class="row right">
     
-   	<a href="<%= request.getContextPath() %>/board/list?sort=latest" class="btn btn-desc">최신순</a>
-	<a href="<%= request.getContextPath() %>/board/list?sort=readcount" class="btn btn-readcount">조회수순</a>
-	<a href="<%= request.getContextPath() %>/board/list?sort=likecount" class="btn btn-likecount">좋아요순</a>
+   	<a href="/board/list?sort=latest" class="btn btn-desc">최신순</a>
+	<a href="/board/list?sort=readcount" class="btn btn-readcount">조회수순</a>
+	<a href="/board/list?sort=likecount" class="btn btn-likecount">좋아요순</a>
 
 </div>
 
@@ -249,11 +246,7 @@
 										&nbsp;&nbsp;
 										<i class="fa-solid fa-comment" style="color: #78bdcf; z-index:99">
 										</i>
-										<%-- <label>${boardListDto.boardReplycount}</label> --%>
 									</c:if>
-									<%-- <c:if test="${boardListDto.attachmentNo !=0}">
-										<i class="fa-regular fa-image"></i>
-									</c:if> --%>
 								
 								</c:otherwise>
 							</c:choose	>
