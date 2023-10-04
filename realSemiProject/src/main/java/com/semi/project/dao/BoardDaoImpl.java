@@ -10,11 +10,13 @@ import org.springframework.stereotype.Repository;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.BoardReportDto;
+import com.semi.project.dto.MainPageListDto;
 import com.semi.project.dto.ReportDto;
 import com.semi.project.dto.ReportListDto;
 import com.semi.project.mapper.BoardDetailMapper;
 import com.semi.project.mapper.BoardListMapper;
 import com.semi.project.mapper.BoardTop10Mapper;
+import com.semi.project.mapper.MainPageListMapper;
 import com.semi.project.mapper.ReportListMapper;
 import com.semi.project.vo.PaginationVO;
 
@@ -771,17 +773,20 @@ public class BoardDaoImpl implements BoardDao{
         return jdbcTemplate.queryForObject(sql, Integer.class, boardNo);
     }
 	
+    @Autowired
+    private MainPageListMapper mainPageListMapper;
+    
     //메인에 5개만 우선 찍어봄(계절별 인기글)
 	@Override
-	public List<BoardListDto> selectListSeasonTop5() {
+	public List<MainPageListDto> selectListSeasonTop5() {
 		String sql = "select * from (select rownum rnum, TMP.* from ( "
 				+ "select * from ( select bl.*, row_number() "
 				+ "over (partition by bl.board_no "
 				+ "order by bl.attachment_no desc) as rn "
-				+ "from board_list bl where board_category between 9 and 40 "
+				+ "from mainpage_list bl where board_category between 9 and 40 "
 				+ "order by board_readcount desc "
 				+ ") ranked where rn = 1 )tmp) where rnum between 1 and 5";
-		return jdbcTemplate.query(sql, boardListMapper);
+		return jdbcTemplate.query(sql, mainPageListMapper);
 	}
 
 	@Override
@@ -795,14 +800,14 @@ public class BoardDaoImpl implements BoardDao{
 	}
 	
 	@Override
-	public List<BoardListDto> selectListAreaTop5() {
+	public List<MainPageListDto> selectListAreaTop5() {
 		String sql = "select * from (select rownum rnum, TMP.* from ( "
 				+ "select * from ( select bl.*, row_number() "
 				+ "over (partition by bl.board_no "
 				+ "order by bl.attachment_no desc) as rn "
-				+ "from board_list bl where board_category between 2 and 8 "
+				+ "from mainpage_list bl where board_category between 2 and 8 "
 				+ "order by board_readcount desc "
 				+ ") ranked where rn = 1 )tmp) where rnum between 1 and 5";
-		return jdbcTemplate.query(sql, boardListMapper);
+		return jdbcTemplate.query(sql, mainPageListMapper);
 	}
 }

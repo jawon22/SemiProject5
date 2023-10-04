@@ -5,6 +5,7 @@ import java.util.List;
 import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.BoardReportDto;
+import com.semi.project.dto.MainPageListDto;
 import com.semi.project.dto.ReportDto;
 import com.semi.project.dto.ReportListDto;
 import com.semi.project.vo.PaginationVO;
@@ -86,8 +87,8 @@ public interface BoardDao {
 	 int getFirstAttachmentNo(int boardNo);
 	 
 	 //일단 5개만 찍어봄
-	 List<BoardListDto> selectListSeasonTop5();
-	 List<BoardListDto> selectListAreaTop5();
+	 List<MainPageListDto> selectListSeasonTop5();
+	 List<MainPageListDto> selectListAreaTop5();
 	 
 	 //댓글 개수 조회
 	 boolean updateBoardReplyCount(int boardNo);
