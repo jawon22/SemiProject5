@@ -36,6 +36,7 @@ public class BoardDaoImpl implements BoardDao{
 	@Autowired
 	private BoardTop10Mapper boardTop10Mapper;
 	
+	
 	@Override
 	public int sequence() {
 		String sql = "select board_seq.nextval from dual";

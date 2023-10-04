@@ -74,7 +74,6 @@ public class BoardController {
 		
 	    int count = boardDao.countList(vo);
 	    vo.setCount(count);
-	    log.debug("count= "+count);
 	    
 	    List<BoardListDto> list;
 
