@@ -63,6 +63,7 @@ img {
 
 .swiper {
     height: 900px;
+    margin-top: -40px;
 }
 
 </style>
@@ -154,7 +155,7 @@ img {
 </div>
 
 
-<div class="container w-1000">
+<div class="container w-1000 mb-50">
 	<div class="left row">
 		<h1>
 			<label><i class="fa-solid fa-fire" style="color: #78bdcf;"></i>계절별
