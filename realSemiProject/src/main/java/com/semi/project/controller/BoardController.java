@@ -233,8 +233,15 @@ public class BoardController {
     //삭제
 	@RequestMapping("/delete")
 	public String delete(@RequestParam int boardNo) {
+		BoardDto boardDto = boardDao.selectOne(boardNo);
 		boolean result = boardDao.delete(boardNo);
 		if(result) {
+			if(boardDto.getBoardCategory()==41) {
+				return "redirect:reviewList";
+			}
+			else if(boardDto.getBoardCategory()==42) {
+				return "redirect:freeList";
+			}
 			return "redirect:list";
 		}
 		else {
