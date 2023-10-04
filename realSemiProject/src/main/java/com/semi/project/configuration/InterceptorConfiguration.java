@@ -52,7 +52,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer{
 				"/member/search*","/board/list","/board/freeList","/board/reviewList",
 				"/board/all","/board/communityAll","/board/detail","/qnaNotice/list",
 				"/qnaNotice/noticeList","/qnaNotice/qnaList","/rest/reply/list"); //비회원도 접속가능
-		
+
 //		//[3] 게시글 소유자 외 접근 차단
 //		registry.addInterceptor(boardOwnerInterceptor)
 //				.addPathPatterns("/board/edit");
@@ -68,6 +68,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer{
 //		//[6] QnA게시판 비밀글열람 (관리자 , 작성자) 외 차단
 //		registry.addInterceptor(qnaSecretInterceptor)
 //				.addPathPatterns("/qnaNotice/detail");
+
 		
 	}
 
