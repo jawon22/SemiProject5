@@ -247,8 +247,9 @@
 								<!--  댓글이 있다면 개수를 표시 -->
 									<c:if test="${boardListDto.boardReplycount >0}">
 										&nbsp;&nbsp;
-										<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
-										<label>${boardListDto.boardReplycount}</label>
+										<i class="fa-solid fa-comment" style="color: #78bdcf; z-index:99">
+										</i>
+										<%-- <label>${boardListDto.boardReplycount}</label> --%>
 									</c:if>
 									<c:if test="${boardListDto.attachmentNo !=0}">
 										<i class="fa-regular fa-image"></i>
