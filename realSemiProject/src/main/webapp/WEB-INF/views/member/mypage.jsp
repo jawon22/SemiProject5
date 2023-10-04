@@ -18,7 +18,9 @@ h1 {
 .custom-checkbox {
 	display: inline-block;
 	font-size: 18px;
-	position: relative;
+/* 	position: relative; */
+	cursor: pointer;
+	vertical-align: middle;  
 }
 
 .custom-checkbox>[type=checkbox] {
@@ -26,14 +28,14 @@ h1 {
 }
 
 .custom-checkbox>span {
-	display: block;
+	display: inline-block;
 	width: 1em;
 	height: 1.2em;
 	background-image: url("/images/fa-chevron-right.png");
 	background-size: 55%;
 	background-position: center;
 	background-repeat: no-repeat;
-	background-image: url("/images/fa-chevron-right.png")
+	margin-right: 5px;
 }
 
 .custom-checkbox>[type=checkbox]:checked+span {
@@ -124,6 +126,7 @@ h1 {
 		});
 
 	});
+
 </script>
 
 <div class="container w-700 mt-20">
@@ -228,16 +231,15 @@ h1 {
 				</div>
 			</div>
 		</div>
-
 	</div>
-	<div class="row left">
-		<h1>
-			나의 활동내역 보기 <label class="custom-checkbox"> <input
+	
+	<div class="flex-container">
+			<label class="custom-checkbox"><input
 				type="checkbox" class="check"> <span></span>
-			</label>
-		</h1>
-
+				<h1 style="display:inline-block;">나의 활동내역 보기</h1>
+				</label>
 	</div>
+
 
 	<div class="row myList" style="display: none;">
 

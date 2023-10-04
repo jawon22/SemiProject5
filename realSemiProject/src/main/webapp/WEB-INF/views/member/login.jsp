@@ -42,7 +42,7 @@ label {
 	border-color: #26C2BF;
 }
 
-.popup {
+.popup-expire {
 	top: 0;
 	left: 0;
 	right: 0;
@@ -52,7 +52,7 @@ label {
 	position: fixed;
 }
 
-.popup-wrap {
+.popup-wrap-expire {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -67,7 +67,7 @@ label {
 }
 
 
-.popupbody {
+.popupbody-expire {
 	font-size: 16px;
 	line-height: 30px;
 }
@@ -141,11 +141,11 @@ label {
 
 
 <c:if test="${param.pwexpire != null}">
-<div class="popup">
-	<div class="popup-wrap">
+<div class="popup-expire">
+	<div class="popup-wrap-expire">
 
 	
-				<div class="popupbody">
+				<div class="popupbody-expire">
 					<form>
 					<div class="row mv-20">
 						<img src="/images/lock.png">
@@ -172,9 +172,9 @@ label {
 </c:if>
 
 <c:if test="${param.idexpire != null}">
-<div class="popup">
-	<div class="popup-wrap">
-				<div class="popupbody">
+<div class="popup-expire">
+	<div class="popup-wrap-expire">
+				<div class="popupbody-expire">
 					<div class="row">
 						<img src="/images/lock.png">
 					</div>
