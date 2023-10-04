@@ -49,16 +49,23 @@ public class MemberMypageController {
 		
 		boolean isCorrect = inputDto.getMemberPw().equals(findDto.getMemberPw());
 		if(isCorrect) { //비밀번호가 일치하면
+			
+			ExpiredListDto expiredListDto =  memberDao.findMemberExpiredList(findDto.getMemberId());
+			//휴면계정
+			if(expiredListDto.getIsExpired().equals("D")) {
+				String findId = findDto.getMemberId();
+				model.addAttribute("findId", findId);
+				return "redirect:login?idexpire";
+			}
+			
 			session.setAttribute("name", findDto.getMemberId());
 			session.setAttribute("level", findDto.getMemberLevel());
 			
-			memberDao.updateMemberLogin(findDto.getMemberId());
-			ExpiredListDto expiredListDto =  memberDao.findMemberExpiredList(findDto.getMemberId());
-			
 			//비밀번호 변경 90일 경과한 회원
 			if(expiredListDto.getIsExpired().equals("Y")) {
-				return "redirect:login?expire";
+				return "redirect:login?pwexpire";
 			}
+			memberDao.updateMemberLogin(findDto.getMemberId());
 			
 			return "redirect:/";
 		}
@@ -73,6 +80,14 @@ public class MemberMypageController {
 		memberDao.updateMemberPwDelay(memberId);
 		return "redirect:/";
 	}
+	
+	@RequestMapping("/activate")
+	public String activate(HttpSession session) {
+		String memberId = (String)session.getAttribute("name");
+		memberDao.updateMemberLogin(memberId);
+		return "redirect:/member/login";
+	}
+	
 	
 	@RequestMapping("/mypage") //마이페이지
 	public String mypage(Model model, HttpSession session, 

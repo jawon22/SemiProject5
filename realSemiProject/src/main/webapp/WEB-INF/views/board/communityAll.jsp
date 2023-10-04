@@ -57,9 +57,9 @@ h4{
 											<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
 											<%-- <label>${boardListDto.boardReplycount}</label> --%>
 										</c:if>
-										<c:if test="${boardListDto.attachmentNo !=0}">
+										<%-- <c:if test="${boardListDto.attachmentNo !=0}">
 											<i class="fa-regular fa-image"></i>
-										</c:if>
+										</c:if> --%>
 									</td>
 									
 									<!-- 작성자 -->
@@ -106,9 +106,9 @@ h4{
 											<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
 											<%-- <label>${boardListDto.boardReplycount}</label> --%>
 										</c:if>
-										<c:if test="${boardListDto.attachmentNo !=0}">
+										<%-- <c:if test="${boardListDto.attachmentNo !=0}">
 											<i class="fa-regular fa-image"></i>
-										</c:if>
+										</c:if> --%>
 									</td>
 									
 									<!-- 작성자 -->

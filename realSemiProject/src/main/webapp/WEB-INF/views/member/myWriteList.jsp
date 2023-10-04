@@ -4,7 +4,7 @@
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <div class="container w-700">
-<table class="table table-hover center">
+<table class="table table-regular center">
 <thead>
 	<tr>
 		<th>글제목</th>
@@ -39,19 +39,19 @@
 <div class="row">
 <form action="myWriteList" method="get" autocomplete="off">
 	<input type="hidden" value="board_title">
-	<input class="form-input" type="search" name="keyword" 
+	<input class="search-input" type="search" name="keyword" 
 		value="${param.keyword}" 
 		placeholder="검색어 입력" required>
-	<button class="btn">검색</button>
+	<button class="search-btn">검색</button>
 </form>
 </div>
 
 
 <!-- 페이지 네비게이터 출력(목록) -->
-<c:if test="${vo.listType == 'mywirtelist'}">
+<c:if test="${vo.listType == 'mywritelist'}">
     
 <!-- 이전 버튼 -->
-<div class="row">
+<div class="row page-navigator">
 <c:if test="${!vo.first}">
 	<a href="myWriteList?${vo.prevQueryStringForMemberList}">&lt;</a>	
 </c:if>
@@ -61,7 +61,7 @@
 
 	<c:choose>
 		<c:when test="${vo.page == i}"> <!-- 현재페이지면 -->
-			${i}
+			<a class="on">${i}</a>
 		</c:when>
 		<c:otherwise>
 			<a href="myWriteList?${vo.getQueryStringForMemberList(i)}">${i}</a>		
@@ -78,7 +78,7 @@
 <c:if test="${vo.listType == 'mylikelist'}">
     
 <!-- 이전 버튼 -->
-<div class="row">
+<div class="row page-navigator">
 <c:if test="${!vo.first}">
 	<a href="myLikeList?${vo.prevQueryStringForMemberList}">&lt;</a>	
 </c:if>
@@ -88,7 +88,7 @@
 
 	<c:choose>
 		<c:when test="${vo.page == i}"> <!-- 현재페이지면 -->
-			${i}
+			<a class="on">${i}</a>
 		</c:when>
 		<c:otherwise>
 			<a href="myLikeList?${vo.getQueryStringForMemberList(i)}">${i}</a>		
@@ -105,7 +105,7 @@
 <c:if test="${vo.listType == 'myreplylist'}">
     
 <!-- 이전 버튼 -->
-<div class="row">
+<div class="row page-navigator">
 <c:if test="${!vo.first}">
 	<a href="myreplylist?${vo.prevQueryStringForMemberList}">&lt;</a>	
 </c:if>
@@ -115,7 +115,7 @@
 
 	<c:choose>
 		<c:when test="${vo.page == i}"> <!-- 현재페이지면 -->
-			${i}
+			<a class="on">${i}</a>
 		</c:when>
 		<c:otherwise>
 			<a href="myreplylist?${vo.getQueryStringForMemberList(i)}">${i}</a>		

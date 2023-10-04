@@ -6,15 +6,14 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import com.semi.project.dto.BoardListDto;
+import com.semi.project.dto.MainPageListDto;
 
 @Component
-public class BoardTop10Mapper implements RowMapper<BoardListDto>{
-	
+public class MainPageListMapper implements RowMapper<MainPageListDto>{
+
 	@Override
-	public BoardListDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-		BoardListDto boardListDto = new BoardListDto();
-		boardListDto.setRanking(rs.getInt("ranking"));
+	public MainPageListDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+		MainPageListDto boardListDto = new MainPageListDto();
 		boardListDto.setMemberNickname(rs.getString("member_nickname"));
 		boardListDto.setBoardCategory(rs.getInt("board_category"));
 		boardListDto.setBoardCategoryWeather(rs.getString("board_categoryweather"));
@@ -27,6 +26,7 @@ public class BoardTop10Mapper implements RowMapper<BoardListDto>{
 		boardListDto.setBoardReplycount(rs.getLong("board_replycount"));
 		boardListDto.setBoardLikecount(rs.getLong("board_likecount"));
 		boardListDto.setReportCount(rs.getInt("report_count"));
+		boardListDto.setAttachmentNo(rs.getInt("attachment_no"));
 		return boardListDto;
 	}
 }

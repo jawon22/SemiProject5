@@ -47,7 +47,7 @@ label {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	z-index: 100;
+	z-index: 99999; 
 	background-color: rgba(0, 0, 0, 0.6);
 	position: fixed;
 }
@@ -60,11 +60,11 @@ label {
 	border-radius: 10px;
 	background-color: white;
 	width: 500px;
-	height: 400px;
+	height: 420px;
 	padding: 20px;
 	border: 1px solid #012D5C;
+	z-index: 999999;
 }
-
 
 
 .popupbody {
@@ -79,52 +79,6 @@ label {
 <script>
 	$(function() {
 
-		$("[name=memberId]").blur(function(e) {
-			var id = $(this).val();
-
-			$.ajax({
-				url : "http://localhost:8080/rest/member/idCheck",
-				method : "post",
-				data : {
-					memberId : id
-				},
-				success : function(response) {
-
-					$(e.target).removeClass("success fail2");
-					if (response == "Y") {
-						$(e.target).addClass("success");
-						status.memberId = true;
-					} else {
-						$(e.target).addClass("fail2");
-						status.memberId = false;
-					}
-				},
-				error : function() {
-					alert("서버와의 통신이 원활하지 않습니다")
-				}
-			});
-
-		});
-
-		//페이지 이탈 방지
-		// 	$(window).on("beforeunload", function(){
-		// 		return false;
-		// 	});
-
-		//form에 submit 이벤트 설정 form전송할 때는 beforeunload 이벤트를 제거
-		// 	$(".login-form").submit(function(e) {
-		// 		console.table(status);
-
-		// 		$(".form-input").blur();
-		// 		if(!status.ok()) {
-		// 			e.preventDefault();
-		// 		}
-		// 		else {
-		// 			$(window).off("beforeunload");
-		// 		}
-
-		// 	});
-
 		$(".login-form").submit(
 				function(e) {
 
@@ -135,10 +89,20 @@ label {
 						e.preventDefault();
 						alert("모든 항목을 입력해야 합니다!");
 					}
-
 				});
 
 	});
+	function checkCapsLock(event)  {
+		
+		  if (event.getModifierState("CapsLock")) {
+		    document.getElementById("message").innerText 
+		      = "<CapsLock>이 켜져있습니다."
+		  }else {
+		    document.getElementById("message").innerText 
+		      = ""
+		  }
+		}
+	
 </script>
 
 <div class="row">
@@ -149,21 +113,18 @@ label {
 
 <form class="login-form" action="login" method="post" autocomplete="off">
 	<div class="container w-300">
-		<div class="row">
-			<h1>로그인</h1>
-		</div>
 		
 		<div class="row mt-30">
 			<div class="row left mb-20">
 				<label>아이디</label>
 				<input class="form-input w-100 mt-10" type="text" name="memberId">
-				<div class="fail2-feedback">존재하지 않는 아이디입니다</div>
 			</div>
 			<div class="row left mb-20">
 				<label>비밀번호</label>
-				<input class="form-input w-100 mt-10" type="password" name="memberPw">
+				<input class="form-input w-100 mt-10" type="password" name="memberPw" onkeyup="checkCapsLock(event)">
+					<span id="message" class="red"></span>
 				<c:if test="${param.error != null}">
-					<span class="red">비밀번호가 일치하지 않습니다</span>
+					<span class="red">아이디나 비밀번호가 일치하지 않습니다</span>
 				</c:if>
 			</div>
 			<div class="row">
@@ -179,7 +140,7 @@ label {
 </div>
 
 
-<c:if test="${param.expire != null}">
+<c:if test="${param.pwexpire != null}">
 <div class="popup">
 	<div class="popup-wrap">
 
@@ -191,9 +152,9 @@ label {
 					</div>
 					<div class="row mv-20">
 					<h1>비밀번호를 변경해주세요</h1>
-					<label style="font-size:16px;">회원님께서는 3개월 동안 비밀번호를 변경하지 않았습니다. <p>
-					개인정보를 보호하고 개인정보도용의 피해를 예방하기 위해 <p>
-					3개월마다 주기적으로 비밀번호 변경을 안내하고 있습니다.</label> 
+					<div style="font-size:16px;">회원님께서는 3개월 동안 비밀번호를 변경하지 않았습니다. 
+					<p>개인정보를 보호하고 개인정보도용의 피해를 예방하기 위해 </p>
+					3개월마다 주기적으로 비밀번호 변경을 안내하고 있습니다.</div> 
 					</div>
 					<div class="flex-container auto-width">
 					<div class="col-2 ">			
@@ -208,6 +169,42 @@ label {
 
 	</div>
 </div>
+</c:if>
+
+<c:if test="${param.idexpire != null}">
+<div class="popup">
+	<div class="popup-wrap">
+				<div class="popupbody">
+					<div class="row">
+						<img src="/images/lock.png">
+					</div>
+					<div class="row mv-20">
+					<h1>회원님은 휴면계정 상태입니다.</h1>
+					<div style="font-size:16px;"> 1년동안 로그인 기록이 없는 회원은<p>
+					 휴면계정으로 자동 변경되고 있습니다.</p>
+					 <p>휴면계정 해제를 원하시는 경우, </p>
+					wwoooorrii@gmail.com 로 휴면계정해제요청을 보내주시면
+					<p>처리해드리겠습니다</p>
+					</div> 
+					</div>
+<!-- 					<div class="container left"> -->
+<!-- 					<input class="form-input w-100" type="text" name="checkId" placeholder="아이디를 입력하세요">  -->
+<!-- 					<input class="form-input w-100" type="text" name="checkEmail" placeholder="이메일을 입력하세요">  -->
+<!-- 					</div> -->
+<!-- 					<a class="btn link w-100" href="/">확인하기</a> -->
+<!-- 					<button class="btn btn-positive w-100 activate" href="activate">휴면 해제하기</button>>  -->
+					<div class="flex-container auto-width">
+					<div class="col2">
+						<a class="btn btn-negative link w-100" href="/">메인화면 가기</a>
+					</div>
+					<div class="col2">
+						<input type="hidden" name="memberId" value="${findId}">
+						<a class="btn btn-positive link w-100" href="/member/activate">로그인 화면 가기</a>					
+					</div>
+					</div>
+				</div>
+</div>
+	</div>
 </c:if>
 
 

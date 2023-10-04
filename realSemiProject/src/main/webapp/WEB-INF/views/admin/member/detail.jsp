@@ -179,9 +179,9 @@
 
 		<div class="row right"></div>
 
-		<div class="row">
+		<div class="row left">
 			<h1>활동내역</h1>
-			<table class="table table-stripe">
+			<table class="table table-regular">
 				<tbody>
 					<c:forEach var="boardDto" items="${boardList}">
 						<tr>

@@ -45,6 +45,20 @@
 			display: inline-block;
 		}
 		
+		.header {
+			margin-top: -20px;
+			 border: 2px solid #79BFD0;
+			 
+		}
+		span.separator {
+    		font-weight: bold; /* 두껍게 설정 */
+    		color: #26C2BF; /* 원하는 색상으로 설정 */
+		}
+
+		.line {
+			position:absolute;
+			margin-top:-10px;
+		}
 	
 	</style>
 	
@@ -142,12 +156,15 @@
 					</c:choose>
 				</div>
 	        </header>
-				    <hr>
+			    <hr class="header">
         <nav>
         	<div style="margin-left:150px;">
         		<a class="link me-10" href="/board/all">여행정보</a>
         		<a class="link me-10" href="/board/communityAll">커뮤니티</a>
         		<a class="link me-10" href="/qnaNotice/list">QnA</a>
+
+        		<img class="line" src="/images/line.png" height="30px;" style="vertical-align: top;">
+
         	</div>
        </nav>
 
