@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page = "/WEB-INF/views/template/header.jsp"></jsp:include>
  <style>
  .button{
@@ -89,6 +90,11 @@
 overflow-wrap: break-word;
 word-wrap: break-word;
 height: auto;
+min-height:250px;
+  }
+  .custom-hr{
+  	border:1px solid #26C2BF;
+  	opacity: 0.5;
   }
   
  </style>
@@ -413,7 +419,7 @@ height: auto;
           <i class="fa-solid fa-heart red"></i> 좋아요 <label>0</label> | 조회수<label class="">${boardDto.boardReadcount}</label>
         </div>
 		</div>
-        
+        <hr class="custom-hr">
         <div class="row left content-wrap">
            <article class="content">${boardDto.boardContent}</article>
         </div>

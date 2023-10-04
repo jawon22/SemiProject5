@@ -23,11 +23,15 @@
          /* 원하는 스타일을 여기에 추가 */
      }
      .content{
-  padding:10px; 
+  padding:10px;
 	/*   overflow:auto; */
 	overflow-wrap: break-word;
 	word-wrap: break-word;
 	height: auto;
+  }
+  .custom-hr{
+  	border:1px solid #26C2BF;
+  	opacity: 0.5;
   }
 </style>
 
@@ -45,17 +49,23 @@
 <!-- 		</h3> -->
 <!-- 	</div> -->
 	<div class="row mb-50">
-		<img class="center" src="/images/Q&A.png" width="140" height="80">
+		<c:choose>
+			<c:when test="${qnaNoticeDto.qnaNoticeType==1}">
+				<img class="center" src="/images/notice.png" width="180" height="80">
+			</c:when>
+			<c:otherwise>
+				<img class="center" src="/images/Q&A.png" width="150" height="80">
+			</c:otherwise>
+		</c:choose>
 	</div>
 	<div class="flex-container mb-20">
-	
-		<div class="left mint w-50" >
+		<div class="left w-50" >
 			<h2>${qnaNoticeDto.qnaNoticeTitle}</h2>
 		</div>
 	
 		<div class="right w-50">
-			<fmt:formatDate value="${qnaNoticeDto.qnaNoticeTime}" pattern="y년 M월 d일 E a h시 m분 s초"/>
-		</div>
+			<fmt:formatDate value="${qnaNoticeDto.qnaNoticeTime}" pattern="y년 M월 d일"/>
+		</div> 
 	</div>
 	<div class="row left" >
 		<div class="flex-container">
@@ -84,9 +94,9 @@
 	</c:if> --%>
 
 	
-	
+	<hr class="custom-hr">
 	<%-- 게시글 내용(본문) --%>
-	<div class="row left note-viewer" style="min-height:250px">
+	<div class="row left note-viewer mt-20" style="min-height:250px">
 		<pre class="content">${qnaNoticeDto.qnaNoticeContent}</pre>	
 	</div>
 
@@ -95,16 +105,16 @@
 <c:if test="${sessionScope.name != null}">
     <!-- 글 수정 및 삭제는 소유자일 경우에만 나와야 한다 -->
     <c:if test="${sessionScope.name == qnaNoticeDto.memberId}">
-        <a href="edit?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}"><button class="btn">수정</button></a>        
-        <a href="delete?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}"><button class="btn">삭제</button></a>
+        <a href="edit?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}"><button class="btn btn-positive">수정</button></a>        
+        <a href="delete?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}"><button class="btn btn-positive">삭제</button></a>
     </c:if>
     
     <!-- 답글 버튼은 관리자일 경우에만 표시 -->
     <c:if test="${sessionScope.level == '관리자'}">
-        <a href="write?qnaNoticeParent=${qnaNoticeDto.qnaNoticeNo}"><button class="btn">답글</button></a>
+        <a href="write?qnaNoticeParent=${qnaNoticeDto.qnaNoticeNo}"><button class="btn btn-positive">답글</button></a>
     </c:if>
 </c:if>
-			<a href="list"><button  class="btn">목록</button></a>
+			<a href="list"><button  class="btn btn-positive	">목록</button></a>
 </div>
 </div>
 
