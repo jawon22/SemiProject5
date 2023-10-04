@@ -236,7 +236,6 @@ h1 {
 				type="checkbox" class="check"> <span></span>
 			</label>
 		</h1>
-
 	</div>
 
 	<div class="row myList" style="display: none;">

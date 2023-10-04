@@ -521,30 +521,30 @@ public class BoardDaoImpl implements BoardDao{
 	    		sql="select count(*) from board_list where board_category between 1 and 40";
 	    		data = new Object[0];
 	    	}
-	    	else if(vo.getWeather().equals("전체")&& vo.getArea().equals("전체") && !vo.getKeyword().equals("")) {
-	    		sql="select count(*) from board_list where " + vo.getType() + " like ? " +
-	    				"and board_category between 1 and 40";
-	    		data = new Object[]{"%" + vo.getKeyword() + "%",0};
-	    	}
+//	    	else if(vo.getWeather().equals("전체")&& vo.getArea().equals("전체") && !vo.getKeyword().equals("")) {
+//	    		sql="select count(*) from board_list where " + vo.getType() + " like ? " +
+//	    				"and board_category between 1 and 40";
+//	    		data = new Object[]{"%" + vo.getKeyword() + "%",0};
+//	    	}
 	    	
 	    	else if(!vo.getWeather().equals("전체") && vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
 	    		sql="select count(*) from board_list where board_categoryweather =? and board_category between 1 and 40";
 	    		data = new Object[]{vo.getWeather()};
 	    	}
-	    	else if(!vo.getWeather().equals("전체") && vo.getArea().equals("전체") && !vo.getKeyword().equals("")) {
-	    		sql="select count(*) from board_list where " + vo.getType() + " like ? " +
-	    				"and board_categoryweather =? and board_category between 1 and 40";
-	    		data = new Object[]{"%" + vo.getKeyword() + "%",vo.getWeather()};
-	    	}
+//	    	else if(!vo.getWeather().equals("전체") && vo.getArea().equals("전체") && !vo.getKeyword().equals("")) {
+//	    		sql="select count(*) from board_list where " + vo.getType() + " like ? " +
+//	    				"and board_categoryweather =? and board_category between 1 and 40";
+//	    		data = new Object[]{"%" + vo.getKeyword() + "%",vo.getWeather()};
+//	    	}
 	    	else if(vo.getWeather().equals("전체") && !vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
 	    		sql="select count(*) from board_list where board_area =? and board_category between 1 and 40";
 	    		data = new Object[]{vo.getArea()};
 	    	}
-	    	else if(vo.getWeather().equals("전체") && !vo.getArea().equals("전체") && !vo.getKeyword().equals("")) {
-	    		sql="select count(*) from board_list where " + vo.getType() + " like ? " +
-	    				"and board_area =? and board_category between 1 and 40";
-	    		data = new Object[]{"%" + vo.getKeyword() + "%",vo.getArea()};
-	    	}
+//	    	else if(vo.getWeather().equals("전체") && !vo.getArea().equals("전체") && !vo.getKeyword().equals("")) {
+//	    		sql="select count(*) from board_list where " + vo.getType() + " like ? " +
+//	    				"and board_area =? and board_category between 1 and 40";
+//	    		data = new Object[]{"%" + vo.getKeyword() + "%",vo.getArea()};
+//	    	}
 	    	else {
 	    	sql = "select count(*) from board_list where " + vo.getType() + " like ? " +
 	    			"and board_categoryweather = ? and board_area = ? and board_category between 1 and 40";

@@ -154,10 +154,6 @@ img {
 </div>
 
 
-
-
-
-
 <div class="container w-1000">
 	<div class="left row">
 		<h1>
