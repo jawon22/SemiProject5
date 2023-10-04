@@ -20,7 +20,7 @@
 
 			<td class="left">
 				<a class="link" href="/board/detail?boardNo=${boardDto.boardNo}">
-				${boardDto.boardTitle} ${boardDto.boardReplycount} 
+				${boardDto.boardTitle}
 				</a>
 			</td>
 			<td>
