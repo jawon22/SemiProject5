@@ -251,7 +251,7 @@
 						<!--  제목을 누르면 상세페이디로 이동 -->
 							<c:choose>
 								<c:when test="${boardListDto.reportCount >= 5}">
-									<span style="color:gray;" class="title">블라인드 처리된 글입니다</span>
+									<span style="color:gray;">블라인드 처리된 글</span>
 								</c:when>
 								
 								<c:otherwise>
