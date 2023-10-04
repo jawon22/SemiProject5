@@ -27,7 +27,6 @@ public class BoardTop10Mapper implements RowMapper<BoardListDto>{
 		boardListDto.setBoardReplycount(rs.getLong("board_replycount"));
 		boardListDto.setBoardLikecount(rs.getLong("board_likecount"));
 		boardListDto.setReportCount(rs.getInt("report_count"));
-		boardListDto.setAttachmentNo(rs.getInt("attachment_no"));
 		return boardListDto;
 	}
 }

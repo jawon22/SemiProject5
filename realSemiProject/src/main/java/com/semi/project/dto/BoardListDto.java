@@ -23,10 +23,6 @@ public class BoardListDto {
 	long boardLikecount;
 	Date boardCtime;
 	int reportCount;
-	int attachmentNo;
-	
-	int attachmentCount;
-	int firstAttachmentNo;
 	
 	//작성자 출력용 메소드
 	public String getBoardWriterString() {
