@@ -236,6 +236,9 @@
             //이미지 자리추가
             byteCount += countBytes(contentHtml);
             
+            console.log(byteCount);
+
+            
                // byte 수를 버튼 위에 표시
                $('#byteCount').text(byteCount);
 
@@ -1252,11 +1255,13 @@
         <select name="board_categoryweather" style="display: none;">
             <option value="후기" selected></option>
         </select>
+        <input type="hidden" name="boardCategory" id="boardCategory">
     </c:when>
     <c:when test="${boardDto.boardCategory == 42}"><!-- 자유게시판이면 -->
         <select name="board_categoryweather" style="display: none;">
             <option value="자유" selected></option>
         </select>
+        <input type="hidden" name="boardCategory" id="boardCategory">
     </c:when>
     <c:otherwise>
         <!-- 다른 경우 처리 -->
@@ -1281,7 +1286,19 @@
             
             <div class="row">
                 <button class="btn btn-positive">수정하기</button>
-                <a href="list" class="btn">목록보기</a>
+                
+                <c:choose>
+    			<c:when test="${boardDto.boardCategory == 41}"><!-- 후기게시판이면 -->
+        			<a href="http://localhost:8080/board/reviewList" class="btn">목록보기</a> 
+    			</c:when>
+    			<c:when test="${boardDto.boardCategory == 42}"><!-- 자유게시판이면 -->
+					<a href="http://localhost:8080/board/freeList" class="btn">목록보기</a> 
+    			</c:when>
+    			<c:otherwise>
+            		<a href="list" class="btn">목록보기</a> 
+    			</c:otherwise>
+            </c:choose>
+            
             </div>
         </div>
 </form>
