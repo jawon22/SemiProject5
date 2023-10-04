@@ -40,12 +40,15 @@ h1 {
 	background-image: url("/images/fa-chevron-right.png");
 }
 
-.table-mypage>thead>tr>th, .table-mypage>tbody>tr>th, .table-mypage>tfoot>tr>th
+.table-mypage>thead>tr>th, 
+.table-mypage>tbody>tr>th, 
+.table-mypage>tfoot>tr>th
 	{
 	border-right: 2px solid black;
 }
 
-.table-mypage>thead>tr>th, .table-mypage>thead>tr>td {
+.table-mypage>thead>tr>th, 
+.table-mypage>thead>tr>td {
 	border-top: 2px solid black;
 	border-bottom: 1px solid black;
 	border-bottom: 1px solid black;
@@ -245,7 +248,7 @@ h1 {
 				<a class="link " href="myWriteList">내가 쓴 글
 					보러가기 > </a>
 			</div>
-			<table class="table table-stripe">
+			<table class="table table-regular">
 				<thead>
 				<tr>
 					<th width="50%">제목</th>
@@ -276,7 +279,7 @@ h1 {
 			<div class="row right">
 				<a class="link" href="myLikeList">내가 좋아요 누른 글 보러가기 > </a>
 			</div>
-			<table class="table table-stripe">
+			<table class="table table-regular">
 				<thead>
 				<tr>
 					<th width="50%">제목</th>
@@ -307,7 +310,7 @@ h1 {
 			<div class="row right">
 				<a class="link" href="myReplyList">내가 댓글 단 글 보러가기 ></a>
 			</div>
-			<table class="table table-stripe">
+			<table class="table table-regular">
 				<thead>
 				<tr>
 					<th width="50%">제목</th>
@@ -338,7 +341,7 @@ h1 {
 			<div class="row right">
 				<a class="link" href="myQnaList">내 문의글 보러가기 ></a>
 			</div>
-			<table class="table table-stripe">
+			<table class="table table-regular">
 				<thead>
 				<tr>
 					<th width="50%">제목</th>

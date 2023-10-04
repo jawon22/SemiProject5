@@ -16,7 +16,7 @@
 		<a href="list" class="link" ><span class="title">회원목록</span></a>
 	</div>
 
-<table class="table table-slit center">
+<table class="table table-regular center">
 <thead>
 	<tr>
 		<th>

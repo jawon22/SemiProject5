@@ -17,6 +17,7 @@
 		border-radius: 10px;
 		border-width: 3px;
 		border-color: #26C2BF;
+		color:gray;
 	}
 	.btn{
 		border-radius: 10px;
@@ -132,14 +133,12 @@
 	});
 </script>
 
-<div class="row">
-	<h1>개인정보 변경</h1>
-</div>
 <form class="changeform" action="infoChange" method="post" autocomplete="off">
 	<div class="container w-300">
-		<div class="row">
-			<h1>정보 변경</h1>
-		</div>
+<div class="row mv-20">
+	<h1>개인정보 변경</h1>
+</div>
+
 
 		<input type="hidden" name="memberId" value="${memberDto.memberId}">
 		<div class="row left">
@@ -170,20 +169,20 @@
 		</div>
 		<div class="row">
 			<select class="form-input w-100" name="memberArea">
-				<option value="서울">서울</option>
-				<option value="부산">부산</option>
-				<option value="대구">대구</option>
-				<option value="인천">인천</option>
-				<option value="광주">광주</option>
-				<option value="대전">대전</option>
-				<option value="울산">울산</option>
-				<option value="세종">세종</option>
-				<option value="경기도">경기도</option>
-				<option value="경상도">경상도</option>
-				<option value="전라도">전라도</option>
-				<option value="충청도">충청도</option>
-				<option value="제주도">제주도</option>
-				<option value="강원도">강원도</option>
+				<option value="서울" ${memberDto.memberArea == '서울' ? 'selected' : ''}>서울</option>
+				<option value="부산" ${memberDto.memberArea == '부산' ? 'selected' : ''}>부산</option>
+				<option value="대구" ${memberDto.memberArea == '대구' ? 'selected' : ''}>대구</option>
+		        <option value="인천" ${memberDto.memberArea == '인천' ? 'selected' : ''}>인천</option>
+		        <option value="광주" ${memberDto.memberArea == '광주' ? 'selected' : ''}>광주</option>
+		        <option value="대전" ${memberDto.memberArea == '대전' ? 'selected' : ''}>대전</option>
+		        <option value="울산" ${memberDto.memberArea == '울산' ? 'selected' : ''}>울산</option>
+		        <option value="세종" ${memberDto.memberArea == '세종' ? 'selected' : ''}>세종</option>
+		        <option value="경기도" ${memberDto.memberArea == '경기도' ? 'selected' : ''}>경기도</option>
+		        <option value="경상도" ${memberDto.memberArea == '경상도' ? 'selected' : ''}>경상도</option>
+		        <option value="전라도" ${memberDto.memberArea == '전라도' ? 'selected' : ''}>전라도</option>
+		        <option value="충청도" ${memberDto.memberArea == '충청도' ? 'selected' : ''}>충청도</option>
+		        <option value="제주도" ${memberDto.memberArea == '제주도' ? 'selected' : ''}>제주도</option>
+		        <option value="강원도" ${memberDto.memberArea == '강원도' ? 'selected' : ''}>강원도</option>
 			</select>
 		</div>
 		<div class="row left">
@@ -192,7 +191,7 @@
 		<div class="row">
 			<input class="form-input w-100" type="password" name="memberPw">
 		</div>
-		<div class="row">
+		<div class="row left">
 			<c:if test="${param.error != null}">
 				<span class="red">비밀번호가 일치하지 않습니다.</span>
 			</c:if>
