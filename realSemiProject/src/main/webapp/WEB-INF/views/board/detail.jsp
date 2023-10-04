@@ -280,12 +280,19 @@ height: auto;
 			var reportReason = $("[name=reportReason]").val();
 			$.ajax({
 				url:"/board/report/board",
-				method:"get",
+				method:"post",
 				data :{boardNo:no, reportReason:reportReason},
 				success:function(response){
+				if(reportReason==null){
+					$(".fail-feedback")	.css("display", "block");
+				}
+				else{
 					$(".block-container")
 					.prev(".btn-block").show();
-				$(".block-container").remove();
+					$(".block-container").remove();
+					$(".block-container")
+					.prev(".fail-feedback").hide();
+				}
 				},
 			});
 		});
@@ -360,7 +367,7 @@ height: auto;
 				<button class="btn block-cencel">취소</button>
 				<input type="hidden" name="boardNo">
 				<select id="select-block" name="reportReason" class="form-input">
-						<option name="reportReason" value="" selected disabled>신고사유</option>
+						<option name="reportReason" selected disabled>신고사유</option>
 					    <option name="reportReason" value="광고/음란성 글" >1. 광고/음란성 글</option>
 					    <option name="reportReason" value="욕설/반말/부적절한 언어">2. 욕설/반말/부적절한 언어</option>
 					    <option name="reportReason" value="회원 분란 유도">3. 회원 분란 유도</option>
@@ -368,6 +375,7 @@ height: auto;
 					    <option name="reportReason" value="지나친 정치/종교 논쟁">5. 지나친 정치/종교 논쟁</option>
 					    <option name="reportReason" value="도배성 글">6. 도배성 글</option>
 				</select>
+				<label class="fail-feedback">내용을 선택해주세요</label>
 			</form>
 		</script>
 		<div class="flex-container">
