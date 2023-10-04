@@ -196,7 +196,7 @@
 	</c:if>
 
 	<div class="row">
-		<table class="table table-slit">
+		<table class="table table-slit table-regular">
 			<thead>
 				<tr>
 					<c:if test="${sessionScope.level =='관리자'}">
