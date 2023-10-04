@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.semi.project.dao.BoardDao;
-import com.semi.project.dto.BoardListDto;
+import com.semi.project.dto.MainPageListDto;
 
 @Controller
 public class HomeController {
@@ -19,8 +19,8 @@ public class HomeController {
 	@RequestMapping("/")
 	public String home(Model model) {
 		
-			List<BoardListDto> seasonList = boardDao.selectListSeasonTop5();
-			List<BoardListDto> areaList = boardDao.selectListAreaTop5();
+			List<MainPageListDto> seasonList = boardDao.selectListSeasonTop5();
+			List<MainPageListDto> areaList = boardDao.selectListAreaTop5();
 			
 //		    for (BoardListDto dto : list) {
 //		        int boardNo = dto.getBoardNo();
