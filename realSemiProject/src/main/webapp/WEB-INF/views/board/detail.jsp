@@ -84,9 +84,13 @@
   font-weight: bold;
   }
   .content{
-  padding-left:10px; 
-  padding-top:10px; 
+  padding:10px; 
+/*   overflow:auto; */
+overflow-wrap: break-word;
+word-wrap: break-word;
+height: auto;
   }
+  
  </style>
  <script>
  $(function(){
@@ -147,7 +151,7 @@
 	 function loadList() {
 			var params = new URLSearchParams(location.search);
 			var no = params.get("boardNo");
-			console.log(no);
+// 			console.log(no);
 			var memberId = "${sessionScope.name}";
 			
 			
@@ -159,7 +163,7 @@
 				data:{replyOrigin : no},
 				success:function(response){
 					$(".reply-list").empty();
-					console.log(response);
+// 					console.log(response);
 					for(var i=0; i < response.list.length; i++) {
 						var reply = response.list[i];
 						var nickname = response.memberNickname[i];
@@ -297,8 +301,16 @@
 			$(".replyCount").text(response);
 		}
 	});
-	 }			
-	
+	 }
+	 $("img").each(function() {
+		  if ($(this).width() > 800) {
+		    $(this).css({
+		      "width": "75%",
+		      "height": "75%"
+		    });
+		  }
+		});
+
  });
  
  </script>
@@ -386,7 +398,7 @@
 		</div>
         
         <div class="row left">
-           <pre class="content">${boardDto.boardContent}</pre>
+           <article class="content">${boardDto.boardContent}</article>
         </div>
        
         
