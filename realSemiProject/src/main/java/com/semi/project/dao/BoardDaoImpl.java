@@ -664,9 +664,9 @@ public class BoardDaoImpl implements BoardDao{
 	
 
 	@Override
-	public boolean readcountEdit(long boardReadcount, int boardNo) {
-		String sql =  "update board set board_readcount=? where board_no=?";
-		Object[] data= {boardReadcount+1, boardNo};
+	public boolean readcountEdit(int boardNo) {
+		String sql =  "update board set board_readcount=board_readcount+1 where board_no=?";
+		Object[] data= {boardNo};
 		return jdbcTemplate.update(sql, data)>0;
 	}
 

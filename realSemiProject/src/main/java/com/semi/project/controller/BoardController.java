@@ -132,12 +132,15 @@ public class BoardController {
 			history = new HashSet<>();
 		}
 		boolean isRead = history.contains(boardNo);
-		if(!isRead==false) {
+		if(isRead==false) {
 			history.add(boardNo);
 			session.setAttribute("history", history);
-			boardDao.readcountEdit(boardDto.getBoardReadcount(), boardNo);
 		}
-
+		log.debug("history = {}", history);
+			
+		if(isRead==false) {
+			boardDao.readcountEdit(boardNo);
+		}
 		String boardWriter =  boardDto.getBoardWriter();
 		if(boardWriter!=null) {
 			MemberDto memberDto = memberDao.selectOne(boardWriter);

@@ -10,8 +10,7 @@ import com.semi.project.dto.ReplyDto;
 import lombok.Data;
 
 @Data
-public class ReplyProfileVo {
+public class ReplyDataVo {
 	private List<ReplyDto> list;
-	private List<MemberProfileDto> attachNo;
-//	private List<MemberDto> memberNickname;
+	private List<String> memberNickname;
 }
