@@ -309,8 +309,12 @@ height: auto;
 		}
 	});
 	 }
-	 $("img").each(function() {
-		  if ($(this).width() > 800) {
+	 //큰 이미지 축소
+	 $(".content-wrap").find("img").each(function() {
+		  $(this).before("<br>");
+		  $(this).after("<br>");
+	
+		 if ($(this).width() > 800) {
 		    $(this).css({
 		      "width": "75%",
 		      "height": "75%"
@@ -405,7 +409,7 @@ height: auto;
         </div>
 		</div>
         
-        <div class="row left">
+        <div class="row left content-wrap">
            <article class="content">${boardDto.boardContent}</article>
         </div>
        
