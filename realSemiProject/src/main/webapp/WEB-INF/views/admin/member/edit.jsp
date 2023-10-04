@@ -30,8 +30,9 @@ $(function(){
 	<div class="row left">
 	등급 
 		<select name="memberLevel" value="${memberDto.memberLevel}">
-		<option value="beginner">beginner</option>
-		<option value="관리자">관리자</option>
+		<option value="beginner" ${memberDto.memberLevel == 'beginner' ? 'selected' : ''}>beginner</option>
+		<option value="tripper" ${memberDto.memberLevel == 'tripper' ? 'selected' : ''}>tripper</option>
+		<option value="관리자" ${memberDto.memberLevel == '관리자' ? 'selected' : ''}>관리자</option>
 		</select>
 	</div>	
 	

@@ -13,6 +13,7 @@
 
 <script>
 	$(function() {
+		$(".delete-btn").hide();
 		$(".noticehide").change(function() {
 
 			var check = $(this).prop("checked");
@@ -88,7 +89,7 @@
 			<c:if test="${sessionScope.name !=null}">
 				<div class="row right">
 					<c:if test="${sessionScope.level == '관리자'}">
-						<button type="submit" class="btn btn-negative delete-btn">
+						<button type="submit" class="btn btn-negative delete-btn" style="display:none;">
 							<i class="fa-solid fa-trash-can"></i> 게시글 일괄삭제
 						</button>
 					</c:if>
@@ -101,7 +102,7 @@
 
 
 
-			<table class="table table-slit center">
+			<table class="table table-regular center">
 				<thead>
 					<tr>
 						<c:if test="${sessionScope.level == '관리자'}">
@@ -143,8 +144,8 @@
 									test="${noticeList.qnaNoticeSecret == 'Y'}">
 									<i class="fa-solid fa-lock" style="color: #3dc1d3;"></i>
 								</c:if></td>
-							<td>${noticeList.memberNickname}</td>
-							<td>${noticeList.qnaNoticeTime}</td>
+					<td>${noticeList.getQnaNoticeWriterString()}</td>
+					<td>${noticeList.getQnaNoticeTimeString()}</td>
 						</tr>
 					</c:forEach>
 
@@ -157,77 +158,15 @@
 		<form
 			action="${vo.listType == 'noticelist' ? 'noticeList' : 'qnaList'}"
 			method="get" autocomplete="off">
-			<select name="type">
+			<select name="type" class="search-input">
 				<option value="qnanotice_title">제목</option>
+				<option value="member_nickname">작성자</option>
 			</select> <input type="search" name="keyword" value="${param.keyword}"
-				placeholder="검색어 입력" required>
-			<button>검색</button>
+				class="search-input" placeholder="검색어 입력" required>
+			<button class="search-btn">검색</button>
 		</form>
 	</div>
 
-
-	<!-- 페이지 네비게이터 출력(목록) -->
-
-<%-- 	<c:choose> --%>
-<%-- 		<c:when test="${vo.listType == 'noticelist'}"> --%>
-<!-- 			<!-- 공지사항 목록인 경우 --> 
-<!-- 			<!-- 페이지 번호 목록 --> 
-<!-- 			<!-- 이전 버튼 --> 
-<!-- 			<div class="row"> -->
-<%-- 				<c:if test="${!vo.first}"> --%>
-<%-- 					<a href="noticeList?${vo.prevQueryStringForMemberList}">&lt;</a> --%>
-<%-- 				</c:if> --%>
-
-<!-- 				숫자 부분 -->
-<%-- 				<c:forEach var="i" begin="${vo.begin}" end="${vo.end}" step="1"> --%>
-
-<%-- 					<c:choose> --%>
-<%-- 						<c:when test="${vo.page == i}"> --%>
-<!-- 							현재페이지면 -->
-<%-- 			${i} --%>
-<%-- 		</c:when> --%>
-<%-- 						<c:otherwise> --%>
-<%-- 							<a href="noticeList?${vo.getQueryStringForMemberList(i)}">${i}</a> --%>
-<%-- 						</c:otherwise> --%>
-<%-- 					</c:choose> --%>
-<%-- 				</c:forEach> --%>
-
-<!-- 				 다음버튼 -->
-<%-- 				<c:if test="${!vo.last}"> --%>
-<%-- 					<a href="noticeList?${vo.nextQueryStringForMemberList}">&gt;</a> --%>
-<%-- 				</c:if> --%>
-<!-- 			</div> -->
-<%-- 		</c:when> --%>
-<%-- 		<c:when test="${vo.listType == 'qnalist'}"> --%>
-<!-- 			<!-- Q&A 목록인 경우 --> 
-<!-- 			<!-- 페이지 번호 목록 --> 
-<!-- 			<!-- 이전 버튼 --> 
-<!-- 			<div class="row"> -->
-<%-- 				<c:if test="${!vo.first}"> --%>
-<%-- 					<a href="qnaList?${vo.prevQueryStringForMemberList}">&lt;</a> --%>
-<%-- 				</c:if> --%>
-
-<!-- 				숫자 부분 -->
-<%-- 				<c:forEach var="i" begin="${vo.begin}" end="${vo.end}" step="1"> --%>
-
-<%-- 					<c:choose> --%>
-<%-- 						<c:when test="${vo.page == i}"> --%>
-<!-- 							현재페이지면 -->
-<%-- 			${i} --%>
-<%-- 		</c:when> --%>
-<%-- 						<c:otherwise> --%>
-<%-- 							<a href="qnaList?${vo.getQueryStringForMemberList(i)}">${i}</a> --%>
-<%-- 						</c:otherwise> --%>
-<%-- 					</c:choose> --%>
-<%-- 				</c:forEach> --%>
-
-<!-- 				 다음버튼 -->
-<%-- 				<c:if test="${!vo.last}"> --%>
-<%-- 					<a href="qnaList?${vo.nextQueryStringForMemberList}">&gt;</a> --%>
-<%-- 				</c:if> --%>
-<!-- 			</div> -->
-<%-- 		</c:when> --%>
-<%-- 	</c:choose> --%>
 <c:choose>
     <c:when test="${vo.listType == 'noticelist'}">
         <!-- 공지사항 목록인 경우 -->
