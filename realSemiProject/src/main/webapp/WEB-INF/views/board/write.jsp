@@ -12,7 +12,7 @@
 
     <style>
   .btn-positive[disabled]:hover::before {
-    content: '글자 수 제한 초과, 제목 미작성등의 이유로 글 작성이 불가능합니다';
+    content: '제목 및 내용에 글을 적지 않거나 용량을 초과하셨습니다.';
     position: absolute;
     background-color: red;
     color: white;
@@ -89,6 +89,14 @@
         
         
         
+/*      // 이미지 삽입 함수
+        function insertImage(response) {
+            if (response && response.attachmentNo) {
+                // 이미지 업로드가 완료되었을 때만 실행
+                var imgNode = $("<img>").attr("src", "${pageContext.request.contextPath}/rest/attachment/download/" + response.attachmentNo);
+                $("[name=boardContent]").summernote("insertNode", imgNode.get(0));
+            }
+        } */
         
         // 페이지 로드 시 초기값 설정
         updateBoardCategory();
@@ -230,21 +238,38 @@
         });
         
         
-     // 입력 내용이 변경될 때마다 byte 수 업데이트
-        $('[name=boardTitle], [name=boardContent]').on('summernote.change', function () {
-            updateByteCount();
-        });
+            
+            // 입력 내용이 변경될 때마다 byte 수 업데이트
+            $('[name=boardContent]').on('summernote.change', function () {
+                updateButtonState();
+            });
 
-        // 초기 byte 수 업데이트
-        updateByteCount();
+            $('[name=boardTitle]').on('input', function () {
+                updateButtonState();
+            });
 
-        function updateByteCount() {
-            var content = $('[name=boardContent]').summernote('code');
-            var byteCount = countBytes(content);
+            // 초기 로드 시에도 버튼 상태를 설정
+            //updateByteCount();
+            updateButtonState();
 
+            function updateButtonState() {
+                var title = $('[name=boardTitle]').val().trim(); // 제목 값 가져오기
+                var contentHtml = $('[name=boardContent]').summernote('code').trim();
+                
+                var content = $(contentHtml).text(); // HTML 태그를 제외한 텍스트만
+                var byteCount = countBytes(content);
+      
+                //이미지 자리추가
+                byteCount += countBytes(contentHtml);
+                
             // byte 수를 버튼 위에 표시
             $('#byteCount').text(byteCount);
 
+            console.log(title.trim() !== '');
+            console.log(content.trim() !== '');
+            console.log(byteCount <= 3989)
+            console.log(content);
+            
             // 용량 초과 시에만 스타일 변경
             if (byteCount > 3989) {
                 $('#byteCount').addClass("red");
@@ -252,19 +277,17 @@
                 $('#byteCount').removeClass("red");
             }
 
-            // 용량 초과, 제목 또는 내용 미작성시 버튼 비활성화
-            var title = $('[name=boardTitle]').val().trim();
-            var content = $('[name=boardContent]').summernote('code').trim();
-            if (byteCount > 3989 || title === '' || content === '') {
-                $('.btn-positive').prop('disabled', true);
-            } else {
+            // 버튼을 비활성화
+            if (content.trim() !== '' && title.trim() !== '' && byteCount <= 3989) {
                 $('.btn-positive').prop('disabled', false);
+            } else {
+                $('.btn-positive').prop('disabled', true);
             }
         }
 
         // 문자열의 byte 수 계산 함수
         function countBytes(str) {
-            var byteCount = -11;
+            var byteCount = 0;
             for (var i = 0; i < str.length; i++) {
                 var charCode = str.charCodeAt(i);
                 if (charCode <= 0x007F) {

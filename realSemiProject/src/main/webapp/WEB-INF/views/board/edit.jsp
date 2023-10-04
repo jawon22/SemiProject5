@@ -12,7 +12,7 @@
     
         <style>
   .btn-positive[disabled]:hover::before {
-    content: '글자 수 제한 초과, 제목 및 내용 미작성등의 이유로 글 작성이 불가능합니다';
+    content: '제목 및 내용에 글을 적지 않거나 용량을 초과하셨습니다.';
     position: absolute;
     background-color: red;
     color: white;
@@ -214,18 +214,28 @@
         
         
         // 입력 내용이 변경될 때마다 byte 수 업데이트
-           $('[name=boardTitle], [name=boardContent]').on('summernote.change', function () {
-               updateByteCount();
-           });
+        $('[name=boardContent]').on('summernote.change', function () {
+            updateButtonState();
+        });
 
-        
-           // 초기 byte 수 업데이트
-           updateByteCount();
+        $('[name=boardTitle]').on('input', function () {
+            updateButtonState();
+        });
 
-           function updateByteCount() {
-               var content = $('[name=boardContent]').summernote('code');
-               var byteCount = countBytes(content);
+        // 초기 로드 시에도 버튼 상태를 설정
+        //updateByteCount();
+        updateButtonState();
 
+        function updateButtonState() {
+            var title = $('[name=boardTitle]').val().trim(); // 제목 값 가져오기
+            var contentHtml = $('[name=boardContent]').summernote('code').trim();
+            
+            var content = $(contentHtml).text(); // HTML 태그를 제외한 텍스트만
+            var byteCount = countBytes(content);
+
+            //이미지 자리추가
+            byteCount += countBytes(contentHtml);
+            
                // byte 수를 버튼 위에 표시
                $('#byteCount').text(byteCount);
 
