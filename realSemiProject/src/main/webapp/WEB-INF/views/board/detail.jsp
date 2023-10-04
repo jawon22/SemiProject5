@@ -177,7 +177,7 @@
 								if(displayValue=="none"){
 									$(this).parents(".view-container").find(".btn-hide").css("display", "inline-block");
 									$(this).parents(".view-container").find(".btn-hide").css({"position": "relative",
-																													                "left": "50px",
+																													                "left": "74px",
 																													                "bottom": "60px"});
 								}
 								else{
