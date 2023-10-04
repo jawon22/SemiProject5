@@ -265,7 +265,7 @@ h1 {
 							<tr>
 								<td class="left"><a class="link"
 									href="/board/detail?boardNo=${myWriteList.boardNo}">
-										${myWriteList.boardTitle} ${myWriteList.boardReplycount} </a></td>
+										${myWriteList.boardTitle}</a></td>
 								<td class="center">${myWriteList.memberNickname}</td>
 								<td class="center">${myWriteList.boardCtime}</td>
 								<td class="center">${myWriteList.boardReadcount}</td>
@@ -296,7 +296,7 @@ h1 {
 							<tr>
 								<td class="left"><a class="link"
 									href="/board/detail?boardNo=${myLikeList.boardNo}">
-								${myLikeList.boardTitle} ${myLikeList.boardReplycount} </a></td>
+								${myLikeList.boardTitle}</a></td>
 								<td class="center">${myLikeList.memberNickname}</td>
 								<td class="center">${myLikeList.boardCtime}</td>
 								<td class="center">${myLikeList.boardReadcount}</td>
@@ -327,7 +327,7 @@ h1 {
 							<tr>
 								<td class="left"><a class="link"
 									href="/board/detail?boardNo=${myReplyList.boardNo}">
-								${myReplyList.boardTitle} ${myReplyList.boardReplycount} </a></td>
+								${myReplyList.boardTitle}</a></td>
 								<td class="center">${myReplyList.memberNickname}</td>
 								<td class="center">${myReplyList.boardCtime}</td>
 								<td class="center">${myReplyList.boardReadcount}</td>
@@ -356,7 +356,7 @@ h1 {
 						<c:if test="${loop.index < 3}">
 							<tr>
 								<td class="left"><a class="link"
-									href="/board/detail?boardNo=${myQnaList.qnaNoticeNo}">
+									href="/qnaNotice/detail?qnaNoticeNo=${myQnaList.qnaNoticeNo}">
 								${myQnaList.qnaNoticeTitle}</a></td>
 								<td class="center">${myQnaList.memberNickname}</td>
 								<td class="center">${myQnaList.qnaNoticeTime}</td>
