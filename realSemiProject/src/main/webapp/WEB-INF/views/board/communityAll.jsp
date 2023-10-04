@@ -33,10 +33,10 @@ h4{
     			</div>
     			
     			<div class="left">
-    				<table class="table table-slit">
+    				<table class="table table-slit table-regular">
     					<thead>
 							<tr>
-								<th width="10%">순위</th>
+								<th width="15%">순위</th>
 								<th width="50%" align="left">제목</th>
 								<th align="center">작성자</th>
 							</tr>
@@ -86,10 +86,10 @@ h4{
     				</a>
     			</div>
     			<div class="left">
-    				<table class="table table-slit">
+    				<table class="table table-slit table-regular">
     					<thead>
 							<tr>
-								<th width="10%">순위</th>
+								<th width="15%">순위</th>
 								<th width="50%" align="left">제목</th>
 								<th align="center">작성자</th>
 							</tr>
