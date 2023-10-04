@@ -60,6 +60,11 @@ img {
 .item {
 	margin-bottom: 10px; /* 아이템 사이의 간격 설정 */
 }
+
+.swiper {
+    height: 900px;
+}
+
 </style>
 
 <script>

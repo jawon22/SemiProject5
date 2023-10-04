@@ -51,7 +51,7 @@
 
 <div class="container w-800">
 	<div class="row">
-		<h2><a class="link" href="reviewList">후기게시판</a></h2>
+		<a class="link" href="reviewList"><h2 class="crudTitle">후기게시판</h2></a>
 	</div>
 	
 	<c:if test="${vo.search}">
@@ -61,7 +61,7 @@
 	<!--  검색창 -->
 	<form action="reviewList" method="get">
 		<div class="row">
-			<select name="type" required class="form-input">
+			<select style="height:35px;" name="type" required class="form-input">
 				<option value="board_title" ${param.type =='board_title' ? 'selected' :''}>제목</option>
 				<option value="board_writer" ${param.type =='board_writer' ? 'selected' :''}>작성자</option>
 			</select>
@@ -136,7 +136,7 @@
 									<c:if test="${boardListDto.boardReplycount >0}">
 										&nbsp;&nbsp;
 										<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
-										<label>${boardListDto.boardReplycount}</label>
+										<%-- <label>${boardListDto.boardReplycount}</label> --%>
 									</c:if>
 									<c:if test="${boardListDto.attachmentNo !=0}">
 										<i class="fa-regular fa-image"></i>
@@ -179,7 +179,7 @@
 		<c:forEach var="i" begin="${vo.begin}" end="${vo.end}" step="1">
 			<c:choose>
 				<c:when test="${vo.page ==i}">  <!-- 현재 페이지면 --> 
-					<a href="list?${vo.getQueryStringForMemberList(i)}" class="on">${i}</a>			
+					<a style="background-color:rgb(215,241,242)">${i}</a>			
 				</c:when>
 				<c:otherwise>
 					<%-- 링크는 검색과 목록을 따로 구현 --%>

@@ -14,5 +14,4 @@ public class ReplyDto {
 	int replyGroup;
 	Integer replyParent;
 	int replyDepth;
-	Integer attachNo;
 }

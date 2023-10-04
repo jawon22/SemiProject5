@@ -166,6 +166,7 @@
 
 <!-- 이전 버튼 -->
 <div class="row page-navigator">
+
 	<c:if test="${!vo.first}">
 		<a href="list?${vo.prevQueryStringForMemberList}" class="prev">&lt;</a>
 	</c:if>
@@ -188,6 +189,7 @@
 	<c:if test="${!vo.last}">
 		<a href="list?${vo.nextQueryStringForMemberList}" class="next">&gt;</a>
 	</c:if>
+
 </div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

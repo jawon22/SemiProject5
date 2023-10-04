@@ -70,7 +70,7 @@ public interface BoardDao {
 	int countCommunityFreeList(PaginationVO vo);
 	
 	//조회수 업데이트
-	boolean readcountEdit(long boardReadcount, int boardNo);
+	boolean readcountEdit(int boardNo);
 	//신고 관련 기능
 	int reportSequence();//신고 번호 시퀀스
 	void insertReport(ReportDto reportDto);//신고 등록
@@ -88,6 +88,9 @@ public interface BoardDao {
 	 //일단 5개만 찍어봄
 	 List<BoardListDto> selectListSeasonTop5();
 	 List<BoardListDto> selectListAreaTop5();
+	 
+	 //댓글 개수 조회
+	 boolean updateBoardReplyCount(int boardNo);
 }
 
 

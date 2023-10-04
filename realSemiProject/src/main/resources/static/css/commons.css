@@ -33,6 +33,7 @@
 .w-32 {width:32%;}
 .w-50, .col-2 {width:50%;}
 .w-75 {width:75%;}
+.w-80{width:80%;}
 .w-100 {width:100%;}
 
 .w-300 {width:300px;}
@@ -232,6 +233,9 @@ textarea.form-input.fixed {
 	background-color: rgb(190, 234, 239);
 }
 
+.redBackground {
+    background-color: red; /* 배경색을 빨간색으로 설정 */
+}
 
 /* 영역 가운데 위치시키는 필살 클래스(2번 방법 사용) */
 .position-center {

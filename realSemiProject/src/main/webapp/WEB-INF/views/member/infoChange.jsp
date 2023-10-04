@@ -135,6 +135,7 @@
 
 <form class="changeform" action="infoChange" method="post" autocomplete="off">
 	<div class="container w-300">
+
 <div class="row mv-20">
 	<h1>개인정보 변경</h1>
 </div>
