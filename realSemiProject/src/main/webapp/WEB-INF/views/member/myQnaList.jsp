@@ -6,7 +6,7 @@
 
 <div class="container w-700">
 
-	<table class="table table-slit">
+	<table class="table table-regular">
 		<thead>
 			<tr>
 
@@ -35,23 +35,22 @@
 
 <div class="row">
 <form action="myQnaList" method="get" autocomplete="off">
-	<select name="type">
-		<option value="qnanotice_title">제목</option>
-		<option value="member_nickname">닉네임</option>
-	</select>	
-	<input type="search" name="keyword" 
+		<input type="hidden" value="qnanotice_title">
+		<input class="search-input" type="search" name="keyword" 
 		value="${param.keyword}" 
 		placeholder="검색어 입력" required>
-	<button>검색</button>
+	<button class="search-btn">검색</button>
 </form>
 </div>
 
 <!-- 페이지 네비게이터 출력(목록) -->
 
 <!-- 이전 버튼 -->
-<div class="row">
+<div class="row page-navigator">
 <c:if test="${!vo.first}">
-	<a href="myQnaList?${vo.prevQueryStringForMemberList}">&lt;</a>	
+	<a href="myQnaList?${vo.prevQueryStringForMemberList}">
+		<i class="fa-solid fa-angle-left"></i>
+	</a>	
 </c:if>
 
 <!-- 숫자 부분 -->
@@ -59,7 +58,7 @@
 
 	<c:choose>
 		<c:when test="${vo.page == i}"> <!-- 현재페이지면 -->
-			${i}
+			<a href="#" class="on">${i}</a> 
 		</c:when>
 		<c:otherwise>
 			<a href="myQnaList?${vo.getQueryStringForMemberList(i)}">${i}</a>		
@@ -68,7 +67,8 @@
 </c:forEach>
 <!--  다음버튼 -->
 <c:if test="${!vo.last}">
-	<a href="myQnaList?${vo.nextQueryStringForMemberList}">&gt;</a>		
+	<a href="myQnaList?${vo.nextQueryStringForMemberList}">
+	<i class="fa-solid fa-angle-right"></i></a>		
 </c:if>
 </div>
 

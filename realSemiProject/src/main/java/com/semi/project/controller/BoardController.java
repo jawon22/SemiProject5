@@ -74,7 +74,6 @@ public class BoardController {
 		
 	    int count = boardDao.countList(vo);
 	    vo.setCount(count);
-	    log.debug("count= "+count);
 	    
 	    List<BoardListDto> list;
 
@@ -132,12 +131,15 @@ public class BoardController {
 			history = new HashSet<>();
 		}
 		boolean isRead = history.contains(boardNo);
-		if(!isRead==false) {
+		if(isRead==false) {
 			history.add(boardNo);
 			session.setAttribute("history", history);
-			boardDao.readcountEdit(boardDto.getBoardReadcount(), boardNo);
 		}
-
+		log.debug("history = {}", history);
+			
+		if(isRead==false) {
+			boardDao.readcountEdit(boardNo);
+		}
 		String boardWriter =  boardDto.getBoardWriter();
 		if(boardWriter!=null) {
 			MemberDto memberDto = memberDao.selectOne(boardWriter);
@@ -231,8 +233,15 @@ public class BoardController {
     //삭제
 	@RequestMapping("/delete")
 	public String delete(@RequestParam int boardNo) {
+		BoardDto boardDto = boardDao.selectOne(boardNo);
 		boolean result = boardDao.delete(boardNo);
 		if(result) {
+			if(boardDto.getBoardCategory()==41) {
+				return "redirect:reviewList";
+			}
+			else if(boardDto.getBoardCategory()==42) {
+				return "redirect:freeList";
+			}
 			return "redirect:list";
 		}
 		else {
