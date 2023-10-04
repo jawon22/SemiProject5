@@ -8,6 +8,7 @@ import com.semi.project.dto.BlockListDto;
 import com.semi.project.dto.BoardListDto;
 import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
+import com.semi.project.dto.MemberProfileDto;
 import com.semi.project.dto.QnaNoticeDto;
 import com.semi.project.dto.StatDto;
 import com.semi.project.vo.PaginationVO;
@@ -22,6 +23,7 @@ public interface MemberDao {
 	void updateMemberLevel(); //멤버등업
 	ExpiredListDto findMemberExpiredList(String memberId); //비밀번호 변경 90일 경과 멤버조회
 	boolean updateMemberPwDelay(String memberId); //비밀번호 변경일 90일 미루기
+	List<MemberDto> selectListByMemberNick(int boardNo);//댓글 닉네임 표기 리스트
 	
 	
 	int countMyList(PaginationVO vo, String memberId, String listType);
@@ -45,6 +47,7 @@ public interface MemberDao {
 	void insertProfile(String memberId, int attachNo); //프로필등록
 	boolean deleteProfile(String memberId); //프로필삭제
 	Integer findProfile(String memberId); //프로필찾기
+	List<MemberProfileDto> findProfileList(String memberId, String replyWriter);//프로필 전체 조회
 	
 	//관리자기능
 	int countList(PaginationVO vo);//회원목록

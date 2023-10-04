@@ -111,7 +111,7 @@
 
 <div class="container w-800">
 	<div class="row">
-		<h2><a class="link" href="list">정보게시판 목록</a></h2>
+		<a class="link" href="list"><h2 class="crudTitle">여행정보</h2></a>
 	</div>
 
 	<c:if test="${vo.search}">
@@ -151,13 +151,13 @@
 		<div class="row">
 			<c:choose>
 				<c:when test="${param.type == 'board_writer'}">
-					<select name="type" class="form-input" required>
+					<select style="height:35px;" name="type" class="form-input" required>
 						<option value="board_title">제목</option>
 						<option value="board_writer" selected>작성자</option>
 					</select>
 				</c:when>
 				<c:otherwise>
-						<select class="form-input" name="type" required>
+						<select style="height:35px;" class="form-input" name="type" required>
 							<option value="board_title">제목</option>
 							<option value="board_writer">작성자</option>
 						</select>
@@ -187,7 +187,7 @@
 				<c:if test="${sessionScope.level == '관리자'}">
 					<button type="submit" class="btn btn-negative delete-btn">
 						<i class="fa-solid fa-trash-can"></i>
-						게시글 일괄삭제
+						게시글 삭제
 					</button>
 				</c:if>
 				
@@ -247,8 +247,9 @@
 								<!--  댓글이 있다면 개수를 표시 -->
 									<c:if test="${boardListDto.boardReplycount >0}">
 										&nbsp;&nbsp;
-										<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
-										<label>${boardListDto.boardReplycount}</label>
+										<i class="fa-solid fa-comment" style="color: #78bdcf; z-index:99">
+										</i>
+										<%-- <label>${boardListDto.boardReplycount}</label> --%>
 									</c:if>
 									<c:if test="${boardListDto.attachmentNo !=0}">
 										<i class="fa-regular fa-image"></i>

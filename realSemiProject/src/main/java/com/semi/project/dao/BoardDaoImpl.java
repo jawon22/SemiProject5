@@ -119,8 +119,8 @@ public class BoardDaoImpl implements BoardDao{
 	// 정보게시판 목록 페이지 조회
 	@Override
 	public List<BoardListDto> selectListByPage(int page) {
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		String sql = "SELECT * FROM ("
 					+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -134,8 +134,8 @@ public class BoardDaoImpl implements BoardDao{
 	@Override
 	public List<BoardListDto> selectListByPageAndWeather(int page, String weather) {
 		
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -152,8 +152,8 @@ public class BoardDaoImpl implements BoardDao{
 	@Override
 	public List<BoardListDto> selectListByPageAndArea(int page, String area) {
 		
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -169,12 +169,12 @@ public class BoardDaoImpl implements BoardDao{
 	//검색을 안하고 계절과 지역을 선택했을때
 	@Override
 	public List<BoardListDto> selectListByPageAndCategory(int page, String weather, String area) {
-		if (weather.equals("전체") && area.equals("전체")) {
-	        return selectListByPage(page); // 계절과 지역이 모두 전체인 경우 모든 게시글을 불러옵니다.
-	    }
+//		if (weather.equals("전체") && area.equals("전체")) {
+//	        return selectListByPage(page); // 계절과 지역이 모두 전체인 경우 모든 게시글을 불러옵니다.
+//	    }
 		
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -191,8 +191,8 @@ public class BoardDaoImpl implements BoardDao{
 	@Override
 	public List<BoardListDto> selectListByPage(String type, String keyword, String weather, String area, int page) {
 		
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 
 		if(weather.equals("전체") && area.equals("전체") && !keyword.equals("")) {
 			
@@ -256,8 +256,8 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Override
 	public List<BoardListDto> selectListByReadcount(int page) {
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		String sql = "SELECT * FROM ("
 					+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -269,8 +269,8 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Override
 	public List<BoardListDto> selectListByReadcountWeather(int page, String weather) {
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -285,8 +285,8 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Override
 	public List<BoardListDto> selectListByReadcountArea(int page, String area) {
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -302,8 +302,8 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Override
 	public List<BoardListDto> selectListByReadcountCategory(int page, String weather, String area) {
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -318,8 +318,8 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Override
 	public List<BoardListDto> selectListByReadcountAll(String type, String keyword, String weather, String area, int page) {
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		if(weather.equals("전체") && area.equals("전체") && !keyword.equals("")) {
 					
@@ -334,8 +334,6 @@ public class BoardDaoImpl implements BoardDao{
 			return jdbcTemplate.query(sql, boardListMapper,data);
 			
 		}
-		
-		
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -383,8 +381,8 @@ public class BoardDaoImpl implements BoardDao{
 	//좋아요순 정렬
 	@Override
 	public List<BoardListDto> selectListByLikecount(int page) {
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		String sql = "SELECT * FROM ("
 					+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -396,8 +394,8 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Override
 	public List<BoardListDto> selectListByLikecountWeather(int page, String weather) {
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -412,8 +410,8 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Override
 	public List<BoardListDto> selectListByLikecountArea(int page, String area) {
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -429,8 +427,8 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Override
 	public List<BoardListDto> selectListByLikecountCategory(int page, String weather, String area) {
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -445,8 +443,8 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Override
 	public List<BoardListDto> selectListByLikecount(String type, String keyword, String weather, String area, int page) {
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		if(weather.equals("전체") && area.equals("전체") && !keyword.equals("")) {
 			
@@ -520,13 +518,29 @@ public class BoardDaoImpl implements BoardDao{
 	    		sql="select count(*) from board_list where board_category between 1 and 40";
 	    		data = new Object[0];
 	    	}
+	    	else if(vo.getWeather().equals("전체")&& vo.getArea().equals("전체") && !vo.getKeyword().equals("")) {
+	    		sql="select count(*) from board_list where " + vo.getType() + " like ? " +
+	    				"and board_category between 1 and 40";
+	    		data = new Object[]{"%" + vo.getKeyword() + "%",0};
+	    	}
+	    	
 	    	else if(!vo.getWeather().equals("전체") && vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
 	    		sql="select count(*) from board_list where board_categoryweather =? and board_category between 1 and 40";
 	    		data = new Object[]{vo.getWeather()};
 	    	}
+	    	else if(!vo.getWeather().equals("전체") && vo.getArea().equals("전체") && !vo.getKeyword().equals("")) {
+	    		sql="select count(*) from board_list where " + vo.getType() + " like ? " +
+	    				"and board_categoryweather =? and board_category between 1 and 40";
+	    		data = new Object[]{"%" + vo.getKeyword() + "%",vo.getWeather()};
+	    	}
 	    	else if(vo.getWeather().equals("전체") && !vo.getArea().equals("전체") && vo.getKeyword().equals("")) {
 	    		sql="select count(*) from board_list where board_area =? and board_category between 1 and 40";
 	    		data = new Object[]{vo.getArea()};
+	    	}
+	    	else if(vo.getWeather().equals("전체") && !vo.getArea().equals("전체") && !vo.getKeyword().equals("")) {
+	    		sql="select count(*) from board_list where " + vo.getType() + " like ? " +
+	    				"and board_area =? and board_category between 1 and 40";
+	    		data = new Object[]{"%" + vo.getKeyword() + "%",vo.getArea()};
 	    	}
 	    	else {
 	    	sql = "select count(*) from board_list where " + vo.getType() + " like ? " +
@@ -541,8 +555,8 @@ public class BoardDaoImpl implements BoardDao{
 	// 커뮤니티 목록 후기 페이지 조회(검색 , 페이지)
 	@Override
 	public List<BoardListDto> selectReviewListByPage(int page) {
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -557,8 +571,8 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Override
 	public List<BoardListDto> selectReviewListSearchByPage(int page, String type, String keyword) {
-		int start = (page-1)*10 +1;
-		int end = page*10;
+		int start = (page-1)*15 +1;
+		int end = page*15;
 		
 		String sql = "SELECT * FROM ("
 						+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -581,8 +595,8 @@ public class BoardDaoImpl implements BoardDao{
 	// 커뮤니티 목록 자유 페이지 조회(검색 , 페이지)
 		@Override
 		public List<BoardListDto> selectFreeListByPage(int page) {
-			int start = (page-1)*10 +1;
-			int end = page*10;
+			int start = (page-1)*15 +1;
+			int end = page*15;
 			
 			String sql = "SELECT * FROM ("
 							+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -597,8 +611,8 @@ public class BoardDaoImpl implements BoardDao{
 		
 		@Override
 		public List<BoardListDto> selectFreeListSearchByPage(int page, String type, String keyword) {
-			int start = (page-1)*10 +1;
-			int end = page*10;
+			int start = (page-1)*15 +1;
+			int end = page*15;
 			
 			String sql = "SELECT * FROM ("
 							+ "SELECT ROWNUM rn, TMP.* FROM("
@@ -767,6 +781,16 @@ public class BoardDaoImpl implements BoardDao{
 				+ "order by board_readcount desc "
 				+ ") ranked where rn = 1 )tmp) where rnum between 1 and 5";
 		return jdbcTemplate.query(sql, boardListMapper);
+	}
+
+	@Override
+	public boolean updateBoardReplyCount(int boardNo) {
+			String sql = "update board set board_replycount = ("
+					+ "select count(*) from reply where reply_origin = ?"
+					+ ") "
+					+ "where board_no=?";
+			Object[] data = {boardNo, boardNo};
+			return jdbcTemplate.update(sql, data)>0;
 	}
 	
 	@Override
