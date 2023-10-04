@@ -113,6 +113,7 @@
             var title = $('[name=qnaNoticeTitle]').val().trim(); // 제목 값 가져오기
             var contentHtml = $('[name=qnaNoticeContent]').summernote('code').trim();
             
+            //var content = $('[name=qnaNoticeContent]').summernote('text').trim();
             var content = $(contentHtml).text(); // HTML 태그를 제외한 텍스트만
             var byteCount = countBytes(content);
 			
