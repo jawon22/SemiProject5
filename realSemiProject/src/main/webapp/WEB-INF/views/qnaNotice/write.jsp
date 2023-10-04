@@ -11,7 +11,7 @@
 
 <style>
   .btn-positive[disabled]:hover::before {
-    content: '글자 수 제한 초과, 제목 및 내용 미작성등의 이유로 글 작성이 불가능합니다';
+    content: '제목 및 내용에 글을 적지 않거나 용량을 초과하셨습니다.';
     position: absolute;
     background-color: red;
     color: white;
@@ -33,15 +33,14 @@
 <script src="./custom-link.js"></script><!-- 내가 만든 파일-->
 <script>
     $(function () {
-    	var isExceedingLimit = false; // 글자 수 제한 초과 여부를 나타내는 변수
-    	var byteCount = 0; // byteCount를 0으로 초기화
-    	
+        var isExceedingLimit = false; // 글자 수 제한 초과 여부를 나타내는 변수
+        var byteCount = 0; // byteCount를 0으로 초기화
+
         $('[name=qnaNoticeContent]').summernote({
             placeholder: '내용을 작성하세요',
             tabsize: 2, // 탭을 누르면 이동할 간격
             height: 200, // 에디터 높이
             minHeight: 300, // 에디터 최소 높이
-            // lineHeight: 20, // 기본 줄 간격(px)
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'italic', 'underline']],
@@ -73,13 +72,14 @@
                         success: function(response) {
                             // 에디터에 추가할 이미지 생성
                             var imgNode = $("<img>").attr("src", "${pageContext.request.contextPath}/rest/attachment/download/" + response.attachmentNo);
-                            // var imgNode = $("<img>").attr("src", "/rest/attachment/download?attachmentNo" + response.attachmentNo);
                             $("[name=qnaNoticeContent]").summernote("insertNode", imgNode.get(0));
-                            
 
+                            // 사진 정보를 글 내용에 추가
+                            var imgTag = '<img src="' + "${pageContext.request.contextPath}/rest/attachment/download/" + response.attachmentNo + '">';
+                            $("[name=qnaNoticeContent]").summernote("insertNode", imgTag);
+                            
                             // 버튼 상태 업데이트
                             //updateButtonState();
-                            
                         },
                         error: function() {
                             alert("통신 오류 발생");
@@ -87,7 +87,7 @@
                     });
                 }
             }
-      });
+        });
              
 
 
@@ -288,12 +288,12 @@
             <div>
                 <input type="checkbox" name="qnaNoticeSecret"> 비밀글
             </div>
-            <div>
-                <span id="byteCount" class="byteCount">0</span>/ 3988byte
-            </div>
         </div>
     </c:when>
 </c:choose>
+            <div class="row right">
+                <span id="byteCount" class="byteCount">0</span>/ 3988byte
+            </div>
         
         <div class="row">
          

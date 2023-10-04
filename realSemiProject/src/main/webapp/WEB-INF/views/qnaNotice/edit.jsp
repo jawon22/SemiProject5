@@ -12,7 +12,7 @@
     
     <style>
   .btn-positive[disabled]:hover::before {
-    content: '글자 수 제한 초과, 제목 및 내용 미작성등의 이유로 글 작성이 불가능합니다';
+    content: '제목 및 내용에 글을 적지 않거나 용량을 초과하셨습니다.';
     position: absolute;
     background-color: red;
     color: white;
