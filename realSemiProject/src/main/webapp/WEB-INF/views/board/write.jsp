@@ -239,76 +239,93 @@
         
         
             
-            // 입력 내용이 변경될 때마다 byte 수 업데이트
-            $('[name=boardContent]').on('summernote.change', function () {
-                updateButtonState();
-            });
-
-            $('[name=boardTitle]').on('input', function () {
-                updateButtonState();
-            });
-
-            // 초기 로드 시에도 버튼 상태를 설정
-            //updateByteCount();
+        // 입력 내용이 변경될 때마다 byte 수 업데이트
+        $('[name=boardContent]').on('summernote.change', function () {
             updateButtonState();
+        });
 
-            function updateButtonState() {
-                var title = $('[name=boardTitle]').val().trim(); // 제목 값 가져오기
-                var contentHtml = $('[name=boardContent]').summernote('code').trim();
-                
-                var content = $(contentHtml).text(); // HTML 태그를 제외한 텍스트만
-                var byteCount = countBytes(content);
-      
-                //이미지 자리추가
-                byteCount += countBytes(contentHtml);
-                
-            // byte 수를 버튼 위에 표시
-            $('#byteCount').text(byteCount);
+        $('[name=boardTitle]').on('input', function () {
+            updateButtonState();
+        });
 
-            console.log(title.trim() !== '');
-            console.log(content.trim() !== '');
-            console.log(byteCount <= 3989)
-            console.log(content);
+        // 초기 로드 시에도 버튼 상태를 설정
+        //updateByteCount();
+        updateButtonState();
+
+        function updateButtonState() {
+            var title = $('[name=boardTitle]').val().trim(); // 제목 값 가져오기
+            var contentHtml = $('[name=boardContent]').summernote('code').trim();
             
-            // 용량 초과 시에만 스타일 변경
-            if (byteCount > 3989) {
+            
+            function calculateByteSize(str) {
+      			// 문자열을 UTF-8 형식으로 인코딩한 후, 바이트 크기 계산
+      			var encoder = new TextEncoder('utf-8');
+      			var encodedStr = encoder.encode(str);
+      			var byteSize = encodedStr.length;
+      			return byteSize;
+    			}
+
+    			// 특정 폼 엘리먼트의 값을 가져와서 바이트 크기 계산
+    			var contentValue = $("[name=boardContent]").val();
+    			var totalByteCount = calculateByteSize(contentValue);
+    			console.log("바이트 크기: " + totalByteCount);
+    			
+            /* // 이미지 태그를 추출하여 이미지 HTML 코드와 텍스트 HTML 코드를 나눕니다.
+            var imagesHtml = contentHtml.match(/<img[^>]+>/g) || [];
+            var textHtml = contentHtml.replace(/<img[^>]+>/g, '');
+
+            // 이미지 HTML 코드의 바이트 수 계산
+            var imagesByteCount = imagesHtml.map(function (image) {
+                return unescape(encodeURIComponent(image)).length;
+            }).reduce(function (a, b) {
+                return a + b;
+            }, 0);
+
+            // 텍스트 HTML 코드의 바이트 수 계산
+            var textByteCount = unescape(encodeURIComponent(textHtml)).length;
+
+            // 총 바이트 수 계산
+            var totalByteCount = imagesByteCount + textByteCount;
+
+            console.log("텍스트와 이미지의 바이트 수: " + totalByteCount); */
+            
+            // byte 수를 버튼 위에 표시
+            $('#byteCount').text(totalByteCount);
+            
+            // byteCount가 초과하면 클래스 추가
+            if (totalByteCount > 3989) {
                 $('#byteCount').addClass("red");
+                $('.btn-positive').addClass("red")
             } else {
                 $('#byteCount').removeClass("red");
             }
 
+            // 썸머노트 내용이 있으면 true 없으면 false
+            $("[name=boardContent]").summernote('isEmpty');
+            var contentText = !$("[name=boardContent]").summernote('isEmpty');
+            
+            
+            console.log(title.trim() !== '');
+            console.log(contentText);
+            console.log(totalByteCount <= 3989)
+            /* console.log(content); */
+            
             // 버튼을 비활성화
-            if (content.trim() !== '' && title.trim() !== '' && byteCount <= 3989) {
+            if (contentText && title.trim() !== '' && totalByteCount <= 3989) {
                 $('.btn-positive').prop('disabled', false);
             } else {
                 $('.btn-positive').prop('disabled', true);
             }
         }
-
-        // 문자열의 byte 수 계산 함수
-        function countBytes(str) {
-            var byteCount = 0;
-            for (var i = 0; i < str.length; i++) {
-                var charCode = str.charCodeAt(i);
-                if (charCode <= 0x007F) {
-                    byteCount += 1;
-                } else if (charCode <= 0x07FF) {
-                    byteCount += 2;
-                } else if (charCode <= 0xFFFF) {
-                    byteCount += 3;
-                } else {
-                    byteCount += 4;
-                }
-            }
-            return byteCount;
-        }
+             
+        
     });
 
     
     /* 정보게시판: http://localhost:8080/board/write?boardCategory=1
     후기 게시판: http://localhost:8080/board/write?boardCategory=41
     자유게시판: http://localhost:8080/board/write?boardCategory=42  */  	
-    	console.log(boardCategory);
+    	
 </script>
     
    	
