@@ -132,15 +132,12 @@
 	});
 </script>
 
-<div class="row">
-	<h1>개인정보 변경</h1>
-</div>
 <form class="changeform" action="infoChange" method="post" autocomplete="off">
 	<div class="container w-300">
 		<div class="row">
 			<h1>정보 변경</h1>
 		</div>
-
+ 
 		<input type="hidden" name="memberId" value="${memberDto.memberId}">
 		<div class="row left">
 			<label>닉네임</label>
