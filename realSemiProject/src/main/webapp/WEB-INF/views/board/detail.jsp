@@ -175,6 +175,10 @@ height: auto;
 						$(htmlTemplate).find(".replyContent").text(reply.replyContent);
 						$(htmlTemplate).find(".replyTime").text(reply.replyTime);
 						
+						if(memberId!=reply.replyWriter){
+							$(htmlTemplate).find(".btn-create").hide();
+						}
+						
 						//버튼 생성 버튼
 						$(htmlTemplate).find(".btn-create").click(function (e) {
 							var displayValue = $(this).parents(".view-container").find(".btn-hide").css("display");
@@ -310,17 +314,17 @@ height: auto;
 	});
 	 }
 	 //큰 이미지 축소
-	 $(".content-wrap").find("img").each(function() {
-		  $(this).before("<br>");
-		  $(this).after("<br>");
+// 	 $(".content-wrap").find("img").each(function() {
+// 		  $(this).before("<br>");
+// 		  $(this).after("<br>");
 	
-		 if ($(this).width() > 800) {
-		    $(this).css({
-		      "width": "75%",
-		      "height": "75%"
-		    });
-		  }
-		});
+// 		 if ($(this).width() > 800) {
+// 		    $(this).css({
+// 		      "width": "75%",
+// 		      "height": "75%"
+// 		    });
+// 		  }
+// 		});
 
  });
  
@@ -334,6 +338,7 @@ height: auto;
 					<div class="row left">
 						<img src="/images/user	.png"  width="35" height="24">
 						<span class="replyWriter">작성자</span>
+					<label class="replyTime"></label>	
 					</div>
 			    </div>
 					<pre class="replyContent not-outline w-100 left" style="height: 42px; padding-left: 10px;"></pre>
@@ -367,8 +372,8 @@ height: auto;
        
         <script id="block-template" type="text/template">
 			<form class="block-form block-container" >
-				<button type="submit" class="btn block-send">보내기</button>
-				<button class="btn block-cencel">취소</button>
+				<button type="submit" class="btn block-send h-100">보내기</button>
+				<button class="btn block-cencel h-100">취소</button>
 				<input type="hidden" name="boardNo">
 				<select id="select-block" name="reportReason" class="form-input">
 						<option name="reportReason" selected disabled>신고사유</option>
