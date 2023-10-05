@@ -826,6 +826,9 @@ a.link:hover
 	border-bottom: 1.5px solid #2c3e50;
 } 
 
+.reply-icon{
+	margin-left:-20px;
+}
 /* 세미 프로젝트 테이블(mypage) css */
 .table-mypage>thead>tr>th, 
 .table-mypage>tbody>tr>th, 

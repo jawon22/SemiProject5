@@ -79,7 +79,7 @@ h1 {
 													<!--  댓글이 있다면 개수를 표시 -->
 												<c:if test="${boardListDto.boardReplycount >0}">
 													&nbsp;&nbsp;
-													<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
+													<i class="fa-solid fa-comment reply-icon" style="color: #78bdcf;"></i>
 												</c:if>
 											</c:otherwise>
 										</c:choose>
@@ -131,7 +131,7 @@ h1 {
 													<!--  댓글이 있다면 개수를 표시 -->
 												<c:if test="${boardListDto.boardReplycount >0}">
 													&nbsp;&nbsp;
-													<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
+													<i class="fa-solid fa-comment reply-icon" style="color: #78bdcf;"></i>
 												</c:if>
 											</c:otherwise>
 										</c:choose>
