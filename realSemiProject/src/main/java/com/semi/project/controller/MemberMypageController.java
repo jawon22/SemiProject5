@@ -169,9 +169,7 @@ public class MemberMypageController {
 		
 		String memberId = (String)session.getAttribute("name");
 		MemberDto findDto = memberDao.selectOne(memberId);
-		
-		log.debug(findDto.getMemberPw());
-		
+				
 		if(inputPw.equals(findDto.getMemberPw())) {
 			memberDao.delete(memberId);
 			session.removeAttribute("name");			
