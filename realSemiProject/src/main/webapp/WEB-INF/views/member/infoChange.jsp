@@ -59,11 +59,7 @@
 		    var Regex = /^.*@.*$/;
 		    var isValid = (Regex.test($(this).val())) && ($(this).val().length != 0); // 이메일 유효성 검사 수정
 		    var email = $("[name=memberEmail]").val();
-			
-// 		    if(backupEmail == email){
-// 		    	status.email = true;
-		    	
-// 		    }
+
 		    
 		    $("[name=memberEmail]").removeClass("success fail fail2"); // 유효하지 않은 경우 성공 클래스 제거
 		    if (isValid) {
@@ -75,12 +71,10 @@
 		            },
 		            success: function (response) {
 		                if (response == "Y") {
-		//                     $("[name=memberEmail]").removeClass("fail2"); // 실패 클래스 제거
 		                    $("[name=memberEmail]").addClass("success");
 		                    status.email = true;
 		                } 
 		                else if ($("[name=memberEmail]").val() == backupEmail) {
-		//                     $("[name=memberEmail]").removeClass("fail2"); // 실패 클래스 제거
 		                    $("[name=memberEmail]").addClass("success");
 		                    status.email = true;
 		                } 
@@ -103,9 +97,7 @@
 
 	    $("[name=memberArea]").click(function(){
 	
-// 	    	var isValid = $('input[name=memberArea]:checked').val().length != 0;
 	    	var isValid = $("[name=memberArea]").val().length != 0;
-	    	console.log(isValid)
 	        $(this).removeClass("success fail");
 	        $(this).addClass(isValid ? "success" : "fail");
 	
@@ -123,13 +115,6 @@
 	        status.pw = isValid;
 	    });
 	
-// 	    $(".changeform").submit(function(e){
-	
-// 	        if(status.ok() == false){
-// // 	        	window.alert("모든 항목을 다 입력해 주세요");
-// 	            e.preventDefault();
-// 	        }
-// 	    });
 	});
 </script>
 

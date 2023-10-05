@@ -38,7 +38,7 @@
 		<input type="hidden" value="qnanotice_title">
 		<input class="search-input" type="search" name="keyword" 
 		value="${param.keyword}" 
-		placeholder="검색어 입력" required>
+		placeholder="검색어 입력">
 	<button class="search-btn">검색</button>
 </form>
 </div>

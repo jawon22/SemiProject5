@@ -21,7 +21,7 @@
 	</div>
 
 	<div class="row center mt-40 mb-20">
-		<h1>권한이 부족합니다..</h1>
+		<h1>권한이 부족합니다</h1>
 	</div>
 	<div class="row center mb-40">
 		<h3>다시 확인하고 이용해주세요</h3>

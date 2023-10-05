@@ -63,6 +63,8 @@ h1 {
 									"src",
 									"/rest/member/download?attachNo="
 											+ response.attachNo);
+							
+							$(".profile-delete").show();
 						},
 						error : function() {
 							window.alert("잠시 후 다시 시도해주세요");
@@ -80,6 +82,7 @@ h1 {
 				method : "post",
 				success : function(response) {
 					$(".profile-image").attr("src", "/images/user.png");
+					$(".profile-delete").hide();
 				},
 			});
 		});
@@ -95,7 +98,7 @@ h1 {
 				$(".myList").hide();
 			}
 		});
-
+		
 	});
 
 </script>
