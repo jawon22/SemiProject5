@@ -133,10 +133,9 @@ public class QnaNoticeController {
 	@RequestMapping("/detail")
 	public String detail(@RequestParam int qnaNoticeNo, Model model) {
 		QnaNoticeDto qnaNoticeDto = qnaNoticeDao.selectOne(qnaNoticeNo);
-		Integer attachNo = memberDao.findProfile(qnaNoticeDto.getQnaNoticeWriterString());
+		Integer attachNo = memberDao.findProfile(qnaNoticeDto.getMemberId());
 		model.addAttribute("qnaNoticeDto", qnaNoticeDto);
 		model.addAttribute("attachNo", attachNo);
-		log.debug("attach{}"+attachNo);
 		return "/WEB-INF/views/qnaNotice/detail.jsp";
 	}
 
