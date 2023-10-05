@@ -32,27 +32,36 @@
 <script>
 	$(function(){
 		
-		$(".searchId-form").submit(function(e){
-			var email = $(this).val();
-			
-			$.ajax({
-				url:"http://localhost:8080/rest/member/emailCheck",
-				method:"post",
-				data:{
-					memberEmail : email
-				},
-				success:function(response){
-					if(response == "Y"){
-						status.email = true;
-					}else{
-						status.email = false;
-						alert("등록된 아이디가 없습니다");
-					}
-				},
-				error: function () {
-	                alert("서버와의 통신이 원활하지 않습니다");
-	            }
-			});
+		$("[name=memberEmail]").blur(function(){
+	        var isValid = $(this).val().length != 0;
+	        var email = $("[name=memberEmail]").val();
+	        
+	        $("[name=memberEmail]").removeClass("success fail fail2"); // 유효하지 않은 경우 성공 클래스 제거
+		    if (isValid) {
+		        $.ajax({
+		            url: "http://localhost:8080/rest/member/emailCheck",
+		            method: "post",
+		            data: {
+		                memberEmail: email
+		            },
+		            success: function (response) {
+		                if (response == "Y") { //등록된이메일이 없을 때
+		                    $("[name=memberEmail]").addClass("fail2");
+		                } 
+		                else { //있음......등록된이메일이있음?
+		                    $("[name=memberEmail]").addClass("success");
+		                }
+		            },
+		            error: function () {
+		                alert("서버와의 통신이 원활하지 않습니다");
+		            }   
+		        });
+		    } 
+		    
+		    else {
+		        $("[name=memberEmail]").addClass("fail"); //이메일을 입력해주세요
+		    }
+	        
 		});
 		
 	});
@@ -68,6 +77,8 @@
 			<div class="row left mt-30 mb-20">
 				<label>이메일 입력</label>
 				<input type="text" class="form-input w-100 mt-10" name="memberEmail">
+				<div class="fail2-feedback">존재하지 않는 이메일입니다.</div>	
+				<div class="fail-feedback" >이메일을 입력해주세요</div>
 			</div>
 			<div class="row mt-30">
 				<button class="btn btn-positive w-100" type="submit">찾기</button>

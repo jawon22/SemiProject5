@@ -48,11 +48,11 @@
 	        checkPw:false,
 	        nickname:false,
 	        email:false,
-	        birth:false,
+	        area:false,
 	
 	        ok:function(){
 	            return this.id && this.pw && this.checkPw && this.nickname && this.email
-	                        && this.birth;
+	                         && this.area;
 	        },
 	    };
 	
@@ -125,22 +125,48 @@
 	    $("[name=memberEmail]").blur(function(){
 	        var Regex = /^(.*?)@(.*?)$/;
 	        var isValid = Regex.test($(this).val()) && $(this).val().length != 0;
-	
+	        var email = $("[name=memberEmail]").val();
+	        
+	        $("[name=memberEmail]").removeClass("success fail fail2"); // 유효하지 않은 경우 성공 클래스 제거
+		    if (isValid) {
+		        $.ajax({
+		            url: "http://localhost:8080/rest/member/emailCheck",
+		            method: "post",
+		            data: {
+		                memberEmail: email
+		            },
+		            success: function (response) {
+		                if (response == "Y") {
+		                    $("[name=memberEmail]").addClass("success");
+		                    status.email = true;
+		                } 
+		                else {
+		                    $("[name=memberEmail]").addClass("fail2");
+		                    status.email = false;
+		                }
+		            },
+		            error: function () {
+		                alert("서버와의 통신이 원활하지 않습니다");
+		            }   
+		        });
+		    } else {
+		        $("[name=memberEmail]").addClass("fail");
+		        status.email = false;
+		    }
+		        
+	       
+	    });
+	    
+	    $("[name=memberArea]").change(function(){
+	    	var isValid = $(this).val().length != 0;
+	    	
 	        $(this).removeClass("success fail");
 	        $(this).addClass(isValid ? "success" : "fail");
-	
-	        status.email = isValid;
+	    	
+	        status.area = isValid;
 	    });
-	
-	    $("[name=memberBirth]").blur(function(){
-	        var Regex = /^(19[0-9]{2}|20[0-9]{2})-(0[1-9]|1[0-2])-/;
-	        var isValid = (Regex.test($(this).val())) || ($(this).val().length == 0);
-	
-	        $(this).removeClass("success fail");
-	        $(this).addClass(isValid ? "success" : "fail");
-	
-	        status.birth = isValid;
-	    });
+	    
+	    
 	
 	    $(".join-form").submit(function(e){
 	        console.table(status);
@@ -198,6 +224,7 @@
 				<input class="form-input w-100 mt-10" type="email" name="memberEmail" placeholder="example@tripee.com">
 				<div class="success-feedback" >사용 가능한 이메일입니다</div>
 				<div class="fail-feedback">사용할 수 없는 이메일입니다</div>
+				<div class="fail2-feedback">이미 등록된 이메일 주소입니다</div>		
 			</div>
 			<div class="row left mb-20">
 				<label>닉네임<span class="star">*</span></label>
