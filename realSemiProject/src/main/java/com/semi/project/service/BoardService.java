@@ -26,7 +26,6 @@ public class BoardService {
 				boardDao.connect(boardNo, no);
 			}			
 		}
-		
 		return boardNo;
 	}
 }

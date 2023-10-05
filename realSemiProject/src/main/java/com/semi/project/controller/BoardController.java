@@ -69,8 +69,7 @@ public class BoardController {
 	
 	@RequestMapping("/list") // 정보게시판 리스트
 	public String list(@ModelAttribute(name="vo") PaginationVO vo, Model model,
-	                   @RequestParam(name = "sort", required = false) String sort,
-	 					@RequestParam(name = "keyword", required = false) String keyword) {
+	                   @RequestParam(name = "sort", required = false) String sort) {
 		
 	    int count = boardDao.countList(vo);
 	    vo.setCount(count);

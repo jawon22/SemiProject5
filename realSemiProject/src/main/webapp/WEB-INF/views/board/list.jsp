@@ -13,13 +13,9 @@
             $(".checkbox-all, .check-item").prop("checked",check);
 
             if(check){
-//            	 $(".delete-btn").css("display","inline-block");
-//            	 $(".delete-btn").show();
            	 $(".delete-btn").fadeIn("fast");
             }
             else{
-//            	 $(".delete-btn").css("display","none");
-//            	 $(".delete-btn").hide();
            	 $(".delete-btn").fadeOut("fast");
             }
             
@@ -28,8 +24,6 @@
    	 	//개별체크 박스
         $(".check-item").change(function(){
 
-            //var allCheck - 개별체크박스 개수 == 체크된 개별체크 박스개수;
-            // var allCheck = $(".check-item").length == $(".check-item:checked").length;
             var allCheck = $(".check-item").length == $(".check-item").filter(":checked").length;
             $(".checkbox-all").prop("checked",allCheck);
             
