@@ -202,7 +202,7 @@
             
             <div class="row">
                 <button class="btn btn-positive">수정하기</button>
-                <a href="list" class="btn">목록보기</a>
+                <a href="detail?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}" class="btn">취소</a>
             </div>
         </div>
 </form>
