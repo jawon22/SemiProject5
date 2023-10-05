@@ -30,7 +30,7 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <!-- javascript 작성 공간 -->
-    <script src="./custom-link.js"></script><!-- 내가 만든 파일-->
+
 <script>
     $(document).ready(function () {
         // 에디터 설정
@@ -52,8 +52,7 @@
                        // upload image to server and create imgNode...
                        //$summernote.summernote('insertNode', imgNode);
                        if(files.length != 1) return;
-                       
-                       console.log("비동기 파일 업로드 시작")
+
                        //1. FormData 2. processdata 3.contentType
                        var fd = new FormData();
                        fd.append("attach", files[0]);
@@ -97,7 +96,7 @@
         var selectedSeason = $("select[name='board_categoryweather']").val();
         var selectedArea = $("[name=board_area]").val();
         var boardCategory;
-        console.log(selectedSeason, selectedArea);
+
         
         if (selectedSeason == "전체") {
             if (selectedArea == "전체") {
@@ -204,7 +203,7 @@
                 boardCategory = 42;
             } 
         }       
-        console.log("boardCategory 파라미터 값: " + boardCategory);
+
         $("input[name='boardCategory']").val(boardCategory);
         }
 
@@ -243,8 +242,7 @@
     			// 특정 폼 엘리먼트의 값을 가져와서 바이트 크기 계산
     			var contentValue = $("[name=boardContent]").val();
     			var totalByteCount = calculateByteSize(contentValue);
-    			console.log("바이트 크기: " + totalByteCount);
- 
+
             
             // byte 수를 버튼 위에 표시
             $('#byteCount').text(totalByteCount);
@@ -261,12 +259,7 @@
             $("[name=boardContent]").summernote('isEmpty');
             var contentText = !$("[name=boardContent]").summernote('isEmpty');
             
-            
-            console.log(title.trim() !== '');
-            console.log(contentText);
-            console.log(totalByteCount <= 3989)
-            /* console.log(content); */
-            
+
             // 버튼을 비활성화
             if (contentText && title.trim() !== '' && totalByteCount <= 3989) {
                 $('.btn-positive').prop('disabled', false);
