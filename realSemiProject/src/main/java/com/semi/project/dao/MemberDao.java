@@ -28,9 +28,6 @@ public interface MemberDao {
 	
 	
 	int countMyList(PaginationVO vo, String memberId, String listType);
-//	int countListMyWriteList(PaginationVO vo, String memberId); //내가 쓴 글 카운트
-//	int countListMyLikeList(PaginationVO vo, String memberId); //내가 좋아요 한 글 카운트
-//	int countListMyReplyList(PaginationVO vo, String memberId); //내가 댓글 단 글 카운트
 	int countListMyQnaList(PaginationVO vo, String memberId); //내 문의글 카운트
 	
 	List<BoardListDto> findWriteListByMemberId(PaginationVO vo, String memberId); //내가 쓴 글 조회
