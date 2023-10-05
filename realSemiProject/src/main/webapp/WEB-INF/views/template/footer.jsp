@@ -13,6 +13,14 @@
 	z-index: 99999;
 }
 
+.use {
+	cursor: pointer;
+}
+.privacy {
+	cursor: pointer;
+}
+
+
 .popup-wrap {
 	position: absolute;
 	top: 50%;
