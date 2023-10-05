@@ -21,7 +21,7 @@ public class RegularServiceImpl implements RegularService {
 	public void memberManagement() {
 		memberDao.updateMemberLevelUp();
 		memberDao.updateMemberLevelDown();
-		log.debug("실행되니?");
+//		log.debug("실행되니?");
 	}
 
 
