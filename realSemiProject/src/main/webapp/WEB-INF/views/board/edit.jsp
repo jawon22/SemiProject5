@@ -37,7 +37,7 @@
         $('[name=boardContent]').summernote({
             placeholder: '내용을 작성하세요',
             tabsize: 2, // 탭을 누르면 이동할 간격
-            height: 500, // 에디터 높이
+            height: 400, // 에디터 높이
             minHeight: 300, // 에디터 최소 높이
             toolbar: [
                 ['style', ['style']],
