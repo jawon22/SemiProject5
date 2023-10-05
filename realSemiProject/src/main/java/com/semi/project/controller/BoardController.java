@@ -135,7 +135,6 @@ public class BoardController {
 			history.add(boardNo);
 			session.setAttribute("history", history);
 		}
-		log.debug("history = {}", history);
 			
 		if(isRead==false) {
 			boardDao.readcountEdit(boardNo);

@@ -37,18 +37,7 @@
 </style>
 
 <div class="container w-800">
-	
 
-<!-- 	<div class="row left"> -->
-<!-- 		<h3> -->
-<!-- 			<i class="fa-solid fa-user"></i> -->
-<%-- 			${qnaNoticeDto.qnaNoticeMemberId} --%>
-<%-- 			<%-- 탈퇴한 사용자가 아닐 경우 닉네임을 옆에 추가로 출력 --%>
-<%-- 			<c:if test="${qnaNoticeDto. != null}"> --%>
-<%-- 			(${writerDto.memberNickname}) --%>
-<%-- 			</c:if> --%>
-<!-- 		</h3> -->
-<!-- 	</div> -->
 	<div class="row mb-50">
 		<c:choose>
 			<c:when test="${qnaNoticeDto.qnaNoticeType==1}">
@@ -64,7 +53,7 @@
 			<h2>${qnaNoticeDto.qnaNoticeTitle}</h2>
 		</div>
 	
-		<div class="right w-50">
+		<div class="right w-50" style="font-size: 20px;">
 			<fmt:formatDate value="${qnaNoticeDto.qnaNoticeTime}" pattern="y년 M월 d일"/>
 		</div> 
 	</div>
@@ -88,12 +77,6 @@
 		</div>
 	</div>
 	
-	<%-- 사진이 있으면 --%>
-
-<%-- 	<c:if test="${qnaNoticeDto.image}">
-	<img src="image?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}" width="200" height="200">
-	</c:if> --%>
-
 	
 	<hr class="custom-hr">
 	<%-- 게시글 내용(본문) --%>

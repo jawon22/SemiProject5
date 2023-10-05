@@ -7,17 +7,17 @@
  .button{
  	border-radius: 0.4em;
  }
- .btn-hide{
- display: none;
- border: none;
- border-radius: 0.2em;
- border-color: #26C2BF;
- background-color: #26C2BF;
- color: black;
- font-weight: bold; 
- font-size:12px;
- box-shadow: none;
- }
+.btn-hide{
+	display: none;
+	border: none;
+	border-radius: 0.2em;
+	border-color: #26C2BF;
+	background-color: #26C2BF;
+	color: white;
+	font-weight: bold; 
+	font-size:16px;
+	box-shadow: none;
+}
  .h-100{
  height: 100%;
  }
@@ -109,7 +109,9 @@ min-height:250px;
  $(function(){
 	 var params = new URLSearchParams(location.search);
 		var no = params.get("boardNo");
-		
+		if($(".content").find("img").css("float", "right")){
+			$(".content").find("img").css("float", "right")
+		}
 
 		//좋아요 처리
 			 $.ajax({
@@ -164,7 +166,6 @@ min-height:250px;
 	 function loadList() {
 			var params = new URLSearchParams(location.search);
 			var no = params.get("boardNo");
-// 			console.log(no);
 			var memberId = "${sessionScope.name}";
 			
 			
@@ -291,8 +292,6 @@ min-height:250px;
 		//완료(등록) 버튼 처리
 		$(blockHtmlTemplate).submit(function(e){
 			e.preventDefault();
-// 			var boardNo = $("[name=boardNo]").val();
-// 			var longBoardNo = $.parseLong(boardNo);
 			var reportReason = $("[name=reportReason]").val();
 			$.ajax({
 				url:"/board/report/board",
@@ -325,18 +324,18 @@ min-height:250px;
 		}
 	});
 	 }
-	 //큰 이미지 축소
-// 	 $(".content-wrap").find("img").each(function() {
-// 		  $(this).before("<br>");
-// 		  $(this).after("<br>");
+	 큰 이미지 축소
+	 $(".content-wrap").find("img").each(function() {
+		  $(this).before("<br>");
+		  $(this).after("<br>");
 	
-// 		 if ($(this).width() > 800) {
-// 		    $(this).css({
-// 		      "width": "75%",
-// 		      "height": "75%"
-// 		    });
-// 		  }
-// 		});
+		 if ($(this).width() > 800) {
+		    $(this).css({
+		      "width": "75%",
+		      "height": "75%"
+		    });
+		  }
+		});
 
  });
  
@@ -357,8 +356,8 @@ min-height:250px;
 		    	</div>
 				<div class="right btn-wrap" style="width: 10%">
 					<button class="btn-create w-100 h-100"><i class="fa-solid fa-ellipsis"></i></button>
-					<button class="btn-hide btn-edit w-100 h-50">수정</button>
-					<button class="btn-hide btn-delete w-100 h-50">삭제</button>
+					<button class="btn btn-hide btn-edit w-100 h-50">수정</button>
+					<button class="btn btn-hide btn-delete w-100 h-50">삭제</button>
 				</div>
 	</div>
 </div>
@@ -368,7 +367,7 @@ min-height:250px;
 
  <div class="container w-800">
   <script id="reply-edit-template" type="text/template">
-	      <form class="reply-edit-form edit-contailner not-border">
+	      <form class="reply-edit-form edit-contailner not-border mt-10">
 			<input type="hidden" name="replyNo" value="?">	        
 	        <div class="row flex-container">
 				<div class="left w-80">
@@ -384,18 +383,18 @@ min-height:250px;
        
         <script id="block-template" type="text/template">
 			<form class="block-form block-container" >
-				<button type="submit" class="btn block-send">보내기</button>
-				<button class="btn block-cencel">취소</button>
-				<input type="hidden" name="boardNo">
 				<select id="select-block" name="reportReason" class="form-input">
 						<option name="reportReason" selected disabled>신고사유</option>
 					    <option name="reportReason" value="광고/음란성 글" >1. 광고/음란성 글</option>
-					    <option name="reportReason" value="욕설/반말/부적절한 언어">2. 욕설/반말/부적절한 언어</option>
+					    <option name="reportReason" value="욕설/반말/부적절한 어">2. 욕설/반말/부적절한 언어</option>
 					    <option name="reportReason" value="회원 분란 유도">3. 회원 분란 유도</option>
 					    <option name="reportReason" value="회원 비방">4. 회원 비방</option>
 					    <option name="reportReason" value="지나친 정치/종교 논쟁">5. 지나친 정치/종교 논쟁</option>
 					    <option name="reportReason" value="도배성 글">6. 도배성 글</option>
 				</select>
+				<button class="btn block-cencel">취소</button>
+				<button type="submit" class="btn block-send">보내기</button>
+				<input type="hidden" name="boardNo">
 				<label class="fail-feedback">내용을 선택해주세요</label>
 			</form>
 		</script>
@@ -412,7 +411,7 @@ min-height:250px;
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<div class="flex-container">
+		<div class="flex-container mt-20">
         	<div class="row w-50 left">
         		<h2>${boardDto.boardTitle}</h2>
         	</div>
@@ -447,7 +446,14 @@ min-height:250px;
         <div class="row flex-container">
             <div class="col-2">
                 <div class="left">
-                    <button class = "btn-block"><img src="/images/Union.png"  width="35" height="14"></button>
+                	<c:choose>
+	                	<c:when test="${sessionScope.name==null }">
+	              			<img src="/images/Union.png"  width="35" height="14">
+	                	</c:when>
+	                	<c:otherwise>
+	     	               <button class = "btn-block"><img src="/images/Union.png"  width="35" height="14"></button>
+	                	</c:otherwise>
+                	</c:choose>
                  </div>
             </div>
             <div class="col-2">
