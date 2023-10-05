@@ -109,9 +109,6 @@ min-height:250px;
  $(function(){
 	 var params = new URLSearchParams(location.search);
 		var no = params.get("boardNo");
-		if($(".content").find("img").css("float", "right")){
-			$(".content").find("img").css("float", "right")
-		}
 
 		//좋아요 처리
 			 $.ajax({
