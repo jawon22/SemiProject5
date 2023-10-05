@@ -90,7 +90,9 @@ label {
 						alert("모든 항목을 입력해야 합니다!");
 					}
 				});
-
+		
+		var memberIdValue = $('input[name="memberId"]').val();
+		console.log(memberIdValue);
 	});
 	function checkCapsLock(event)  {
 		
@@ -182,9 +184,8 @@ label {
 					<h1>회원님은 휴면계정 상태입니다.</h1>
 					<div style="font-size:16px;"> 1년동안 로그인 기록이 없는 회원은<p>
 					 휴면계정으로 자동 변경되고 있습니다.</p>
-					 <p>휴면계정 해제를 원하시는 경우, </p>
-					wwoooorrii@gmail.com 로 휴면계정해제요청을 보내주시면
-					<p>처리해드리겠습니다</p>
+					 <p>트리피 계정 서비스를 계속 이용하시려면</p>
+					 <p>[휴면해제] 버튼을 누른 후 다시 로그인 해 주세요.</p>
 					</div> 
 					</div>
 <!-- 					<div class="container left"> -->
@@ -195,11 +196,11 @@ label {
 <!-- 					<button class="btn btn-positive w-100 activate" href="activate">휴면 해제하기</button>>  -->
 					<div class="flex-container auto-width">
 					<div class="col2">
-						<a class="btn btn-negative link w-100" href="/">메인화면 가기</a>
+						<a class="btn btn-negative link w-100" href="/">취소</a>
 					</div>
 					<div class="col2">
-						<input type="hidden" name="memberId" value="${findId}">
-						<a class="btn btn-positive link w-100" href="/member/activate">로그인 화면 가기</a>					
+
+						<a class="btn btn-positive link w-100" href="/member/activate?memberId=${sessionScope.memberIdForActivation}">휴면해제</a>					
 					</div>
 					</div>
 				</div>

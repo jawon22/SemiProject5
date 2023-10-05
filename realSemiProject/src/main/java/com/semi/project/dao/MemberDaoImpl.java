@@ -601,6 +601,7 @@ public class MemberDaoImpl implements MemberDao {
 	@Autowired
 	private ExpiredListMapper expiredListMapper;
 	
+	//비밀번호 변경만료, 휴면계정
 	@Override
 	public ExpiredListDto findMemberExpiredList(String memberId) {
 		String sql = "select * from expired_list where member_id = ?";
@@ -609,12 +610,25 @@ public class MemberDaoImpl implements MemberDao {
 		return list.isEmpty() ? null : list.get(0);
 	}
 	
+	//멤버등업
 	@Override
-	public void updateMemberLevel() {
+	public void updateMemberLevelUp() {
 		String sql = "update member set member_level = 'tripper' "
 				+ "where member_id in ("
 				+ "select member_id from member "
-				+ "where member_point >= 1000)";
+				+ "where member_point >= 1000)"
+				+ "and member_level != '관리자'";
+		jdbcTemplate.update(sql);
+	}
+	
+	//멤버강등(관리자제외)
+	@Override
+	public void updateMemberLevelDown() {
+		String sql = "update member set member_level = 'beginner' "
+				+ "where member_id in ("
+				+ "select member_id from member "
+				+ "where member_point < 1000) "
+				+ "and member_level != '관리자'";
 		jdbcTemplate.update(sql);
 	}
 
