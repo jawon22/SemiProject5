@@ -145,14 +145,15 @@
 		<div class="row left">
 			<label>닉네임</label>
 		</div>
-		<div class="row">
+		<div class="row left">
 			<input class="form-input w-100" type="text" name="memberNickname"
 				value="${memberDto.memberNickname}">
+			<div class="fail-feedback">한글/숫자 2~10글자 이내 작성</div>
 		</div>
 		<div class="row left">
 			<label>이메일</label>
 		</div>
-		<div class="row">
+		<div class="row left">
 			<input class="form-input w-100" type="email" name="memberEmail"
 				value="${memberDto.memberEmail}">
 			<div class="fail-feedback">올바른 이메일 주소를 입력하세요</div>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 <style>
 .thumbnail {
@@ -66,6 +67,10 @@ img {
     margin-top: -40px;
 }
 
+.title {
+	margin-left: 10px;
+}
+
 </style>
 
 <script>
@@ -105,10 +110,10 @@ img {
 		//     var limitedString = originalString.slice(0, 8);
 		//     $(this).text(limitedString);
 
-		//     });
+		//     }); 
 		$(".title").each(function() {
 			var originalString = $(this).text();
-			var maxLength = 12;
+			var maxLength = 10;
 
 			if (originalString.length >= maxLength) {
 				// 제한된 길이보다 긴 경우 말줄임표 추가
@@ -180,7 +185,7 @@ img {
 					</c:otherwise>
 				</c:choose>
 				<div class="left row">
-					<span class="title" style="margin-left: 10px;">${seasonList.boardTitle}</span>
+					<span class="title">${seasonList.boardTitle}</span>
 				</div>
 
 
@@ -216,8 +221,7 @@ img {
 					</c:otherwise>
 				</c:choose>
 				<div class="left row">
-					<span class="title" style="margin-left: 10px;">${areaList.boardTitle}
-					</span>
+					<span class="title">${areaList.boardTitle}</span>
 				</div>
 			</a>
 		</c:forEach>
