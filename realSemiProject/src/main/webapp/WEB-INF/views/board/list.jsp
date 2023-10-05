@@ -132,10 +132,6 @@
 		<a class="link" href="list"><h2 class="crudTitle">여행정보</h2></a>
 	</div>
 
-	<c:if test="${vo.search}">
-		${vo.keyword}에 대한 검색 결과
-	</c:if>
-
 	<form id="listForm" action="list" method="get">
 		<div class="row">
 			<!-- 계절 선택창 -->
@@ -213,7 +209,7 @@
 	</c:if>
 
 	<div class="row">
-		<table class="table table-slit table-regular">
+		<table class="table table-regular">
 			<thead>
 				<tr>
 					<c:if test="${sessionScope.level =='관리자'}">
@@ -261,7 +257,7 @@
 								<!--  댓글이 있다면 개수를 표시 -->
 									<c:if test="${boardListDto.boardReplycount >0}">
 										&nbsp;&nbsp;
-										<i class="fa-solid fa-comment" style="color: #78bdcf; z-index:99">
+										<i class="fa-solid fa-comment reply-icon" style="color: #78bdcf; z-index:99">
 										</i>
 									</c:if>
 								

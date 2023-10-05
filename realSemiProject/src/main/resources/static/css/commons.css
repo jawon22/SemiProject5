@@ -825,3 +825,7 @@ a.link:hover
 .table.table-regular>tfoot>tr, .table.table-regular>tfoot>tr {
 	border-bottom: 1.5px solid #2c3e50;
 } 
+
+.reply-icon{
+	margin-left:-20px;
+}
