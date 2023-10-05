@@ -51,23 +51,23 @@ public class InterceptorConfiguration implements WebMvcConfigurer{
 				.excludePathPatterns("/member/join*","/member/login","/member/exitFinish",
 				"/member/search*","/board/list","/board/freeList","/board/reviewList",
 				"/board/all","/board/communityAll","/board/detail","/qnaNotice/list",
-				"/qnaNotice/noticeList","/qnaNotice/qnaList","/rest/reply/list"); //비회원도 접속가능
+				"/qnaNotice/noticeList","/qnaNotice/qnaList","/rest/reply/list","/member/activate*"); //비회원도 접속가능
 
 //		//[3] 게시글 소유자 외 접근 차단
-//		registry.addInterceptor(boardOwnerInterceptor)
-//				.addPathPatterns("/board/edit");
+		registry.addInterceptor(boardOwnerInterceptor)
+				.addPathPatterns("/board/edit");
 //		
 //		//[4] 게시글 소유자 또는 관리자 외 접근 차단
-//		registry.addInterceptor(boardDetailDeleteInterceptor)
-//				.addPathPatterns("/board/delete");
+		registry.addInterceptor(boardDetailDeleteInterceptor)
+				.addPathPatterns("/board/delete");
 //		
 //		//[5] 정보게시판 작성가능 (관리자 , tripper) 외 차단
-//		registry.addInterceptor(tripperLevelInterceptor)
-//				.addPathPatterns("/board/write*");
+		registry.addInterceptor(tripperLevelInterceptor)
+				.addPathPatterns("/board/write*");
 //		
 //		//[6] QnA게시판 비밀글열람 (관리자 , 작성자) 외 차단
-//		registry.addInterceptor(qnaSecretInterceptor)
-//				.addPathPatterns("/qnaNotice/detail");
+		registry.addInterceptor(qnaSecretInterceptor)
+				.addPathPatterns("/qnaNotice/detail");
 
 		
 	}
