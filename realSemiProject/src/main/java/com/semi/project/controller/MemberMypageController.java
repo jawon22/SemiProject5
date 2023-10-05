@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.semi.project.dao.BoardDao;
 import com.semi.project.dao.CertDao;
 import com.semi.project.dao.MemberDao;
-import com.semi.project.dto.BoardListDto;
+import com.semi.project.dto.BlockDetailDto;
 import com.semi.project.dto.ExpiredListDto;
 import com.semi.project.dto.MemberDto;
 import com.semi.project.vo.PaginationVO;
@@ -53,8 +52,8 @@ public class MemberMypageController {
 			ExpiredListDto expiredListDto =  memberDao.findMemberExpiredList(findDto.getMemberId());
 			//휴면계정
 			if(expiredListDto.getIsExpired().equals("D")) {
-				String findId = findDto.getMemberId();
-				model.addAttribute("findId", findId);
+				String memberId = findDto.getMemberId();
+				session.setAttribute("memberIdForActivation", memberId);
 				return "redirect:login?idexpire";
 			}
 			
@@ -82,9 +81,9 @@ public class MemberMypageController {
 	}
 	
 	@RequestMapping("/activate")
-	public String activate(HttpSession session) {
-		String memberId = (String)session.getAttribute("name");
+	public String activate(@RequestParam String memberId, HttpSession session) {
 		memberDao.updateMemberLogin(memberId);
+		session.removeAttribute("memberIdForActivation");
 		return "redirect:/member/login";
 	}
 	
@@ -95,9 +94,9 @@ public class MemberMypageController {
 		
 		String memberId = (String)session.getAttribute("name");
 		MemberDto memberDto = memberDao.selectOne(memberId);
-		ExpiredListDto expiredListDto =  memberDao.findMemberExpiredList(memberId);
+		List<BlockDetailDto> blockDto = memberDao.findBlock(memberId);
 		
-//		model.addAttribute("expiredListDto", expiredListDto);
+		model.addAttribute("blockDto", blockDto.get(0));
 		model.addAttribute("memberDto", memberDto);
 		model.addAttribute("profile", memberDao.findProfile(memberId));
 		

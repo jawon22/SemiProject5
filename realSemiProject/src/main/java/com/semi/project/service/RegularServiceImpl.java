@@ -18,9 +18,11 @@ public class RegularServiceImpl implements RegularService {
 //	@Scheduled(fixedRate = 1000) //매일 오후6시
 //	@Scheduled(cron = "0 0 18 * * *") //매일 오후6시
 	@Override
-	public void memberLevelUp() {
-		memberDao.updateMemberLevel();
+	public void memberManagement() {
+		memberDao.updateMemberLevelUp();
+		memberDao.updateMemberLevelDown();
 		log.debug("실행되니?");
 	}
+
 
 }
