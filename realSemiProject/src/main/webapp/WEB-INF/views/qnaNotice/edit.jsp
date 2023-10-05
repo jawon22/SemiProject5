@@ -30,14 +30,14 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <!-- javascript 작성 공간 -->
-    <script src="./custom-link.js"></script><!-- 내가 만든 파일-->
+
 <script>
     $(document).ready(function () {
         // 에디터 설정
         $('[name=qnaNoticeContent]').summernote({
             placeholder: '내용을 작성하세요',
             tabsize: 2, // 탭을 누르면 이동할 간격
-            height: 500, // 에디터 높이
+            height: 400, // 에디터 높이
             minHeight: 300, // 에디터 최소 높이
             toolbar: [
                 ['style', ['style']],
@@ -53,7 +53,6 @@
                        //$summernote.summernote('insertNode', imgNode);
                        if(files.length != 1) return;
                        
-                       console.log("비동기 파일 업로드 시작")
                        //1. FormData 2. processdata 3.contentType
                        var fd = new FormData();
                        fd.append("attach", files[0]);
@@ -114,7 +113,6 @@
     			// 특정 폼 엘리먼트의 값을 가져와서 바이트 크기 계산
     			var contentValue = $("[name=qnaNoticeContent]").val();
     			var totalByteCount = calculateByteSize(contentValue);
-    			console.log("바이트 크기: " + totalByteCount);
     		
             
             // byte 수를 버튼 위에 표시
@@ -132,11 +130,6 @@
             $("[name=qnaNoticeContent]").summernote('isEmpty');
             var contentText = !$("[name=qnaNoticeContent]").summernote('isEmpty');
             
-            console.log(title.trim() !== '');
-            console.log(contentText);
-            console.log(totalByteCount <= 3989)
-            /* console.log(content); */
-            
             // 버튼을 비활성화
             if (contentText && title.trim() !== '' && totalByteCount <= 3989) {
                 $('.btn-positive').prop('disabled', false);
@@ -151,11 +144,9 @@
         $('input[name="qnaNoticeSecret"]').change(function() {
             if ($(this).is(':checked')) {
                 // 비밀글 체크되었을 때
-                console.log('비밀글이 선택되었습니다.');
                 $('[name="qnaNoticeSecret"]').val('Y');
             } else {
                 // 비밀글 체크 해제되었을 때
-                console.log('비밀글이 해제되었습니다.');
                 $('[name="qnaNoticeSecret"]').val('N');
             }
         });      
@@ -202,7 +193,7 @@
             
             <div class="row">
                 <button class="btn btn-positive">수정하기</button>
-                <a href="list" class="btn">목록보기</a>
+                <a href="detail?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}" class="btn">취소</a>
             </div>
         </div>
 </form>

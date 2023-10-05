@@ -451,7 +451,7 @@ min-height:250px;
 	              			<img src="/images/Union.png"  width="35" height="14">
 	                	</c:when>
 	                	<c:otherwise>
-	     	               <button class = "btn-block"><img src="/images/Union.png"  width="35" height="14"></button>
+	     	               <button class = "btn-block" style="margin-top: -8px"><img src="/images/etc/report.png"  width="20"></button>
 	                	</c:otherwise>
                 	</c:choose>
                  </div>
@@ -481,11 +481,11 @@ min-height:250px;
 			댓글 <label class="replyCount"></label>
 		</div>
 	<c:if test="${sessionScope.name != null}">
-		<form class="reply-insert-form">
+		<form class="reply-insert-form" autocomplete="off">
 		<input type="hidden" name="replyOrigin" value="${boardDto.boardNo}">
 		<div class="row flex-container mt-10" style="height: 55px;">
 				<input class="w-100 reply-input" name="replyContent"></input>
-				<button class="btn center" style="border-left: none;"><i class="fa-regular fa-paper-plane fa-2x rotate-icon"></i></button>
+				<button class="btn center" style="border-left: none;"><i class="fa-brands fa-pagelines fa-xl" style="color: #26c2bf;"></i></button>
 			</div>
 			<input type="hidden" name="replyParent" value="${reply.replyNo}">
 		<c:if test="${reply.replyParent!=null}">

@@ -25,65 +25,62 @@
 	
 </style>
 
-
 <div class="container w-800">
-
-	<div class="row">
-		<a href="blockList" class="link" ><span class="title">차단회원</span></a>
-	</div>
-
-<table class="table table-slit">
-<thead>
-	<tr>
-		<th>
-			닉네임
-		</th>
-		<th>
-			아이디
-		</th>
-		<th>
-			등급
-		</th>
-		<th>
-			차단일
-		</th>
-		<th>
-			관리
-		</th>
-	</tr>
-</thead>
-
-<tbody>
-	<c:forEach var="blockList" items="${blockList}">
+	
+		<div class="row">
+			<a href="blockList" class="link" ><span class="title">차단회원</span></a>
+		</div>
+	
+	<table class="table table-regular center">
+	<thead>
 		<tr>
-			<td>
-				${blockList.memberNickname}
-			</td>
-			<td>
-				${blockList.memberId}	
-			</td>
-			<td>
-				${blockList.memberLevel}
-			</td>
-			<td>
-				${blockList.blockTime}
-			</td>
-			<td>
-			<a class="link" href="detail?memberId=${blockList.memberId}">
-				회원관리 <i class="fa-solid fa-arrow-right" style="color: #78bdcf;"></i></a>
-			</td>
-		</tr>		
-	</c:forEach>
-</tbody>
-</table>
+			<th>
+				닉네임
+			</th>
+			<th>
+				아이디
+			</th>
+			<th>
+				등급
+			</th>
+			<th>
+				차단일
+			</th>
+			<th>
+				관리
+			</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+		<c:forEach var="blockList" items="${blockList}">
+			<tr>
+				<td>
+					${blockList.memberNickname}
+				</td>
+				<td>
+					${blockList.memberId}	
+				</td>
+				<td>
+					${blockList.memberLevel}
+				</td>
+				<td>
+					${blockList.blockTime}
+				</td>
+				<td>
+				<a class="link" href="detail?memberId=${blockList.memberId}">
+					회원관리 <i class="fa-solid fa-arrow-right" style="color: #78bdcf;"></i></a>
+				</td>
+			</tr>		
+		</c:forEach>
+	</tbody>
+	</table>
 </div>
 <div class="row">
 <form action="member/blockList" method="get" autocomplete="off">
 	<select name="type" class="search-select">
 		<option value="member_id">아이디</option>
 		<option value="member_nickname">닉네임</option>
-		<option value="member_email">이메일</option>
-		<option value="member_birth">생년월일</option>
 	</select>	
 	<input type="search" name="keyword" 
 		value="${param.keyword}" class="search-input"

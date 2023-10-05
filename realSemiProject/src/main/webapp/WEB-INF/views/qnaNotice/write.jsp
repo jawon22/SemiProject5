@@ -30,7 +30,7 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
 <!-- javascript 작성 공간 -->
-<script src="./custom-link.js"></script><!-- 내가 만든 파일-->
+
 <script>
     $(function () {
         var isExceedingLimit = false; // 글자 수 제한 초과 여부를 나타내는 변수
@@ -39,7 +39,7 @@
         $('[name=qnaNoticeContent]').summernote({
             placeholder: '내용을 작성하세요',
             tabsize: 2, // 탭을 누르면 이동할 간격
-            height: 500, // 에디터 높이
+            height:400, // 에디터 높이
             minHeight: 300, // 에디터 최소 높이
             toolbar: [
                 ['style', ['style']],
@@ -58,8 +58,6 @@
 
                     if (files.length != 1) return;
 
-                    console.log("비동기 파일 업로드 시작");
-                    // 1. FormData 2. processdata 3.contentType
                     var fd = new FormData();
                     fd.append("attach", files[0]);
 
@@ -78,8 +76,6 @@
                             var imgTag = '<img src="' + "${pageContext.request.contextPath}/rest/attachment/download/" + response.attachmentNo + '">';
                             $("[name=qnaNoticeContent]").summernote("insertNode", imgTag);
                             
-                            // 버튼 상태 업데이트
-                            //updateButtonState();
                         },
                         error: function() {
                             alert("통신 오류 발생");
@@ -121,27 +117,7 @@
 			// 특정 폼 엘리먼트의 값을 가져와서 바이트 크기 계산
 			var contentValue = $("[name=qnaNoticeContent]").val();
 			var totalByteCount = calculateByteSize(contentValue);
-			console.log("바이트 크기: " + totalByteCount);
 
-            /* // 이미지 태그를 추출하여 이미지 HTML 코드와 텍스트 HTML 코드를 나눕니다.
-            var imagesHtml = contentHtml.match(/<img[^>]+>/g) || [];
-            var textHtml = contentHtml.replace(/<img[^>]+>/g, '');
-
-            // 이미지 HTML 코드의 바이트 수 계산
-            var imagesByteCount = imagesHtml.map(function (image) {
-                return unescape(encodeURIComponent(image)).length;
-            }).reduce(function (a, b) {
-                return a + b;
-            }, 0);
-
-            // 텍스트 HTML 코드의 바이트 수 계산
-            var textByteCount = unescape(encodeURIComponent(textHtml)).length;
-
-            // 총 바이트 수 계산
-            var totalByteCount = imagesByteCount + textByteCount; */
-
-            console.log("텍스트와 이미지의 바이트 수: " + totalByteCount);
-            
             // byte 수를 버튼 위에 표시
             $('#byteCount').text(totalByteCount);
             
@@ -157,11 +133,6 @@
             $("[name=qnaNoticeContent]").summernote('isEmpty');
             var contentText = !$("[name=qnaNoticeContent]").summernote('isEmpty');
             
-            
-            console.log(title.trim() !== '');
-            console.log(contentText);
-            console.log(totalByteCount <= 3989)
-            /* console.log(content); */
             
             // 버튼을 비활성화
             if (contentText && title.trim() !== '' && totalByteCount <= 3989) {
@@ -185,11 +156,9 @@
         $('input[name="qnaNoticeSecret"]').change(function() {
             if ($(this).is(':checked')) {
                 // 비밀글 체크되었을 때
-                console.log('비밀글이 선택되었습니다.');
                 $('[name="qnaNoticeSecret"]').val('Y');
             } else {
                 // 비밀글 체크 해제되었을 때
-                console.log('비밀글이 해제되었습니다.');
                 $('[name="qnaNoticeSecret"]').val('N');
             }
         });
@@ -212,7 +181,7 @@
 </script>
 
 
-<script src="/js/boardWrite.js"></script>
+
 
 
 
