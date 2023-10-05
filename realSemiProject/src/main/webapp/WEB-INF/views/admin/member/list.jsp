@@ -66,8 +66,6 @@
 	<select name="type" class="search-select">
 		<option value="member_id">아이디</option>
 		<option value="member_nickname">닉네임</option>
-		<option value="member_email">이메일</option>
-		<option value="member_birth">생년월일</option>
 	</select>	
 	<input type="search" name="keyword" 
 		value="${param.keyword}" class="search-input"

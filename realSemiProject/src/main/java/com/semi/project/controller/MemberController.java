@@ -93,32 +93,39 @@ public class MemberController {
 		if(findDto != null) {
 			boolean isValid = findDto.getMemberEmail().equals(memberDto.getMemberEmail());
 			
-			//회원 이메일 가져오기
-			String memberEmail = findDto.getMemberEmail();
-			
-			//이메일을 보낸 이력이 있는지 검사
-			CertDto checkCertDto = certDao.selectOne(memberEmail);
-			
-			//임시 비밀번호 생성
-			String certCode = certCodeRandom.generatePassword();
-			
-			//임시 비밀번호 저장
-			CertDto certDto = new CertDto();
-			certDto.setCertCode(certCode);
-			certDto.setCertEmail(memberEmail);
-			certDao.insert(certDto);
-			
-			//회원 이메일로 임시 비밀번호 전송
-			SimpleMailMessage message = new SimpleMailMessage();
-			message.setTo(memberEmail);
-			message.setSubject("[TRIPEE] 임시 비밀번호");
-			message.setText("임시 비밀번호 : " + certCode);
-			sender.send(message);
-			
-			//회원 비밀번호 변경
-			memberDao.updateMemberPw(findDto.getMemberId(), certCode);
-			
-			return "redirect:searchPwFinish";
+			if(!isValid) {
+				return "redirect:searchPw?error";
+			}else {
+				//회원 이메일 가져오기
+				String memberEmail = findDto.getMemberEmail();
+				
+				//이메일을 보낸 이력이 있는지 검사
+				CertDto checkCertDto = certDao.selectOne(memberEmail);
+				if(checkCertDto != null) {
+					certDao.delete(memberEmail);
+				}
+				
+				//임시 비밀번호 생성
+				String certCode = certCodeRandom.generatePassword();
+				
+				//임시 비밀번호 저장
+				CertDto certDto = new CertDto();
+				certDto.setCertCode(certCode);
+				certDto.setCertEmail(memberEmail);
+				certDao.insert(certDto);
+				
+				//회원 이메일로 임시 비밀번호 전송
+				SimpleMailMessage message = new SimpleMailMessage();
+				message.setTo(memberEmail);
+				message.setSubject("[TRIPEE] 임시 비밀번호");
+				message.setText("임시 비밀번호 : " + certCode);
+				sender.send(message);
+				
+				//회원 비밀번호 변경
+				memberDao.updateMemberPw(findDto.getMemberId(), certCode);
+				
+				return "redirect:searchPwFinish";
+			}
 		}else {
 			return "redirect:searchPw?error";
 		}

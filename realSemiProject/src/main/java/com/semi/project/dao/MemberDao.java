@@ -20,7 +20,8 @@ public interface MemberDao {
 	boolean updateMemberInfo(MemberDto memberDto); //회원정보변경(마이페이지)
 	boolean updateMemberPw(String memberId, String changePw); //비밀번호변경(마이페이지)
 	boolean delete(String memberId); //탈퇴(마이페이지)
-	void updateMemberLevel(); //멤버등업
+	void updateMemberLevelUp(); //멤버등업
+	void updateMemberLevelDown(); //멤버강등
 	ExpiredListDto findMemberExpiredList(String memberId); //비밀번호 변경 90일 경과 멤버조회
 	boolean updateMemberPwDelay(String memberId); //비밀번호 변경일 90일 미루기
 	List<String> selectListByMemberNick(int boardNo);//댓글 닉네임 표기 리스트

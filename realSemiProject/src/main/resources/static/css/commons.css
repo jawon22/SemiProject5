@@ -829,3 +829,38 @@ a.link:hover
 .reply-icon{
 	margin-left:-20px;
 }
+/* 세미 프로젝트 테이블(mypage) css */
+.table-mypage>thead>tr>th, 
+.table-mypage>tbody>tr>th, 
+.table-mypage>tfoot>tr>th
+	{
+	border-right: 2px solid black;
+}
+
+.table-mypage>thead>tr>th, 
+.table-mypage>thead>tr>td {
+	border-top: 2px solid black;
+	border-bottom: 1px solid black;
+	border-bottom: 1px solid black;
+	padding: 0.5em;
+}
+
+.table-mypage>tbody>tr>th, .table-mypage>tbody>tr>td {
+	border-bottom: 1px solid black;
+	padding: 0.5em;
+}
+
+.table-mypage>tfoot>tr>th, .table-mypage>tfoot>tr>td {
+	border-top: 1px solid black;
+	border-bottom: 2px solid black;
+	padding: 0.5em;
+}
+
+/* 세미 프로젝트 프로필 css */
+.profile-image {
+	object-fit: cover;
+}
+ 
+.profile-image:hover {
+	cursor: pointer;
+}

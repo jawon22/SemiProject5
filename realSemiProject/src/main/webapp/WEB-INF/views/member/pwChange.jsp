@@ -78,7 +78,9 @@ $(function(){
         	});
         	
         }
-
+		
+        $("[name=changePw]").addClass("fail");
+        
         status.pw = isValid;
     });
     
@@ -114,6 +116,11 @@ $(function(){
 <form class="changeform" action="pwChange" method="post" autocomplete="off">
 	
 	<div class="row left">기존 비밀번호</div> <input class="form-input w-100" type="password" name="originPw">
+		<div class="red left">
+	<c:if test="${param.error != null}">
+		<span class="left">비밀번호가 일치하지 않습니다.</span>
+	</c:if>
+	</div>
 	<div class="row left">새 비밀번호</div> <input class="form-input w-100" type="password" name="changePw">
 	<div class="fail-feedback left">형식에 맞지 않습니다.</div>
 	<div class="fail2-feedback left">기존 비밀번호와 동일합니다</div>
@@ -124,9 +131,7 @@ $(function(){
 	
 </form>
 
-<c:if test="${param.error != null}">
-	비밀번호가 일치하지 않습니다.
-</c:if>
+
 </div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>
