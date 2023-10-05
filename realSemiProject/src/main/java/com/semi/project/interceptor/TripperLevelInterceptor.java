@@ -26,8 +26,7 @@ public class TripperLevelInterceptor implements HandlerInterceptor{
 		Integer categoryNo = Integer.parseInt(request.getParameter("boardCategory"));
 		
 		// 등급이 null아니고 관리자 또는 tripper 회원일 경우에만 정보게시판 들어오는 조건
-		boolean isPass= (memberLevel.equals("관리자")|| memberLevel.equals("tripper"))
-				&& (categoryNo.equals(42)|| categoryNo.equals(41) || categoryNo.equals(1))
+		boolean isPass= memberLevel.equals("tripper") ||  memberLevel.equals("관리자")
 				|| (memberLevel.equals("beginner") && (categoryNo.equals(42) || categoryNo.equals(41)));
 		
 		if(memberLevel !=null && isPass) {
