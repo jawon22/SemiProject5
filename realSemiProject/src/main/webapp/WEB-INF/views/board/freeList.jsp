@@ -47,7 +47,7 @@
 	
 	    $(".title").each(function() {
 			var originalString = $(this).text();
-			var maxLength = 8;
+			var maxLength = 18;
 
 			if (originalString.length >= maxLength) {
 				// 제한된 길이보다 긴 경우 말줄임표 추가
@@ -115,7 +115,7 @@
 							<input type="checkbox" class="checkbox-all">
 						</th>			
 					</c:if>
-					<th width="25%">제목</th>
+					<th width="40%">제목</th>
 					<th>작성자</th>
 					<th>작성일</th>
 					<th>조회수</th>
@@ -133,7 +133,7 @@
 						</c:if>
 						
 						
-						<td align="left">
+						<td align="left" width="40%">
 						<!--  제목을 누르면 상세페이디로 이동 -->
 							<c:choose>
 								<c:when test="${boardListDto.reportCount >= 5}">
