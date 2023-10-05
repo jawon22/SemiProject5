@@ -96,6 +96,10 @@ min-height:250px;
   	border:1px solid #26C2BF;
   	opacity: 0.5;
   }
+  .block-send, 
+  .block-cencel{
+  height: 38px;
+  }
   
  </style>
  <script>
@@ -118,7 +122,7 @@ min-height:250px;
 				 }
 				 $(".fa-heart").next("label").text(response.count);
 			 	}
-			 });
+				 });
 			
 		$(".fa-heart").click(function(){
 			 $.ajax({
@@ -169,11 +173,10 @@ min-height:250px;
 				data:{replyOrigin : no},
 				success:function(response){
 					$(".reply-list").empty();
-// 					console.log(response);
+						
 					for(var i=0; i < response.list.length; i++) {
 						var reply = response.list[i];
 						var nickname = response.memberNickname[i];
-						console.log(reply);
 						var template = $("#reply-template").html();
 						var htmlTemplate = $.parseHTML(template);
 						
@@ -378,8 +381,8 @@ min-height:250px;
        
         <script id="block-template" type="text/template">
 			<form class="block-form block-container" >
-				<button type="submit" class="btn block-send h-100">보내기</button>
-				<button class="btn block-cencel h-100">취소</button>
+				<button type="submit" class="btn block-send">보내기</button>
+				<button class="btn block-cencel">취소</button>
 				<input type="hidden" name="boardNo">
 				<select id="select-block" name="reportReason" class="form-input">
 						<option name="reportReason" selected disabled>신고사유</option>
