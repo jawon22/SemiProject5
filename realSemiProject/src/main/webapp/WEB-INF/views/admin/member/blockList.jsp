@@ -32,7 +32,7 @@
 		<a href="blockList" class="link" ><span class="title">차단회원</span></a>
 	</div>
 
-<table class="table table-slit">
+<table class="table table-regular center">
 <thead>
 	<tr>
 		<th>
