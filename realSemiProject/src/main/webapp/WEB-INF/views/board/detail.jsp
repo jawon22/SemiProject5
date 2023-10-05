@@ -324,7 +324,7 @@ min-height:250px;
 		}
 	});
 	 }
-	 큰 이미지 축소
+// 	 큰 이미지 축소
 	 $(".content-wrap").find("img").each(function() {
 		  $(this).before("<br>");
 		  $(this).after("<br>");
