@@ -37,7 +37,7 @@
         $('[name=qnaNoticeContent]').summernote({
             placeholder: '내용을 작성하세요',
             tabsize: 2, // 탭을 누르면 이동할 간격
-            height: 200, // 에디터 높이
+            height: 500, // 에디터 높이
             minHeight: 300, // 에디터 최소 높이
             toolbar: [
                 ['style', ['style']],
@@ -94,48 +94,55 @@
             updateButtonState();
         });
 
-        // 초기 byte 수 업데이트
+        // 초기 로드 시에도 버튼 상태를 설정
+        //updateByteCount();
         updateButtonState();
 
         function updateButtonState() {
             var title = $('[name=qnaNoticeTitle]').val().trim(); // 제목 값 가져오기
             var contentHtml = $('[name=qnaNoticeContent]').summernote('code').trim();
             
-            var content = $(contentHtml).text(); // HTML 태그를 제외한 텍스트만
-            var byteCount = countBytes(content);
-
             
-            //이미지 자리추가
-            byteCount += countBytes(contentHtml);
+            function calculateByteSize(str) {
+      			// 문자열을 UTF-8 형식으로 인코딩한 후, 바이트 크기 계산
+      			var encoder = new TextEncoder('utf-8');
+      			var encodedStr = encoder.encode(str);
+      			var byteSize = encodedStr.length;
+      			return byteSize;
+    			}
+
+    			// 특정 폼 엘리먼트의 값을 가져와서 바이트 크기 계산
+    			var contentValue = $("[name=qnaNoticeContent]").val();
+    			var totalByteCount = calculateByteSize(contentValue);
+    			console.log("바이트 크기: " + totalByteCount);
+    		
             
             // byte 수를 버튼 위에 표시
-            $('#byteCount').text(byteCount);
-        }
-
-        // 문자열의 byte 수 계산 함수
-        function countBytes(str) {
-            var byteCount = 0;
-            for (var i = 0; i < str.length; i++) {
-                var charCode = str.charCodeAt(i);
-                if (charCode <= 0x007F) {
-                    byteCount += 1;
-                } else if (charCode <= 0x07FF) {
-                    byteCount += 2;
-                } else if (charCode <= 0xFFFF) {
-                    byteCount += 3;
-                } else {
-                    byteCount += 4;
-                }
-            }
+            $('#byteCount').text(totalByteCount);
             
             // byteCount가 초과하면 클래스 추가
-            if (byteCount > 3989) {
+            if (totalByteCount > 3989) {
                 $('#byteCount').addClass("red");
+                $('.btn-positive').addClass("red")
             } else {
                 $('#byteCount').removeClass("red");
             }
+
+            // 썸머노트 내용이 있으면 true 없으면 false
+            $("[name=qnaNoticeContent]").summernote('isEmpty');
+            var contentText = !$("[name=qnaNoticeContent]").summernote('isEmpty');
             
-            return byteCount;
+            console.log(title.trim() !== '');
+            console.log(contentText);
+            console.log(totalByteCount <= 3989)
+            /* console.log(content); */
+            
+            // 버튼을 비활성화
+            if (contentText && title.trim() !== '' && totalByteCount <= 3989) {
+                $('.btn-positive').prop('disabled', false);
+            } else {
+                $('.btn-positive').prop('disabled', true);
+            }
         }
 	});
     
@@ -152,63 +159,6 @@
                 $('[name="qnaNoticeSecret"]').val('N');
             }
         });      
-        
-        
-        
-        // 입력 내용이 변경될 때마다 byte 수 업데이트
-        $('[name=qnaNoticeContent]').on('summernote.change', function () {
-            updateButtonState();
-        });
-
-        $('[name=qnaNoticeTitle]').on('input', function () {
-            updateButtonState();
-        });
-
-        // 초기 byte 수 업데이트
-        updateButtonState();
-
-        function updateButtonState() {
-            var title = $('[name=qnaNoticeTitle]').val().trim(); // 제목 값 가져오기
-            var contentHtml = $('[name=qnaNoticeContent]').summernote('code').trim();
-            
-            var content = $(contentHtml).text(); // HTML 태그를 제외한 텍스트만
-            var byteCount = countBytes(content);
-
-            
-            // 용량 초과 시에만 스타일 변경
-            if (byteCount > 3989) {
-                $('#byteCount').addClass("red");
-            } else {
-                $('#byteCount').removeClass("red");
-            }
-
-            // 용량 초과, 제목 또는 내용 미작성시 버튼 비활성화
-            var title = $('[name=qnaNoticeTitle]').val().trim();
-            var content = $('[name=qnaNoticeContent]').summernote('code').trim();
-            if (byteCount > 3989 || title === '' || content === '') {
-                $('.btn-positive').prop('disabled', true);
-            } else {
-                $('.btn-positive').prop('disabled', false);
-            }
-        }
-
-        // 문자열의 byte 수 계산 함수
-        function countBytes(str) {
-            var byteCount = 0;
-            for (var i = 0; i < str.length; i++) {
-                var charCode = str.charCodeAt(i);
-                if (charCode <= 0x007F) {
-                    byteCount += 1;
-                } else if (charCode <= 0x07FF) {
-                    byteCount += 2;
-                } else if (charCode <= 0xFFFF) {
-                    byteCount += 3;
-                } else {
-                    byteCount += 4;
-                }
-            }
-            return byteCount;
-        }
     });   
     
 </script>
@@ -226,9 +176,6 @@
                 class="form-input w-100" value="${qnaNoticeDto.qnaNoticeTitle}" >
             </div>
             
-
-        	
-        	
             <div class="row left">
                 <label>내용</label>
                 <textarea type="text" name="qnaNoticeContent"
@@ -237,20 +184,17 @@
             
             
 <div class="row" style="display: flex; justify-content: space-between;">
-    <div class="left">
-        <!-- 수정글이 공지사항인 경우에만 비밀글 체크박스를 표시하지 않음 -->
-        <c:if test="${qnaNoticeDto.qnaNoticeType != 1}">
-            <label>비밀글</label>
-            <c:choose>
-                <c:when test="${qnaNoticeDto.qnaNoticeSecret == 'Y'}">
-                    <input type="checkbox" name="qnaNoticeSecret" value="Y" checked>
-                </c:when>
-                <c:otherwise>
-                    <input type="checkbox" name="qnaNoticeSecret" value="N">
-                </c:otherwise>
-            </c:choose>
-        </c:if>
-    </div>
+	<div class="left">
+        <label>비밀글</label>
+        <c:choose>
+            <c:when test="${qnaNoticeDto.qnaNoticeSecret == 'Y'}">
+                <input type="checkbox" name="qnaNoticeSecret" value="Y" checked>
+            </c:when>
+            <c:otherwise>
+                <input type="checkbox" name="qnaNoticeSecret" value="Y">
+            </c:otherwise>
+        </c:choose>	
+	</div>
     <div class="right">
         <span id="byteCount" class="byteCount">0</span>/ 3989byte
     </div>

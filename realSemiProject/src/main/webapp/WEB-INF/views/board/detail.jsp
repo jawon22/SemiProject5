@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page = "/WEB-INF/views/template/header.jsp"></jsp:include>
  <style>
  .button{
@@ -89,6 +90,15 @@
 overflow-wrap: break-word;
 word-wrap: break-word;
 height: auto;
+min-height:250px;
+  }
+  .custom-hr{
+  	border:1px solid #26C2BF;
+  	opacity: 0.5;
+  }
+  .block-send, 
+  .block-cencel{
+  height: 38px;
   }
   
  </style>
@@ -112,7 +122,7 @@ height: auto;
 				 }
 				 $(".fa-heart").next("label").text(response.count);
 			 	}
-			 });
+				 });
 			
 		$(".fa-heart").click(function(){
 			 $.ajax({
@@ -163,11 +173,10 @@ height: auto;
 				data:{replyOrigin : no},
 				success:function(response){
 					$(".reply-list").empty();
-// 					console.log(response);
+						
 					for(var i=0; i < response.list.length; i++) {
 						var reply = response.list[i];
 						var nickname = response.memberNickname[i];
-						console.log(reply);
 						var template = $("#reply-template").html();
 						var htmlTemplate = $.parseHTML(template);
 						
@@ -372,8 +381,8 @@ height: auto;
        
         <script id="block-template" type="text/template">
 			<form class="block-form block-container" >
-				<button type="submit" class="btn block-send h-100">보내기</button>
-				<button class="btn block-cencel h-100">취소</button>
+				<button type="submit" class="btn block-send">보내기</button>
+				<button class="btn block-cencel">취소</button>
 				<input type="hidden" name="boardNo">
 				<select id="select-block" name="reportReason" class="form-input">
 						<option name="reportReason" selected disabled>신고사유</option>
@@ -399,7 +408,7 @@ height: auto;
         <div class="row left w-50">
         <c:choose>
 				<c:when test="${attachNo == null}">
-					<img src="https://dummyimage.com/50x50/000/fff" width="50" height="50"
+					<img src="/images/user.png" width="50" height="50"
 						class="image image-circle image-border profile-image">
 				</c:when>
 				<c:otherwise>
@@ -413,7 +422,7 @@ height: auto;
           <i class="fa-solid fa-heart red"></i> 좋아요 <label>0</label> | 조회수<label class="">${boardDto.boardReadcount}</label>
         </div>
 		</div>
-        
+        <hr class="custom-hr">
         <div class="row left content-wrap">
            <article class="content">${boardDto.boardContent}</article>
         </div>
