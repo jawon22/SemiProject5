@@ -95,8 +95,9 @@
         
         // 계절과 지역 선택값 가져오기
         var selectedSeason = $("select[name='board_categoryweather']").val();
-        var selectedArea = $("select[name='board_area']").val();
-        var boardCategory;     
+        var selectedArea = $("[name=board_area]").val();
+        var boardCategory;
+        console.log(selectedSeason, selectedArea);
         
         if (selectedSeason == "전체") {
             if (selectedArea == "전체") {
@@ -195,22 +196,21 @@
             } else if (selectedArea == "제주") {
                 boardCategory = 40;
             } 
-             else if (selectedArea == "전체") {     	
-                if (selectedSeason == "후기") {
-                    boardCategory = 41;
-                } else if (selectedAreaSeason == "자유") {
-                    boardCategory = 42;
-                } 
-            }              
         }
+        else if (selectedArea == "전체") {     	
+            if (selectedSeason == "후기") {
+                boardCategory = 41;
+            } else if (selectedAreaSeason == "자유") {
+                boardCategory = 42;
+            } 
+        }       
+        console.log("boardCategory 파라미터 값: " + boardCategory);
         $("input[name='boardCategory']").val(boardCategory);
         }
-        console.log("boardCategory 파라미터 값: " + boardCategory);
 
         // 사용자가 계절 또는 지역을 변경할 때 업데이트 함수 호출
         $("select[name='board_categoryweather'], select[name='board_area']").change(function () {
             updateBoardCategory();
-            //updateButtonState(); // updateBoardCategory 함수 호출 후에 updateButtonState 함수도 호출
         });
         
         
@@ -231,70 +231,50 @@
             var title = $('[name=boardTitle]').val().trim(); // 제목 값 가져오기
             var contentHtml = $('[name=boardContent]').summernote('code').trim();
             
-            
-            function calculateByteSize(str) {
-      			// 문자열을 UTF-8 형식으로 인코딩한 후, 바이트 크기 계산
-      			var encoder = new TextEncoder('utf-8');
-      			var encodedStr = encoder.encode(str);
-      			var byteSize = encodedStr.length;
-      			return byteSize;
-    			}
+            var content = $(contentHtml).text(); // HTML 태그를 제외한 텍스트만
+            var byteCount = countBytes(content);
 
-    			// 특정 폼 엘리먼트의 값을 가져와서 바이트 크기 계산
-    			var contentValue = $("[name=boardContent]").val();
-    			var totalByteCount = calculateByteSize(contentValue);
-    			console.log("바이트 크기: " + totalByteCount);
-    			
-            /* // 이미지 태그를 추출하여 이미지 HTML 코드와 텍스트 HTML 코드를 나눕니다.
-            var imagesHtml = contentHtml.match(/<img[^>]+>/g) || [];
-            var textHtml = contentHtml.replace(/<img[^>]+>/g, '');
-
-            // 이미지 HTML 코드의 바이트 수 계산
-            var imagesByteCount = imagesHtml.map(function (image) {
-                return unescape(encodeURIComponent(image)).length;
-            }).reduce(function (a, b) {
-                return a + b;
-            }, 0);
-
-            // 텍스트 HTML 코드의 바이트 수 계산
-            var textByteCount = unescape(encodeURIComponent(textHtml)).length;
-
-            // 총 바이트 수 계산
-            var totalByteCount = imagesByteCount + textByteCount;
-
-            console.log("텍스트와 이미지의 바이트 수: " + totalByteCount); */
+            //이미지 자리추가
+            byteCount += countBytes(contentHtml);
             
-            // byte 수를 버튼 위에 표시
-            $('#byteCount').text(totalByteCount);
-            
-            // byteCount가 초과하면 클래스 추가
-            if (totalByteCount > 3989) {
-                $('#byteCount').addClass("red");
-                $('.btn-positive').addClass("red")
-            } else {
-                $('#byteCount').removeClass("red");
-            }
+               // byte 수를 버튼 위에 표시
+               $('#byteCount').text(byteCount);
 
-            // 썸머노트 내용이 있으면 true 없으면 false
-            $("[name=boardContent]").summernote('isEmpty');
-            var contentText = !$("[name=boardContent]").summernote('isEmpty');
-            
-            
-            console.log(title.trim() !== '');
-            console.log(contentText);
-            console.log(totalByteCount <= 3989)
-            /* console.log(content); */
-            
-            // 버튼을 비활성화
-            if (contentText && title.trim() !== '' && totalByteCount <= 3989) {
-                $('.btn-positive').prop('disabled', false);
-            } else {
-                $('.btn-positive').prop('disabled', true);
-            }
-        }
-             
-        
-    });
+               // 용량 초과 시에만 스타일 변경
+               if (byteCount > 3989) {
+                   $('#byteCount').addClass("red");
+               } else {
+                   $('#byteCount').removeClass("red");
+               }
+
+               // 용량 초과, 제목 또는 내용 미작성시 버튼 비활성화
+               var title = $('[name=boardTitle]').val().trim();
+               var content = $('[name=boardContent]').summernote('code').trim();
+               if (byteCount > 3989 || title === '' || content === '') {
+                   $('.btn-positive').prop('disabled', true);
+               } else {
+                   $('.btn-positive').prop('disabled', false);
+               }
+           }
+
+           // 문자열의 byte 수 계산 함수
+           function countBytes(str) {
+               var byteCount = 0;
+               for (var i = 0; i < str.length; i++) {
+                   var charCode = str.charCodeAt(i);
+                   if (charCode <= 0x007F) {
+                       byteCount += 1;
+                   } else if (charCode <= 0x07FF) {
+                       byteCount += 2;
+                   } else if (charCode <= 0xFFFF) {
+                       byteCount += 3;
+                   } else {
+                       byteCount += 4;
+                   }
+               }
+               return byteCount;
+           }
+       });
     
     /* 정보게시판: http://localhost:8080/board/write?boardCategory=1
     후기 게시판: http://localhost:8080/board/write?boardCategory=41
@@ -1273,13 +1253,13 @@
         <select name="board_categoryweather" style="display: none;">
             <option value="후기" selected></option>
         </select>
-        <!-- <input type="hidden" name="boardCategory" id="boardCategory"> -->
+        <input type="hidden" name="board_area" value="전체">
     </c:when>
     <c:when test="${boardDto.boardCategory == 42}"><!-- 자유게시판이면 -->
         <select name="board_categoryweather" style="display: none;">
             <option value="자유" selected></option>
         </select>
-        <!-- <input type="hidden" name="boardCategory" id="boardCategory"> -->
+        <input type="hidden" name="board_area" value="전체">
     </c:when>
     <c:otherwise>
         <!-- 다른 경우 처리 -->
@@ -1304,19 +1284,7 @@
             
             <div class="row">
                 <button class="btn btn-positive">수정하기</button>
-                
-                <c:choose>
-    			<c:when test="${boardDto.boardCategory == 41}"><!-- 후기게시판이면 -->
-        			<a href="http://localhost:8080/board/reviewList" class="btn">목록보기</a> 
-    			</c:when>
-    			<c:when test="${boardDto.boardCategory == 42}"><!-- 자유게시판이면 -->
-					<a href="http://localhost:8080/board/freeList" class="btn">목록보기</a> 
-    			</c:when>
-    			<c:otherwise>
-            		<a href="list" class="btn">목록보기</a> 
-    			</c:otherwise>
-            </c:choose>
-            
+                <a href="list" class="btn">목록보기</a>
             </div>
         </div>
 </form>

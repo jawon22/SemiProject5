@@ -112,7 +112,13 @@ public class QnaNoticeController {
 	
 	@PostMapping("/edit")
 	public String edit(@ModelAttribute QnaNoticeDto qnaNoticeDto) {
-		boolean result = qnaNoticeDao.edit(qnaNoticeDto);
+	    // 비밀글 체크 상태를 처리합니다.
+	    if (qnaNoticeDto.getQnaNoticeSecret() == null) {
+	        qnaNoticeDto.setQnaNoticeSecret("N");
+	    } 
+	    
+	    boolean result = qnaNoticeDao.edit(qnaNoticeDto);
+	     
 		if(result) {
 			return "redirect:detail?qnaNoticeNo=" + qnaNoticeDto.getQnaNoticeNo();
 		}
