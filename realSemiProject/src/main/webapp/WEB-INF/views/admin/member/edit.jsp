@@ -7,11 +7,31 @@
 <script>
 $(function(){
 	
-	$("[name=memberLevel]").change(function(e){
+	var originMemberPoint = ${memberDto.memberPoint};
+	
+	$("[name=memberLevel]").change(function(){
 		
-		window.comfirm("진짜로?");
+		var memberLevel = $(this).val();
+		var memberPointInput = $("[name=memberPoint]");
+		
+		if(memberLevel == 'tripper') {
+			memberPointInput.val(1000);
+		}
+		else {
+            memberPointInput.val(originMemberPoint);
+        }
 		
 	});
+	
+    $("[name=memberNickname]").blur(function(){
+        var Regex = /^[가-힣0-9]{2,10}$/;
+        var isValid = Regex.test($(this).val());
+
+        $(this).removeClass("success fail fail2");
+        $(this).addClass(isValid ? "success" : "fail");
+
+    });
+	
 	
 });
 
@@ -26,12 +46,13 @@ $(function(){
 	</div>
 	<div class="row left">	
 	<input class="form-input w-100" type="text" name="memberNickname" value="${memberDto.memberNickname}">
+	<div class="fail-feedback">올바른 닉네임을 입력하세요</div>
 	</div>
 	<div class="row left">
 	포인트 
 	</div>
 	<div class="row left">
-	<input class="form-input w-100" type="number" name="memberPoint" value="${memberDto.memberPoint}">
+	<input class="form-input w-100" type="number" name="memberPoint" value="${memberDto.memberPoint}" min="0">
 	</div>
 	<div class="row left">
 	등급 

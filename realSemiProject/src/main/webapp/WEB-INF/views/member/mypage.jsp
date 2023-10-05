@@ -11,14 +11,9 @@ h1 {
 	color: #26C2BF;
 }
 
-.profile-image:hover {
-	cursor: pointer;
-}
-
 .custom-checkbox {
 	display: inline-block;
 	font-size: 18px;
-/* 	position: relative; */
 	cursor: pointer;
 	vertical-align: middle;  
 }
@@ -42,31 +37,7 @@ h1 {
 	background-image: url("/images/fa-chevron-right.png");
 }
 
-.table-mypage>thead>tr>th, 
-.table-mypage>tbody>tr>th, 
-.table-mypage>tfoot>tr>th
-	{
-	border-right: 2px solid black;
-}
 
-.table-mypage>thead>tr>th, 
-.table-mypage>thead>tr>td {
-	border-top: 2px solid black;
-	border-bottom: 1px solid black;
-	border-bottom: 1px solid black;
-	padding: 0.5em;
-}
-
-.table-mypage>tbody>tr>th, .table-mypage>tbody>tr>td {
-	border-bottom: 1px solid black;
-	padding: 0.5em;
-}
-
-.table-mypage>tfoot>tr>th, .table-mypage>tfoot>tr>td {
-	border-top: 1px solid black;
-	border-bottom: 2px solid black;
-	padding: 0.5em;
-}
 </style>
 <script>
 	$(function() {
@@ -160,6 +131,11 @@ h1 {
 			<h1>${memberDto.memberId}
 				<i class="fa-solid fa-crown" style="color: #26C2BF;"></i>
 			</h1>
+
+	<c:if test="${blockDto.block == 'Y'}">
+		<span class="red" style="margin-top:10px; margin-left:10px; font-weight: bold; font-size:20px;">차단된 계정입니다.</span>
+	</c:if>
+
 		</div>
 
 	</div>
@@ -212,6 +188,7 @@ h1 {
 	</div>
 
 
+
 	<div class="flex-container auto-width">
 
 		<div class="row col-2"></div>
@@ -246,9 +223,13 @@ h1 {
 
 
 		<div class="container">
-			<div class="row right">
-				<a class="link " href="myWriteList">내가 쓴 글
-					보러가기 > </a>
+			<div class="flex-container auto-width">
+			<div class="col-2 left">
+				<h4>내가 작성한 글</h4>
+			</div>
+			<div class="col-2 right">
+				<a class="link" href="myWriteList">더보기<i class="fa-regular fa-square-plus" style="color: #9aa1ac;"></i></a>
+			</div>
 			</div>
 			<table class="table table-regular">
 				<thead>
@@ -274,12 +255,16 @@ h1 {
 					</c:forEach>
 				</tbody>
 			</table>
-			<hr>
 		</div>
 		
 				<div class="container">
-			<div class="row right">
-				<a class="link" href="myLikeList">내가 좋아요 누른 글 보러가기 > </a>
+							<div class="flex-container auto-width">
+			<div class="col-2 left">
+				<h4>내가 좋아요 한 글</h4>
+			</div>
+			<div class="col-2 right">
+				<a class="link" href="myLikeList">더보기<i class="fa-regular fa-square-plus" style="color: #9aa1ac;"></i></a>
+			</div>
 			</div>
 			<table class="table table-regular">
 				<thead>
@@ -305,12 +290,16 @@ h1 {
 					</c:forEach>
 				</tbody>
 			</table>
-			<hr>
 		</div>
 		
 		<div class="container">
-			<div class="row right">
-				<a class="link" href="myReplyList">내가 댓글 단 글 보러가기 ></a>
+			<div class="flex-container auto-width">
+			<div class="col-2 left">
+				<h4>내가 댓글 단 글</h4>
+			</div>
+			<div class="col-2 right">
+				<a class="link" href="myReplyList">더보기<i class="fa-regular fa-square-plus" style="color: #9aa1ac;"></i></a>
+			</div>
 			</div>
 			<table class="table table-regular">
 				<thead>
@@ -336,12 +325,16 @@ h1 {
 					</c:forEach>
 				</tbody>
 			</table>
-			<hr>
 		</div>
 		
 				<div class="container">
-			<div class="row right">
-				<a class="link" href="myQnaList">내 문의글 보러가기 ></a>
+				<div class="flex-container auto-width">
+			<div class="col-2 left">
+				<h4>내 문의글</h4>
+			</div>
+			<div class="col-2 right">
+				<a class="link" href="myQnaList">더보기<i class="fa-regular fa-square-plus" style="color: #9aa1ac;"></i></a>
+			</div>
 			</div>
 			<table class="table table-regular">
 				<thead>
@@ -365,7 +358,6 @@ h1 {
 					</c:forEach>
 				</tbody>
 			</table>
-			<hr>
 		</div>
 
 
