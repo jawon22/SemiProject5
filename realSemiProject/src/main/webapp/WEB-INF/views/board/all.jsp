@@ -500,7 +500,7 @@ h1 {
 		var options = {
 			center: new kakao.maps.LatLng(36.143912575657915, 127.77675054040399),
 			/*	draggable: false,  */
-// 			disableDoubleClickZoom: true,
+			disableDoubleClickZoom: true,
 			draggable: false,
 			//지도의 배율(zoom level : 1~14) //몇 층에서 보는 느낌
 			level: 14
