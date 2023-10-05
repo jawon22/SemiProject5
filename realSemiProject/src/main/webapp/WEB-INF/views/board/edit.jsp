@@ -37,7 +37,7 @@
         $('[name=boardContent]').summernote({
             placeholder: '내용을 작성하세요',
             tabsize: 2, // 탭을 누르면 이동할 간격
-            height: 200, // 에디터 높이
+            height: 500, // 에디터 높이
             minHeight: 300, // 에디터 최소 높이
             toolbar: [
                 ['style', ['style']],
@@ -95,8 +95,9 @@
         
         // 계절과 지역 선택값 가져오기
         var selectedSeason = $("select[name='board_categoryweather']").val();
-        var selectedArea = $("select[name='board_area']").val();
-                
+        var selectedArea = $("[name=board_area]").val();
+        var boardCategory;
+        console.log(selectedSeason, selectedArea);
         
         if (selectedSeason == "전체") {
             if (selectedArea == "전체") {
@@ -195,14 +196,14 @@
             } else if (selectedArea == "제주") {
                 boardCategory = 40;
             } 
-             else if (selectedArea == "전체") {     	
-                if (selectedSeason == "후기") {
-                    boardCategory = 41;
-                } else if (selectedAreaSeason == "자유") {
-                    boardCategory = 42;
-                } 
-            }              
         }
+        else if (selectedArea == "전체") {     	
+            if (selectedSeason == "후기") {
+                boardCategory = 41;
+            } else if (selectedAreaSeason == "자유") {
+                boardCategory = 42;
+            } 
+        }       
         console.log("boardCategory 파라미터 값: " + boardCategory);
         $("input[name='boardCategory']").val(boardCategory);
         }
@@ -1252,11 +1253,13 @@
         <select name="board_categoryweather" style="display: none;">
             <option value="후기" selected></option>
         </select>
+        <input type="hidden" name="board_area" value="전체">
     </c:when>
     <c:when test="${boardDto.boardCategory == 42}"><!-- 자유게시판이면 -->
         <select name="board_categoryweather" style="display: none;">
             <option value="자유" selected></option>
         </select>
+        <input type="hidden" name="board_area" value="전체">
     </c:when>
     <c:otherwise>
         <!-- 다른 경우 처리 -->

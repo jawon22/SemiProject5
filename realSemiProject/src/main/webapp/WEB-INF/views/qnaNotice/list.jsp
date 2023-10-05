@@ -148,7 +148,7 @@
 
 <div class="row">
 	<form action="list" method="get" autocomplete="off">
-		<select name="type" class="search-input">
+		<select name="type" class="search-select">
 			<option value="qnanotice_title" class="search-input">제목</option>
 			<option value="member_nickname" class="search-input">작성자</option>
 		</select> <input type="search" name="keyword" value="${param.keyword}"
@@ -173,7 +173,7 @@
 		<c:choose>
 			<c:when test="${vo.page == i}">
 				<!-- 현재페이지면 -->
-				<a href="list?${vo.getQueryStringForMemberList(i)}" class="on">${i}</a>
+				<a style="background-color:rgb(215,241,242)">${i}</a>
 			</c:when>
 			<c:otherwise>
 				<a href="list?${vo.getQueryStringForMemberList(i)}">${i}</a>

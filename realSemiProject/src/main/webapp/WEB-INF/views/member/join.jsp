@@ -34,6 +34,9 @@
 	.selectbox:focus{
 		border-color: #26C2BF;
 	}
+	.star{
+		color: #26C2BF;
+	}
 </style>
 
 <script>
@@ -148,6 +151,17 @@
 	        }
 	    });
 	});
+	
+	function checkCapsLock(event)  {
+		
+		  if (event.getModifierState("CapsLock")) {
+		    document.getElementById("message").innerText 
+		      = "<CapsLock>이 켜져있습니다."
+		  }else {
+		    document.getElementById("message").innerText 
+		      = ""
+		  }
+		}
 </script>
 
 <form class="join-form" action="join" method="post" autocomplete="off">
@@ -158,33 +172,35 @@
 		
 		<div class="row mt-30">
 			<div class="row left mb-20">
-				<label>아이디</label>
+				<label>아이디<span class="star">*</span></label>
 				<input class="form-input w-100 mt-10" type="text" name="memberId" id="inputId" placeholder="영문 소문자, 숫자 5~18자">
 				<div class="success-feedback">사용 가능한 아이디입니다</div>
 				<div class="fail-feedback">사용할 수 없는 아이디입니다</div>
 				<div class="fail2-feedback">이미 사용 중인 아이디입니다</div>
 			</div>
 			<div class="row left mb-20">
-				<label>비밀번호</label>
-				<input class="form-input w-100 mt-10" type="password" name="memberPw" placeholder="영문 대소문자, 숫자, 특수문자(!@#$) 포함 8~16자">
+				<label>비밀번호<span class="star">*</span></label>
+				<input class="form-input w-100 mt-10" type="password" name="memberPw" placeholder="영문 대소문자, 숫자, 특수문자(!@#$) 포함 8~16자" onkeyup="checkCapsLock(event)">
+				<span id="message" class="red"></span>
 				<div class="success-feedback">사용 가능한 비밀번호입니다</div>
 				<div class="fail-feedback">사용할 수 없는 비밀번호입니다</div>
 			</div>
 			<div class="row left mb-20">
-				<label>비밀번호 확인</label>
-				<input class="form-input w-100 mt-10" type="password" name="checkPw" >
+				<label>비밀번호 확인<span class="star">*</span></label>
+				<input class="form-input w-100 mt-10" type="password" name="checkPw" onkeyup="checkCapsLock(event)" >
+				<span id="message" class="red"></span>
 				<div class="success-feedback">비밀번호가 일치합니다</div>
 				<div class="fail-feedback">비밀번호가 일치하지 않습니다</div>
 				<div class="fail2-feedback">비밀번호를 먼저 입력해주세요</div>
 			</div>
 			<div class="row left mb-20">
-				<label>이메일</label>
+				<label>이메일<span class="star">*</span></label>
 				<input class="form-input w-100 mt-10" type="email" name="memberEmail" placeholder="example@tripee.com">
 				<div class="success-feedback" >사용 가능한 이메일입니다</div>
 				<div class="fail-feedback">사용할 수 없는 이메일입니다</div>
 			</div>
 			<div class="row left mb-20">
-				<label>닉네임</label>
+				<label>닉네임<span class="star">*</span></label>
 				<input class="form-input w-100 mt-10" type="text" name="memberNickname" placeholder="한글 2~10자">
 				<div class="success-feedback" >사용 가능한 아이디입니다</div>
 				<div class="fail-feedback">사용할 수 없는 닉네임입니다</div>
@@ -196,7 +212,7 @@
 				<div class="fail-feedback">날짜를 정확하게 입력해주세요</div>
 			</div>
 			<div class="row left mb-20">
-				<label>거주지</label>
+				<label>거주지<span class="star">*</span></label>
 				<select class="w-100 mt-10 selectbox" name="memberArea">
 					<option value="">선택</option>
 					<option value="서울">서울</option>

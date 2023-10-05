@@ -1,18 +1,10 @@
 package com.semi.project.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dao.QnaNoticeDao;
-import com.semi.project.dto.BoardDto;
 import com.semi.project.dto.QnaNoticeDto;
 import com.semi.project.service.QnaService;
 import com.semi.project.vo.PaginationVO;
@@ -121,7 +112,13 @@ public class QnaNoticeController {
 	
 	@PostMapping("/edit")
 	public String edit(@ModelAttribute QnaNoticeDto qnaNoticeDto) {
-		boolean result = qnaNoticeDao.edit(qnaNoticeDto);
+	    // 비밀글 체크 상태를 처리합니다.
+	    if (qnaNoticeDto.getQnaNoticeSecret() == null) {
+	        qnaNoticeDto.setQnaNoticeSecret("N");
+	    } 
+	    
+	    boolean result = qnaNoticeDao.edit(qnaNoticeDto);
+	     
 		if(result) {
 			return "redirect:detail?qnaNoticeNo=" + qnaNoticeDto.getQnaNoticeNo();
 		}
@@ -130,8 +127,6 @@ public class QnaNoticeController {
 			//throw new NoTargetException("존재하지 않는 글번호");
 		}
 	}
-	
-	
 	
 	 
 
@@ -152,8 +147,6 @@ public class QnaNoticeController {
 	    int count = qnaNoticeDao.countList(vo, listType);
 	    vo.setCount(count);
 
-
-
 		// 첫번째페이지에 공지글 5개만 보여줌
 		List<QnaNoticeDto> noticeListTop5 = qnaNoticeDao.selectNoticeListTop5();
 		model.addAttribute("noticeListTop5", noticeListTop5);
@@ -173,11 +166,6 @@ public class QnaNoticeController {
 	    vo.setListType("noticelist"); // 공지사항 목록
 	    int count = qnaNoticeDao.countList(vo, vo.getListType());
 	    vo.setCount(count);
-	    
-//		String listType = "noticelist";
-//	    int count = qnaNoticeDao.countList(vo, listType);
-//	    vo.setCount(count);
-		
 
 		List<QnaNoticeDto> noticeList = qnaNoticeDao.selectNoticeListByPage(vo);
 		model.addAttribute("noticeList", noticeList);
@@ -193,12 +181,6 @@ public class QnaNoticeController {
 	    vo.setListType("qnalist"); // 공지사항 목록
 	    int count = qnaNoticeDao.countList(vo, vo.getListType());
 	    vo.setCount(count);
-		
-		
-		
-//		String listType = "qnalist";
-//	    int count = qnaNoticeDao.countList(vo, listType);
-//	    vo.setCount(count);
 		
 		List<QnaNoticeDto> noticeList = qnaNoticeDao.selectQnaListByPage(vo);
 		model.addAttribute("noticeList", noticeList);

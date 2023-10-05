@@ -8,17 +8,37 @@ h1,
 h2 {
 	color: #26C2BF;
 }
-h4{
-	color: gray;
+h1 {
+	font-size: 30px;
 }
 </style>
     
-    
+<script>
+	$(function(){
+		$(".title").each(function() {
+			var originalString = $(this).text();
+			var maxLength = 10;
+
+			if (originalString.length >= maxLength) {
+				// 제한된 길이보다 긴 경우 말줄임표 추가
+				var limitedString = originalString.slice(0,
+						maxLength)
+						+ '<i class="fa-solid fa-ellipsis" style="color: #778192;"></i>';
+			} 
+			else {
+				var limitedString = originalString;
+			}
+			$(this).html(limitedString);
+		});
+		
+	});
+
+</script>
     
     <div class="container w-900">
-    	<div class="row">
+    	<div class="row mb-50">
 			<h1>TRIPEE 인기 게시글</h1>
-			<h4>여행자들이 많이 보고 있는 게시글이에요!</h4>
+			<span>여행자들이 많이 보고 있는 게시글이에요!</span>
     	</div>
     	
 		<div class="flex-container ">
@@ -33,10 +53,10 @@ h4{
     			</div>
     			
     			<div class="left">
-    				<table class="table table-slit">
+    				<table class="table table-slit table-regular">
     					<thead>
 							<tr>
-								<th width="10%">순위</th>
+								<th width="15%">순위</th>
 								<th width="50%" align="left">제목</th>
 								<th align="center">작성자</th>
 							</tr>
@@ -48,18 +68,21 @@ h4{
 									<td align="center">${boardListDto.ranking}</td>
 									<td align="left">
 											<!--  제목을 누르면 상세페이지로 이동 -->
-										<a class="link" href="/board/detail?boardNo=${boardListDto.boardNo}">
-										${boardListDto.boardTitle}</a>
-									
-											<!--  댓글이 있다면 개수를 표시 -->
-										<c:if test="${boardListDto.boardReplycount >0}">
-											&nbsp;&nbsp;
-											<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
-											<%-- <label>${boardListDto.boardReplycount}</label> --%>
-										</c:if>
-										<%-- <c:if test="${boardListDto.attachmentNo !=0}">
-											<i class="fa-regular fa-image"></i>
-										</c:if> --%>
+										<c:choose>
+											<c:when test="${boardListDto.reportCount >= 5}">
+												<span style="color:gray;">블라인드 처리된 글</span>
+										</c:when>
+											<c:otherwise>
+												<a class="link" href="/board/detail?boardNo=${boardListDto.boardNo}">
+												<span class="title">${boardListDto.boardTitle}</span></a>
+											
+													<!--  댓글이 있다면 개수를 표시 -->
+												<c:if test="${boardListDto.boardReplycount >0}">
+													&nbsp;&nbsp;
+													<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
+												</c:if>
+											</c:otherwise>
+										</c:choose>
 									</td>
 									
 									<!-- 작성자 -->
@@ -82,10 +105,10 @@ h4{
     				</a>
     			</div>
     			<div class="left">
-    				<table class="table table-slit">
+    				<table class="table table-slit table-regular">
     					<thead>
 							<tr>
-								<th width="10%">순위</th>
+								<th width="15%">순위</th>
 								<th width="50%" align="left">제목</th>
 								<th align="center">작성자</th>
 							</tr>
@@ -97,18 +120,21 @@ h4{
 									<td align="center">${boardListDto.ranking}</td>
 									<td align="left">
 											<!--  제목을 누르면 상세페이지로 이동 -->
-										<a class="link" href="/board/detail?boardNo=${boardListDto.boardNo}">
-										${boardListDto.boardTitle}</a>
-									
-											<!--  댓글이 있다면 개수를 표시 -->
-										<c:if test="${boardListDto.boardReplycount >0}">
-											&nbsp;&nbsp;
-											<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
-											<%-- <label>${boardListDto.boardReplycount}</label> --%>
-										</c:if>
-										<%-- <c:if test="${boardListDto.attachmentNo !=0}">
-											<i class="fa-regular fa-image"></i>
-										</c:if> --%>
+										<c:choose>
+											<c:when test="${boardListDto.reportCount >= 5}">
+												<span style="color:gray;">블라인드 처리된 글</span>
+											</c:when>
+											<c:otherwise>
+												<a class="link" href="/board/detail?boardNo=${boardListDto.boardNo}">
+												<span class="title">${boardListDto.boardTitle}</span></a>
+											
+													<!--  댓글이 있다면 개수를 표시 -->
+												<c:if test="${boardListDto.boardReplycount >0}">
+													&nbsp;&nbsp;
+													<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
+												</c:if>
+											</c:otherwise>
+										</c:choose>
 									</td>
 									
 									<!-- 작성자 -->

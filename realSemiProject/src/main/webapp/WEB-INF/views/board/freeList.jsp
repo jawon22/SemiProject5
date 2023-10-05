@@ -45,6 +45,22 @@
 	    	return confirm("정말 삭제하시겠습니까?");
 	    });
 	
+	    $(".title").each(function() {
+			var originalString = $(this).text();
+			var maxLength = 8;
+
+			if (originalString.length >= maxLength) {
+				// 제한된 길이보다 긴 경우 말줄임표 추가
+				var limitedString = originalString.slice(0,
+						maxLength)
+						+ '<i class="fa-solid fa-ellipsis" style="color: #778192;"></i>';
+			} 
+			else {
+				var limitedString = originalString;
+			}
+			$(this).html(limitedString);
+		});
+	    
 	});
 
 </script>
@@ -94,7 +110,7 @@
 		</c:if>
 
 	<div class="row">
-		<table class="table table-slit">
+		<table class="table table-slit table-regular">
 			<thead>
 				<tr>
 					<c:if test="${sessionScope.level =='관리자'}">
@@ -125,22 +141,18 @@
 						<!--  제목을 누르면 상세페이디로 이동 -->
 							<c:choose>
 								<c:when test="${boardListDto.reportCount >= 5}">
-									<span style="color:gray;">블라인드 처리된 글입니다</span>
+									<span style="color:gray;">블라인드 처리된 글</span>
 								</c:when>
 								
 								<c:otherwise>
 									<a class="link" href="detail?boardNo=${boardListDto.boardNo}">
-									${boardListDto.boardTitle}</a>
+									<span class="title">${boardListDto.boardTitle}</span></a>
 								
 								<!--  댓글이 있다면 개수를 표시 -->
 									<c:if test="${boardListDto.boardReplycount >0}">
 										&nbsp;&nbsp;
 										<i class="fa-solid fa-comment" style="color: #78bdcf;"></i>
-										<%-- <label>${boardListDto.boardReplycount}</label> --%>
 									</c:if>
-									<%-- <c:if test="${boardListDto.attachmentNo !=0}">
-										<i class="fa-regular fa-image"></i>
-									</c:if> --%>
 								
 								</c:otherwise>
 							</c:choose	>
