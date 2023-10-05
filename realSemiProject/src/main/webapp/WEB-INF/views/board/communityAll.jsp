@@ -8,8 +8,8 @@ h1,
 h2 {
 	color: #26C2BF;
 }
-h4{
-	color: gray;
+h1 {
+	font-size: 30px;
 }
 </style>
     
@@ -36,9 +36,9 @@ h4{
 </script>
     
     <div class="container w-900">
-    	<div class="row">
+    	<div class="row mb-50">
 			<h1>TRIPEE 인기 게시글</h1>
-			<h4>여행자들이 많이 보고 있는 게시글이에요!</h4>
+			<span>여행자들이 많이 보고 있는 게시글이에요!</span>
     	</div>
     	
 		<div class="flex-container ">
