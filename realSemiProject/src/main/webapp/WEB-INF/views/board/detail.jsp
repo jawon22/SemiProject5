@@ -100,6 +100,9 @@ min-height:250px;
   .block-cencel{
   height: 38px;
   }
+  .crudTitle{
+ 	  font-weight: bold;
+  }
   
  </style>
  <script>
@@ -396,6 +399,19 @@ min-height:250px;
 				<label class="fail-feedback">내용을 선택해주세요</label>
 			</form>
 		</script>
+		<div class="row w-100">
+			<c:choose>
+				<c:when test="${boardDto.boardCategory==42}">
+					<pre class="crudTitle">자유게시판</pre>			
+				</c:when>
+				<c:when test="${boardDto.boardCategory==41}">
+					<pre class="crudTitle">후기게시판</pre>
+				</c:when>
+				<c:otherwise>
+					<pre class="crudTitle">여행정보</pre>
+				</c:otherwise>
+			</c:choose>
+		</div>
 		<div class="flex-container">
         	<div class="row w-50 left">
         		<h2>${boardDto.boardTitle}</h2>

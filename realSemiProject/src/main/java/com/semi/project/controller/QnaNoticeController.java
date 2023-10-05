@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.semi.project.dao.MemberDao;
 import com.semi.project.dao.QnaNoticeDao;
+import com.semi.project.dto.MemberDto;
 import com.semi.project.dto.QnaNoticeDto;
 import com.semi.project.service.QnaService;
 import com.semi.project.vo.PaginationVO;
@@ -134,6 +135,11 @@ public class QnaNoticeController {
 	public String detail(@RequestParam int qnaNoticeNo, Model model) {
 		QnaNoticeDto qnaNoticeDto = qnaNoticeDao.selectOne(qnaNoticeNo);
 		Integer attachNo = memberDao.findProfile(qnaNoticeDto.getMemberId());
+		String qnaWriter =  qnaNoticeDto.getMemberId();
+		if(qnaWriter!=null) {
+			MemberDto memberDto = memberDao.selectOne(qnaWriter);
+			model.addAttribute("writerDto", memberDto);
+		}
 		model.addAttribute("qnaNoticeDto", qnaNoticeDto);
 		model.addAttribute("attachNo", attachNo);
 		return "/WEB-INF/views/qnaNotice/detail.jsp";

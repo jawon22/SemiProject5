@@ -28,6 +28,7 @@
 	overflow-wrap: break-word;
 	word-wrap: break-word;
 	height: auto;
+	line-height: 1.5;
   }
   .custom-hr{
   	border:1px solid #26C2BF;
@@ -82,7 +83,7 @@
 			</c:choose>	
 		</div>
 			<div class="left">
-				<h2 class="mt-10 ms-10">${qnaNoticeDto.memberId}</h2>
+				<h2 class="mt-10 ms-10">${writerDto.memberNickname}</h2>
 			</div>
 		</div>
 	</div>
@@ -110,7 +111,7 @@
     </c:if>
     
     <!-- 답글 버튼은 관리자일 경우에만 표시 -->
-    <c:if test="${sessionScope.level == '관리자'}">
+    <c:if test="${sessionScope.level == '관리자'&&qnaNoticeDto.qnaNoticeType!=1}">
         <a href="write?qnaNoticeParent=${qnaNoticeDto.qnaNoticeNo}"><button class="btn btn-positive">답글</button></a>
     </c:if>
 </c:if>
