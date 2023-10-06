@@ -140,38 +140,6 @@ public class QnaNoticeDaoImpl implements QnaNoticeDao {
 		return jdbcTemplate.query(sql, qnaNoticeListMapper, data);
 		}
 	}
-
-//	@Override
-//	public int countQnaList(PaginationVO vo) {
-//		if(vo.isSearch()) {
-//			String sql = "select count(*) from qnanotice_list "
-//					+ "where (instr("+vo.getType()+", ?) > 0) "
-//					+ "and (qnanotice_type = 2 or qnanotice_type = 3)";
-//			Object[] data = {vo.getKeyword()};
-//			return jdbcTemplate.queryForObject(sql, int.class, data);
-//		}
-//		else {
-//			String sql = "select count(*) from qnanotice_list "
-//					+ "where (qnanotice_type = 2 or qnanotice_type = 3)";
-//			return jdbcTemplate.queryForObject(sql, int.class);
-//		}
-//	}
-//	
-//	@Override
-//	public int countNoticeList(PaginationVO vo) {
-//		if(vo.isSearch()) {
-//			String sql = "select count(*) from qnanotice_list "
-//					+ "where instr("+vo.getType()+", ?) > 0 "
-//					+ "and qnanotice_type = 1";
-//			Object[] data = {vo.getKeyword()};
-//			return jdbcTemplate.queryForObject(sql, int.class, data);
-//		}
-//		else {
-//			String sql = "select count(*) from qnanotice_list "
-//					+ "where qnanotice_type = 1 ";
-//			return jdbcTemplate.queryForObject(sql, int.class);
-//		}
-//	}
 	
 	@Override
 	public int countList(PaginationVO vo, String listType) {
@@ -230,11 +198,7 @@ public class QnaNoticeDaoImpl implements QnaNoticeDao {
 				qnaNoticeDto.getQnaNoticeContent(), qnaNoticeDto.getQnaNoticeNo()};
 		return jdbcTemplate.update(sql, data)>0;
 	}
-//	public boolean edit(BoardDto boardDto) {//수정
-//	String sql = "update board set board_category=?, board_title=?, board_content=? where board_no=?";
-//	Object[] data= {boardDto.getBoardCategory(), boardDto.getBoardTitle(), boardDto.getBoardContent(), boardDto.getBoardNo()};
-//	return jdbcTemplate.update(sql, data)>0;
-//}
+
 
 
 }

@@ -86,7 +86,7 @@ public interface BoardDao {
 	 // 첫 번째 첨부 파일 번호(firstAttachmentNo) 조회
 	 int getFirstAttachmentNo(int boardNo);
 	 
-	 //일단 5개만 찍어봄
+	 //메인페이지 썸네일 리스트
 	 List<MainPageListDto> selectListSeasonTop5();
 	 List<MainPageListDto> selectListAreaTop5();
 	 
