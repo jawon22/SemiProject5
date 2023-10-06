@@ -444,20 +444,9 @@ min-height:250px;
         <div class="row flex-container">
             <div class="col-2">
                 <div class="left">
-<<<<<<< HEAD
                 	<c:if test="${sessionScope.name!=null }">
      	               <button class = "btn-block" style="margin-top: -8px"><img src="/images/etc/report.png"  width="20"></button>
                 	</c:if>
-=======
-                	<c:choose>
-	                	<c:when test="${sessionScope.name==null }">
-	              			<img src="/images/etc/report.png"  width="20">
-	                	</c:when>
-	                	<c:otherwise>
-	     	               <button class = "btn-block" style="margin-top: -8px"><img src="/images/etc/report.png"  width="20"></button>
-	                	</c:otherwise>
-                	</c:choose>
->>>>>>> refs/remotes/origin/main
                  </div>
             </div>
             <div class="col-2">
