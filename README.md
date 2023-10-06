@@ -25,3 +25,7 @@
 ### Figma 주소
 
 - <https://www.figma.com/file/MlwM2GGhDTfkjNMV7I8nBi/%EC%84%B8%EB%AF%B8-5%EC%A1%B0-UI-%EC%84%A4%EA%B3%84?type=design&node-id=0-1&mode=design&t=MhyjG8c0hJdvaYOS-0>
+
+### Miro 주소
+
+- <https://miro.com/app/board/uXjVMvgTmFg=/?share_link_id=865497000657>
