@@ -3,16 +3,30 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
+<style>
+.title {
+	font-size: 30px;
+	font-weight: bold;
+	color: #26C2BF;
+	margin-bottom:20px;
+}
+
+</style>
+
 
 <div class="container w-700">
+
+<div class="row">
+	<h1 class="title">내 문의글</h1>
+</div>
 
 	<table class="table table-regular">
 		<thead>
 			<tr>
 
-				<th width="50%">글제목</th>
-				<th>작성자</th>
-				<th>작성일자</th>
+				<th width="65%">글제목</th>
+				<th width="20%">작성자</th>
+				<th width="15%">작성일자</th>
 			</tr>
 		</thead>
 
@@ -35,7 +49,9 @@
 
 <div class="row">
 <form action="myQnaList" method="get" autocomplete="off">
-		<input type="hidden" value="qnanotice_title">
+		<select name="type" class="search-select">
+		<option value="qnanotice_title">제목</option>		
+		</select>
 		<input class="search-input" type="search" name="keyword" 
 		value="${param.keyword}" 
 		placeholder="검색어 입력">
