@@ -59,7 +59,7 @@
   .content{
   height: 200px;
   border: 1px solid black;
-  font-size:20px;
+  font-size:18px;
   }
   .not-outline{
   outline: none;
@@ -344,8 +344,8 @@ min-height:250px;
 		<div class = "flex-container not-border">
 	    	<div class="w-100">
 		    	<div class="flex-container">
-					<div class="row left">
-						<img src="/images/user	.png"  width="35" height="24">
+					<div class="row left">		
+				<i class="fa-solid fa-user" style="color: #3dc1d3; margin-left:10px;"></i>
 						<span class="replyWriter">작성자</span>
 					<label class="replyTime"></label>	
 					</div>
@@ -444,9 +444,20 @@ min-height:250px;
         <div class="row flex-container">
             <div class="col-2">
                 <div class="left">
+<<<<<<< HEAD
                 	<c:if test="${sessionScope.name!=null }">
      	               <button class = "btn-block" style="margin-top: -8px"><img src="/images/etc/report.png"  width="20"></button>
                 	</c:if>
+=======
+                	<c:choose>
+	                	<c:when test="${sessionScope.name==null }">
+	              			<img src="/images/etc/report.png"  width="20">
+	                	</c:when>
+	                	<c:otherwise>
+	     	               <button class = "btn-block" style="margin-top: -8px"><img src="/images/etc/report.png"  width="20"></button>
+	                	</c:otherwise>
+                	</c:choose>
+>>>>>>> refs/remotes/origin/main
                  </div>
             </div>
             <div class="col-2">
