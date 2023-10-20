@@ -55,7 +55,7 @@ $(function(){
 		<tr>
 
 			<td class="left">
-				<a class="link" href="/board/detail?boardNo=${boardDto.boardNo}">
+				<a class="link" href="${pageContext.request.contextPath}/board/detail?boardNo=${boardDto.boardNo}">
 				${boardDto.boardTitle}
 				</a>
 			</td>

@@ -51,7 +51,7 @@ $(function(){
     	var originPw = $(this).val();
     	
     	$.ajax({
-    		url:"http://localhost:8080/rest/member/pwCheck",
+    		url:window.contextPath+"/rest/member/pwCheck",
 			method:"post",
 			data:{
 				memberPw : originPw
@@ -86,7 +86,7 @@ $(function(){
         
         if(isValid) {
         	$.ajax({
-        		url:"http://localhost:8080/rest/member/pwCheck",
+        		url:window.contextPath+"/rest/member/pwCheck",
     			method:"post",
     			data:{
     				memberPw : pw
@@ -158,7 +158,7 @@ $(function(){
 	<div class="row left">새 비밀번호</div> <input class="form-input w-100" type="password" name="changePw">
 	<div class="fail-feedback left">형식에 맞지 않습니다.</div>
 	<div class="fail2-feedback left">기존 비밀번호와 동일합니다</div>
-	<div class="row left">새 비밀번호 확인</div> <input class="form-input w-100 checkPw" type="password" > <!-- 프론트에서 비동기로 일치하는지 확인하기 -->
+	<div class="row left">새 비밀번호 확인</div> <input class="form-input w-100 checkPw" type="password" > 
 	<div class="fail-feedback left">비밀번호가 일치하지 않습니다.</div>
 	
 	<button class="btn btn-positive w-100 mt-20" type="submit">비밀번호 변경</button>

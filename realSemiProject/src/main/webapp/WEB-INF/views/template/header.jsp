@@ -4,11 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>세미 홈페이지</title>
-	
+
+<title>Tripee</title>
+  
 	<script>
 		window.contextPath = "${pageContext.request.contextPath}";
 	</script>
+
 
 	<!-- favicon 설정 -->
 	<!-- <link rel="shortcut icon" href="/images/favicon.ico"> -->
@@ -30,6 +32,8 @@
 	
 	<!-- 	jQuary 불러오기 -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+
 	
 	<style>
 		li.adminMenu,
@@ -66,22 +70,22 @@
 		}
 	
 	</style>
-	
+	 
 	<script>
 		$(function(){
 			
 			$.ajax({
-				url: "http://localhost:8080/rest/member/checkProfile",
+				url: window.contextPath+"/rest/member/checkProfile",
 				method: "post",
 				success: function(response){
 					if(response != 0){
-						$(".header-image").attr("src", "/rest/member/download?attachNo=" + response);
+						$(".header-image").attr("src", "${pageContext.request.contextPath}/rest/member/download?attachNo=" + response);
 					}else{
-						$(".header-image").attr("src", "/images/user.png");
+						$(".header-image").attr("src", "${pageContext.request.contextPath}/images/user.png");
 					}
 				},
 				error: function(){
-	                $(".header-image").attr("src", "/images/user.png");
+	                $(".header-image").attr("src", "${pageContext.request.contextPath}/images/user.png");
 	            }
 			});
 		});
@@ -93,30 +97,30 @@
 		<main>
 			<header class="flex-container" >
 				<div class="logo" style="margin-left : 150px;">
-					<a class="link" href="/"><img width=50% src="/images/logo.png"></a>
+					<a class="link" href="/"><img width=50% src="${pageContext.request.contextPath}/images/logo.png"></a>
 				</div>
 				
 				<div class="etc" style="margin-left : 220px; font-weight:bolder; width:400px;">
 					<c:choose>
 						<c:when test="${sessionScope.name == null}">
-							<a class="link me-10" href="/member/join">회원가입</a>
-						    <a class="link me-10" href="/member/login">로그인</a>
+							<a class="link me-10" href="${pageContext.request.contextPath}/member/join">회원가입</a>
+						    <a class="link me-10" href="${pageContext.request.contextPath}/member/login">로그인</a>
 						</c:when>
 						<c:otherwise>
 							<c:choose>
 								<c:when test="${sessionScope.level == '관리자'}">
-									<a class="link me-20" href="/member/logout">로그아웃</a>
+									<a class="link me-20" href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
 									<li class="adminMenu">
-									    <a class="link mb-20" href="/member/mypage">
+									    <a class="link mb-20" href="${pageContext.request.contextPath}/member/mypage">
 									    	<div class="flex-container">
 									    		<div style="padding: 5px 5px;">
 									    			<c:choose>
 											    		<c:when test="${profile != null}">
-											    			<img src="/rest/member/download?profile=${profileNo}" width="30" height="30"
+											    			<img src="${pageContext.request.contextPath}/rest/member/download?profile=${profileNo}" width="30" height="30"
 																	class="image image-circle image-border header-image">
 														</c:when>
 														<c:otherwise>
-															<img src="/images/user.png" width="30" height="30"
+															<img src="${pageContext.request.contextPath}/images/user.png" width="30" height="30"
 																	class="image image-circle image-border header-image">
 														</c:otherwise>
 									    			</c:choose>
@@ -127,25 +131,25 @@
 									    	</div>
 										</a>	
 									    <ul style="width:300px">
-									    	<li><a class="link" href="/admin/member/list">회원목록</a></li>
-									    	<li><a class="link" href="/admin/member/blockList">차단회원</a></li>
-									    	<li><a class="link" href="/admin/board/reportList">신고현황</a></li>
-									    	<li><a class="link" href="/admin/member/stat">회원통계</a></li>
+									    	<li><a class="link" href="${pageContext.request.contextPath}/admin/member/list">회원목록</a></li>
+									    	<li><a class="link" href="${pageContext.request.contextPath}/admin/member/blockList">차단회원</a></li>
+									    	<li><a class="link" href="${pageContext.request.contextPath}/admin/board/reportList">신고현황</a></li>
+									    	<li><a class="link" href="${pageContext.request.contextPath}/admin/member/stat">회원통계</a></li>
 									    </ul>
 									</li>
 								</c:when>
 								<c:otherwise>
-					                <a class="link me-10" href="/member/logout">로그아웃</a>
-								    <a class="link" href="/member/mypage">
+					                <a class="link me-10" href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
+								    <a class="link" href="${pageContext.request.contextPath}/member/mypage">
 								    	<div class="flex-container">
 								    		<div style="padding: 5px 5px;">
 								    			<c:choose>
 										    		<c:when test="${profile != null}">
-										    			<img src="/rest/member/download?attachNo=${profile}" width="30" height="30"
+										    			<img src="${pageContext.request.contextPath}/rest/member/download?attachNo=${profile}" width="30" height="30"
 																class="image image-circle image-border header-image">
 													</c:when>
 													<c:otherwise>
-														<img src="/images/user.png" width="30" height="30"
+														<img src="${pageContext.request.contextPath}/images/user.png" width="30" height="30"
 																class="image image-circle image-border header-image">
 													</c:otherwise>
 								    			</c:choose>
@@ -164,11 +168,11 @@
 			    <hr class="header">
         <nav>
         	<div style="margin-left:150px;">
-        		<a class="link me-10" href="/board/all">여행정보</a>
-        		<a class="link me-10" href="/board/communityAll">커뮤니티</a>
-        		<a class="link me-10" href="/qnaNotice/list">QnA</a>
+        		<a class="link me-10" href="${pageContext.request.contextPath}/board/all">여행정보</a>
+        		<a class="link me-10" href="${pageContext.request.contextPath}/board/communityAll">커뮤니티</a>
+        		<a class="link me-10" href="${pageContext.request.contextPath}/qnaNotice/list">QnA</a>
 
-        		<img class="line" src="/images/line.png" height="30px;" style="vertical-align: top;">
+        		<img class="line" src="${pageContext.request.contextPath}/images/line.png" height="30px;" style="vertical-align: top;">
 
         	</div>
        </nav>

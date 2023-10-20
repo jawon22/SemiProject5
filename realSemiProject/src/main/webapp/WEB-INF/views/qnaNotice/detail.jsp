@@ -41,10 +41,10 @@
 	<div class="row mb-50">
 		<c:choose>
 			<c:when test="${qnaNoticeDto.qnaNoticeType==1}">
-				<img class="center" src="/images/notice.png" width="180" height="80">
+				<img class="center" src="${pageContext.request.contextPath}/images/notice.png" width="180" height="80">
 			</c:when>
 			<c:otherwise>
-				<img class="center" src="/images/Q&A.png" width="150" height="80">
+				<img class="center" src="${pageContext.request.contextPath}/images/Q&A.png" width="150" height="80">
 			</c:otherwise>
 		</c:choose>
 	</div>
@@ -62,11 +62,11 @@
 		<div class="left">
 		<c:choose>
 				<c:when test="${attachNo == null}">
-					<img src="/images/user.png" width="50" height="50"
+					<img src="${pageContext.request.contextPath}/images/user.png" width="50" height="50"
 						class="image image-circle image-border profile-image">
 				</c:when>
 				<c:otherwise>
-				<img src="/rest/member/download?attachNo=${attachNo}" width="50" height="50"
+				<img src="${pageContext.request.contextPath}/rest/member/download?attachNo=${attachNo}" width="50" height="50"
 				class="image image-circle image-border profile-image">
 				</c:otherwise>
 			</c:choose>	

@@ -58,7 +58,7 @@
                        fd.append("attach", files[0]);
                        
                        $.ajax({
-                           url:"${pageContext.request.contextPath}/rest/attachment/upload",
+                           url:window.contextPath+"/rest/attachment/upload",
                            method:"post",
                            data:fd,
                            processData:false,

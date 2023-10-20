@@ -35,7 +35,7 @@
 				<tr>
 
 					<td class="left"><a class="link"
-						href="/qnaNotice/detail?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}">
+						href="${pageContext.request.contextPath}/qnaNotice/detail?qnaNoticeNo=${qnaNoticeDto.qnaNoticeNo}">
 							${qnaNoticeDto.qnaNoticeTitle} </a></td>
 					<td class="center">${memberDto.memberNickname}</td>
 					<td class="center">${qnaNoticeDto.qnaNoticeTime}</td>
