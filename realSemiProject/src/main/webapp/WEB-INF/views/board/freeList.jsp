@@ -13,13 +13,9 @@
 	        $(".checkbox-all, .check-item").prop("checked",check);
 	
 	        if(check){
-	//        	 $(".delete-btn").css("display","inline-block");
-	//        	 $(".delete-btn").show();
 	       	 $(".delete-btn").fadeIn("fast");
 	        }
 	        else{
-	//        	 $(".delete-btn").css("display","none");
-	//        	 $(".delete-btn").hide();
 	       	 $(".delete-btn").fadeOut("fast");
 	        }
 	        
@@ -98,7 +94,7 @@
 					</button>
 					</c:if>
 					
-					<a href="/board/write?boardCategory=42" class="btn">
+					<a href="${pageContext.request.contextPath}/board/write?boardCategory=42" class="btn">
 						<i class="fa-solid fa-pen"></i>
 						게시글 작성
 					</a>
@@ -151,7 +147,7 @@
 									</c:if>
 								
 								</c:otherwise>
-							</c:choose	>
+							</c:choose>
 						</td>
 						
 						<!-- 작성자 -->

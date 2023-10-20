@@ -28,7 +28,7 @@
 	</div>
 	
 	<div class="row center mt-40">
-		<a href="/" class="link ms-10">홈으로 이동</a>
+		<a href="${pageContext.request.contextPath}/" class="link ms-10">홈으로 이동</a>
 	</div>
 	
 </div>

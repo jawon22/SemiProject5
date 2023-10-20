@@ -87,7 +87,7 @@
 								${reportList.reportNo}
 							</td>
 							<td align="center">
-								<a class="link" href="/board/detail?boardNo=${reportList.boardNo}">${reportList.boardNo}</a>
+								<a class="link" href="${pageContext.request.contextPath}/board/detail?boardNo=${reportList.boardNo}">${reportList.boardNo}</a>
 							</td>
 							<td align="center">
 								<c:choose>
@@ -100,7 +100,7 @@
 								</c:choose>
 							</td>
 							<td align="center">
-								<a class="link" href="/board/detail?boardNo=${reportList.boardNo}">${reportList.boardTitle}</a>
+								<a class="link" href="${pageContext.request.contextPath}/board/detail?boardNo=${reportList.boardNo}">${reportList.boardTitle}</a>
 							</td>
 							<td align="center">
 								${reportList.boardWriter}

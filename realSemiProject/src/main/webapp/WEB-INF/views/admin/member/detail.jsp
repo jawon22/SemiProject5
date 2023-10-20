@@ -48,7 +48,7 @@
 					if (choice == false)
 						return;
 					$.ajax({
-						url : "//localhost:8080/rest/member/deleteByAdmin",
+						url : contextPath+"/rest/member/deleteByAdmin",
 						method : "post",
 						data : form,
 						contentType: false, 
@@ -70,11 +70,11 @@
 			<c:choose>
 
 				<c:when test="${attachNo == null}">
-					<img src="/images/user.png" width="150" height="150"
+					<img src="${pageContext.request.contextPath}/images/user.png" width="150" height="150"
 						class="image image-circle image-border profile-image">
 				</c:when>
 				<c:otherwise>
-					<img src="/rest/member/download?attachNo=${attachNo}" width="150"
+					<img src="${pageContext.request.contextPath}/rest/member/download?attachNo=${attachNo}" width="150"
 						height="150" class="image image-circle image-border profile-image">
 				</c:otherwise>
 			</c:choose>
@@ -200,7 +200,7 @@
 					<c:forEach var="boardDto" items="${boardList}">
 						<tr>
 							<td  class="left" ><a class="link"
-								href="/board/detail?boardNo=${boardDto.boardNo}">
+								href="${pageContext.request.contextPath}/board/detail?boardNo=${boardDto.boardNo}">
 									${boardDto.boardTitle}</a></td>
 							<td>${boardDto.memberNickname}</td>
 							<td>${boardDto.boardCtime}</td>
