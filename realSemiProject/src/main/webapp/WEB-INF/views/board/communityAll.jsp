@@ -21,8 +21,7 @@ h1 {
 
 			if (originalString.length >= maxLength) {
 				// 제한된 길이보다 긴 경우 말줄임표 추가
-				var limitedString = originalString.slice(0,
-						maxLength)
+				var limitedString = originalString.slice(0,maxLength)
 						+ '<i class="fa-solid fa-ellipsis" style="color: #778192;"></i>';
 			} 
 			else {
@@ -47,7 +46,7 @@ h1 {
     				<h2>자유게시판</h2>
     			</div>
     			<div class="right">
-    				<a class="link" href="/board/freeList">자유게시판 더보기
+    				<a class="link" href="${pageContext.request.contextPath}/board/freeList">자유게시판 더보기
     					<i class="fa-regular fa-square-plus" style="color: #a6adb9;"></i>
     				</a>
     			</div>
@@ -73,7 +72,7 @@ h1 {
 												<span style="color:gray;">블라인드 처리된 글</span>
 										</c:when>
 											<c:otherwise>
-												<a class="link" href="/board/detail?boardNo=${boardListDto.boardNo}">
+												<a class="link" href="${pageContext.request.contextPath}/board/detail?boardNo=${boardListDto.boardNo}">
 												<span class="title">${boardListDto.boardTitle}</span></a>
 											
 													<!--  댓글이 있다면 개수를 표시 -->
@@ -100,7 +99,7 @@ h1 {
     				<h2>후기게시판</h2>
     			</div>
     			<div class="right">
-    				<a class="link" href="/board/reviewList">후기게시판 더보기
+    				<a class="link" href="${pageContext.request.contextPath}/board/reviewList">후기게시판 더보기
     					<i class="fa-regular fa-square-plus" style="color: #a6adb9;"></i>
     				</a>
     			</div>
@@ -125,7 +124,7 @@ h1 {
 												<span style="color:gray;">블라인드 처리된 글</span>
 											</c:when>
 											<c:otherwise>
-												<a class="link" href="/board/detail?boardNo=${boardListDto.boardNo}">
+												<a class="link" href="${pageContext.request.contextPath}/board/detail?boardNo=${boardListDto.boardNo}">
 												<span class="title">${boardListDto.boardTitle}</span></a>
 											
 													<!--  댓글이 있다면 개수를 표시 -->

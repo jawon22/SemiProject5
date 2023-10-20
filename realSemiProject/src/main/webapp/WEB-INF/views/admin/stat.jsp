@@ -18,7 +18,7 @@
 
         //나이 통계
         $.ajax({
-            url: "http://localhost:8080/rest/member/stat/birth",
+            url: contextPath+"/rest/member/stat/birth",
             dataType: "json",
             method:"post",
             success: function (response) {
@@ -65,7 +65,7 @@
         
         //지역 통계
         $.ajax({
-            url: "http://localhost:8080/rest/member/stat/area",
+            url: contextPath+"/rest/member/stat/area",
             dataType: "json",
             method:"post",
             success: function (response) {
@@ -122,7 +122,7 @@
         
         //가입월 통계
         $.ajax({
-            url: "http://localhost:8080/rest/member/stat/join",
+            url: contextPath+"/rest/member/stat/join",
             dataType: "json",
             method:"post",
             success: function (response) {
@@ -177,7 +177,7 @@
         
         //등급 통계
         $.ajax({
-            url: "http://localhost:8080/rest/member/stat/level",
+            url: contextPath+"/rest/member/stat/level",
             dataType: "json",
             method:"post",
             success: function (response) {
@@ -249,7 +249,7 @@
         			<canvas id="joinChart"></canvas>
     			</div>
             </div>
-            <div class="inline-flex-container align-center card"  style="margin-left:100px">
+            <div class="inline-flex-container align-center card" style="margin-left:100px">
                 <div class="center">
         			<canvas id="levelChart"></canvas>
     			</div>

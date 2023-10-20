@@ -58,7 +58,7 @@
                        fd.append("attach", files[0]);
                        
                        $.ajax({
-                          url:"${pageContext.request.contextPath}/rest/attachment/upload",
+                          url:contextPath+"/rest/attachment/upload",
                           method:"post",
                           data:fd,
                           processData:false,
@@ -269,11 +269,7 @@
         }
              
         
-    });
-    
-    /* 정보게시판: http://localhost:8080/board/write?boardCategory=1
-    후기 게시판: http://localhost:8080/board/write?boardCategory=41
-    자유게시판: http://localhost:8080/board/write?boardCategory=42  */  	
+    });	
     		
 </script>
 <form action="edit" method="post">
@@ -380,7 +376,7 @@
             <input type="hidden" name="boardCategory" id="boardCategory">
         </div>      	  
     </c:when>
-        <c:when test="${boardDto.boardCategory == 5}"><!-- 정보게시판이면 -->
+    <c:when test="${boardDto.boardCategory == 5}"><!-- 정보게시판이면 -->
         <div class="row">
             <label>계절</label>
             <select name="board_categoryweather">
@@ -1281,10 +1277,10 @@
                 <button class="btn btn-positive">수정하기</button>
             		<c:choose>
     					<c:when test="${boardDto.boardCategory == 41}"><!-- 후기게시판이면 -->
-        					<a href="http://localhost:8080/board/detail?boardNo=${boardDto.boardNo}" class="btn">취소</a> 
+        					<a href="${pageContext.request.contextPath}/board/detail?boardNo=${boardDto.boardNo}" class="btn">취소</a> 
     					</c:when>
     					<c:when test="${boardDto.boardCategory == 42}"><!-- 자유게시판이면 -->
-							<a href="http://localhost:8080/board/detail?boardNo=${boardDto.boardNo}" class="btn">취소</a> 
+							<a href="${pageContext.request.contextPath}/board/detail?boardNo=${boardDto.boardNo}" class="btn">취소</a> 
     					</c:when>
     					<c:otherwise>
             				<a href="detail?boardNo=${boardDto.boardNo}" class="btn">취소</a> 
