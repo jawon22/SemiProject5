@@ -108,7 +108,7 @@ label {
 </script>
 
 <div class="row">
-	<a class="link" href="/"> <img src="/images/logo.png"
+	<a class="link" href="${pageContext.request.contextPath}/"> <img src="${pageContext.request.contextPath}/images/logo.png"
 		width="200px;">
 	</a>
 </div>
@@ -150,7 +150,7 @@ label {
 				<div class="popupbody-expire">
 					<form>
 					<div class="row mv-20">
-						<img src="/images/lock.png">
+						<img src="${pageContext.request.contextPath}/images/lock.png">
 					</div>
 					<div class="row mv-20">
 					<h1>비밀번호를 변경해주세요</h1>
@@ -160,10 +160,10 @@ label {
 					</div>
 					<div class="flex-container auto-width">
 					<div class="col-2 ">			
-					<a class="btn btn-negative link w-100" href="/member/delay">나중에 변경하기</a>
+					<a class="btn btn-negative link w-100" href="${pageContext.request.contextPath}/member/delay">나중에 변경하기</a>
 					</div>
 					<div class="col-2">
-					<a class="btn btn-positive link w-100" href="/member/pwChange">지금 변경하기</a> 
+					<a class="btn btn-positive link w-100" href="${pageContext.request.contextPath}/member/pwChange">지금 변경하기</a> 
 					</div>
 					</div>
 					</form>
@@ -178,7 +178,7 @@ label {
 	<div class="popup-wrap-expire">
 				<div class="popupbody-expire">
 					<div class="row">
-						<img src="/images/lock.png">
+						<img src="${pageContext.request.contextPath}/images/lock.png">
 					</div>
 					<div class="row mv-20">
 					<h1>회원님은 휴면계정 상태입니다.</h1>
@@ -200,7 +200,7 @@ label {
 					</div>
 					<div class="col2">
 
-						<a class="btn btn-positive link w-100" href="/member/activate?memberId=${sessionScope.memberIdForActivation}">휴면해제</a>					
+						<a class="btn btn-positive link w-100" href="${pageContext.request.contextPath}/member/activate?memberId=${sessionScope.memberIdForActivation}">휴면해제</a>					
 					</div>
 					</div>
 				</div>
