@@ -269,7 +269,7 @@
             $('#byteCount').text(totalByteCount);
             
             // byteCount가 초과하면 클래스 추가
-            if (totalByteCount > 3989) {
+            if (totalByteCount > 4000) {
                 $('#byteCount').addClass("red");
                 $('.btn-positive').addClass("red")
             } else {
@@ -281,7 +281,7 @@
             var contentText = !$("[name=boardContent]").summernote('isEmpty');
             
             // 버튼을 비활성화
-            if (contentText && title.trim() !== '' && totalByteCount <= 3989) {
+            if (contentText && title.trim() !== '' && totalByteCount <= 4000) {
                 $('.btn-positive').prop('disabled', false);
             } else {
                 $('.btn-positive').prop('disabled', true);
@@ -366,7 +366,7 @@
         </div>
         
         <div class="row right">
-        	<span id="byteCount" class="byteCount">0</span>/ 3989byte
+        	<span id="byteCount" class="byteCount">0</span>/ 4000byte
         </div>
         
         <div class="row">

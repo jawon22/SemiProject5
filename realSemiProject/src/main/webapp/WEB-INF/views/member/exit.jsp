@@ -34,7 +34,7 @@
 			var pw = $(this).val();
 			
 			$.ajax({
-				url:"http://localhost:8080/rest/member/pwCorrect",
+				url: window.contextPath + "/rest/member/pwCorrect",
 				method:"post",
 				data:{
 					inputPw : pw

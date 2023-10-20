@@ -3,14 +3,50 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
+<style>
+.title {
+	font-size: 30px;
+	font-weight: bold;
+	color: #26C2BF;
+	margin-bottom:20px;
+}
+</style>
+
+<script>
+$(function(){
+	
+	  var listType = "${vo.listType}";
+
+	    if (listType == "mywritelist") {
+	      $("#myForm").attr("action", "myWriteList");
+	      $(".title").text("내가 작성한 글")
+	    } else if (listType == "mylikelist") {
+	      $("#myForm").attr("action", "myLikeList");
+	      $(".title").text("내가 좋아요 한 글")
+	    } else {
+	      $("#myForm").attr("action", "myReplyList");
+	      $(".title").text("내가 댓글 단 글")
+	    }
+	
+	
+});
+
+
+</script>
+
 <div class="container w-700">
+
+<div class="row">
+	<h1 class="title"></h1>
+</div>
+
 <table class="table table-regular center">
 <thead>
 	<tr>
-		<th>글제목</th>
+		<th width="60%">글제목</th>
 		<th>작성자</th>
 		<th>작성일자</th>
-		<th>조회수</th>
+		<th width="10%">조회수</th>
 	</tr>
 </thead>
 
@@ -37,8 +73,11 @@
 </div>
 
 <div class="row">
-<form action="myWriteList" method="get" autocomplete="off">
-	<input type="hidden" value="board_title">
+<form id="myForm" method="get" autocomplete="off">
+	<select name="type" class="search-select">
+		<option value="board_title">제목</option>
+	</select>
+<!-- 	<input type="select" value="board_title" name="type"> -->
 	<input class="search-input" type="search" name="keyword" 
 		value="${param.keyword}" 
 		placeholder="검색어 입력">

@@ -26,7 +26,7 @@ h1 {
 	display: inline-block;
 	width: 1em;
 	height: 1.2em;
-	background-image: url("/images/fa-chevron-right.png");
+	background-image: url("${pageContext.request.contextPath}/images/fa-chevron-right.png");
 	background-size: 55%;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -34,7 +34,7 @@ h1 {
 }
 
 .custom-checkbox>[type=checkbox]:checked+span {
-	background-image: url("/images/fa-chevron-right.png");
+	background-image: url("${pageContext.request.contextPath}/images/fa-chevron-right.png");
 }
 
 
@@ -53,7 +53,7 @@ h1 {
 					form.append("attach", input.files[0]);
 
 					$.ajax({
-						url : "/rest/member/upload",
+						url : window.contextPath + "/rest/member/upload",
 						method : "post",
 						processData : false,
 						contentType : false,
@@ -61,7 +61,7 @@ h1 {
 						success : function(response) {
 							$(".profile-image").attr(
 									"src",
-									"/rest/member/download?attachNo="
+									window.contextPath + "/rest/member/download?attachNo="
 											+ response.attachNo);
 							
 							$(".profile-delete").show();
@@ -78,10 +78,10 @@ h1 {
 			if (choice == false)
 				return;
 			$.ajax({
-				url : "/rest/member/delete",
+				url : window.contextPath + "/rest/member/delete",
 				method : "post",
 				success : function(response) {
-					$(".profile-image").attr("src", "/images/user.png");
+					$(".profile-image").attr("src", window.contextPath + "/images/user.png");
 					$(".profile-delete").hide();
 				},
 			});
@@ -109,11 +109,11 @@ h1 {
 		<div class="mv-10 w-25 inline-flex-container align-center">
 			<label> <c:choose>
 					<c:when test="${profile == null}">
-						<img src="/images/user.png" width="150" height="150"
+						<img src="${pageContext.request.contextPath}/images/user.png" width="150" height="150"
 							class="image image-circle image-border profile-image">
 					</c:when>
 					<c:otherwise>
-						<img src="/rest/member/download?attachNo=${profile}" width="150"
+						<img src="${pageContext.request.contextPath}/rest/member/download?attachNo=${profile}" width="150"
 							height="150"
 							class="image image-circle image-border profile-image">
 					</c:otherwise>
@@ -248,7 +248,7 @@ h1 {
 						<c:if test="${loop.index < 3}">
 							<tr>
 								<td class="left"><a class="link"
-									href="/board/detail?boardNo=${myWriteList.boardNo}">
+									href="${pageContext.request.contextPath}/board/detail?boardNo=${myWriteList.boardNo}">
 										${myWriteList.boardTitle}</a></td>
 								<td class="center">${myWriteList.memberNickname}</td>
 								<td class="center">${myWriteList.boardCtime}</td>
@@ -283,7 +283,7 @@ h1 {
 						<c:if test="${loop.index < 3}">
 							<tr>
 								<td class="left"><a class="link"
-									href="/board/detail?boardNo=${myLikeList.boardNo}">
+									href="${pageContext.request.contextPath}/board/detail?boardNo=${myLikeList.boardNo}">
 								${myLikeList.boardTitle}</a></td>
 								<td class="center">${myLikeList.memberNickname}</td>
 								<td class="center">${myLikeList.boardCtime}</td>
@@ -318,7 +318,7 @@ h1 {
 						<c:if test="${loop.index < 3}">
 							<tr>
 								<td class="left"><a class="link"
-									href="/board/detail?boardNo=${myReplyList.boardNo}">
+									href="${pageContext.request.contextPath}/board/detail?boardNo=${myReplyList.boardNo}">
 								${myReplyList.boardTitle}</a></td>
 								<td class="center">${myReplyList.memberNickname}</td>
 								<td class="center">${myReplyList.boardCtime}</td>
@@ -352,7 +352,7 @@ h1 {
 						<c:if test="${loop.index < 3}">
 							<tr>
 								<td class="left"><a class="link"
-									href="/qnaNotice/detail?qnaNoticeNo=${myQnaList.qnaNoticeNo}">
+									href="${pageContext.request.contextPath}/qnaNotice/detail?qnaNoticeNo=${myQnaList.qnaNoticeNo}">
 								${myQnaList.qnaNoticeTitle}</a></td>
 								<td class="center">${myQnaList.memberNickname}</td>
 								<td class="center">${myQnaList.qnaNoticeTime}</td>

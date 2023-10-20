@@ -59,7 +59,7 @@
   .content{
   height: 200px;
   border: 1px solid black;
-  font-size:20px;
+  font-size:18px;
   }
   .not-outline{
   outline: none;
@@ -110,6 +110,50 @@ min-height:250px;
 	 var params = new URLSearchParams(location.search);
 		var no = params.get("boardNo");
 
+		//신고버튼 구현중
+		$(".btn-block").click(function(e){
+			e.preventDefault();
+			var blockTemplate = $("#block-template").html();
+			var blockHtmlTemplate = $.parseHTML(blockTemplate);
+			var params = new URLSearchParams(location.search);
+			var no = params.get("boardNo");
+			
+			
+			//취소버튼
+			$(blockHtmlTemplate).find(".block-cencel")
+								.click(function(){
+				$(this).parents(".block-container")
+					.prev(".btn-block").show();
+				$(this).parents(".block-container").remove();
+			});
+			
+			//완료(등록) 버튼 처리
+			$(blockHtmlTemplate).submit(function(e){
+				e.preventDefault();
+				var reportReason = $("[name=reportReason]").val();
+				$.ajax({
+					url:"/board/report/board",
+					method:"post",
+					data :{boardNo:no, reportReason:reportReason},
+					success:function(response){
+					if(reportReason==null){
+						$(".fail-feedback")	.css("display", "block");
+					}
+					else{
+						$(".block-container")
+						.prev(".btn-block").show();
+						$(".block-container").remove();
+						$(".block-container")
+						.prev(".fail-feedback").hide();
+					}
+					},
+				});
+			});
+			
+			
+				$(this).hide().after(blockHtmlTemplate);
+			});
+		
 		//좋아요 처리
 			 $.ajax({
 				 url: contextPath+"/rest/boardLike/check",
@@ -210,7 +254,6 @@ min-height:250px;
 											.attr("data-reply-no", reply.replyNo)
 											.click(function(e){
 							var replyNo = $(this).attr("data-reply-no");
-							console.log(replyNo);	
 							$.ajax({
 								url:contextPath+"/rest/reply/delete",
 								method:"post",
@@ -268,8 +311,7 @@ min-height:250px;
 			});
 	
 			
-				
-			//신고버튼 구현중
+	//신고버튼 구현중
 	$(".btn-block").click(function(e){
 		e.preventDefault();
 		var blockTemplate = $("#block-template").html();
