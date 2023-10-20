@@ -48,7 +48,7 @@
 					if (choice == false)
 						return;
 					$.ajax({
-						url : "http://localhost:8080/rest/member/deleteByAdmin",
+						url : "//localhost:8080/rest/member/deleteByAdmin",
 						method : "post",
 						data : form,
 						contentType: false, 

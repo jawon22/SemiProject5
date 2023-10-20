@@ -16,7 +16,7 @@
 
 <div class="container w-500">
 	<div class="row">
-		<img width="80px" src="/images/check-icon.png">
+		<img width="80px" src="${pageContext.request.contextPath}/images/check-icon.png">
 	</div>
 	
 	<div class="row center mt-40 mb-20">
@@ -27,8 +27,8 @@
 	</div>
 	
 	<div class="row center mt-40">
-		<a href="/" class="link me-10">홈으로 이동</a>
-		<a href="/member/login" class="link ms-10">로그인하기</a>
+		<a href="${pageContext.request.contextPath}/" class="link me-10">홈으로 이동</a>
+		<a href="${pageContext.request.contextPath}/member/login" class="link ms-10">로그인하기</a>
 	</div>
 </div>
 
