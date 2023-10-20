@@ -90,7 +90,7 @@ img {
 
 		function search() {
 			var searchQuery = document.querySelector('.form-input').value;
-			window.location.href = "/board/list?weather=전체&area=전체&type=board_title&keyword="
+			window.location.href = "${pageContext.request.contextPath}/board/list?weather=전체&area=전체&type=board_title&keyword="
 					+ searchQuery;
 		}
 
@@ -142,19 +142,19 @@ img {
 <div class="swiper">
 	<div class="swiper-wrapper">
 		<div class="swiper-slide">
-			<img src="./images/busan.jpg" width="1200px">
+			<img src="${pageContext.request.contextPath}./images/busan.jpg" width="1200px">
 		</div>
 		<div class="swiper-slide">
-			<img src="./images/danpoong.jpg" width="1200px">
+			<img src="${pageContext.request.contextPath}./images/danpoong.jpg" width="1200px">
 		</div>
 		<div class="swiper-slide">
-			<img src="./images/paju.jpg" width="1200px">
+			<img src="${pageContext.request.contextPath}./images/paju.jpg" width="1200px">
 		</div>
 		<div class="swiper-slide">
-			<img src="./images/jeju-island.jpg" width="1200px">
+			<img src="${pageContext.request.contextPath}./images/jeju-island.jpg" width="1200px">
 		</div>
 		<div class="swiper-slide">
-			<img src="./images/seoul.jpg" width="1200px">
+			<img src="${pageContext.request.contextPath}./images/seoul.jpg" width="1200px">
 		</div>
 	</div>
 </div>
@@ -168,12 +168,12 @@ img {
 		</h1>
 	</div>
 	<div class="right">
-		<a class="link" href="/board/list"> <label class="gary">더보기</label> <i class="fa-regular fa-square-plus" style="color: #9aa1ac;"></i></a>
+		<a class="link" href="${pageContext.request.contextPath}/board/list"> <label class="gary">더보기</label> <i class="fa-regular fa-square-plus" style="color: #9aa1ac;"></i></a>
 	</div>
 	<div class="flex-container auto-width">
 		<c:forEach var="seasonList" items="${seasonList}">
 			<a class="link"
-				href="http://localhost:8080/board/detail?boardNo=${seasonList.boardNo}">
+				href="${pageContext.request.contextPath}/board/detail?boardNo=${seasonList.boardNo}">
 				<c:choose>
 					<c:when test="${seasonList.attachmentNo == null}">
 						<img class="thumbnail"
@@ -181,7 +181,7 @@ img {
 					</c:when>
 					<c:otherwise>
 						<img class="thumbnail"
-							src="/rest/attachment/download/${seasonList.attachmentNo}">
+							src="${pageContext.request.contextPath}/rest/attachment/download/${seasonList.attachmentNo}">
 					</c:otherwise>
 				</c:choose>
 				<div class="left row">
@@ -203,12 +203,12 @@ img {
 		</h1>
 	</div>
 	<div class="right">
-		<a class="link" href="/board/list"> <label class="gary">더보기</label> <i class="fa-regular fa-square-plus" style="color: #9aa1ac;"></i></a>
+		<a class="link" href="${pageContext.request.contextPath}/board/list"> <label class="gary">더보기</label> <i class="fa-regular fa-square-plus" style="color: #9aa1ac;"></i></a>
 	</div>
 	<div class="flex-container auto-width">
 		<c:forEach var="areaList" items="${areaList}">
 			<a class="link"
-				href="http://localhost:8080/board/detail?boardNo=${areaList.boardNo}">
+				href="${pageContext.request.contextPath}/board/detail?boardNo=${areaList.boardNo}">
 				<c:choose>
 					<c:when test="${areaList.attachmentNo == null}">
 						<img class="thumbnail"
@@ -217,7 +217,7 @@ img {
 					<c:otherwise>
 						<img class="thumbnail"
 							style="border-radius: 15px; overflow: hidden;"
-							src="/rest/attachment/download/${areaList.attachmentNo}">
+							src="${pageContext.request.contextPath}/rest/attachment/download/${areaList.attachmentNo}">
 					</c:otherwise>
 				</c:choose>
 				<div class="left row">

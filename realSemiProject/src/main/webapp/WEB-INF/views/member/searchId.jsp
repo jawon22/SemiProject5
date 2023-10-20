@@ -39,7 +39,7 @@
 	        $("[name=memberEmail]").removeClass("success fail fail2"); // 유효하지 않은 경우 성공 클래스 제거
 		    if (isValid) {
 		        $.ajax({
-		            url: "http://localhost:8080/rest/member/emailCheck",
+		            url: window.contextPath+"/rest/member/emailCheck",
 		            method: "post",
 		            data: {
 		                memberEmail: email
@@ -48,7 +48,7 @@
 		                if (response == "Y") { //등록된이메일이 없을 때
 		                    $("[name=memberEmail]").addClass("fail2");
 		                } 
-		                else { //있음......등록된이메일이있음?
+		                else { //있음
 		                    $("[name=memberEmail]").addClass("success");
 		                }
 		            },

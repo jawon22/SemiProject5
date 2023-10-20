@@ -15,7 +15,7 @@
 
 <div class="container w-500">
 	<div class="row">
-		<img width="80px" src="/images/check-icon.png">
+		<img width="80px" src="${pageContext.request.contextPath}/images/check-icon.png">
 	</div>
 	
 	<div class="row center mt-40 mb-20">
@@ -23,7 +23,7 @@
 	</div>
 	
 	<div class="row center mt-40">
-		<a href="/" class="link me-10">로그인 상태 유지</a>
+		<a href="${pageContext.request.contextPath}/" class="link me-10">로그인 상태 유지</a>
 		<a href="logout" class="link ms-10">로그아웃</a>
 	</div>
 </div>

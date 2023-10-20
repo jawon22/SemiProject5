@@ -840,7 +840,7 @@ public class BoardDaoImpl implements BoardDao{
     @Autowired
     private MainPageListMapper mainPageListMapper;
     
-    //메인에 5개만 우선 찍어봄(계절별 인기글)
+    //계절별 인기글
 	@Override
 	public List<MainPageListDto> selectListSeasonTop5() {
 		String sql = "select * from (select rownum rnum, TMP.* from ( "
