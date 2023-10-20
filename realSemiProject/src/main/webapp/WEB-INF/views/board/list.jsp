@@ -179,9 +179,9 @@
 
 <div class="row right">
     
-   	<a href="/board/list?sort=latest" class="btn btn-desc">최신순</a>
-	<a href="/board/list?sort=readcount" class="btn btn-readcount">조회수순</a>
-	<a href="/board/list?sort=likecount" class="btn btn-likecount">좋아요순</a>
+   	<a href="${pageContext.request.contextPath}/board/list?sort=latest" class="btn btn-desc">최신순</a>
+	<a href="${pageContext.request.contextPath}/board/list?sort=readcount" class="btn btn-readcount">조회수순</a>
+	<a href="${pageContext.request.contextPath}/board/list?sort=likecount" class="btn btn-likecount">좋아요순</a>
 
 </div>
 

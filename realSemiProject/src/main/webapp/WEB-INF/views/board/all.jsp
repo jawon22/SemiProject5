@@ -622,15 +622,15 @@ h1 {
 			<div class="flex-container">
 				<div>
 					<span>
-						<a class="text-position link" href="/board/list?weather=봄&area=전체&type=board_title&keyword=">봄
-							<img style="height:225px; width:225px;" src="/images/weather/spring.jpg">
+						<a class="text-position link" href="${pageContext.request.contextPath}/board/list?weather=봄&area=전체&type=board_title&keyword=">봄
+							<img style="height:225px; width:225px;" src="${pageContext.request.contextPath}/images/weather/spring.jpg">
 						</a>
 					</span>
 				</div>
 				<div>
 					<span>
-						<a class="text-position link" href="/board/list?weather=여름&area=전체&type=board_title&keyword=">여름
-							<img style="height:225px; width:225px" src="/images/weather/summer.jpg">
+						<a class="text-position link" href="${pageContext.request.contextPath}/board/list?weather=여름&area=전체&type=board_title&keyword=">여름
+							<img style="height:225px; width:225px" src="${pageContext.request.contextPath}/images/weather/summer.jpg">
 						</a>
 					</span>
 				</div>
@@ -638,15 +638,15 @@ h1 {
 			<div class=flex-container>
 				<div>
 					<span>
-						<a class="text-position link" href="/board/list?weather=가을&area=전체&type=board_title&keyword=">가을
-							<img style="height:225px; width:225px" src="/images/weather/fall.jpg">
+						<a class="text-position link" href="${pageContext.request.contextPath}/board/list?weather=가을&area=전체&type=board_title&keyword=">가을
+							<img style="height:225px; width:225px" src="${pageContext.request.contextPath}/images/weather/fall.jpg">
 						</a>
 					</span>
 				</div>
 				<div>
 					<span>
-						<a class="text-position link" href="/board/list?weather=겨울&area=전체&type=board_title&keyword=">겨울
-							<img style="height:225px; width:225px" src="/images/weather/winter.jpg">
+						<a class="text-position link" href="${pageContext.request.contextPath}/board/list?weather=겨울&area=전체&type=board_title&keyword=">겨울
+							<img style="height:225px; width:225px" src="${pageContext.request.contextPath}/images/weather/winter.jpg">
 						</a>
 					</span>
 				</div>

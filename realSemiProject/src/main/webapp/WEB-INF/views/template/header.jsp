@@ -4,7 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <title>Tripee</title>
+  
+	<script>
+		window.contextPath = "${pageContext.request.contextPath}";
+	</script>
+
+
 	<!-- favicon 설정 -->
 	<!-- <link rel="shortcut icon" href="/images/favicon.ico"> -->
 

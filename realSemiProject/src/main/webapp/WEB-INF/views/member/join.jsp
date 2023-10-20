@@ -67,7 +67,7 @@
 	        if(isValid && id.length != 0){
 	        	
 	        	$.ajax({
-	        		url:"http://localhost:8080/rest/member/idCheck",
+	        		url: window.contextPath + "/rest/member/idCheck",
 	        		method:"post",
 	        		data:{memberId : id},
 	        		success: function(response){
@@ -130,7 +130,7 @@
 	        $("[name=memberEmail]").removeClass("success fail fail2"); // 유효하지 않은 경우 성공 클래스 제거
 		    if (isValid) {
 		        $.ajax({
-		            url: "http://localhost:8080/rest/member/emailCheck",
+		            url: window.contextPath + "/rest/member/emailCheck",
 		            method: "post",
 		            data: {
 		                memberEmail: email

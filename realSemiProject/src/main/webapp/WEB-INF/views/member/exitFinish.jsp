@@ -15,7 +15,7 @@
 
 <div class="container w-500">
 	<div class="row">
-		<img width="80px" src="/images/check-icon.png">
+		<img width="80px" src="${pageContext.request.contextPath}/images/check-icon.png">
 	</div>
 	
 	<div class="row center mt-40 mb-20">
@@ -26,9 +26,9 @@
 	</div>
 	
 	<div class="row center mt-40">
-		<a href="/" class="link me-10">홈으로 이동</a>
-		<a href="/member/join" class="link ms-10">회원가입 하기</a>
-	</div>
+    <a href= window.contextPath + "/" class="link me-10">홈으로 이동</a>
+    <a href= window.contextPath + "/member/join" class="link ms-10">회원가입 하기</a>
+</div>
 </div>
 
 <jsp:include page="/WEB-INF/views/template/footer.jsp"></jsp:include>

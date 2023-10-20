@@ -156,7 +156,7 @@ min-height:250px;
 		
 		//좋아요 처리
 			 $.ajax({
-				 url:"/rest/boardLike/check",
+				 url: contextPath+"/rest/boardLike/check",
 				 method:"post",
 				 data:{boardNo : no},
 			 	success:function(response){
@@ -172,7 +172,7 @@ min-height:250px;
 			
 		$(".fa-heart").click(function(){
 			 $.ajax({
-				 url:"/rest/boardLike/action",
+				 url: contextPath+"/rest/boardLike/action",
 				 method:"post",
 				 data:{boardNo : no},	
 			 	success:function(response){
@@ -191,7 +191,7 @@ min-height:250px;
 	 $(".reply-insert-form").submit(function(e){
 		 e.preventDefault();
 		 $.ajax({
-			 url:"/rest/reply/insert",
+			 url: contextPath+"/rest/reply/insert",
 			 method:"post",
 			 data:$(e.target).serialize(),
 			 success:function(response){
@@ -213,7 +213,7 @@ min-height:250px;
 			
 				//리스트 리로드
 			$.ajax({
-				url:"/rest/reply/list",
+				url: contextPath+"/rest/reply/list",
 				method:"post",
 				data:{replyOrigin : no},
 				success:function(response){
@@ -255,7 +255,7 @@ min-height:250px;
 											.click(function(e){
 							var replyNo = $(this).attr("data-reply-no");
 							$.ajax({
-								url:"/rest/reply/delete",
+								url:contextPath+"/rest/reply/delete",
 								method:"post",
 								data:{replyNo : replyNo},
 								success:function(response){
@@ -290,7 +290,7 @@ min-height:250px;
 								e.preventDefault();
 								
 								$.ajax({
-									url:"/rest/reply/edit",
+									url:contextPath+"/rest/reply/edit",
 									method:"post",
 									data : $(e.target).serialize(),
 									success:function(response){
@@ -311,11 +311,52 @@ min-height:250px;
 			});
 	
 			
-				
-			
+	//신고버튼 구현중
+	$(".btn-block").click(function(e){
+		e.preventDefault();
+		var blockTemplate = $("#block-template").html();
+		var blockHtmlTemplate = $.parseHTML(blockTemplate);
+		var params = new URLSearchParams(location.search);
+		var no = params.get("boardNo");
+		
+		
+		//취소버튼
+		$(blockHtmlTemplate).find(".block-cencel")
+							.click(function(){
+			$(this).parents(".block-container")
+				.prev(".btn-block").show();
+			$(this).parents(".block-container").remove();
+		});
+		
+		//완료(등록) 버튼 처리
+		$(blockHtmlTemplate).submit(function(e){
+			e.preventDefault();
+			var reportReason = $("[name=reportReason]").val();
+			$.ajax({
+				url:contextPath+"/board/report/board",
+				method:"post",
+				data :{boardNo:no, reportReason:reportReason},
+				success:function(response){
+				if(reportReason==null){
+					$(".fail-feedback")	.css("display", "block");
+				}
+				else{
+					$(".block-container")
+					.prev(".btn-block").show();
+					$(".block-container").remove();
+					$(".block-container")
+					.prev(".fail-feedback").hide();
+				}
+				},
+			});
+		});
+		
+		
+			$(this).hide().after(blockHtmlTemplate);
+		});
 	//댓글 불러오기
 	$.ajax({
-		url:"/rest/board/boardReplyCount",
+		url:contextPath+"/rest/board/boardReplyCount",
 		data:{boardNo : no},
 		success:function(response){
 			$(".replyCount").text(response);
@@ -344,8 +385,8 @@ min-height:250px;
 		<div class = "flex-container not-border">
 	    	<div class="w-100">
 		    	<div class="flex-container">
-					<div class="row left">		
-				<i class="fa-solid fa-user" style="color: #3dc1d3; margin-left:10px;"></i>
+					<div class="row left">
+						<img src="${pageContext.request.contextPath}/images/user.png"  width="35" height="24">
 						<span class="replyWriter">작성자</span>
 					<label class="replyTime"></label>	
 					</div>
@@ -377,7 +418,7 @@ min-height:250px;
 				</div>
 	        </div>
         </form>
-       </script>
+  </script>
        
         <script id="block-template" type="text/template">
 			<form class="block-form block-container" >
@@ -421,11 +462,11 @@ min-height:250px;
         <div class="row left w-50">
         <c:choose>
 				<c:when test="${attachNo == null}">
-					<img src="/images/user.png" width="50" height="50"
+					<img src="${pageContext.request.contextPath}/images/user.png" width="50" height="50"
 						class="image image-circle image-border profile-image">
 				</c:when>
 				<c:otherwise>
-				<img src="/rest/member/download?attachNo=${attachNo}" width="50" height="50"
+				<img src="${pageContext.request.contextPath}/rest/member/download?attachNo=${attachNo}" width="50" height="50"
 				class="image image-circle image-border profile-image">
 				</c:otherwise>
 			</c:choose>
@@ -444,27 +485,44 @@ min-height:250px;
         <div class="row flex-container">
             <div class="col-2">
                 <div class="left">
-                	<c:if test="${sessionScope.name!=null }">
-     	               <button class = "btn-block" style="margin-top: -8px"><img src="/images/etc/report.png"  width="20"></button>
-                	</c:if>
+                	<c:choose>
+	                	<c:when test="${sessionScope.name==null }">
+	              			<img src="${pageContext.request.contextPath}/images/Union.png"  width="35" height="14">
+	                	</c:when>
+	                	<c:otherwise>
+	     	               <button class = "btn-block" style="margin-top: -8px">
+	     	               		<img src="${pageContext.request.contextPath}/images/etc/report.png"  width="20">
+	     	               </button>
+	                	</c:otherwise>
+                	</c:choose>
                  </div>
             </div>
             <div class="col-2">
                 <div class="right">
                 <c:choose>
 	                <c:when test="${boardDto.boardCategory==41}">
-	                    <a href="/board/reviewList	"><button class="btn button btn-positive me-10">목록</button></a>
+	                    <a href="${pageContext.request.contextPath}/board/reviewList">
+	                   		 <button class="btn button btn-positive me-10">목록</button>
+	                    </a>
 	                </c:when>
 	                <c:when test="${boardDto.boardCategory==42}">
-	                	<a href="/board/freeList"><button class="btn button btn-positive me-10">목록</button></a>
+	                	<a href="${pageContext.request.contextPath}/board/freeList">
+	                		<button class="btn button btn-positive me-10">목록</button>
+	                	</a>
 	                </c:when>
 	                <c:otherwise>
-	                	<a href="/board/list"><button class="btn button btn-positive me-10">목록</button></a>
+	                	<a href="${pageContext.request.contextPath}/board/list">
+	                		<button class="btn button btn-positive me-10">목록</button>
+	                	</a>
 	                </c:otherwise>
                 </c:choose>
                     <c:if test="${sessionScope.name==boardDto.boardWriter||	memberDto.memberlevel=='관리자' }">
-                    	<a href="/board/edit?boardNo=${boardDto.boardNo}"><button class="btn btn-positive button me-10">수정</button></a>
-                    	<a href="/board/delete?boardNo=${boardDto.boardNo}"><button class="btn btn-positive button">삭제</button>	</a> 
+                    	<a href="${pageContext.request.contextPath}/board/edit?boardNo=${boardDto.boardNo}">
+                    		<button class="btn btn-positive button me-10">수정</button>
+                    	</a>
+                    	<a href="${pageContext.request.contextPath}/board/delete?boardNo=${boardDto.boardNo}">
+                    		<button class="btn btn-positive button">삭제</button>
+                    	</a> 
                     </c:if>
                 </div>
             </div>
