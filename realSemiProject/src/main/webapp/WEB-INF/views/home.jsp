@@ -142,19 +142,19 @@ img {
 <div class="swiper">
 	<div class="swiper-wrapper">
 		<div class="swiper-slide">
-			<img src="${pageContext.request.contextPath}./images/busan.jpg" width="1200px">
+			<img src="${pageContext.request.contextPath}/images/busan.jpg" width="1200px">
 		</div>
 		<div class="swiper-slide">
-			<img src="${pageContext.request.contextPath}./images/danpoong.jpg" width="1200px">
+			<img src="${pageContext.request.contextPath}/images/danpoong.jpg" width="1200px">
 		</div>
 		<div class="swiper-slide">
-			<img src="${pageContext.request.contextPath}./images/paju.jpg" width="1200px">
+			<img src="${pageContext.request.contextPath}/images/paju.jpg" width="1200px">
 		</div>
 		<div class="swiper-slide">
-			<img src="${pageContext.request.contextPath}./images/jeju-island.jpg" width="1200px">
+			<img src="${pageContext.request.contextPath}/images/jeju-island.jpg" width="1200px">
 		</div>
 		<div class="swiper-slide">
-			<img src="${pageContext.request.contextPath}./images/seoul.jpg" width="1200px">
+			<img src="${pageContext.request.contextPath}/images/seoul.jpg" width="1200px">
 		</div>
 	</div>
 </div>
