@@ -37,6 +37,7 @@ public class MemberMypageController {
 	public String login() {
 		return "/WEB-INF/views/member/login.jsp";
 	}
+	
 	@PostMapping("/login")
 	public String login(@ModelAttribute MemberDto inputDto,
 										HttpSession session, Model model) {

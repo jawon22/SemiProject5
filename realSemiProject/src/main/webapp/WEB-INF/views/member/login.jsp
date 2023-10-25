@@ -92,7 +92,6 @@ label {
 				});
 		
 		var memberIdValue = $('input[name="memberId"]').val();
-		console.log(memberIdValue);
 	});
 	function checkCapsLock(event)  {
 		
@@ -188,12 +187,6 @@ label {
 					 <p>[휴면해제] 버튼을 누른 후 다시 로그인 해 주세요.</p>
 					</div> 
 					</div>
-<!-- 					<div class="container left"> -->
-<!-- 					<input class="form-input w-100" type="text" name="checkId" placeholder="아이디를 입력하세요">  -->
-<!-- 					<input class="form-input w-100" type="text" name="checkEmail" placeholder="이메일을 입력하세요">  -->
-<!-- 					</div> -->
-<!-- 					<a class="btn link w-100" href="/">확인하기</a> -->
-<!-- 					<button class="btn btn-positive w-100 activate" href="activate">휴면 해제하기</button>>  -->
 					<div class="flex-container auto-width">
 					<div class="col2">
 						<a class="btn btn-negative link w-100" href="/">취소</a>
