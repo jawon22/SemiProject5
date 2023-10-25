@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/template/header.jsp"></jsp:include>
 
 <style>
@@ -564,25 +564,25 @@ h1 {
 	        	var areaText = areaElement.textContent || areaElement.innerText; // 텍스트 추출
 	        	
 	        	if(areaText =='서울'){
-	        		window.location.href = "/board/list?weather=전체&area=서울&type=board_title&keyword=";
+	        		window.location.href = contextPath+"/board/list?weather=전체&area=서울&type=board_title&keyword=";
 	            }
 	            else if(areaText == '경기'){
-	            	window.location.href = "/board/list?weather=전체&area=경기&type=board_title&keyword=";
+	            	window.location.href = contextPath+"/board/list?weather=전체&area=경기&type=board_title&keyword=";
 	            }
 	            else if(areaText == '강원'){
-	            	window.location.href = "/board/list?weather=전체&area=강원&type=board_title&keyword=";
+	            	window.location.href = contextPath+"/board/list?weather=전체&area=강원&type=board_title&keyword=";
 	            }
 	            else if(areaText == '충청'){
-	            	window.location.href = "/board/list?weather=전체&area=충청&type=board_title&keyword=";
+	            	window.location.href = contextPath+"/board/list?weather=전체&area=충청&type=board_title&keyword=";
 	            }
 	            else if(areaText == '경상'){
-	            	window.location.href = "/board/list?weather=전체&area=경상&type=board_title&keyword=";
+	            	window.location.href = contextPath+"/board/list?weather=전체&area=경상&type=board_title&keyword=";
 	            }
 	            else if(areaText == '전라'){
-	            	window.location.href = "/board/list?weather=전체&area=전라&type=board_title&keyword=";
+	            	window.location.href = contextPath+"/board/list?weather=전체&area=전라&type=board_title&keyword=";
 	            }
 	            else{
-	            	window.location.href = "/board/list?weather=전체&area=제주&type=board_title&keyword=";
+	            	window.location.href = contextPath+"/board/list?weather=전체&area=제주&type=board_title&keyword=";
 	            }
 	        });
 	        

@@ -13,18 +13,18 @@
 
 
 	<!-- favicon 설정 -->
-	<!-- <link rel="shortcut icon" href="/images/favicon.ico"> -->
+	<link rel="shortcut icon" href="${pageContext.request.contextPath}/images/favicon2.ico">
 
 	<!-- 아이콘 사용을 위한 Font Awesome 6 CDN -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 	
 	<!--css 불러오기-->
-	<link rel="stylesheet" type="text/css" href="/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/reset.css">
 
 <!-- 	<link rel="stylesheet" type="text/css" href="/css/test.css"> -->
 
-	<link rel="stylesheet" type="text/css" href="/css/layout.css">
-	<link rel="stylesheet" type="text/css" href="/css/commons.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/layout.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/commons.css">
 	
 	<!-- swiper cdn -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
@@ -97,7 +97,7 @@
 		<main>
 			<header class="flex-container" >
 				<div class="logo" style="margin-left : 150px;">
-					<a class="link" href="/"><img width=50% src="${pageContext.request.contextPath}/images/logo.png"></a>
+					<a class="link" href="${pageContext.request.contextPath}/"><img width=50% src="${pageContext.request.contextPath}/images/logo.png"></a>
 				</div>
 				
 				<div class="etc" style="margin-left : 220px; font-weight:bolder; width:400px;">
