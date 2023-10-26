@@ -64,7 +64,7 @@
 		// 정렬 방식에 따라 새로운 주소로 이동하는 함수
 		function navigateToSort(sortType) {
 		  var currentURL = window.location.href;
-		  var newURL = '/board/list?sort=' + sortType; // 새로운 주소
+		  var newURL = contextPath+'/board/list?sort=' + sortType; // 새로운 주소
 		
 		  // 현재 URL에서 정렬 방식 파라미터 제거 -> 주소 뒤에 붙는거 삭제
 		  currentURL = removeURLParameter(currentURL, 'sort');

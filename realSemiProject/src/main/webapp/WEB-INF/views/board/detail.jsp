@@ -109,6 +109,10 @@ min-height:250px;
  $(function(){
 	 var params = new URLSearchParams(location.search);
 		var no = params.get("boardNo");
+		
+		$(".content").find("img").each(function(index, tag){
+			$(tag).attr("src", contextPath + $(tag).attr("src"));
+		});
 
 		//신고버튼 구현중
 		$(".btn-block").click(function(e){
@@ -132,7 +136,7 @@ min-height:250px;
 				e.preventDefault();
 				var reportReason = $("[name=reportReason]").val();
 				$.ajax({
-					url:"/board/report/board",
+					url:contextPath+"/board/report/board",
 					method:"post",
 					data :{boardNo:no, reportReason:reportReason},
 					success:function(response){
@@ -420,23 +424,23 @@ min-height:250px;
         </form>
   </script>
        
-        <script id="block-template" type="text/template">
-			<form class="block-form block-container" >
-				<select id="select-block" name="reportReason" class="form-input">
-						<option name="reportReason" selected disabled>신고사유</option>
-					    <option name="reportReason" value="광고/음란성 글" >1. 광고/음란성 글</option>
-					    <option name="reportReason" value="욕설/반말/부적절한 어">2. 욕설/반말/부적절한 언어</option>
-					    <option name="reportReason" value="회원 분란 유도">3. 회원 분란 유도</option>
-					    <option name="reportReason" value="회원 비방">4. 회원 비방</option>
-					    <option name="reportReason" value="지나친 정치/종교 논쟁">5. 지나친 정치/종교 논쟁</option>
-					    <option name="reportReason" value="도배성 글">6. 도배성 글</option>
-				</select>
-				<button class="btn block-cencel">취소</button>
-				<button type="submit" class="btn block-send">보내기</button>
-				<input type="hidden" name="boardNo">
-				<label class="fail-feedback">내용을 선택해주세요</label>
-			</form>
-		</script>
+	<script id="block-template" type="text/template">
+		<form class="block-form block-container" >
+			<select id="select-block" name="reportReason" class="form-input">
+					<option name="reportReason" selected disabled>신고사유</option>
+					<option name="reportReason" value="광고/음란성 글" >1. 광고/음란성 글</option>
+					<option name="reportReason" value="욕설/반말/부적절한 어">2. 욕설/반말/부적절한 언어</option>
+					<option name="reportReason" value="회원 분란 유도">3. 회원 분란 유도</option>
+					<option name="reportReason" value="회원 비방">4. 회원 비방</option>
+					<option name="reportReason" value="지나친 정치/종교 논쟁">5. 지나친 정치/종교 논쟁</option>
+					<option name="reportReason" value="도배성 글">6. 도배성 글</option>
+			</select>
+			<button class="btn block-cencel">취소</button>
+			<button type="submit" class="btn block-send">보내기</button>
+			<input type="hidden" name="boardNo">
+			<label class="fail-feedback">내용을 선택해주세요</label>
+		</form>
+	</script>
 		<div class="row w-100">
 			<c:choose>
 				<c:when test="${boardDto.boardCategory==42}">
