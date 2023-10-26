@@ -13,7 +13,7 @@
 
 
 	<!-- favicon 설정 -->
-	<link rel="shortcut icon" href="${pageContext.request.contextPath}/images/favicon2.ico">
+	<link rel="shortcut icon" href="${pageContext.request.contextPath}/images/logofavicon6.ico">
 
 	<!-- 아이콘 사용을 위한 Font Awesome 6 CDN -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">

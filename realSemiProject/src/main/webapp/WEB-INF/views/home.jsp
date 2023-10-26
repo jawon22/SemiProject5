@@ -168,7 +168,7 @@ img {
 		</h1>
 	</div>
 	<div class="right">
-		<a class="link" href="${pageContext.request.contextPath}/board/list"> <label class="gary">더보기</label> <i class="fa-regular fa-square-plus" style="color: #9aa1ac;"></i></a>
+		<a class="link" href="${pageContext.request.contextPath}/board/list"> <label class="gray">더보기</label> <i class="fa-regular fa-square-plus" style="color: #9aa1ac;"></i></a>
 	</div>
 	<div class="flex-container auto-width">
 		<c:forEach var="seasonList" items="${seasonList}">
@@ -203,7 +203,7 @@ img {
 		</h1>
 	</div>
 	<div class="right">
-		<a class="link" href="${pageContext.request.contextPath}/board/list"> <label class="gary">더보기</label> <i class="fa-regular fa-square-plus" style="color: #9aa1ac;"></i></a>
+		<a class="link" href="${pageContext.request.contextPath}/board/list"> <label class="gray">더보기</label> <i class="fa-regular fa-square-plus" style="color: #9aa1ac;"></i></a>
 	</div>
 	<div class="flex-container auto-width">
 		<c:forEach var="areaList" items="${areaList}">
