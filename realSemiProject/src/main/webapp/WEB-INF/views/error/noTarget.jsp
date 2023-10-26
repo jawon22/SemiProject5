@@ -17,7 +17,7 @@
 
 <div class="container w-500">
 	<div class="row">
-		<img width="80px" src="/images/x-icon.png">
+		<img width="80px" src="${pageContext.request.contextPath}/images/x-icon.png">
 	</div>
 
 	<div class="row center mt-40 mb-20">

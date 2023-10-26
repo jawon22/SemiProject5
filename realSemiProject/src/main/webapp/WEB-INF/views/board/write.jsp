@@ -75,7 +75,6 @@
                              
                              //에디터에 추가할 이미지 생성
                              var imgNode = $("<img>").attr("src", "${pageContext.request.contextPath}/rest/attachment/download/" + response.attachmentNo);
-                             //var imgNode = $("<img>").attr("src", "/rest/attachment/download?attachmentNo" + response.attachmentNo);
                              $("[name=boardContent]").summernote("insertNode", imgNode.get(0));
                           },
                           error:function(){
